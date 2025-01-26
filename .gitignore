@@ -1,0 +1,4 @@
+domain/dist
+domain/node_modules
+domain-tests/dist
+domain-tests/node_modules
