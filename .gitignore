@@ -1,4 +1,4 @@
-domain/dist
-domain/node_modules
-domain-tests/dist
-domain-tests/node_modules
+conjugation_engine/dist
+conjugation_engine/node_modules
+tests/dist
+tests/node_modules
