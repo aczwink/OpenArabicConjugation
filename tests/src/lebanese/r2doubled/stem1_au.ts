@@ -25,7 +25,7 @@ import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebane
 
 It("Stem 1 Past:a, Present:u", () => {
     const root = "ح-ط-ط";
-    const stem = LebaneseStem1Context.Regular_PastA_PresentU;
+    const stem = LebaneseStem1Context.PastA_PresentU;
 
     RunActiveParticipleTest(root, stem, "حَاطِط", DialectType.Lebanese);
     

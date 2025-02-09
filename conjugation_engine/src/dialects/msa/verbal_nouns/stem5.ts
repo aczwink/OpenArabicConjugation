@@ -23,10 +23,10 @@ export function GenerateAllPossibleVerbalNounsStem5(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
-        case RootType.Assimilated:
-        case RootType.Hollow:
+        case RootType.InitialWeak:
+        case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -35,7 +35,7 @@ export function GenerateAllPossibleVerbalNounsStem5(root: VerbRoot): Conjugation
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Defective:
+        case RootType.FinalWeak:
             return [
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Fatha },

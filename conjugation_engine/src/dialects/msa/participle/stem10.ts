@@ -23,7 +23,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
 {
     switch(root.type)
     {
-        case RootType.Defective:
+        case RootType.FinalWeak:
             if(voice === "active")
             {
                 return [
@@ -44,7 +44,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: Letter.AlefMaksura, tashkil: Tashkil.Sukun },
             ];
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },
@@ -64,7 +64,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },

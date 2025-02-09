@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,6 +21,7 @@ import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tashkil, Tens
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/suffix";
 import { IrregularIja, IsHamzaOnR1SpecialCase } from "./irregular";
+import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
 export function AugmentRoot(root: VerbRoot, params: ConjugationParams): ConjugationRule[] | undefined
 {
@@ -29,7 +30,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         case 1:
             switch(root.type)
             {
-                case RootType.Defective:
+                case RootType.FinalWeak:
                     if((params.tense === Tense.Present) && (params.mood !== Mood.Imperative) && (params.stem1Context._legacy_middleRadicalTashkil === Tashkil.Kasra) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
                     {
                         return [
@@ -87,7 +88,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                         }
                     ];
 
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                     if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
                         return IrregularIja(root);
 
@@ -226,7 +227,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                         },
                     ];
 
-                case RootType.Sound:
+                case RootType.Regular:
                     if(params.stem1Context._legacy_middleRadicalTashkil === Tashkil.Kasra)
                     {
                         return [
@@ -291,7 +292,17 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                                 {
                                     conditions: { tense: Tense.Present, hasPresentSuffix: true },
                                     prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.Sukun]
+                                    children: [
+                                        {
+                                            conditions: { stemParameters: LebaneseStem1Context.PastA_PresentU_Form2 },
+                                            vowels: [Vowel.ShortI, Vowel.Sukun]
+                                        },
+                                        {
+                                            conditions: {},
+                                            prefixVowel: Vowel.ShortI,
+                                            vowels: [Vowel.Sukun, Vowel.Sukun]
+                                        },
+                                    ]
                                 },
                                 {
                                     conditions: { tense: Tense.Present },
@@ -308,7 +319,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Defective:
+                case RootType.FinalWeak:
                     return [
                         {
                             conditions: { tense: Tense.Perfect },
@@ -376,7 +387,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                         },
                     ];
 
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         {
                             conditions: {},
@@ -409,7 +420,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                     return [
                         {
                             conditions: {},
@@ -442,7 +453,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         {
                             conditions: { tense: Tense.Perfect },
@@ -481,7 +492,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Defective:
+                case RootType.FinalWeak:
                     return [
                         {
                             conditions: {},
@@ -526,7 +537,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                             ]
                         },
                     ];
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         {
                             conditions: {},
@@ -552,7 +563,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Defective:
+                case RootType.FinalWeak:
                     return [
                         {
                             conditions: {},
@@ -597,7 +608,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                             ]
                         },
                     ];
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         {
                             conditions: {},
@@ -623,7 +634,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                     return [
                         {
                             conditions: {},
@@ -642,7 +653,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                         },
                     ];
 
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         {
                             conditions: {},
@@ -674,7 +685,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
         {
             switch(root.type)
             {
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         {
                             conditions: {},

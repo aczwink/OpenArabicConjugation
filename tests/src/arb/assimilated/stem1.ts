@@ -16,33 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
 import { RunConjugationTest } from "../../shared";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 It("Stem 1", () => {
     throw new Error("TODO verbal noun test :)");
-    
-    RunConjugationTest("و-ج-ل", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: true }, [
-        { expected: "وَجِلَ" },
-        { expected: "يَوْجَلُ", tense: "present" },
-        { expected: "إيجَلْ", tense: "present", mood: "imperative", person: "second" },
-    ]);
 
-    RunConjugationTest("و-ع-ل", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Dhamma, soundOverride: false }, [
+    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ContextType.PastA_PresentU, [
         { expected: "وَعَلَ" },
         { expected: "يَعُلُ", tense: "present" },
         { expected: "عُلْ", tense: "present", mood: "imperative", person: "second" },
         { expected: "وُعِلَ", voice: "passive" },
         { expected: "يُوعَلُ", voice: "passive", tense: "present" },
     ]);
-    RunConjugationTest("و-ع-ل", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, [
+    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ContextType.PastI_PresentA, [
         { expected: "وَعِلَ" },
         { expected: "يَعَلُ", tense: "present" },
         { expected: "عَلْ", tense: "present", mood: "imperative", person: "second" },
         { expected: "وُعِلَ", voice: "passive" },
         { expected: "يُوعَلُ", voice: "passive", tense: "present" },
     ]);
-    RunConjugationTest("و-ع-ل", { middleRadicalTashkil: Tashkil.Dhamma, middleRadicalTashkilPresent: Tashkil.Dhamma, soundOverride: false }, [
+    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU, [
         { expected: "وَعُلَ" },
         { expected: "يَعُلُ", tense: "present" },
         { expected: "عُلْ", tense: "present", mood: "imperative", person: "second" },

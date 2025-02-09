@@ -25,7 +25,7 @@ export function GenerateParticipleStem9(root: VerbRoot, baseForm: AugmentedRoot,
 {
     switch(root.type)
     {
-        case RootType.Sound:
+        case RootType.Regular:
             if(voice === Voice.Active)
                 return GenerateParticipleRegular(baseForm, Voice.Passive, false);
     }

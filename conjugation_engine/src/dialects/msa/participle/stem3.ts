@@ -24,7 +24,7 @@ export function GenerateParticipleStem3(root: VerbRoot, voice: VoiceString): Con
 {
     switch(root.type)
     {
-        case RootType.Defective:
+        case RootType.FinalWeak:
             if(voice === "active")
             {
                 return [
@@ -42,9 +42,9 @@ export function GenerateParticipleStem3(root: VerbRoot, voice: VoiceString): Con
                 { letter: Letter.AlefMaksura, tashkil: Tashkil.Sukun },
             ];
 
-        case RootType.Assimilated:
-        case RootType.Hollow:
-        case RootType.Sound:
+        case RootType.InitialWeak:
+        case RootType.MiddleWeak:
+        case RootType.Regular:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: root.r1, tashkil: Tashkil.Fatha },

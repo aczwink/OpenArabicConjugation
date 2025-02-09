@@ -26,7 +26,7 @@ export function GenerateParticipleStem8(root: VerbRoot, baseForm: AugmentedRoot,
 {
     switch(root.type)
     {
-        case RootType.Defective:
+        case RootType.FinalWeak:
             if(voice === Voice.Active)
             {
                 return [
@@ -45,15 +45,15 @@ export function GenerateParticipleStem8(root: VerbRoot, baseForm: AugmentedRoot,
                 { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             baseForm.symbols[0].letter = Letter.Mim;
             baseForm.symbols[0].tashkil = Tashkil.Dhamma;
             baseForm.ApplyRadicalTashkil(1, Tashkil.Sukun);
             baseForm.ApplyRadicalTashkil(3, Tashkil.EndOfWordMarker);
             return baseForm.symbols;
 
-        case RootType.Assimilated:
-        case RootType.Sound:
+        case RootType.InitialWeak:
+        case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice, true);
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];

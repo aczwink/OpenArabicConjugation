@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,13 +18,16 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
 import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%A3%D8%AA%D9%89
 
-It("R1:Hamza, R3:Ya, Stem 1", () => {    
+It("R1:Hamza, R3:Ya, Stem 1", () => {
+    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
+
     throw new Error("TODO verbal noun test :)");
-    RunParticipleTest("ء-ت-ي", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false }, "آتٍ", "مَأْتِيّ");
+    RunParticipleTest("ء-ت-ي", stem, "آتٍ", "مَأْتِيّ");
 
     const conjugations: ConjugationTest[] = [
         //active past
@@ -173,5 +176,5 @@ It("R1:Hamza, R3:Ya, Stem 1", () => {
         { voice: "passive", expected: "نُؤْتَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ء-ت-ي", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false }, conjugations);
+    RunConjugationTest("ء-ت-ي", stem, conjugations);
 });

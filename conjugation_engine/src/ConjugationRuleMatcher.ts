@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -63,6 +63,13 @@ export class ConjugationRuleMatcher
             return false;
         if((c.hasPresentSuffix === true) && (params.tense === Tense.Present) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
             return false;
+        if(c.stemParameters !== undefined)
+        {
+            if(params.stem !== 1)
+                return false;
+            if(params.stem1Context.type !== c.stemParameters)
+                return false;
+        }
 
         return true;
     }

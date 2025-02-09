@@ -23,7 +23,7 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
-        case RootType.Assimilated:
+        case RootType.InitialWeak:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
                 { letter: Letter.Ya, tashkil: Tashkil.Sukun },
@@ -32,7 +32,7 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Defective:
+        case RootType.FinalWeak:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
@@ -41,7 +41,7 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
                 { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
                 { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -58,7 +58,7 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
                 { letter: root.r3, tashkil: Tashkil.Fatha },
             ];
 
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
                 { letter: root.r1, tashkil: Tashkil.Sukun },

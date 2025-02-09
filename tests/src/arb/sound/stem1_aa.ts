@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B1%D8%AD%D9%84#Verb
@@ -25,8 +25,10 @@ It("Stem 1 past:a, present:a", () => {
     const root = "ر-ح-ل";
     const stem = ModernStandardArabicStem1ContextType.PastA_PresentA;
 
-    //Source: https://en.wiktionary.org/wiki/%D8%AF%D9%81%D8%B9#Verb    
-    RunVerbalNounTest("د-ف-ع", stem, "دَفْع");
+    RunVerbalNounPatternTest(stem, [
+        { rootRadicals: "د-ف-ع", expected: "دَفْع"}, //Source: https://en.wiktionary.org/wiki/%D8%AF%D9%81%D8%B9#Verb
+        { rootRadicals: "ق-ر-ء", expected: "قِرَاءَة"} //Source: https://en.wiktionary.org/wiki/%D9%82%D8%B1%D8%A3
+    ]);
 
     RunParticipleTest(root, stem, "رَاحِل", "مَرْحُول");
 

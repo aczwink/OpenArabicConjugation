@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,15 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
 import { ConjugationTest, RunConjugationTest, RunDefectiveParticipleTest } from "../../shared";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 2", () => {
+    const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
+
     throw new Error("TODO verbal noun test :)");
-    RunDefectiveParticipleTest("ف-ع", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Dhamma, soundOverride: false }, "فَاعٍ", "مَفْعُوّ");
+    RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعُوّ");
     
     const conjugations: ConjugationTest[] = [
         //past
@@ -105,5 +107,5 @@ It("Wikipedia defective stem1 type 2", () => {
         { expected: "اُدْعُونَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    RunConjugationTest("د-ع-و", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Dhamma, soundOverride: false }, conjugations);
+    RunConjugationTest("د-ع-و", stem, conjugations);
 });

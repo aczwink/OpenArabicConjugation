@@ -23,7 +23,7 @@ export function GenerateAllPossibleVerbalNounsStem7(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },
                 { letter: Letter.Nun, tashkil: Tashkil.Sukun },

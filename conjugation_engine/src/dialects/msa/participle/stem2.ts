@@ -26,13 +26,13 @@ export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice): 
 {
     switch(baseForm.type)
     {
-        case RootType.Defective:
+        case RootType.FinalWeak:
             return GenerateParticipleDefective(baseForm, voice);
 
         case RootType.HamzaOnR1:
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
-        case RootType.Sound:
+        case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice);
     }
     return [{ letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];

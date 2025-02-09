@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,12 +18,13 @@
 import { It } from "acts-util-test";
 import { Stem1Context, Tashkil } from "openarabicconjugation/dist/Definitions";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D8%AF
 
 It("Should be normal R2 doubled", () => {
     const root = "و-د-د";
-    const stem: Stem1Context = { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false };
+    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
 
     RunVerbalNounPatternTest(stem, [
         { expected: "وِدّ", rootRadicals: root },
@@ -178,5 +179,5 @@ It("Should be normal R2 doubled", () => {
         { voice: "passive", expected: ["نُوَدَّ", "نُوَدِّ", "نُودَدْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("و-د-د", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, conjugations);
+    RunConjugationTest(root, stem, conjugations);
 });

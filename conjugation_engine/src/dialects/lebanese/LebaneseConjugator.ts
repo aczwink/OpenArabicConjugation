@@ -61,7 +61,7 @@ export class LebaneseConjugator implements DialectConjugator
         
         switch(root.type)
         {
-            case RootType.Defective:
+            case RootType.FinalWeak:
             {
                 switch(stem)
                 {
@@ -78,7 +78,7 @@ export class LebaneseConjugator implements DialectConjugator
             }
             break;
 
-            case RootType.Hollow:
+            case RootType.MiddleWeak:
             {
                 switch(stem)
                 {
@@ -136,7 +136,7 @@ export class LebaneseConjugator implements DialectConjugator
             }
             break;
 
-            case RootType.Sound:
+            case RootType.Regular:
             {
                 switch(stem)
                 {
@@ -165,7 +165,7 @@ export class LebaneseConjugator implements DialectConjugator
 
         switch(root.type)
         {
-            case RootType.Defective:
+            case RootType.FinalWeak:
                 switch(stem)
                 {
                     case 1:
@@ -194,7 +194,7 @@ export class LebaneseConjugator implements DialectConjugator
                 }
             break;
 
-            case RootType.Hollow:
+            case RootType.MiddleWeak:
                 switch(stem)
                 {
                     case 3:
@@ -212,7 +212,7 @@ export class LebaneseConjugator implements DialectConjugator
                 }
                 break;
 
-            case RootType.Sound:
+            case RootType.Regular:
                 switch(stem)
                 {
                     case 1:

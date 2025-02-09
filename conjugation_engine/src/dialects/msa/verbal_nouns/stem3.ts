@@ -34,7 +34,7 @@ export function GenerateAllPossibleVerbalNounsStem3(root: VerbRoot): Conjugation
                 ],
             ];
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             return [
                 [
                     { letter: root.r1, tashkil: Tashkil.Kasra },
@@ -44,7 +44,7 @@ export function GenerateAllPossibleVerbalNounsStem3(root: VerbRoot): Conjugation
                 ],
             ];
 
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 [
                     { letter: root.r1, tashkil: Tashkil.Kasra },

@@ -25,7 +25,7 @@ export function GenerateAllPossibleVerbalNounsStem10(root: VerbRoot): Conjugatio
     {
         case RootType.HamzaOnR1:
         case RootType.SecondConsonantDoubled:
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },
@@ -36,7 +36,7 @@ export function GenerateAllPossibleVerbalNounsStem10(root: VerbRoot): Conjugatio
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             return [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },

@@ -25,7 +25,7 @@ export function GenerateParticipleStem4(root: VerbRoot, voice: VoiceString): Con
     const voicingTashkil = (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha;
     switch(root.type)
     {
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: root.r1, tashkil: voicingTashkil },
@@ -42,7 +42,7 @@ export function GenerateParticipleStem4(root: VerbRoot, voice: VoiceString): Con
             ];
 
         case RootType.HamzaOnR1:
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: root.r1, tashkil: Tashkil.Sukun },

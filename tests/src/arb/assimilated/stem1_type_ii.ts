@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,14 +17,16 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D9%81%D9%82#Verb
 
 It("Stem 1 - Type Past:i Present:i", () => {
+    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI;
+    
     throw new Error("TODO verbal noun test :)");
     
-    RunParticipleTest("و-ف-ق", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false }, "وَافِق", "مَوْفُوق");
+    RunParticipleTest("و-ف-ق", stem, "وَافِق", "مَوْفُوق");
     
     const conjugations: ConjugationTest[] = [
         //past
@@ -173,5 +175,5 @@ It("Stem 1 - Type Past:i Present:i", () => {
         { voice: "passive", expected: "نُوفَقْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("و-ف-ق", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false }, conjugations);
+    RunConjugationTest("و-ف-ق", stem, conjugations);
 });

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,11 +17,13 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunDefectiveConjugationTest } from "../../shared";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B1%D9%85%D9%89#Verb
 
 It("Stem 1 type 1 passive", () => {
+    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
+
     throw new Error("TODO verbal noun test :)");
     const conjugations: ConjugationTest[] = [
         //past passive
@@ -93,5 +95,5 @@ It("Stem 1 type 1 passive", () => {
         { voice: "passive", expected: "نُرْمَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunDefectiveConjugationTest("ر-م", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false }, conjugations);
+    RunDefectiveConjugationTest("ر-م", stem, conjugations);
 });

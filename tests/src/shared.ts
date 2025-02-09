@@ -140,7 +140,7 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
     }
 
     const conjugator = new Conjugator();
-    const metadata = GetDialectMetadata(DialectType.ModernStandardArabic);
+    const metadata = GetDialectMetadata(dialect);
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
     const stem1ctx = typeof stem === "number" ? undefined : metadata.CreateStem1Context(root.type, stem);
@@ -154,7 +154,7 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
             gender: test.gender ?? "male",
             numerus: test.numerus ?? "singular",
             person: test.person ?? "third",
-            stem1Context: (typeof stem === "number") ? undefined : stem,
+            stem1Context: (typeof stem === "number") ? undefined : stem1ctx,
             tense: test.tense ?? "perfect",
             voice: test.voice ?? "active",
             mood: test.mood ?? "indicative"
@@ -165,7 +165,7 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
             numerus: MapNumerus(stringParams.numerus),
             person: MapPerson(stringParams.person),
             stem: ((typeof stem === "number") ? stem : 1) as any,
-            stem1Context: stem as any,
+            stem1Context: stem1ctx as any,
             tense: stringParams.tense === "perfect" ? Tense.Perfect : Tense.Present,
             voice: stringParams.voice === "active" ? Voice.Active : Voice.Passive,
         };

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,13 +18,16 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
 import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D9%82%D8%B9#Verb
 
 It("Stem 1 - Type Past:a Present:a", () => {
+    const stem = ModernStandardArabicStem1ContextType.PastA_PresentA;
+
     throw new Error("TODO verbal noun test :)");
 
-    RunParticipleTest("و-ق-ع", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, "وَاقِع", "مَوْقُوع");
+    RunParticipleTest("و-ق-ع", stem, "وَاقِع", "مَوْقُوع");
 
     const conjugations: ConjugationTest[] = [
         //past
@@ -105,5 +108,5 @@ It("Stem 1 - Type Past:a Present:a", () => {
         { expected: "قَعْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    RunConjugationTest("و-ق-ع", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, conjugations);
+    RunConjugationTest("و-ق-ع", stem, conjugations);
 });

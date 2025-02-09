@@ -26,7 +26,7 @@ export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot,
 {
     switch(root.type)
     {
-        case RootType.Defective:
+        case RootType.FinalWeak:
             if(voice === Voice.Active)
             {
                 baseForm.r2.tashkil = Tashkil.Kasratan;
@@ -43,9 +43,9 @@ export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot,
                 ...baseForm.symbols
             ];
 
-        case RootType.Assimilated:
+        case RootType.InitialWeak:
         case RootType.SecondConsonantDoubled:
-        case RootType.Sound:
+        case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice);
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.Sukun }];

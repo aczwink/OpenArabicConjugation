@@ -15,24 +15,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { BaseTashkil, Letter } from "./Definitions";
+import { Letter } from "./Definitions";
 
 export enum RootType
 {
-    Sound,
+    Regular,
 
     /**
      * First radical is waw or ya
      */
-    Assimilated,
+    InitialWeak,
     /**
      * Second radical is waw or ya
      */
-    Hollow,
+    MiddleWeak,
     /**
      * Third radical is waw or ya
      */
-    Defective,
+    FinalWeak,
 
     SecondConsonantDoubled,
     /**
@@ -78,10 +78,10 @@ export class VerbRoot
         {
             case RootType.Quadriliteral:
                 return [this.r1, this.r2, this.r3, this.r4];
-            case RootType.Assimilated:
-            case RootType.Sound:
-            case RootType.Hollow:
-            case RootType.Defective:
+            case RootType.InitialWeak:
+            case RootType.Regular:
+            case RootType.MiddleWeak:
+            case RootType.FinalWeak:
             case RootType.HamzaOnR1:
             case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 return [this.r1, this.r2, this.r3];
@@ -101,20 +101,20 @@ export class VerbRoot
             return RootType.DoublyWeak_WawOnR1_WawOrYaOnR3;
 
         if((this.r1 === Letter.Waw) || (this.r1 === Letter.Ya))
-            return RootType.Assimilated;
+            return RootType.InitialWeak;
 
         if((this.r2 === Letter.Waw) || (this.r2 === Letter.Ya))
         {
             if((this.r3 === Letter.Waw) || (this.r3 === Letter.Ya))
-                return RootType.Defective;
-            return RootType.Hollow;
+                return RootType.FinalWeak;
+            return RootType.MiddleWeak;
         }
 
         if((this.r3 === Letter.Waw) || (this.r3 === Letter.Ya))
-            return RootType.Defective;
+            return RootType.FinalWeak;
         if(this.r1 === Letter.Hamza)
             return RootType.HamzaOnR1;
-        return RootType.Sound;
+        return RootType.Regular;
     }
 
     //Public methods

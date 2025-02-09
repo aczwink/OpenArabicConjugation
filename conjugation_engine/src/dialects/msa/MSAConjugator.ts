@@ -189,7 +189,7 @@ export class MSAConjugator implements DialectConjugator
     {
         if(typeof stem === "number")
         {
-            if((stem === 3) && (root.type === RootType.Sound))
+            if((stem === 3) && (root.type === RootType.Regular))
                 return true;
             return false;
         }
@@ -248,10 +248,10 @@ export class MSAConjugator implements DialectConjugator
         const rootType = root.type;
         switch(rootType)
         {
-            case RootType.Assimilated:
+            case RootType.InitialWeak:
                 AlterAssimilatedPrefix(augmentedRoot, params);
             break;
-            case RootType.Defective:
+            case RootType.FinalWeak:
                 if(IsSpeciallyIrregularDefective(root, params.stem))
                     AlterSpeciallyIrregularDefective(root, augmentedRoot, suffix.suffix, params);
                 else
@@ -269,7 +269,7 @@ export class MSAConjugator implements DialectConjugator
             case RootType.HamzaOnR1:
                 AlterHamzaOnR1(augmentedRoot, params);
                 break;
-            case RootType.Hollow:
+            case RootType.MiddleWeak:
                 ShortenOrAlefizeR2(augmentedRoot, params);
             break;
             case RootType.SecondConsonantDoubled:

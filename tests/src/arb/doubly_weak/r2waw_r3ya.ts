@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { Stem1Context, Tashkil } from "openarabicconjugation/dist/Definitions";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%B1%D9%88%D9%89
 
 It("R2:Waw, R3:Ya, Stem 1", () => {
     const root = "ر-و-ي";
-    const stem: Stem1Context = { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false };
+    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
 
     RunVerbalNounTest(root, stem, "رِوَايَة");
     RunParticipleTest(root, stem, "رَاوٍ", "مَرْوِيّ");
@@ -176,5 +176,5 @@ It("R2:Waw, R3:Ya, Stem 1", () => {
         { voice: "passive", expected: "نُرْوَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ر-و-ي", { middleRadicalTashkil: Tashkil.Fatha, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false }, conjugations);
+    RunConjugationTest(root, stem, conjugations);
 });

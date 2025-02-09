@@ -23,8 +23,8 @@ export function GenerateAllPossibleVerbalNounsStem6(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
-        case RootType.Assimilated:
-        case RootType.Sound:
+        case RootType.InitialWeak:
+        case RootType.Regular:
             return [
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Fatha },

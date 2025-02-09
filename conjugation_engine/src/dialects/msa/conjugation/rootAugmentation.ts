@@ -66,13 +66,13 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         {
             switch(root.type)
             {
-                case RootType.Assimilated:
-                case RootType.Defective:
+                case RootType.InitialWeak:
+                case RootType.FinalWeak:
                 case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 case RootType.HamzaOnR1:
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                 case RootType.SecondConsonantDoubled:
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         { symbolName: SymbolName.R1 },
                         { letter: ((params.tense === Tense.Perfect) && (params.voice === Voice.Passive)) ? Letter.Waw : Letter.Alef, symbolName: SymbolName.Infix, tashkil: Tashkil.LongVowelMarker },
@@ -97,12 +97,12 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
 
             switch(root.type)
             {
-                case RootType.Assimilated:
-                case RootType.Defective:
+                case RootType.InitialWeak:
+                case RootType.FinalWeak:
                 case RootType.HamzaOnR1:
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                 case RootType.SecondConsonantDoubled:
-                case RootType.Sound:
+                case RootType.Regular:
                     const x: AugmentedRootSymbolInput[] = [
                         { symbolName: SymbolName.R1 },
                         { symbolName: SymbolName.R2 },
@@ -118,12 +118,12 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         {
             switch(root.type)
             {
-                case RootType.Assimilated:
-                case RootType.Defective:
+                case RootType.InitialWeak:
+                case RootType.FinalWeak:
                 case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                 case RootType.SecondConsonantDoubled:
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         { letter: Letter.Ta, symbolName: SymbolName.Prefix1, tashkil: (params.voice === Voice.Passive && params.tense === Tense.Perfect) ? Tashkil.Dhamma : Tashkil.Fatha },
                         { symbolName: SymbolName.R1 },
@@ -138,10 +138,10 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         {
             switch(root.type)
             {
-                case RootType.Assimilated:
-                case RootType.Defective:
-                case RootType.Hollow:
-                case RootType.Sound:
+                case RootType.InitialWeak:
+                case RootType.FinalWeak:
+                case RootType.MiddleWeak:
+                case RootType.Regular:
                     return [
                         { letter: Letter.Ta, symbolName: SymbolName.Prefix1, tashkil: (params.voice === Voice.Passive && params.tense === Tense.Perfect) ? Tashkil.Dhamma : Tashkil.Fatha },
                         { symbolName: SymbolName.R1 },
@@ -157,7 +157,7 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
             switch(root.type)
             {
                 case RootType.SecondConsonantDoubled:
-                case RootType.Sound:
+                case RootType.Regular:
                     const x: AugmentedRootSymbolInput[] = [
                         { letter: Letter.Nun, symbolName: SymbolName.Prefix1, tashkil: Tashkil.Sukun },
                         { symbolName: SymbolName.R1 },
@@ -174,12 +174,12 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         {
             switch(root.type)
             {
-                case RootType.Assimilated:
-                case RootType.Defective:
+                case RootType.InitialWeak:
+                case RootType.FinalWeak:
                 case RootType.HamzaOnR1:
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                 case RootType.SecondConsonantDoubled:
-                case RootType.Sound:
+                case RootType.Regular:
                     const x: AugmentedRootSymbolInput[] = [
                         { symbolName: SymbolName.R1 },
                         { letter: Letter.Ta, symbolName: SymbolName.Infix, tashkil: ((params.tense === Tense.Perfect) && (params.voice === Voice.Passive)) ? Tashkil.Dhamma : Tashkil.Fatha },
@@ -196,7 +196,7 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         {
             switch(root.type)
             {
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         { symbolName: SymbolName.R1 },
                         { symbolName: SymbolName.R2 },
@@ -210,13 +210,13 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         {
             switch(root.type)
             {
-                case RootType.Assimilated:
-                case RootType.Defective:
+                case RootType.InitialWeak:
+                case RootType.FinalWeak:
                 case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 case RootType.HamzaOnR1:
-                case RootType.Hollow:
+                case RootType.MiddleWeak:
                 case RootType.SecondConsonantDoubled:
-                case RootType.Sound:
+                case RootType.Regular:
                     return [
                         { letter: Letter.Siin, symbolName: SymbolName.Prefix1, tashkil: Tashkil.Sukun },
                         { letter: Letter.Ta, symbolName: SymbolName.Prefix2, tashkil: ((params.tense === Tense.Perfect) && (params.voice === Voice.Passive)) ? Tashkil.Dhamma : Tashkil.Fatha },

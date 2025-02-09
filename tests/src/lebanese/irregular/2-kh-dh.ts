@@ -26,7 +26,7 @@ import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebane
 
 It("Irregular أخذ", () => {
     const root = "ء-خ-ذ";
-    const stem = LebaneseStem1Context.Regular_PastA_PresentU;
+    const stem = LebaneseStem1Context.PastA_PresentU;
 
     RunActiveParticipleTest(root, stem, "آخِذ", DialectType.Lebanese);
     

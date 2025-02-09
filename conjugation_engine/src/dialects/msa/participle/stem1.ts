@@ -23,7 +23,7 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
 {
     switch(root.type)
     {
-        case RootType.Defective:
+        case RootType.FinalWeak:
         case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
             if(voice === "active")
             {
@@ -41,7 +41,7 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
                 { letter: (stem1Context._legacy_middleRadicalTashkilPresent === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
             if(voice === "active")
             {
                 if(root.r3 === Letter.Hamza)
@@ -94,9 +94,9 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
                 { letter: root.r2, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Assimilated:
+        case RootType.InitialWeak:
         case RootType.HamzaOnR1:
-        case RootType.Sound:
+        case RootType.Regular:
             if(voice === "active")
             {
                 return [

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,10 +18,13 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest } from "../../shared";
 import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D9%86%D8%AF%D9%8A
 
 It("Stem 1 type 3 with waw as third radical", () => {
+    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
+
     throw new Error("TODO verbal noun test :)");
     
     const conjugations: ConjugationTest[] = [
@@ -103,5 +106,5 @@ It("Stem 1 type 3 with waw as third radical", () => {
         { expected: "اِنْدَيْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    RunConjugationTest("ن-د-و", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, conjugations);
+    RunConjugationTest("ن-د-و", stem, conjugations);
 });

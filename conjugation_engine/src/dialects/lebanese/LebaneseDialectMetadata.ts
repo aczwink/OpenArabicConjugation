@@ -23,11 +23,11 @@ export enum LebaneseStem1Context
 {
     IrregularJy2 = "irjy2",
     PastA_PresentI = "ai",
+    PastA_PresentU = "au",
+    PastA_PresentU_Form2 = "au2",
+    PastI_PresentA = "ia",
     PastI_PresentI = "ii",
     Quadrilateral = "ss",
-    Regular_PastA_PresentU = "Rau1",
-    Regular_PastA_PresentU_Form2 = "Rau2",
-    PastI_PresentA = "ia",
 }
 
 export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Context>
@@ -44,7 +44,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
         return {
             _legacy_middleRadicalTashkil: Tashkil.Fatha,
             _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
-            scheme: VerbConjugationScheme.Regular,
+            scheme: VerbConjugationScheme.Sound,
             type,
         };
     }
@@ -53,12 +53,12 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
     {
         switch(root.type)
         {
-            case RootType.Sound:
+            case RootType.Regular:
             {
                 return {
                     types: [
-                        LebaneseStem1Context.Regular_PastA_PresentU,
-                        LebaneseStem1Context.Regular_PastA_PresentU_Form2,
+                        LebaneseStem1Context.PastA_PresentU,
+                        LebaneseStem1Context.PastA_PresentU_Form2,
                     ],
                     requiredContext: {
                         gender: Gender.Female,

@@ -24,7 +24,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 {
     switch(root.type)
     {
-        case RootType.Assimilated:
+        case RootType.InitialWeak:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -48,7 +48,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case RootType.Defective:
+        case RootType.FinalWeak:
         {
             switch(stem1Context._legacy_middleRadicalTashkilPresent)
             {
@@ -65,7 +65,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -126,7 +126,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case RootType.Sound:
+        case RootType.Regular:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -141,6 +141,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                                     { letter: root.r1, tashkil: Tashkil.Fatha },
                                     { letter: root.r2, tashkil: Tashkil.Sukun },
                                     { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                                ],
+                                [
+                                    { letter: root.r1, tashkil: Tashkil.Kasra },
+                                    { letter: root.r2, tashkil: Tashkil.Fatha },
+                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                                    { letter: root.r3, tashkil: Tashkil.Fatha },
+                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                                 ],
                             ];
                         }
@@ -169,6 +176,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
                         case Tashkil.Dhamma:
                             return [
+                                [
+                                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                                    { letter: root.r2, tashkil: Tashkil.Sukun },
+                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                                ],
                                 [
                                     { letter: Letter.Mim, tashkil: Tashkil.Fatha },
                                     { letter: root.r1, tashkil: Tashkil.Sukun },
@@ -445,7 +457,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     { letter: root.r3, tashkil: Tashkil.Fatha },
                     { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                 ],
-                root.r1 + Tashkil.Kasra + root.r2 + Tashkil.Fatha + Letter.Alef + root.r3 + Tashkil.Fatha + Letter.TaMarbuta,
                 [
                     { letter: root.r1, tashkil: Tashkil.Kasra },
                     { letter: root.r2, tashkil: Tashkil.Sukun },
@@ -468,7 +479,7 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
 {
     switch(root.type)
     {
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -500,19 +511,12 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
             }
         }
         break;
-        case RootType.Sound:
+        case RootType.Regular:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
                 case Tashkil.Fatha:
-                {
-                    switch(stem1Context._legacy_middleRadicalTashkilPresent)
-                    {
-                        case Tashkil.Kasra:
-                            return true;
-                    }
-                }
-                break;
+                    return true;
             }
         }
         break;

@@ -24,7 +24,7 @@ export function GenerateAllPossibleVerbalNounsStem8(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
-        case RootType.Assimilated:
+        case RootType.InitialWeak:
         {
             const v: ConjugationVocalized[] = [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },
@@ -40,7 +40,7 @@ export function GenerateAllPossibleVerbalNounsStem8(root: VerbRoot): Conjugation
             return v;
         }
 
-        case RootType.Defective:
+        case RootType.FinalWeak:
         {
             const v: ConjugationVocalized[] = [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },
@@ -56,7 +56,7 @@ export function GenerateAllPossibleVerbalNounsStem8(root: VerbRoot): Conjugation
             return v;
         }
 
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
         {
             const v: ConjugationVocalized[] = [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },
@@ -73,7 +73,7 @@ export function GenerateAllPossibleVerbalNounsStem8(root: VerbRoot): Conjugation
         }
 
         case RootType.SecondConsonantDoubled:
-        case RootType.Sound:
+        case RootType.Regular:
         {
             const v: ConjugationVocalized[] = [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },

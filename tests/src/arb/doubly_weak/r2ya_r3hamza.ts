@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,13 +17,13 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
-import { Stem1Context, Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%AC%D8%A7%D8%A1
 
 It("R2:Ya, R3:Hamza", () => {
-    const stem: Stem1Context = { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Kasra, soundOverride: false };
+    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI;
 
     throw new Error("TODO verbal noun test :)");
     RunParticipleTest("ج-ي-ء", stem, "جَاءٍ", "مَجِيء");

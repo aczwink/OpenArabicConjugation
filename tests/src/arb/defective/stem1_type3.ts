@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,15 +17,17 @@
  * */
 
 import { It } from "acts-util-test";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
 import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest } from "../../shared";
+import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 3", () => {
+    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
+
     throw new Error("TODO verbal noun test :)");
-    RunDefectiveParticipleTest("ف-ع", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, "فَاعٍ", "مَفْعِيّ");
+    RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعِيّ");
     
     const conjugations: ConjugationTest[] = [
         //past
@@ -106,5 +108,5 @@ It("Wikipedia defective stem1 type 3", () => {
         { expected: "اِنْسَيْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    RunDefectiveConjugationTest("ن-س", { middleRadicalTashkil: Tashkil.Kasra, middleRadicalTashkilPresent: Tashkil.Fatha, soundOverride: false }, conjugations);
+    RunDefectiveConjugationTest("ن-س", stem, conjugations);
 });

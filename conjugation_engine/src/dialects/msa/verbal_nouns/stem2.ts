@@ -32,7 +32,7 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
                 { letter: root.r4, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Defective:
+        case RootType.FinalWeak:
             return [
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
@@ -41,11 +41,11 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
                 { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.Assimilated:
+        case RootType.InitialWeak:
         case RootType.HamzaOnR1:
-        case RootType.Hollow:
+        case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
-        case RootType.Sound:
+        case RootType.Regular:
             return [
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
