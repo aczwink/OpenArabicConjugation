@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import "acts-util-core";
-import { Gender, GenderString, Letter, Mood, MoodString, Numerus, NumerusString, Person, PersonString, TASHKIL_SHADDA, Tashkil, Tense, TenseString, Voice, VoiceString } from "./Definitions";
+import { ExtraTashkil, Gender, GenderString, Letter, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tashkil, Tense, TenseString, Voice, VoiceString } from "./Definitions";
 
 export function GenderToString(gender: Gender): GenderString
 {
@@ -91,7 +91,7 @@ export function PersonToString(person: Person): PersonString
 
 export function RemoveTashkil(text: string)
 {
-    return RemoveTashkilButKeepShadda(text).ReplaceAll(TASHKIL_SHADDA, "");
+    return RemoveTashkilButKeepShadda(text).ReplaceAll(ExtraTashkil.Shadda, "");
 }
 
 export function RemoveTashkilButKeepShadda(text: string)
@@ -101,7 +101,8 @@ export function RemoveTashkilButKeepShadda(text: string)
         .ReplaceAll(Tashkil.Fathatan, "")
         .ReplaceAll(Tashkil.Kasra, "")
         .ReplaceAll(Tashkil.Kasratan, "")
-        .ReplaceAll(Tashkil.Sukun, "");
+        .ReplaceAll(Tashkil.Sukun, "")
+        .ReplaceAll(ExtraTashkil.DaggerAlef, "");
 }
 
 export function TenseToString(tense: Tense): TenseString

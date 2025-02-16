@@ -27,8 +27,8 @@ It("Stem 1 past:i, present:i", () => {
     
     RunVerbalNounPatternTest(stem, [
         { expected: "زِيَادَة", rootRadicals: root },
-        //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D8%B4
-        { expected: "عِيشَة", rootRadicals: "ع-ي-ش" },
+        { expected: "عِيشَة", rootRadicals: "ع-ي-ش" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D8%B4
+        { expected: "سِيَاحَة", rootRadicals: "س-ي-ح" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A7%D8%AD
     ]);
     
     RunParticipleTest(root, stem, "زَائِد", "مَزِيد");

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest, RunDefectiveVerbalNounTest } from "../../shared";
+import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
@@ -24,9 +24,13 @@ import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 1", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
+    const stem = ModernStandardArabicStem1ContextType.DefectiveType1;
 
-    RunDefectiveVerbalNounTest("ق-ض", stem, "قَضَاء");
+    RunVerbalNounPatternTest(stem, [
+        { rootRadicals: "ق-ض-ي", expected: "قَضَاء"}, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%B6%D9%89
+        { rootRadicals: "ب-ن-ي", expected: "بِنَاء" }, //Source: https://en.wiktionary.org/wiki/%D8%A8%D9%86%D9%89
+    ]);
+
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعِيّ");
     
     const conjugations: ConjugationTest[] = [

@@ -16,8 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { RootType } from "./VerbRoot";
-
 //Source: https://en.wikipedia.org/wiki/Arabic_script_in_Unicode
 
 export enum Letter
@@ -74,6 +72,11 @@ export enum Tashkil
     AlefMaksuraMarker = 1, //only used for marking a final alef maksura
     EndOfWordMarker = 2, //marks the end of words (not verbs)
 }
+export enum ExtraTashkil
+{
+    Shadda = "\u0651",
+    DaggerAlef = "\u0670",
+};
 
 export type PrimaryTashkil = Tashkil.Dhamma | Tashkil.Fatha | Tashkil.Kasra;
 export type BaseTashkil = (PrimaryTashkil | Tashkil.Sukun);
@@ -96,8 +99,6 @@ export interface Stem1Context
     readonly _legacy_middleRadicalTashkil: BaseTashkil;
     readonly _legacy_middleRadicalTashkilPresent: BaseTashkil;
 }
-
-export const TASHKIL_SHADDA = "\u0651";
 
 export enum Case
 {
@@ -202,31 +203,4 @@ export interface NounDeclensionParams
 {
     case: Case;
     state: NounState;
-}
-
-export function IsFlagSet(flags: number, flagToTest: number)
-{
-    return (flags & flagToTest) !== 0;
-}
-
-export function MapRootTypeToConjugationScheme(rootType: RootType)
-{
-    switch(rootType)
-    {
-        case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-            return VerbConjugationScheme.AssimilatedAndDefective;
-        case RootType.InitialWeak:
-            return VerbConjugationScheme.Assimilated;
-        case RootType.FinalWeak:
-            return VerbConjugationScheme.Defective;
-        case RootType.HamzaOnR1:
-            return VerbConjugationScheme.HamzaOnR1;
-        case RootType.MiddleWeak:
-            return VerbConjugationScheme.Hollow;
-        case RootType.Quadriliteral:
-        case RootType.Regular:
-            return VerbConjugationScheme.Sound;
-        case RootType.SecondConsonantDoubled:
-            return VerbConjugationScheme.Geminate;
-    }
 }

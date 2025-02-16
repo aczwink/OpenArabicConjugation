@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D8%AC%D8%AF#Verb
@@ -25,7 +24,10 @@ import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist
 It("Stem 1 - Type Past:a Present:i", () => {
     const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
 
-    RunVerbalNounTest("و-ص-ل", stem, "وُصُول"); //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B5%D9%84#Verb_2
+    RunVerbalNounPatternTest(stem, [
+        { rootRadicals: "و-ص-ل", expected: "وُصُول" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B5%D9%84#Verb_2
+        { rootRadicals: "و-ز-ن", expected: "وَزْن" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B2%D9%86
+    ]);
     
     RunParticipleTest("و-ج-د", stem, "وَاجِد", "مَوْجُود");
     

@@ -143,7 +143,7 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
     const metadata = GetDialectMetadata(dialect);
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const stem1ctx = typeof stem === "number" ? undefined : metadata.CreateStem1Context(root.type, stem);
+    const stem1ctx = typeof stem === "number" ? undefined : metadata.CreateStem1Context(root.DeriveDeducedVerbConjugationScheme(), stem);
 
     if(stem1ctx !== undefined)
         ValidateStem1Context(stem1ctx, root, dialect);
@@ -187,7 +187,7 @@ export function RunActiveParticipleTest(rootRadicals: string, stem: number | str
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
     const stemNumber = (typeof stem === "number") ? stem : 1;
-    const ctx = (typeof stem === "number") ? undefined : metadata.CreateStem1Context(root.type, stem);
+    const ctx = (typeof stem === "number") ? undefined : metadata.CreateStem1Context(root.DeriveDeducedVerbConjugationScheme(), stem);
 
     if(ctx !== undefined)
         ValidateStem1Context(ctx, root, dialect);
@@ -204,7 +204,7 @@ export function RunParticipleTest(rootRadicals: string, stem: number | string, a
     const root = new VerbRoot(rootRadicals.split("-").join(""));
 
     const stemNumber = (typeof stem === "number") ? stem : 1;
-    const ctx = (typeof stem === "number") ? undefined : metadata.CreateStem1Context(root.type, stem);
+    const ctx = (typeof stem === "number") ? undefined : metadata.CreateStem1Context(root.DeriveDeducedVerbConjugationScheme(), stem);
 
     if(ctx !== undefined)
         ValidateStem1Context(ctx, root, DialectType.ModernStandardArabic);
@@ -232,7 +232,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
     for (const pattern of patterns)
     {
         const root = new VerbRoot(pattern.rootRadicals.split("-").join(""));
-        const stemData = (typeof stem === "number") ? stem : meta.CreateStem1Context(root.type, stem);
+        const stemData = (typeof stem === "number") ? stem : meta.CreateStem1Context(root.DeriveDeducedVerbConjugationScheme(), stem);
 
         if(!conjugator.HasPotentiallyMultipleVerbalNounForms(root, stemData))
             throw new Error("Expected multiple verbal nouns but apparently only one exists");
@@ -260,7 +260,7 @@ export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const stemData = (typeof stem === "number") ? stem : meta.CreateStem1Context(root.type, stem);
+    const stemData = (typeof stem === "number") ? stem : meta.CreateStem1Context(root.DeriveDeducedVerbConjugationScheme(), stem);
 
     if(conjugator.HasPotentiallyMultipleVerbalNounForms(root, stemData))
         throw new Error("Expected a single verbal noun but apparently multiple ones exist");

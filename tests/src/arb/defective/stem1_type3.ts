@@ -17,16 +17,19 @@
  * */
 
 import { It } from "acts-util-test";
-import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest } from "../../shared";
+import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 3", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
+    const stem = ModernStandardArabicStem1ContextType.DefectiveType3;
 
-    throw new Error("TODO verbal noun test :)");
+    RunVerbalNounPatternTest(stem, [
+        { rootRadicals: "ب-ق-ي", expected: "بَقَاء" }, //Source: https://en.wiktionary.org/wiki/%D8%A8%D9%82%D9%8A
+        { rootRadicals: "خ-ش-ي", expected: "خَشْيَة" }, //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%B4%D9%8A
+    ]);
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعِيّ");
     
     const conjugations: ConjugationTest[] = [

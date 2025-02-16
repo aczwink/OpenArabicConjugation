@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -50,8 +50,8 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha },
-                { letter: (voice === "active") ? Letter.Ya : Letter.Alef, tashkil: Tashkil.Kasra },
-                { letter: root.r3, tashkil: Tashkil.Sukun },
+                { letter: (voice === "active") ? Letter.Ya : Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
         case RootType.SecondConsonantDoubled:
@@ -71,7 +71,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
                 { letter: root.r2, tashkil: (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha },
-                { letter: root.r3, tashkil: Tashkil.Sukun },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];

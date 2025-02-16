@@ -16,16 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunDefectiveParticipleTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunDefectiveParticipleTest, RunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 2", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
+    const stem = ModernStandardArabicStem1ContextType.DefectiveType2;
 
-    throw new Error("TODO verbal noun test :)");
+    RunVerbalNounTest("ن-ح-و", stem, "نَحْو");
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعُوّ");
     
     const conjugations: ConjugationTest[] = [

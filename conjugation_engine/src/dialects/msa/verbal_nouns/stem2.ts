@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,41 +19,64 @@ import { Letter, Tashkil } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 
-export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): ConjugationVocalized[]
+export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): ConjugationVocalized[][]
 {
     switch(root.type)
     {
         case RootType.Quadriliteral:
             return [
-                { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: Tashkil.Fatha },
-                { letter: root.r2, tashkil: Tashkil.Sukun },
-                { letter: root.r3, tashkil: Tashkil.Dhamma },
-                { letter: root.r4, tashkil: Tashkil.EndOfWordMarker },
+                [
+                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                    { letter: root.r2, tashkil: Tashkil.Sukun },
+                    { letter: root.r3, tashkil: Tashkil.Dhamma },
+                    { letter: root.r4, tashkil: Tashkil.EndOfWordMarker },
+                ]
             ];
 
         case RootType.FinalWeak:
             return [
-                { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: Tashkil.Kasra },
-                { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                [
+                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Sukun },
+                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                ]
             ];
 
         case RootType.InitialWeak:
         case RootType.HamzaOnR1:
         case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
+            return [
+                [
+                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Sukun },
+                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                ]
+            ];
+
         case RootType.Regular:
             return [
-                { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: Tashkil.Kasra },
-                { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                [
+                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Sukun },
+                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                ],
+                [
+                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Sukun },
+                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                    { letter: root.r3, tashkil: Tashkil.Fatha },
+                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                ]
             ];
     }
 
-    return [{letter: "TODO" as any, tashkil: Tashkil.Fatha}];
+    return [[{letter: "TODO" as any, tashkil: Tashkil.Fatha}]];
 }

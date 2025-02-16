@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationParams, Gender, Letter, Numerus, Person, PrimaryTashkil, Tashkil, Tense } from "../../../Definitions";
+import { ConjugationParams, Gender, Letter, Numerus, Person, Tashkil, Tense } from "../../../Definitions";
 import { ModernStandardArabicStem1ContextType } from "../../../DialectsMetadata";
 import { VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";

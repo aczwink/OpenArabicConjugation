@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { Stem1Context, Tashkil } from "openarabicconjugation/dist/Definitions";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 

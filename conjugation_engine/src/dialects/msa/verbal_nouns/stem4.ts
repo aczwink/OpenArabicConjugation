@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,15 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
+        case RootType.HamzaOnR1:
+            return [
+                { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
+                { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
         case RootType.InitialWeak:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
@@ -51,13 +60,6 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
             ];
 
         case RootType.SecondConsonantDoubled:
-            return [
-                { letter: Letter.Hamza, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: Tashkil.Fatha },
-                { letter: root.r2, tashkil: Tashkil.Sukun },
-                { letter: root.r3, tashkil: Tashkil.Fatha },
-            ];
-
         case RootType.Regular:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },

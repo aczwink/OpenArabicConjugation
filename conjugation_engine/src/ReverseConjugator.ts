@@ -89,7 +89,7 @@ export class ReverseConjugator
                                 const choices = dialectMetadata.GetStem1ContextChoices(result.root).types;
                                 for (const choice of choices)
                                 {
-                                    const stem1ctx: Stem1Context = dialectMetadata.CreateStem1Context(result.root.type, choice);
+                                    const stem1ctx: Stem1Context = dialectMetadata.CreateStem1Context(result.root.DeriveDeducedVerbConjugationScheme(), choice);
                                     this.CheckConjugation(result.root, {
                                         gender,
                                         mood,

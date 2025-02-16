@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%A7%D9%81#Verb
 
 It("Stem 1 past:i, present:a", () => {
-    throw new Error("TODO verbal noun test :)");
     const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
 
+    RunVerbalNounTest("ح-ي-ر", stem, "حَيْرَة"); //Source: http://ejtaal.net/aa/#hw4=271
     RunParticipleTest("خ-و-ف", stem, "خَائِف", "مَخُوف");
 
     const conjugations: ConjugationTest[] = [

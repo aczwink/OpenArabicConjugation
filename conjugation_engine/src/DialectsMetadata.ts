@@ -55,7 +55,7 @@ export interface DialectMetadata<T extends string>
     iso639code: string;
     glottoCode: string;
 
-    CreateStem1Context(rootType: RootType, type: T): Stem1Context;
+    CreateStem1Context(verbConjugationScheme: VerbConjugationScheme, type: T): Stem1Context;
     GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<T>;
 }
 
@@ -72,28 +72,28 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                 iso639code: "arb",
                 glottoCode: "stan1318",
 
-                CreateStem1Context: function(rootType: RootType, type: ModernStandardArabicStem1ContextType)
+                CreateStem1Context: function(verbConjugationScheme: VerbConjugationScheme, type: ModernStandardArabicStem1ContextType)
                 {
                     switch(type)
                     {
                         case ModernStandardArabicStem1ContextType.Hollow_PastU_PresentA:
                             return {
                                 type,
-                                scheme: VerbConjugationScheme.Hollow,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Dhamma,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
                             };
                         case ModernStandardArabicStem1ContextType.PastA_PresentA:
                             return {
                                 type,
-                                scheme: VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Fatha,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
                             };
                         case ModernStandardArabicStem1ContextType.Quadrilateral:
                             return {
                                 type,
-                                scheme: VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Sukun,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Sukun,
                             };
@@ -101,7 +101,7 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                         case ModernStandardArabicStem1ContextType.PastA_PresentI:
                             return {
                                 type,
-                                scheme: (type === ModernStandardArabicStem1ContextType.DefectiveType1) ? VerbConjugationScheme.Defective :  VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Fatha,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Kasra,
                             };
@@ -109,7 +109,7 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                         case ModernStandardArabicStem1ContextType.PastA_PresentU:
                             return {
                                 type,
-                                scheme: (type === ModernStandardArabicStem1ContextType.DefectiveType2) ? VerbConjugationScheme.Defective :  VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Fatha,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Dhamma,
                             };
@@ -117,21 +117,21 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                         case ModernStandardArabicStem1ContextType.PastI_PresentA:
                             return {
                                 type,
-                                scheme: (type === ModernStandardArabicStem1ContextType.DefectiveType3) ? VerbConjugationScheme.Defective :  VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Kasra,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
                             };
                         case ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI:
                             return {
                                 type,
-                                scheme: (rootType === RootType.MiddleWeak) ? VerbConjugationScheme.Hollow : VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Kasra,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Kasra,
                             };
                         case ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU:
                             return {
                                 type,
-                                scheme: (rootType === RootType.MiddleWeak) ? VerbConjugationScheme.Hollow : VerbConjugationScheme.Sound,
+                                scheme: verbConjugationScheme,
                                 _legacy_middleRadicalTashkil: Tashkil.Dhamma,
                                 _legacy_middleRadicalTashkilPresent: Tashkil.Dhamma,
                             };

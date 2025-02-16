@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ export function GenerateAllPossibleVerbalNounsStem6(root: VerbRoot): Conjugation
     switch(root.type)
     {
         case RootType.InitialWeak:
+        case RootType.MiddleWeak:
         case RootType.Regular:
             return [
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },

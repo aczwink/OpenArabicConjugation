@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Stem1Context, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber } from "../../Definitions";
+import { Letter, Stem1Context, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber, VerbConjugationScheme } from "../../Definitions";
 import { DialectConjugator, NounInput, TargetNounDerivation } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
@@ -163,7 +163,7 @@ export class MSAConjugator implements DialectConjugator
         switch(stem)
         {
             case 2:
-                return [GenerateAllPossibleVerbalNounsStem2(root)];
+                return GenerateAllPossibleVerbalNounsStem2(root);
             case 3:
                 return GenerateAllPossibleVerbalNounsStem3(root);
             case 4:
@@ -189,6 +189,8 @@ export class MSAConjugator implements DialectConjugator
     {
         if(typeof stem === "number")
         {
+            if((stem === 2) && (root.type === RootType.Regular))
+                return true;
             if((stem === 3) && (root.type === RootType.Regular))
                 return true;
             return false;
@@ -245,13 +247,19 @@ export class MSAConjugator implements DialectConjugator
         const suffix = DeriveSuffix(params);
         augmentedRoot.ApplyRadicalTashkil(root.radicalsAsSeparateLetters.length as any, suffix.preSuffixTashkil);
 
-        const rootType = root.type;
-        switch(rootType)
+        const verbScheme = (params.stem === 1) ? params.stem1Context.scheme : root.DeriveDeducedVerbConjugationScheme();
+        switch(verbScheme)
         {
-            case RootType.InitialWeak:
+            case VerbConjugationScheme.Assimilated:
                 AlterAssimilatedPrefix(augmentedRoot, params);
             break;
-            case RootType.FinalWeak:
+            case VerbConjugationScheme.AssimilatedAndDefective:
+                if(params.stem === 1)
+                    AlterAssimilatedPrefix(augmentedRoot, params);
+                AlterDefectiveSuffix(params, suffix.suffix);
+                AlterDefectiveEnding(augmentedRoot, params);
+            break;
+            case VerbConjugationScheme.Defective:
                 if(IsSpeciallyIrregularDefective(root, params.stem))
                     AlterSpeciallyIrregularDefective(root, augmentedRoot, suffix.suffix, params);
                 else
@@ -260,19 +268,13 @@ export class MSAConjugator implements DialectConjugator
                     AlterDefectiveEnding(augmentedRoot, params);
                 }
             break;
-            case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-                if(params.stem === 1)
-                    AlterAssimilatedPrefix(augmentedRoot, params);
-                AlterDefectiveSuffix(params, suffix.suffix);
-                AlterDefectiveEnding(augmentedRoot, params);
-            break;
-            case RootType.HamzaOnR1:
+            case VerbConjugationScheme.HamzaOnR1:
                 AlterHamzaOnR1(augmentedRoot, params);
                 break;
-            case RootType.MiddleWeak:
+            case VerbConjugationScheme.Hollow:
                 ShortenOrAlefizeR2(augmentedRoot, params);
             break;
-            case RootType.SecondConsonantDoubled:
+            case VerbConjugationScheme.Geminate:
                 GeminateDoubledConsonant(augmentedRoot, params);
             break;
         }

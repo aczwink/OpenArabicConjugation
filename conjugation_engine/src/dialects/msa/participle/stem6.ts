@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,7 @@ import { Tashkil, Voice } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { GenerateParticipleDefective } from "./regular";
+import { GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
 
 export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
@@ -28,6 +28,8 @@ export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot,
     {
         case RootType.FinalWeak:
             return GenerateParticipleDefective(baseForm, voice);
+        case RootType.MiddleWeak:
+            return GenerateParticipleRegular(baseForm, voice);
     }
     return [{letter: "TODO GenerateParticipleStem6" as any, tashkil: Tashkil.Sukun }];
 }

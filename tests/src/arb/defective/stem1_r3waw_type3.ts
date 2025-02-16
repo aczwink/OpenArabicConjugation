@@ -17,7 +17,6 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest } from "../../shared";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
 import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
 
 //Source: https://en.wiktionary.org/wiki/%D9%86%D8%AF%D9%8A

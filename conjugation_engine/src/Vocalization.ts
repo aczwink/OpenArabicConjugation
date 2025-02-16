@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { BaseTashkil, Letter, TASHKIL_SHADDA, Tashkil } from "./Definitions";
+import { BaseTashkil, ExtraTashkil, Letter, Tashkil } from "./Definitions";
 
 export type DisplayTashkil = BaseTashkil | Tashkil.Dhammatan | Tashkil.Fathatan | Tashkil.Kasratan;
 export interface DisplayVocalized
@@ -140,7 +140,7 @@ export function ParseVocalizedText(text: string)
                     tashkil = Tashkil.Kasratan;
                     i++;
                     break;
-                case TASHKIL_SHADDA:
+                case ExtraTashkil.Shadda:
                     if(shadda)
                         throw new Error("Multiple shaddas are not allowed");
                     shadda = true;
@@ -182,7 +182,7 @@ export function ToDiffStream(vocalized: DisplayVocalized[], reference: DisplayVo
             { char: v.letter, diff, emphasis: v.emphasis },
         ];
         if(v.shadda)
-            result.push({ char: TASHKIL_SHADDA, diff, emphasis: false });
+            result.push({ char: ExtraTashkil.Shadda, diff, emphasis: false });
         if(v.tashkil !== undefined)
             result.push({ char: v.tashkil, diff, emphasis: false });
 
@@ -196,7 +196,7 @@ export function ToDiffStream(vocalized: DisplayVocalized[], reference: DisplayVo
         if(v.shadda)
         {
             const isEqual = (v.shadda === r.shadda) && (v.tashkil === r.tashkil);
-            result.push({ char: TASHKIL_SHADDA, diff: !isEqual, emphasis: false });
+            result.push({ char: ExtraTashkil.Shadda, diff: !isEqual, emphasis: false });
             if(v.tashkil !== undefined)
                 result.push({ char: v.tashkil, diff: !isEqual, emphasis: false });
         }
@@ -251,7 +251,7 @@ export function ToDiffStream(vocalized: DisplayVocalized[], reference: DisplayVo
 
 export function VocalizedToString(v: DisplayVocalized)
 {
-    return v.letter + (v.shadda ? TASHKIL_SHADDA : "") + (v.tashkil ? v.tashkil : "");
+    return v.letter + (v.shadda ? ExtraTashkil.Shadda : "") + (v.tashkil ? v.tashkil : "");
 }
 
 export function VocalizedWordTostring(vocalized: DisplayVocalized[])
