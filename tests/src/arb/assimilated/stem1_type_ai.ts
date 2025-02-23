@@ -26,6 +26,7 @@ It("Stem 1 - Type Past:a Present:i", () => {
 
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "و-ص-ل", expected: "وُصُول" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B5%D9%84#Verb_2
+        { rootRadicals: "و-ص-ل", expected: "صِلَة" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B5%D9%84#Verb_2
         { rootRadicals: "و-ز-ن", expected: "وَزْن" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B2%D9%86
     ]);
     

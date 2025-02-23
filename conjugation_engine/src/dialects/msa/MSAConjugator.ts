@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Stem1Context, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber, VerbConjugationScheme } from "../../Definitions";
+import { Letter, Stem1Context, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber, VerbType } from "../../Definitions";
 import { DialectConjugator, NounInput, TargetNounDerivation } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
@@ -247,19 +247,19 @@ export class MSAConjugator implements DialectConjugator
         const suffix = DeriveSuffix(params);
         augmentedRoot.ApplyRadicalTashkil(root.radicalsAsSeparateLetters.length as any, suffix.preSuffixTashkil);
 
-        const verbScheme = (params.stem === 1) ? params.stem1Context.scheme : root.DeriveDeducedVerbConjugationScheme();
+        const verbScheme = (params.stem === 1) ? params.stem1Context.scheme : root.DeriveDeducedVerbType();
         switch(verbScheme)
         {
-            case VerbConjugationScheme.Assimilated:
+            case VerbType.Assimilated:
                 AlterAssimilatedPrefix(augmentedRoot, params);
             break;
-            case VerbConjugationScheme.AssimilatedAndDefective:
+            case VerbType.AssimilatedAndDefective:
                 if(params.stem === 1)
                     AlterAssimilatedPrefix(augmentedRoot, params);
                 AlterDefectiveSuffix(params, suffix.suffix);
                 AlterDefectiveEnding(augmentedRoot, params);
             break;
-            case VerbConjugationScheme.Defective:
+            case VerbType.Defective:
                 if(IsSpeciallyIrregularDefective(root, params.stem))
                     AlterSpeciallyIrregularDefective(root, augmentedRoot, suffix.suffix, params);
                 else
@@ -268,13 +268,13 @@ export class MSAConjugator implements DialectConjugator
                     AlterDefectiveEnding(augmentedRoot, params);
                 }
             break;
-            case VerbConjugationScheme.HamzaOnR1:
+            case VerbType.HamzaOnR1:
                 AlterHamzaOnR1(augmentedRoot, params);
                 break;
-            case VerbConjugationScheme.Hollow:
+            case VerbType.Hollow:
                 ShortenOrAlefizeR2(augmentedRoot, params);
             break;
-            case VerbConjugationScheme.Geminate:
+            case VerbType.Geminate:
                 GeminateDoubledConsonant(augmentedRoot, params);
             break;
         }

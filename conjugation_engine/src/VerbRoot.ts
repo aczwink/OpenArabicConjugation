@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, VerbConjugationScheme } from "./Definitions";
+import { Letter, VerbType } from "./Definitions";
 
 export enum RootType
 {
@@ -118,25 +118,26 @@ export class VerbRoot
     }
 
     //Public methods
-    public DeriveDeducedVerbConjugationScheme()
+    public DeriveDeducedVerbType()
     {
         switch(this.type)
         {
             case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-                return VerbConjugationScheme.AssimilatedAndDefective;
+                return VerbType.AssimilatedAndDefective;
             case RootType.InitialWeak:
-                return VerbConjugationScheme.Assimilated;
+                return VerbType.Assimilated;
             case RootType.FinalWeak:
-                return VerbConjugationScheme.Defective;
+                return VerbType.Defective;
             case RootType.HamzaOnR1:
-                return VerbConjugationScheme.HamzaOnR1;
+                return VerbType.HamzaOnR1;
             case RootType.MiddleWeak:
-                return VerbConjugationScheme.Hollow;
+                return VerbType.Hollow;
             case RootType.Quadriliteral:
+                return VerbType.SoundQuadriliteral;
             case RootType.Regular:
-                return VerbConjugationScheme.Sound;
+                return VerbType.Sound;
             case RootType.SecondConsonantDoubled:
-                return VerbConjugationScheme.Geminate;
+                return VerbType.Geminate;
         }
     }
 

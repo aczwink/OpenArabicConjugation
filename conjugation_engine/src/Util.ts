@@ -25,6 +25,44 @@ export function GenderToString(gender: Gender): GenderString
     return "male";
 }
 
+function IsArabicChar(char: string)
+{
+    switch(char)
+    {
+        case Letter.Alef:
+        case Letter.AlefHamza:
+        case Letter.AlefHamzaBelow:
+        case Letter.AlefMadda:
+        case Letter.AlefMaksura:
+        case Letter.TaMarbuta:
+        case Letter.WawHamza:
+        case Letter.YaHamza:
+            return true;
+
+        case Tashkil.Dhamma:
+        case Tashkil.Dhammatan:
+        case Tashkil.Fatha:
+        case Tashkil.Fathatan:
+        case Tashkil.Kasra:
+        case Tashkil.Kasratan:
+        case Tashkil.Sukun:
+        case ExtraTashkil.Shadda:
+        case ExtraTashkil.DaggerAlef:
+            return true;
+    }
+    return IsValidRootRadical(char);
+}
+
+export function IsArabicText(text: string)
+{
+    for (const char of text)
+    {
+        if(!IsArabicChar(char))
+            return false;
+    }
+    return true;
+}
+
 export function IsSunLetter(letter: Letter)
 {
     switch(letter)
@@ -43,6 +81,43 @@ export function IsSunLetter(letter: Letter)
         case Letter.Ththa:
         case Letter.Lam:
         case Letter.Nun:
+            return true;
+    }
+    return false;
+}
+
+export function IsValidRootRadical(char: string)
+{
+    switch(char)
+    {
+        case Letter.Hamza:
+        case Letter.Ba:
+        case Letter.Ta:
+        case Letter.Tha:
+        case Letter.Jiim:
+        case Letter.Hha:
+        case Letter.Kha:
+        case Letter.Dal:
+        case Letter.Thal:
+        case Letter.Ra:
+        case Letter.Zay:
+        case Letter.Siin:
+        case Letter.Shiin:
+        case Letter.Saad:
+        case Letter.Daad:
+        case Letter.Tta:
+        case Letter.Ththa:
+        case Letter.A3ein:
+        case Letter.Ghain:
+        case Letter.Fa:
+        case Letter.Qaf:
+        case Letter.Kaf:
+        case Letter.Lam:
+        case Letter.Mim:
+        case Letter.Nun:
+        case Letter.Ha:
+        case Letter.Waw:
+        case Letter.Ya:
             return true;
     }
     return false;

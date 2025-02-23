@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Tashkil, Letter, Stem1Context, Gender, Numerus, Person, Tense, Voice, StemlessConjugationParams, VerbConjugationScheme } from "./Definitions";
+import { Tashkil, Letter, Stem1Context, Gender, Numerus, Person, Tense, Voice, StemlessConjugationParams, VerbType, Mood } from "./Definitions";
 import { DialectType } from "./Dialects";
 import { LebaneseDialectMetadata } from "./dialects/lebanese/LebaneseDialectMetadata";
 import { GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching } from "./dialects/msa/conjugation/defective_special_cases";
@@ -43,7 +43,7 @@ export enum ModernStandardArabicStem1ContextType
 export interface Stem1ContextChoice<T extends string>
 {
     types: T[];
-    requiredContext?: StemlessConjugationParams;
+    requiredContext: StemlessConjugationParams[];
 }
 
 export interface DialectMetadata<T extends string>
@@ -55,7 +55,7 @@ export interface DialectMetadata<T extends string>
     iso639code: string;
     glottoCode: string;
 
-    CreateStem1Context(verbConjugationScheme: VerbConjugationScheme, type: T): Stem1Context;
+    CreateStem1Context(verbConjugationScheme: VerbType, type: T): Stem1Context;
     GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<T>;
 }
 
@@ -72,7 +72,7 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                 iso639code: "arb",
                 glottoCode: "stan1318",
 
-                CreateStem1Context: function(verbConjugationScheme: VerbConjugationScheme, type: ModernStandardArabicStem1ContextType)
+                CreateStem1Context: function(verbConjugationScheme: VerbType, type: ModernStandardArabicStem1ContextType)
                 {
                     switch(type)
                     {
@@ -142,6 +142,22 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
 
                 GetStem1ContextChoices: function(root: VerbRoot): Stem1ContextChoice<string>
                 {
+                    const presentContext = {
+                        gender: Gender.Male,
+                        mood: Mood.Indicative,
+                        numerus: Numerus.Singular,
+                        person: Person.Third,
+                        tense: Tense.Present,
+                        voice: Voice.Active,
+                    };
+                    const firstContext: StemlessConjugationParams = {
+                        gender: Gender.Male,
+                        numerus: Numerus.Singular,
+                        person: Person.First,
+                        tense: Tense.Perfect,
+                        voice: Voice.Active
+                    };
+
                     switch(root.type)
                     {
                         case RootType.InitialWeak:
@@ -149,6 +165,9 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                         case RootType.Regular:
                         {
                             return {
+                                requiredContext: [
+                                    presentContext
+                                ],
                                 types: [
                                     ModernStandardArabicStem1ContextType.PastA_PresentA,
                                     ModernStandardArabicStem1ContextType.PastA_PresentI,
@@ -164,11 +183,13 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                             if(special !== undefined)
                             {
                                 return {
+                                    requiredContext: [],
                                     types: [special],
                                 };
                             }
                             
                             return {
+                                requiredContext: [],
                                 types: [
                                     ModernStandardArabicStem1ContextType.DefectiveType1,
                                     ModernStandardArabicStem1ContextType.DefectiveType2,
@@ -179,22 +200,20 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                             {
                                 const r2DependentType = (root.r2 === Letter.Waw) ? ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU : ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI;
                                 return {
+                                    requiredContext: [
+                                        presentContext,
+                                        firstContext,
+                                    ],
                                     types: [
                                         r2DependentType,
                                         ModernStandardArabicStem1ContextType.PastI_PresentA,
                                         ModernStandardArabicStem1ContextType.Hollow_PastU_PresentA,
                                     ],
-                                    requiredContext: {
-                                        gender: Gender.Male,
-                                        numerus: Numerus.Singular,
-                                        person: Person.First,
-                                        tense: Tense.Perfect,
-                                        voice: Voice.Active
-                                    }
                                 };
                             }
                         case RootType.Quadriliteral:
                             return {
+                                requiredContext: [],
                                 types: [
                                     ModernStandardArabicStem1ContextType.Quadrilateral,
                                 ],
@@ -202,23 +221,21 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                         case RootType.SecondConsonantDoubled:
                             {
                                 return {
+                                    requiredContext: [
+                                        presentContext,
+                                        firstContext
+                                    ],
                                     types: [
                                         ModernStandardArabicStem1ContextType.PastA_PresentU,
                                         ModernStandardArabicStem1ContextType.PastA_PresentI,
                                         ModernStandardArabicStem1ContextType.PastA_PresentA,
                                         ModernStandardArabicStem1ContextType.PastI_PresentA,
                                     ],
-                                    requiredContext: {
-                                        gender: Gender.Male,
-                                        numerus: Numerus.Singular,
-                                        person: Person.First,
-                                        tense: Tense.Perfect,
-                                        voice: Voice.Active
-                                    }
                                 };
                             }
                         case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                             return {
+                                requiredContext: [],
                                 types: [
                                     ModernStandardArabicStem1ContextType.DefectiveType1,
                                 ],

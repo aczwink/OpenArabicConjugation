@@ -81,7 +81,7 @@ export enum ExtraTashkil
 export type PrimaryTashkil = Tashkil.Dhamma | Tashkil.Fatha | Tashkil.Kasra;
 export type BaseTashkil = (PrimaryTashkil | Tashkil.Sukun);
 
-export enum VerbConjugationScheme
+export enum VerbType
 {
     Assimilated,
     AssimilatedAndDefective,
@@ -90,12 +90,13 @@ export enum VerbConjugationScheme
     HamzaOnR1,
     Hollow,
     Sound,
+    SoundQuadriliteral,
 }
 
 export interface Stem1Context
 {
     readonly type: string;
-    readonly scheme: VerbConjugationScheme;
+    readonly scheme: VerbType;
     readonly _legacy_middleRadicalTashkil: BaseTashkil;
     readonly _legacy_middleRadicalTashkilPresent: BaseTashkil;
 }

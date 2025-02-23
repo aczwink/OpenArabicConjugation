@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Tashkil, Stem1Context, Letter, VerbConjugationScheme } from "../../../Definitions";
+import { Tashkil, Stem1Context, Letter, VerbType } from "../../../Definitions";
 import { ModernStandardArabicStem1ContextType } from "../../../DialectsMetadata";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
@@ -25,7 +25,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 {
     switch(stem1Context.scheme)
     {
-        case VerbConjugationScheme.Assimilated:
+        case VerbType.Assimilated:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -69,6 +69,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                                     { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
                                     { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                                 ],
+                                [
+                                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                                    { letter: root.r3, tashkil: Tashkil.Fatha },
+                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                                ],
                             ];
                     }
                 }
@@ -105,7 +110,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case VerbConjugationScheme.AssimilatedAndDefective:
+        case VerbType.AssimilatedAndDefective:
         {
             switch(stem1Context.type)
             {
@@ -128,7 +133,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case VerbConjugationScheme.Defective:
+        case VerbType.Defective:
         {
             switch(stem1Context.type)
             {
@@ -183,6 +188,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         ],
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: root.r2, tashkil: Tashkil.Fathatan },
+                            { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
                             { letter: Letter.Ya, tashkil: Tashkil.Fatha },
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.Sukun },
@@ -192,7 +202,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case VerbConjugationScheme.HamzaOnR1:
+        case VerbType.HamzaOnR1:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -248,7 +258,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case VerbConjugationScheme.Hollow:
+        case VerbType.Hollow:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -315,7 +325,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case VerbConjugationScheme.Geminate:
+        case VerbType.Geminate:
         {
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
@@ -379,21 +389,8 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
-        case VerbConjugationScheme.Sound:
+        case VerbType.Sound:
         {
-            if(root.type === RootType.Quadriliteral)
-            {
-                return [
-                    [
-                        { letter: root.r1, tashkil: Tashkil.Fatha, },
-                        { letter: root.r2, tashkil: Tashkil.Sukun, },
-                        { letter: root.r3, tashkil: Tashkil.Fatha, },
-                        { letter: root.r4, tashkil: Tashkil.Fatha, },
-                        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                    ]
-                ];
-            }
-
             switch(stem1Context._legacy_middleRadicalTashkil)
             {
                 case Tashkil.Dhamma:
@@ -497,6 +494,17 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
             }
         }
         break;
+
+        case VerbType.SoundQuadriliteral:
+            return [
+                [
+                    { letter: root.r1, tashkil: Tashkil.Fatha, },
+                    { letter: root.r2, tashkil: Tashkil.Sukun, },
+                    { letter: root.r3, tashkil: Tashkil.Fatha, },
+                    { letter: root.r4, tashkil: Tashkil.Fatha, },
+                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                ]
+            ];
     }
 
     return [

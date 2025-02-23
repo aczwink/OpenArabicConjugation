@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Gender, Letter, Mood, Numerus, Person, Stem1Context, Tashkil, Tense, VerbConjugationScheme, Voice } from "../../Definitions";
+import { Gender, Letter, Mood, Numerus, Person, Stem1Context, Tashkil, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { RootType, VerbRoot } from "../../VerbRoot";
 
@@ -39,7 +39,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
     iso639code = "apc";
     glottoCode = "stan1323";
 
-    public CreateStem1Context(verbConjugationScheme: VerbConjugationScheme, type: LebaneseStem1Context): Stem1Context
+    public CreateStem1Context(verbConjugationScheme: VerbType, type: LebaneseStem1Context): Stem1Context
     {
         return {
             _legacy_middleRadicalTashkil: Tashkil.Fatha,
@@ -54,6 +54,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
         if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
         {
             return {
+                requiredContext: [],
                 types: [
                     LebaneseStem1Context.IrregularJy2
                 ]
@@ -65,6 +66,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.FinalWeak:
             {
                 return {
+                    requiredContext: [],
                     types: [
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastI_PresentA,
@@ -74,6 +76,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.HamzaOnR1:
             {
                 return {
+                    requiredContext: [],
                     types: [
                         LebaneseStem1Context.PastA_PresentU,
                     ],
@@ -82,6 +85,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.MiddleWeak:
             {
                 return {
+                    requiredContext: [],
                     types: [
                         LebaneseStem1Context.PastI_PresentI,
                     ],
@@ -90,6 +94,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.Quadriliteral:
             {
                 return {
+                    requiredContext: [],
                     types: [
                         LebaneseStem1Context.Quadrilateral,
                     ],
@@ -98,24 +103,27 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.Regular:
             {
                 return {
+                    requiredContext: [
+                        {
+                            gender: Gender.Female,
+                            mood: Mood.Indicative,
+                            numerus: Numerus.Singular,
+                            person: Person.Second,
+                            tense: Tense.Present,
+                            voice: Voice.Active
+                        }
+                    ],
                     types: [
                         LebaneseStem1Context.PastA_PresentU,
                         LebaneseStem1Context.PastA_PresentU_Form2,
                         LebaneseStem1Context.PastI_PresentA,
                     ],
-                    requiredContext: {
-                        gender: Gender.Female,
-                        mood: Mood.Indicative,
-                        numerus: Numerus.Singular,
-                        person: Person.Second,
-                        tense: Tense.Present,
-                        voice: Voice.Active
-                    }
                 };
             }
             case RootType.SecondConsonantDoubled:
             {
                 return {
+                    requiredContext: [],
                     types: [
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastA_PresentU,
@@ -125,6 +133,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
         }
 
         return {
+            requiredContext: [],
             types: []
         };
     }

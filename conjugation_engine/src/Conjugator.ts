@@ -24,13 +24,6 @@ import { ConjugationParams, Stem1Context, Tashkil, Tense, Voice, Mood, Person, A
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 
-export interface VerbReverseConjugationResult
-{
-    root: VerbRoot;
-    params: ConjugationParams;
-    score: number;
-}
-
 export class Conjugator
 {
     //Public methods
