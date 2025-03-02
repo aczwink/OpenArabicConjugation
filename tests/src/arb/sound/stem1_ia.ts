@@ -28,6 +28,7 @@ It("Stem 1 past:i, present:a", () => {
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "ف-ش-ل", expected: "فَشَل" }, //Source: https://en.wiktionary.org/wiki/%D9%81%D8%B4%D9%84
         { rootRadicals: "ح-ز-ن", expected: "حُزْن" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%B2%D9%86
+        { rootRadicals: "ن-ش-ط", expected: "نَشَاط" }, //Source: https://en.wiktionary.org/wiki/%D9%86%D8%B4%D8%B7#Arabic
     ]);
 
     const conjugations: ConjugationTest[] = [

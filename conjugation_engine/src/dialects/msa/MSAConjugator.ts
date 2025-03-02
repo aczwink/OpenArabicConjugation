@@ -189,8 +189,15 @@ export class MSAConjugator implements DialectConjugator
     {
         if(typeof stem === "number")
         {
-            if((stem === 2) && (root.type === RootType.Regular))
-                return true;
+            if(stem === 2)
+            {
+                switch(root.type)
+                {
+                    case RootType.FinalWeak:
+                    case RootType.Regular:
+                        return true;
+                }
+            }
             if((stem === 3) && (root.type === RootType.Regular))
                 return true;
             return false;

@@ -37,6 +37,12 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
         case RootType.FinalWeak:
             return [
                 [
+                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                    { letter: root.r2, tashkil: Tashkil.Fatha },
+                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                    { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
+                ],
+                [
                     { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                     { letter: root.r1, tashkil: Tashkil.Sukun },
                     { letter: root.r2, tashkil: Tashkil.Kasra },
@@ -45,8 +51,8 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
                 ]
             ];
 
-        case RootType.InitialWeak:
         case RootType.HamzaOnR1:
+        case RootType.InitialWeak:
         case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
             return [

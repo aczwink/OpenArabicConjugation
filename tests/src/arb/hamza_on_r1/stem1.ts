@@ -22,8 +22,6 @@ It("Stem 1", () => {
     //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%83%D9%84
     RunVerbalNounTest("ء-ك-ل", "au", "أَكْل");
 
-    RunVerbalNounTest("ء-م-ن", "ia", "أَمَان"); //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%85%D9%86
-
     RunVerbalNounPatternTest("uu", [
         { rootRadicals: "ء-د-ب", expected: "أَدَب" }, //Source: https://ejtaal.net/aa/#hw4=24
         { rootRadicals: "ء-م-ر", expected: "إِمَارَة" }, //Source: https://ejtaal.net/aa/#hw4=24

@@ -34,19 +34,35 @@ export interface ConjugationVocalized
     emphasis?: boolean;
 }
 
+export function MapLetterToComparisonEquivalenceClass(letter: Letter)
+{
+    switch(letter)
+    {
+        case Letter.AlefHamza:
+        case Letter.AlefHamzaBelow:
+            return Letter.Alef;
+        case Letter.WawHamza:
+            return Letter.Waw;
+        case Letter.YaHamza:
+            return Letter.Ya;
+    }
+    return letter;
+
+    /*
+            private MapWordToSearchVariant(word: string)
+    {
+        //map all chars to their basic form
+        const alif = trimmed.replace(/[\u0622]/g, "\u0627");
+        const ya = waw.replace(/[\u0649]/g, "\u064A");
+
+        return ya;
+    }
+            */
+}
+
 function cmp(a: DisplayVocalized, b: DisplayVocalized)
 {
-    function MapCmpLetter(l: Letter)
-    {
-        switch(l)
-        {
-            case Letter.AlefHamza:
-                return Letter.Alef;
-        }
-        return l;
-    }
-
-    if(MapCmpLetter(a.letter) !== MapCmpLetter(b.letter))
+    if(MapLetterToComparisonEquivalenceClass(a.letter) !== MapLetterToComparisonEquivalenceClass(b.letter))
         return 0;
 
     let match = 1;    
@@ -151,6 +167,9 @@ export function ParseVocalizedText(text: string)
                         throw new Error("Doubled tashkil");
                     tashkil = Tashkil.Sukun;
                     i++;
+                    break;
+                case ExtraTashkil.DaggerAlef:
+                    i++; //just skip
                     break;
                 default:
                     parseTashkil = false;

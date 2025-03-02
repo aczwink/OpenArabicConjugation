@@ -28,6 +28,9 @@ It("Stem 1 past:u, present:u", () => {
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "ج-و-د", expected: "جَوْدَة" }, //Source: http://ejtaal.net/aa/#hw4=185
         { rootRadicals: "د-و-ر", expected: "دَوْر" }, //Source: https://en.wiktionary.org/wiki/%D8%AF%D8%A7%D8%B1
+        { rootRadicals: "ل-و-م", expected: "مَلَام" }, //Source: https://en.wiktionary.org/wiki/%D9%84%D8%A7%D9%85
+        { rootRadicals: "ق-و-م", expected: "قِيَام" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D9%85#Arabic
+        { rootRadicals: "ق-و-د", expected: "قِيَادَة" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D8%AF
     ]);
     RunParticipleTest("ق-و-ل", stem, "قَائِل", "مَقُول");
 

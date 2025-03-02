@@ -25,12 +25,11 @@ It("Stem 1 past:a, present:u", () => {
     const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
     
     RunVerbalNounPatternTest(stem, [
-        //Source: https://en.wiktionary.org/wiki/%D9%86%D9%82%D8%AF#Verb
-        { expected: "نَقْد", rootRadicals: "ن-ق-د" },
-        //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%AF%D9%85#Arabic
-        { expected: "خِدْمَة", rootRadicals: "خ-د-م" },
-        //Source: https://en.wiktionary.org/wiki/%D8%B3%D9%82%D8%B7
-        { expected: "مَسْقَط", rootRadicals: "س-ق-ط" },
+        { expected: "نَقْد", rootRadicals: "ن-ق-د" }, //Source: https://en.wiktionary.org/wiki/%D9%86%D9%82%D8%AF#Verb
+        { expected: "خِدْمَة", rootRadicals: "خ-د-م" }, //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%AF%D9%85#Arabic
+        { expected: "مَسْقَط", rootRadicals: "س-ق-ط" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D9%82%D8%B7
+        { expected: "نِسْبَة", rootRadicals: "ن-س-ب" }, //Source: https://en.wiktionary.org/wiki/%D9%86%D8%B3%D8%A8#Arabic
+        { expected: "قُعُود", rootRadicals: "ق-ع-د" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%B9%D8%AF
     ]);
 
     RunParticipleTest("ك-ت-ب", stem, "كَاتِب", "مَكْتُوب");

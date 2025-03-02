@@ -26,12 +26,10 @@ It("Stem 1 past:a, present:i", () => {
     const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
 
     RunVerbalNounPatternTest(stem, [
-        //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B5%D9%81#Conjugation
-        { expected: "عَصْف", rootRadicals: root },
-        //Source: https://en.wiktionary.org/wiki/%D9%85%D9%84%D9%83#Verb
-        { expected: "مُلْك", rootRadicals: "م-ل-ك" },
-        //Source: https://en.wiktionary.org/wiki/%D9%86%D8%B2%D9%84
-        { expected: "نُزُول", rootRadicals: "ن-ز-ل" },
+        { expected: "عَصْف", rootRadicals: root }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B5%D9%81#Conjugation
+        { expected: "مُلْك", rootRadicals: "م-ل-ك" }, //Source: https://en.wiktionary.org/wiki/%D9%85%D9%84%D9%83#Verb
+        { expected: "مِلْك", rootRadicals: "م-ل-ك" }, //Source: https://en.wiktionary.org/wiki/%D9%85%D9%84%D9%83#Verb
+        { expected: "نُزُول", rootRadicals: "ن-ز-ل" }, //Source: https://en.wiktionary.org/wiki/%D9%86%D8%B2%D9%84
     ]);
 
     RunParticipleTest(root, stem, "عَاصِف", "مَعْصُوف");
