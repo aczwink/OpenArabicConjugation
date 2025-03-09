@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,17 @@ export function GenerateAllPossibleVerbalNounsStem10(root: VerbRoot): Conjugatio
 {
     switch(root.type)
     {
+        case RootType.FinalWeak:
+            return [
+                { letter: Letter.Alef, tashkil: Tashkil.Kasra },
+                { letter: Letter.Siin, tashkil: Tashkil.Sukun },
+                { letter: Letter.Ta, tashkil: Tashkil.Kasra },
+                { letter: root.r1, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
         case RootType.HamzaOnR1:
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:

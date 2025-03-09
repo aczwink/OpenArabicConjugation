@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -55,6 +55,9 @@ export function GenerateParticipleStem8(root: VerbRoot, baseForm: AugmentedRoot,
         case RootType.InitialWeak:
         case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice, true);
+
+        case RootType.SecondConsonantDoubled:
+            return GenerateParticipleRegular(baseForm, Voice.Passive, true);
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];
 }

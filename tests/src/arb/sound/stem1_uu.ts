@@ -27,5 +27,6 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "ج-م-ل", expected: "جَمَال" }, //Source: https://en.wiktionary.org/wiki/%D8%AC%D9%85%D9%84
         { rootRadicals: "ك-ر-م", expected: "كَرَم" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%B1%D9%85
         { rootRadicals: "ك-ث-ر", expected: "كَثْرَة" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%AB%D8%B1
+        { rootRadicals: "ك-ر-م", expected: "كَرَامَة" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%B1%D9%85#Arabic
     ]);
 });

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,9 @@ export function GeminateDoubledConsonant(augmentedRoot: AugmentedRoot, params: C
                 augmentedRoot.r1.tashkil = (params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Kasra;
             else if(params.tense === Tense.Present)
                 augmentedRoot.r1.tashkil = Tashkil.Fatha;
+            augmentedRoot.r2.tashkil = Tashkil.Sukun;
+            break;
+        case 8:
             augmentedRoot.r2.tashkil = Tashkil.Sukun;
             break;
     }
