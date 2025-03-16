@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,8 +17,10 @@
  * */
 
 import { ConjugationParams, Letter, Tashkil, Voice, Tense, Person, Numerus, Gender, Mood } from "../../../Definitions";
+import { VerbStemData } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 import { DoesPresentSuffixStartWithWawOrYa } from "./suffix";
 
 enum DefectiveType
@@ -31,14 +33,14 @@ enum DefectiveType
     Type3_Fa3iya
 }
 
-function GetDefectiveType(params: ConjugationParams)
+function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    switch(params.stem)
+    switch(stemData.stem)
     {
         //TODO: 7 missing
         case 1:
         {
-            switch(params.stem1Context._legacy_middleRadicalTashkilPresent)
+            switch(ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization))
             {
                 case Tashkil.Dhamma:
                     return DefectiveType.Type2_Fa3aA;
@@ -134,9 +136,9 @@ function AlterDefectiveEndingActivePerfectType3(augmentedRoot: AugmentedRoot, pa
     }
 }
 
-function AlterDefectiveEndingActivePerfect(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+function AlterDefectiveEndingActivePerfect(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    switch(GetDefectiveType(params))
+    switch(GetDefectiveType(stemData, params))
     {
         case DefectiveType.Type1_Fa3aY:
             return AlterDefectiveEndingActivePerfectType1(augmentedRoot, params);
@@ -152,17 +154,17 @@ function IsShorteningCase(numerus: Numerus, person: Person)
     return (numerus === Numerus.Singular) || ( (numerus === Numerus.Plural) && (person === Person.First) );
 }
 
-function IsDefectiveType3SpecialCase(params: ConjugationParams)
+function IsDefectiveType3SpecialCase(stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
     //Pre-condition to this method: DoesPresentSuffixStartWithWawOrYa is false!
 
-    const isType3 = GetDefectiveType(params) === DefectiveType.Type3_Fa3iya;
+    const isType3 = GetDefectiveType(stemData, params) === DefectiveType.Type3_Fa3iya;
     return isType3 && IsShorteningCase(params.numerus, params.person);
 }
 
-function AlterDefectiveEndingActivePresentIndicative(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+function AlterDefectiveEndingActivePresentIndicative(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    const defectiveType = GetDefectiveType(params);
+    const defectiveType = GetDefectiveType(stemData, params);
 
     if(DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
     {
@@ -173,7 +175,7 @@ function AlterDefectiveEndingActivePresentIndicative(augmentedRoot: AugmentedRoo
         else if(defectiveType === DefectiveType.Type1_Fa3aY)
             augmentedRoot.ApplyRadicalTashkil(2, Tashkil.Dhamma); //1
     }
-    else if(IsDefectiveType3SpecialCase(params))
+    else if(IsDefectiveType3SpecialCase(stemData, params))
     {
         //3
         augmentedRoot.ReplaceRadical(3, { letter: Letter.AlefMaksura, tashkil: Tashkil.AlefMaksuraMarker });
@@ -204,9 +206,9 @@ function AlterDefectiveEndingActivePresentIndicative(augmentedRoot: AugmentedRoo
     }
 }
 
-function AlterDefectiveEndingActivePresentSubjunctive(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+function AlterDefectiveEndingActivePresentSubjunctive(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    const defectiveType = GetDefectiveType(params);
+    const defectiveType = GetDefectiveType(stemData, params);
 
     if(DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
     {
@@ -217,7 +219,7 @@ function AlterDefectiveEndingActivePresentSubjunctive(augmentedRoot: AugmentedRo
             augmentedRoot.ApplyRadicalTashkil(2, Tashkil.Dhamma);
     }
     else if(defectiveType === DefectiveType.Type3_Fa3iya)
-        AlterDefectiveEndingActivePresentIndicative(augmentedRoot, params);
+        AlterDefectiveEndingActivePresentIndicative(augmentedRoot, stemData, params);
     else if( (params.numerus === Numerus.Plural) && (params.gender === Gender.Female) )
     {
         if(defectiveType === DefectiveType.Type2_Fa3aA)
@@ -227,14 +229,14 @@ function AlterDefectiveEndingActivePresentSubjunctive(augmentedRoot: AugmentedRo
     }
 }
 
-function AlterDefectiveEndingActivePresentJussiveOrImperative(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+function AlterDefectiveEndingActivePresentJussiveOrImperative(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    const defectiveType = GetDefectiveType(params);
+    const defectiveType = GetDefectiveType(stemData, params);
 
     if(
         DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender)
         ||
-        IsDefectiveType3SpecialCase(params)
+        IsDefectiveType3SpecialCase(stemData, params)
     )
     {
         augmentedRoot.DropRadial(3);
@@ -317,9 +319,9 @@ function AlterDefectiveEndingPassive(augmentedRoot: AugmentedRoot, params: Conju
     }
 }
 
-export function AlterDefectiveEnding(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+export function AlterDefectiveEnding(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    switch(params.stem)
+    switch(stemData.stem)
     {
         case 1:
         case 2:
@@ -331,7 +333,7 @@ export function AlterDefectiveEnding(augmentedRoot: AugmentedRoot, params: Conju
         case 8:
         case 10:
         {
-            if((params.voice === Voice.Active) && (GetDefectiveType(params) === DefectiveType.Type1_Fa3aY))
+            if((params.voice === Voice.Active) && (GetDefectiveType(stemData, params) === DefectiveType.Type1_Fa3aY))
             {
                 //replacing is important because roots with waw as 3rd radical are still conjugated with ya in this case
                 augmentedRoot.r3.letter = Letter.Ya;
@@ -340,23 +342,23 @@ export function AlterDefectiveEnding(augmentedRoot: AugmentedRoot, params: Conju
             if(params.voice === Voice.Passive)
                 AlterDefectiveEndingPassive(augmentedRoot, params);
             else if(params.tense === Tense.Perfect)
-                AlterDefectiveEndingActivePerfect(augmentedRoot, params);
+                AlterDefectiveEndingActivePerfect(augmentedRoot, stemData, params);
             else if(params.mood === Mood.Indicative)
-                AlterDefectiveEndingActivePresentIndicative(augmentedRoot, params);
+                AlterDefectiveEndingActivePresentIndicative(augmentedRoot, stemData, params);
             else if(params.mood === Mood.Subjunctive)
-                AlterDefectiveEndingActivePresentSubjunctive(augmentedRoot, params);
+                AlterDefectiveEndingActivePresentSubjunctive(augmentedRoot, stemData, params);
             else if( (params.mood === Mood.Jussive) || (params.mood === Mood.Imperative) )
-                AlterDefectiveEndingActivePresentJussiveOrImperative(augmentedRoot, params);
+                AlterDefectiveEndingActivePresentJussiveOrImperative(augmentedRoot, stemData, params);
         }
         break;
     }
 }
 
-export function AlterDefectiveSuffix(params: ConjugationParams, suffix: ConjugationVocalized[])
+export function AlterDefectiveSuffix(params: ConjugationParams, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, suffix: ConjugationVocalized[])
 {
     if(params.voice === Voice.Active)
     {
-        const defectiveType = GetDefectiveType(params);
+        const defectiveType = GetDefectiveType(stemData, params);
         if( (params.tense === Tense.Perfect) && (defectiveType !== DefectiveType.Type3_Fa3iya) && (params.numerus === Numerus.Plural) && (params.person === Person.Third) && (params.gender === Gender.Male))
             suffix[0].tashkil = Tashkil.Sukun;
         else if(params.tense === Tense.Present)

@@ -35,6 +35,7 @@ export function GenerateAllPossibleVerbalNounsStem10(root: VerbRoot): Conjugatio
             ];
 
         case RootType.HamzaOnR1:
+        case RootType.InitialWeak:
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:
             return [

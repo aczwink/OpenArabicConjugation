@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,8 @@
  * */
 import { VerbRoot } from "./VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
-import { ConjugationParams, AdjectiveDeclensionParams, Stem1Context, NounDeclensionParams, Gender, Numerus, StemNumber, Voice } from "./Definitions";
+import { ConjugationParams, AdjectiveDeclensionParams, NounDeclensionParams, Gender, Numerus, StemNumber, Voice } from "./Definitions";
+import { Verb, VerbStem1Data } from "./Verb";
 
 export enum TargetNounDerivation
 {
@@ -33,10 +34,10 @@ export interface NounInput
     numerus: Numerus;
 }
 
-export interface DialectConjugator
+export interface DialectConjugator<T extends string>
 {
-    Conjugate(root: VerbRoot, params: ConjugationParams): ConjugationVocalized[];
-    ConjugateParticiple(root: VerbRoot, stem: number, voice: Voice, stem1Context?: Stem1Context): ConjugationVocalized[];
+    Conjugate(verb: Verb<T>, params: ConjugationParams): ConjugationVocalized[];
+    ConjugateParticiple(verb: Verb<T>, voice: Voice): ConjugationVocalized[];
     DeclineAdjective(vocalized: DisplayVocalized[], params: AdjectiveDeclensionParams): DisplayVocalized[];
     DeclineNoun(inputNoun: NounInput, params: NounDeclensionParams): DisplayVocalized[];
     DeriveSoundNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetNounDerivation): DisplayVocalized[];

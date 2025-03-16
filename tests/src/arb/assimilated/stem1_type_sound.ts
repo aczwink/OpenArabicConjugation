@@ -17,14 +17,14 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D9%84%D8%B9#Verb_2
 
 It("Stem 1 - Sound", () => {
     const root = "و-ل-ع";
-    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
+    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentA;
 
     RunActiveParticipleTest(root, stem, "وَلِع", DialectType.ModernStandardArabic);
     

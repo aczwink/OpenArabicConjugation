@@ -17,21 +17,22 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../Conjugation";
-import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense } from "../../Definitions";
+import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense } from "../../Definitions";
+import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/suffix";
 import { IrregularIja, IsHamzaOnR1SpecialCase } from "./irregular";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
-export function AugmentRoot(root: VerbRoot, params: ConjugationParams): ConjugationRule[] | undefined
+export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
 {
-    switch(params.stem)
+    switch(stemData.stem)
     {
         case 1:
             switch(root.type)
             {
                 case RootType.FinalWeak:
-                    if((params.tense === Tense.Present) && (params.mood !== Mood.Imperative) && (params.stem1Context._legacy_middleRadicalTashkil === Tashkil.Kasra) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
+                    if((params.tense === Tense.Present) && (params.mood !== Mood.Imperative) && (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
                     {
                         return [
                             {
@@ -204,7 +205,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                     ];
 
                 case RootType.SecondConsonantDoubled:
-                    const presentVowel = (params.stem1Context._legacy_middleRadicalTashkilPresent === Tashkil.Kasra) ? Vowel.ShortI : Vowel.ShortU;
+                    const presentVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) ? Vowel.ShortI : Vowel.ShortU;
                     return [
                         {
                             conditions: {},
@@ -228,7 +229,7 @@ export function AugmentRoot(root: VerbRoot, params: ConjugationParams): Conjugat
                     ];
 
                 case RootType.Regular:
-                    if(params.stem1Context._legacy_middleRadicalTashkil === Tashkil.Kasra)
+                    if(stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI)
                     {
                         return [
                             {

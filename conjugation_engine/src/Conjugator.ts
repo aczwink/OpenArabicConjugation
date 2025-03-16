@@ -17,17 +17,18 @@
  * */
 import { Hamzate } from "./Hamza";
 import { VerbRoot } from "./VerbRoot";
-import { DialectConjugator, NounInput, TargetNounDerivation } from "./DialectConjugator";
+import { NounInput, TargetNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
 import { ConjugationVocalized, DisplayVocalized, ParseVocalizedText } from "./Vocalization";
-import { ConjugationParams, Stem1Context, Tashkil, Tense, Voice, Mood, Person, AdjectiveDeclensionParams, NounDeclensionParams, Gender, StemNumber, AdvancedStemNumber } from "./Definitions";
+import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveDeclensionParams, NounDeclensionParams, Gender, StemNumber, AdvancedStemNumber } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
+import { Verb, VerbStem1Data } from "./Verb";
 
 export class Conjugator
 {
     //Public methods
-    public Conjugate(root: VerbRoot, params: ConjugationParams, dialect: DialectType)
+    public Conjugate(verb: Verb<string>, params: ConjugationParams)
     {
         if( (params.tense === Tense.Present) && (params.mood === Mood.Imperative) )
         {
@@ -37,16 +38,16 @@ export class Conjugator
                 throw new Error("imperative does only exist for second person");
         }
 
-        const dialectConjugator = this.CreateDialectConjugator(dialect);
-        const pattern = dialectConjugator.Conjugate(root, params);
+        const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
+        const pattern = dialectConjugator.Conjugate(verb as any, params);
 
         return this.ExecuteWordTransformationPipeline(pattern);
     }
 
-    public ConjugateParticiple(dialect: DialectType, root: VerbRoot, stem: number, voice: Voice, stem1Context?: Stem1Context): DisplayVocalized[]
+    public ConjugateParticiple(verb: Verb<string>, voice: Voice): DisplayVocalized[]
     {
-        const dialectConjugator = this.CreateDialectConjugator(dialect);
-        const pattern = dialectConjugator.ConjugateParticiple(root, stem, voice, stem1Context);
+        const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
+        const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice);
 
         return this.ExecuteWordTransformationPipeline(pattern);
     }
@@ -73,22 +74,22 @@ export class Conjugator
         return dialectConjugator.DeriveSoundNoun(singular, singularGender, target);
     }
 
-    public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | Stem1Context): DisplayVocalized[][]
+    public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<string>): DisplayVocalized[][]
     {
         const dialectConjugator = new MSAConjugator;
-        const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(root, stem);
+        const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(root, stem as any);
 
         return patterns.map(x => this.ExecuteWordTransformationPipeline(x));
     }
 
-    public HasPotentiallyMultipleVerbalNounForms(root: VerbRoot, stem: AdvancedStemNumber | Stem1Context)
+    public HasPotentiallyMultipleVerbalNounForms(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<string>)
     {
         const dialectConjugator = new MSAConjugator;
-        return dialectConjugator.HasPotentiallyMultipleVerbalNounForms(root, stem);
+        return dialectConjugator.HasPotentiallyMultipleVerbalNounForms(root, stem as any);
     }
 
     //Private methods
-    private CreateDialectConjugator(dialect: DialectType): DialectConjugator
+    private CreateDialectConjugator(dialect: DialectType)
     {
         switch(dialect)
         {

@@ -17,12 +17,12 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunDefectiveConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B1%D9%85%D9%89#Verb
 
 It("Stem 1 type 1 passive", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
     throw new Error("TODO verbal noun test :)");
     const conjugations: ConjugationTest[] = [

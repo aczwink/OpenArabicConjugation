@@ -17,12 +17,12 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%83%D8%AA%D8%A8#Conjugation
 
 It("Stem 1 past:a, present:u", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
     
     RunVerbalNounPatternTest(stem, [
         { expected: "نَقْد", rootRadicals: "ن-ق-د" }, //Source: https://en.wiktionary.org/wiki/%D9%86%D9%82%D8%AF#Verb

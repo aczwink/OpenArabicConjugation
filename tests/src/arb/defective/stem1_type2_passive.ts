@@ -17,10 +17,10 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunDefectiveConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Stem 1 type 2 passive", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
 
     throw new Error("TODO verbal noun test :)");
     const conjugations: ConjugationTest[] = [

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Gender, Letter, Mood, Numerus, Person, Stem1Context, Tashkil, Tense, VerbType, Voice } from "../../Definitions";
+import { Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { RootType, VerbRoot } from "../../VerbRoot";
 
@@ -38,16 +38,6 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
     hasPassive = false;
     iso639code = "apc";
     glottoCode = "stan1323";
-
-    public CreateStem1Context(verbConjugationScheme: VerbType, type: LebaneseStem1Context): Stem1Context
-    {
-        return {
-            _legacy_middleRadicalTashkil: Tashkil.Fatha,
-            _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
-            scheme: verbConjugationScheme,
-            type,
-        };
-    }
 
     public GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<LebaneseStem1Context>
     {

@@ -17,14 +17,14 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest, RunVerbalNounPatternTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
 //and for verbal noun: https://en.wiktionary.org/wiki/%D9%82%D8%B6%D9%89#Arabic
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 1", () => {
-    const stem = ModernStandardArabicStem1ContextType.DefectiveType1;
+    const stem = ModernStandardArabicStem1ParametersType.DefectiveType1;
 
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "ق-ض-ي", expected: "قَضَاء"}, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%B6%D9%89

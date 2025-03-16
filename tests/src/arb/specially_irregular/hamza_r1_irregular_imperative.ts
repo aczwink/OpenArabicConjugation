@@ -17,15 +17,14 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
-import { Stem1Context, Tashkil } from "openarabicconjugation/dist/Definitions";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%AE%D8%B0#Verb
 //https://en.wikipedia.org/wiki/Arabic_verbs#Hamzated_verbs
 
 It("Stem 1 irregular short imperative ء-خ-ذ", () => {
     throw new Error("TODO verbal noun test :)");
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
     RunParticipleTest("ء-خ-ذ", stem, "آخِذ", "مَأْخُوذ");
     
     const conjugations: ConjugationTest[] = [
@@ -182,7 +181,7 @@ It("Stem 1 irregular short imperative ء-خ-ذ", () => {
 
 It("Stem 1 irregular short imperative ء-ك-ل", () => {
     const root = "ء-ك-ل";
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
 
     //throw new Error("TODO verbal noun test :)");
     RunParticipleTest(root, stem, "آكِل", "مَأْكُول");

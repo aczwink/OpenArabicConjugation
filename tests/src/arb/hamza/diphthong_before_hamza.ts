@@ -17,12 +17,12 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Diphthong before hamza", () => {
     const conjugations: ConjugationTest[] = [
         { expected: "يَيْئَسُ", tense: "present" }
     ];
 
-    RunConjugationTest("ي-ء-س", ModernStandardArabicStem1ContextType.PastI_PresentA, conjugations);
+    RunConjugationTest("ي-ء-س", ModernStandardArabicStem1ParametersType.PastI_PresentA, conjugations);
 });

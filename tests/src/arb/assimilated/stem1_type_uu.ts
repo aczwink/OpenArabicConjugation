@@ -17,12 +17,12 @@
  * */
 import { It } from "acts-util-test";
 import { RunVerbalNounTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D9%81%D9%82#Verb
 
 It("Stem 1 - Type Past:u Present:u", () => {
-    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
 
     RunVerbalNounTest("ي-س-ر", stem, "يُسْر");
 });

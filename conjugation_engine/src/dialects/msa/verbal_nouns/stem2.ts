@@ -23,6 +23,17 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
 {
     switch(root.type)
     {
+        case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
+            return [
+                [
+                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Sukun },
+                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                ]
+            ];
+            
         case RootType.Quadriliteral:
             return [
                 [

@@ -17,11 +17,13 @@
  * */
 
 import { ConjugationParams, Tashkil, Tense, Voice } from "../../../Definitions";
+import { VerbStemData } from "../../../Verb";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
-export function GeminateDoubledConsonant(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+export function GeminateDoubledConsonant(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    switch(params.stem)
+    switch(stemData.stem)
     {
         case 1:
             if( (params.tense === Tense.Perfect) && (augmentedRoot.r3.tashkil !== Tashkil.Sukun) )
@@ -29,7 +31,7 @@ export function GeminateDoubledConsonant(augmentedRoot: AugmentedRoot, params: C
             else if(params.tense === Tense.Present)
             {
                 if(params.voice === Voice.Active)
-                    augmentedRoot.r1.tashkil = params.stem1Context._legacy_middleRadicalTashkilPresent;
+                    augmentedRoot.r1.tashkil = ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization);
                 else
                     augmentedRoot.r1.tashkil = Tashkil.Fatha;
                 augmentedRoot.r2.tashkil = Tashkil.Sukun;

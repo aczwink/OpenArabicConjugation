@@ -18,13 +18,14 @@
 import "acts-util-core";
 import { Fail } from "acts-util-test";
 import { Conjugator } from "openarabicconjugation/dist/Conjugator";
-import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Stem1Context, Tashkil, Tense, TenseString, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
+import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
 import { VerbRoot } from "openarabicconjugation/dist/VerbRoot";
 import { GenderToString, MoodToString, NumerusToString, PersonToString, TenseToString, VoiceToString } from "openarabicconjugation/dist/Util";
 import { DisplayVocalized, ParseVocalizedText, VocalizedToString } from "openarabicconjugation/dist/Vocalization";
 import { Buckwalter } from "openarabicconjugation/dist/Transliteration";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { GetDialectMetadata } from "openarabicconjugation/dist/DialectsMetadata";
+import { CreateVerb, VerbStem1Data, VerbStemData } from "openarabicconjugation/dist/Verb";
 
 function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
 {
@@ -51,14 +52,14 @@ function VocalizedTostring(vocalized: DisplayVocalized[])
     return str;
 }
 
-function Test(expected: string[], got: DisplayVocalized[], params: ConjugationParams)
+function Test(expected: string[], got: DisplayVocalized[], stemData: VerbStemData<string>, params: ConjugationParams)
 {
     const gotStr = VocalizedTostring(got);
     const anyExpected = expected.Values().Map(ex => CompareVocalized(ParseVocalizedText(ex), got)).AnyTrue();
     if(!anyExpected)
     {
-        const stemData = (params.stem === 1) ? (params.stem + " (past:" + Buckwalter.TashkilToString(params.stem1Context._legacy_middleRadicalTashkil) + " present:" + Buckwalter.TashkilToString(params.stem1Context._legacy_middleRadicalTashkilPresent) + ")") : params.stem;
-        const context = ["stem " + stemData, TenseToString(params.tense), VoiceToString(params.voice)];
+        const stemDataString = (stemData.stem === 1) ? (stemData.stem + stemData.stemParameterization) : stemData.stem;
+        const context = ["stem " + stemDataString, TenseToString(params.tense), VoiceToString(params.voice)];
         if(params.tense === Tense.Present)
             context.push(MoodToString(params.mood));
         context.push(NumerusToString(params.numerus), PersonToString(params.person), GenderToString(params.gender));
@@ -76,13 +77,13 @@ function TestParticiple(expected: string, got: DisplayVocalized[], voice: VoiceS
         Fail("expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got) + " voice: " + voice);
 }
 
-function ValidateStem1Context(ctx: Stem1Context, root: VerbRoot, dialectType: DialectType)
+function ValidateStem1Context(ctx: VerbStem1Data<string>, root: VerbRoot, dialectType: DialectType)
 {
     const meta = GetDialectMetadata(dialectType);
     const choices = meta.GetStem1ContextChoices(root);
     for (const opt of choices.types)
     {
-        if(ctx.type === opt)
+        if(ctx.stemParameterization === opt)
             return;
     }
     throw new Error("Illegal stem 1 context");
@@ -140,13 +141,12 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
     }
 
     const conjugator = new Conjugator();
-    const metadata = GetDialectMetadata(dialect);
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const stem1ctx = typeof stem === "number" ? undefined : metadata.CreateStem1Context(root.DeriveDeducedVerbType(), stem);
+    const verb = CreateVerb(dialect, root, stem);
 
-    if(stem1ctx !== undefined)
-        ValidateStem1Context(stem1ctx, root, dialect);
+    if(verb.stem === 1)
+        ValidateStem1Context(verb, root, dialect);
 
     for (const test of conjugations)
     {
@@ -154,7 +154,7 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
             gender: test.gender ?? "male",
             numerus: test.numerus ?? "singular",
             person: test.person ?? "third",
-            stem1Context: (typeof stem === "number") ? undefined : stem1ctx,
+            stem1Context: (typeof stem === "number") ? undefined : verb,
             tense: test.tense ?? "perfect",
             voice: test.voice ?? "active",
             mood: test.mood ?? "indicative"
@@ -164,13 +164,12 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
             mood: MapMood(stringParams.mood),
             numerus: MapNumerus(stringParams.numerus),
             person: MapPerson(stringParams.person),
-            stem: ((typeof stem === "number") ? stem : 1) as any,
-            stem1Context: stem1ctx as any,
             tense: stringParams.tense === "perfect" ? Tense.Perfect : Tense.Present,
             voice: stringParams.voice === "active" ? Voice.Active : Voice.Passive,
         };
-        const pastResult = conjugator.Conjugate(root, params, dialect);
-        Test(Array.isArray(test.expected) ? test.expected : [test.expected], pastResult, params);
+        const pastResult = conjugator.Conjugate(verb, params);
+        const expected = Array.isArray(test.expected) ? test.expected : [test.expected];
+        Test(expected, pastResult, verb, params);
     }
 }
 
@@ -180,39 +179,36 @@ export function RunDefectiveConjugationTest(rootRadicalsWithoutR3: string, stem:
     RunConjugationTest(rootRadicalsWithoutR3 + "-ي", stem, conjugations);
 }
 
-export function RunActiveParticipleTest(rootRadicals: string, stem: number | string, expected: string, dialect: DialectType)
+export function RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, dialect: DialectType)
 {
     const metadata = GetDialectMetadata(dialect);
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const stemNumber = (typeof stem === "number") ? stem : 1;
-    const ctx = (typeof stem === "number") ? undefined : metadata.CreateStem1Context(root.DeriveDeducedVerbType(), stem);
+    const verb = CreateVerb(dialect, root, stem);
 
-    if(ctx !== undefined)
-        ValidateStem1Context(ctx, root, dialect);
+    if(verb.stem === 1)
+        ValidateStem1Context(verb, root, dialect);
     
-    const activeGot = conjugator.ConjugateParticiple(dialect, root, stemNumber, Voice.Active, ctx);
+    const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
     TestParticiple(expected, activeGot, "active");
 }
 
-export function RunParticipleTest(rootRadicals: string, stem: number | string, activeExpected: string, passiveExpected: string)
+export function RunParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, activeExpected: string, passiveExpected: string)
 {
-    const metadata = GetDialectMetadata(DialectType.ModernStandardArabic);
+    const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
+    const verb = CreateVerb(dialect, root, stem);
 
-    const stemNumber = (typeof stem === "number") ? stem : 1;
-    const ctx = (typeof stem === "number") ? undefined : metadata.CreateStem1Context(root.DeriveDeducedVerbType(), stem);
-
-    if(ctx !== undefined)
-        ValidateStem1Context(ctx, root, DialectType.ModernStandardArabic);
+    if(verb.stem === 1)
+        ValidateStem1Context(verb, root, DialectType.ModernStandardArabic);
     
-    const activeGot = conjugator.ConjugateParticiple(DialectType.ModernStandardArabic, root, stemNumber, Voice.Active, ctx);
+    const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
     TestParticiple(activeExpected, activeGot, "active");
 
-    const passiveGot = conjugator.ConjugateParticiple(DialectType.ModernStandardArabic, root, stemNumber, Voice.Passive, ctx);
+    const passiveGot = conjugator.ConjugateParticiple(verb, Voice.Passive);
     TestParticiple(passiveExpected, passiveGot, "passive");
 }
 
@@ -223,7 +219,7 @@ interface VerbalNounTestPattern
 }
 export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patterns: VerbalNounTestPattern[])
 {
-    const meta = GetDialectMetadata(DialectType.ModernStandardArabic);
+    const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
 
     let length;
@@ -232,12 +228,12 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
     for (const pattern of patterns)
     {
         const root = new VerbRoot(pattern.rootRadicals.split("-").join(""));
-        const stemData = (typeof stem === "number") ? stem : meta.CreateStem1Context(root.DeriveDeducedVerbType(), stem);
+        const verb = CreateVerb(dialect, root, stem);
 
-        if(!conjugator.HasPotentiallyMultipleVerbalNounForms(root, stemData))
+        if(!conjugator.HasPotentiallyMultipleVerbalNounForms(root, (verb.stem === 1) ? verb : verb.stem))
             throw new Error("Expected multiple verbal nouns but apparently only one exists");
 
-        const choices = conjugator.GenerateAllPossibleVerbalNouns(root, stemData);
+        const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
         const choicesAsStrings = choices.Values().Map(VocalizedTostring).ToArray();
 
         const index = choicesAsStrings.indexOf(pattern.expected);
@@ -256,15 +252,16 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
 
 export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string)
 {
-    const meta = GetDialectMetadata(DialectType.ModernStandardArabic);
+    const dialect = DialectType.ModernStandardArabic;
+    const meta = GetDialectMetadata(dialect);
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const stemData = (typeof stem === "number") ? stem : meta.CreateStem1Context(root.DeriveDeducedVerbType(), stem);
+    const verb = CreateVerb(dialect, root, stem);
 
-    if(conjugator.HasPotentiallyMultipleVerbalNounForms(root, stemData))
+    if(conjugator.HasPotentiallyMultipleVerbalNounForms(root, (verb.stem === 1) ? verb : verb.stem))
         throw new Error("Expected a single verbal noun but apparently multiple ones exist");
-    const choices = conjugator.GenerateAllPossibleVerbalNouns(root, stemData);
+    const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
 
     if(choices.length !== 1)
         throw new Error("Expected only a single verbal noun but got " + choices.length);
@@ -276,7 +273,7 @@ export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber
         Fail("Verbal noun test failed. Expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got));
 }
 
-export function RunDefectiveParticipleTest(rootRadicalsWithoutR3: string, stem: number | string, activeExpected: string, passiveExpected: string)
+export function RunDefectiveParticipleTest(rootRadicalsWithoutR3: string, stem: AdvancedStemNumber | string, activeExpected: string, passiveExpected: string)
 {
     RunParticipleTest(rootRadicalsWithoutR3 + "-و", stem, activeExpected, passiveExpected);
     RunParticipleTest(rootRadicalsWithoutR3 + "-ي", stem, activeExpected, passiveExpected);

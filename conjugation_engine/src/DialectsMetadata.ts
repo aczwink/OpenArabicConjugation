@@ -16,34 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Tashkil, Letter, Stem1Context, Gender, Numerus, Person, Tense, Voice, StemlessConjugationParams, VerbType, Mood } from "./Definitions";
+import { Letter, Gender, Numerus, Person, Tense, Voice, Mood, ConjugationParams } from "./Definitions";
 import { DialectType } from "./Dialects";
 import { LebaneseDialectMetadata } from "./dialects/lebanese/LebaneseDialectMetadata";
 import { GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching } from "./dialects/msa/conjugation/defective_special_cases";
+import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 import { RootType, VerbRoot } from "./VerbRoot";
-
-export enum ModernStandardArabicStem1ContextType
-{
-    /**
-     * Fa3a / Yaf3i
-     */
-    DefectiveType1 = "ai",
-    DefectiveType2 = "au",
-    DefectiveType3 = "ia",
-    Hollow_PastU_PresentA = "ua",
-    PastA_PresentA = "aa",
-    PastA_PresentI = "ai",
-    PastA_PresentU = "au",
-    PastI_PresentA = "ia",
-    Quadrilateral = "ss",
-    RegularOrHollow_PastI_PresentI = "ii",
-    RegularOrHollow_PastU_PresentU = "uu",
-}
 
 export interface Stem1ContextChoice<T extends string>
 {
     types: T[];
-    requiredContext: StemlessConjugationParams[];
+    requiredContext: ConjugationParams[];
 }
 
 export interface DialectMetadata<T extends string>
@@ -55,7 +38,6 @@ export interface DialectMetadata<T extends string>
     iso639code: string;
     glottoCode: string;
 
-    CreateStem1Context(verbConjugationScheme: VerbType, type: T): Stem1Context;
     GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<T>;
 }
 
@@ -72,74 +54,6 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                 iso639code: "arb",
                 glottoCode: "stan1318",
 
-                CreateStem1Context: function(verbConjugationScheme: VerbType, type: ModernStandardArabicStem1ContextType)
-                {
-                    switch(type)
-                    {
-                        case ModernStandardArabicStem1ContextType.Hollow_PastU_PresentA:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Dhamma,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
-                            };
-                        case ModernStandardArabicStem1ContextType.PastA_PresentA:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Fatha,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
-                            };
-                        case ModernStandardArabicStem1ContextType.Quadrilateral:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Sukun,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Sukun,
-                            };
-                        case ModernStandardArabicStem1ContextType.DefectiveType1:
-                        case ModernStandardArabicStem1ContextType.PastA_PresentI:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Fatha,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Kasra,
-                            };
-                        case ModernStandardArabicStem1ContextType.DefectiveType2:
-                        case ModernStandardArabicStem1ContextType.PastA_PresentU:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Fatha,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Dhamma,
-                            };
-                        case ModernStandardArabicStem1ContextType.DefectiveType3:
-                        case ModernStandardArabicStem1ContextType.PastI_PresentA:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Kasra,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Fatha,
-                            };
-                        case ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Kasra,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Kasra,
-                            };
-                        case ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU:
-                            return {
-                                type,
-                                scheme: verbConjugationScheme,
-                                _legacy_middleRadicalTashkil: Tashkil.Dhamma,
-                                _legacy_middleRadicalTashkilPresent: Tashkil.Dhamma,
-                            };
-                        default:
-                            throw new Error("Illegal type: " + type);
-                    }
-                },
-
                 GetStem1ContextChoices: function(root: VerbRoot): Stem1ContextChoice<string>
                 {
                     const presentContext = {
@@ -150,7 +64,7 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                         tense: Tense.Present,
                         voice: Voice.Active,
                     };
-                    const firstContext: StemlessConjugationParams = {
+                    const firstContext: ConjugationParams = {
                         gender: Gender.Male,
                         numerus: Numerus.Singular,
                         person: Person.First,
@@ -169,12 +83,12 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                                     presentContext
                                 ],
                                 types: [
-                                    ModernStandardArabicStem1ContextType.PastA_PresentA,
-                                    ModernStandardArabicStem1ContextType.PastA_PresentI,
-                                    ModernStandardArabicStem1ContextType.PastA_PresentU,
-                                    ModernStandardArabicStem1ContextType.PastI_PresentA,
-                                    ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI,
-                                    ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU,
+                                    ModernStandardArabicStem1ParametersType.PastA_PresentA,
+                                    ModernStandardArabicStem1ParametersType.PastA_PresentI,
+                                    ModernStandardArabicStem1ParametersType.PastA_PresentU,
+                                    ModernStandardArabicStem1ParametersType.PastI_PresentA,
+                                    ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI,
+                                    ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU,
                                 ]
                             }
                         }
@@ -191,14 +105,14 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                             return {
                                 requiredContext: [],
                                 types: [
-                                    ModernStandardArabicStem1ContextType.DefectiveType1,
-                                    ModernStandardArabicStem1ContextType.DefectiveType2,
-                                    ModernStandardArabicStem1ContextType.DefectiveType3,
+                                    ModernStandardArabicStem1ParametersType.DefectiveType1,
+                                    ModernStandardArabicStem1ParametersType.DefectiveType2,
+                                    ModernStandardArabicStem1ParametersType.DefectiveType3,
                                 ],
                             };
                         case RootType.MiddleWeak:
                             {
-                                const r2DependentType = (root.r2 === Letter.Waw) ? ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU : ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI;
+                                const r2DependentType = (root.r2 === Letter.Waw) ? ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU : ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
                                 return {
                                     requiredContext: [
                                         presentContext,
@@ -206,8 +120,8 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                                     ],
                                     types: [
                                         r2DependentType,
-                                        ModernStandardArabicStem1ContextType.PastI_PresentA,
-                                        ModernStandardArabicStem1ContextType.Hollow_PastU_PresentA,
+                                        ModernStandardArabicStem1ParametersType.PastI_PresentA,
+                                        ModernStandardArabicStem1ParametersType.Hollow_PastU_PresentA,
                                     ],
                                 };
                             }
@@ -215,7 +129,7 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                             return {
                                 requiredContext: [],
                                 types: [
-                                    ModernStandardArabicStem1ContextType.Quadrilateral,
+                                    ModernStandardArabicStem1ParametersType.Quadrilateral,
                                 ],
                             };
                         case RootType.SecondConsonantDoubled:
@@ -226,10 +140,10 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                                         firstContext
                                     ],
                                     types: [
-                                        ModernStandardArabicStem1ContextType.PastA_PresentU,
-                                        ModernStandardArabicStem1ContextType.PastA_PresentI,
-                                        ModernStandardArabicStem1ContextType.PastA_PresentA,
-                                        ModernStandardArabicStem1ContextType.PastI_PresentA,
+                                        ModernStandardArabicStem1ParametersType.PastA_PresentU,
+                                        ModernStandardArabicStem1ParametersType.PastA_PresentI,
+                                        ModernStandardArabicStem1ParametersType.PastA_PresentA,
+                                        ModernStandardArabicStem1ParametersType.PastI_PresentA,
                                     ],
                                 };
                             }
@@ -237,7 +151,7 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
                             return {
                                 requiredContext: [],
                                 types: [
-                                    ModernStandardArabicStem1ContextType.DefectiveType1,
+                                    ModernStandardArabicStem1ParametersType.DefectiveType1,
                                 ],
                             };
                         default:

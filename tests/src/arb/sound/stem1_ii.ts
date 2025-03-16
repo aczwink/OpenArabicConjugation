@@ -18,13 +18,13 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
 import { Tashkil } from "openarabicconjugation/dist/Definitions";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%B3%D8%A8#Verb
 
 It("Stem 1 past:i, present:i", () => {
     throw new Error("TODO verbal noun test :)");
-    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
 
     RunParticipleTest("ح-س-ب", stem, "حَاسِب", "مَحْسُوب");
 

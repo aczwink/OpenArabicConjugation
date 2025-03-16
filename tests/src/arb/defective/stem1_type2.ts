@@ -16,16 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunDefectiveParticipleTest, RunVerbalNounTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ConjugationTest, RunConjugationTest, RunDefectiveParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_roots
 //and for participles: https://en.wikipedia.org/wiki/Arabic_verbs#Defective_(third-weak)_verbs
 
 It("Wikipedia defective stem1 type 2", () => {
-    const stem = ModernStandardArabicStem1ContextType.DefectiveType2;
+    const stem = ModernStandardArabicStem1ParametersType.DefectiveType2;
 
-    RunVerbalNounTest("ن-ح-و", stem, "نَحْو");
+    RunVerbalNounPatternTest(stem, [
+        { expected: "نَحْو", rootRadicals: "ن-ح-و" },
+        { expected: "شَكْوَى", rootRadicals: "ش-ك-و" }, //https://en.wiktionary.org/wiki/%D8%B4%D9%83%D8%A7#Arabic
+    ]);
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعُوّ");
     
     const conjugations: ConjugationTest[] = [

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,11 +17,13 @@
  * */
 
 import { ConjugationParams, Letter, Tashkil, Tense, Voice } from "../../../Definitions";
+import { VerbStemData } from "../../../Verb";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
-export function AlterAssimilatedPrefix(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+export function AlterAssimilatedPrefix(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    switch(params.stem)
+    switch(stemData.stem)
     {
         case 1:
         {

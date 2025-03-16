@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,18 +17,20 @@
  * */
 
 import { Letter, Tashkil, PrimaryTashkil, ConjugationParams, Voice, Tense, Person, Numerus, Gender, Mood } from "../../../Definitions";
+import { VerbStemData } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
+import { ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
-function DerivePrefixTashkil(rootType: RootType, params: ConjugationParams)
+function DerivePrefixTashkil(rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
     if(rootType === RootType.Quadriliteral)
     {
-        if(params.stem === 1)
+        if(stemData.stem === 1)
             return Tashkil.Dhamma;
     }
     
-    switch(params.stem)
+    switch(stemData.stem)
     {
         case 1:
         case 5:
@@ -45,7 +47,7 @@ function DerivePrefixTashkil(rootType: RootType, params: ConjugationParams)
     }
 }
 
-export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), rootType: RootType, params: ConjugationParams): ConjugationVocalized[]
+export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]
 {
     if(params.tense === Tense.Perfect)
     {
@@ -59,19 +61,19 @@ export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), root
 
     if(params.mood === Mood.Imperative)
     {
-        if(params.stem === 4)
+        if(stemData.stem === 4)
             return [{ letter: Letter.AlefHamza, tashkil: Tashkil.Fatha}];
 
         if(prevTashkil === Tashkil.Sukun)
         {
-            const stem1ctx = (params.stem === 1) ? params.stem1Context : undefined;
+            const stem1ctx = (stemData.stem === 1) ? ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) : undefined;
             //insert hamzat al wasl
-            return [{ letter: Letter.Alef, tashkil: (stem1ctx?._legacy_middleRadicalTashkilPresent === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra}];
+            return [{ letter: Letter.Alef, tashkil: (stem1ctx === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra}];
         }
         return [];
     }
 
-    const tashkil = DerivePrefixTashkil(rootType, params);
+    const tashkil = DerivePrefixTashkil(rootType, stemData, params);
     switch(params.person)
     {
         case Person.First:

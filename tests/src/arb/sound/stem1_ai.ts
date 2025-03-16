@@ -17,13 +17,13 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B5%D9%81#Conjugation
 
 It("Stem 1 past:a, present:i", () => {
     const root = "ع-ص-ف";
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
     RunVerbalNounPatternTest(stem, [
         { expected: "عَصْف", rootRadicals: root }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B5%D9%81#Conjugation
@@ -32,6 +32,7 @@ It("Stem 1 past:a, present:i", () => {
         { expected: "نُزُول", rootRadicals: "ن-ز-ل" }, //Source: https://en.wiktionary.org/wiki/%D9%86%D8%B2%D9%84
         { expected: "قُدْرَة", rootRadicals: "ق-د-ر" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%AF%D8%B1#Arabic
         { expected: "عِزّ", rootRadicals: "ع-ز-ز" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B2
+        { expected: "مَعْرِفَة", rootRadicals: "ع-ر-ف" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B1%D9%81
     ]);
 
     RunParticipleTest(root, stem, "عَاصِف", "مَعْصُوف");

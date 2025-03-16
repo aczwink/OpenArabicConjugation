@@ -17,13 +17,13 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B2%D8%A7%D8%AF#Verb
 
 It("Stem 1 past:i, present:i", () => {
     const root = "ز-ي-د";
-    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastI_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
     
     RunVerbalNounPatternTest(stem, [
         { expected: "زِيَادَة", rootRadicals: root },
@@ -31,6 +31,7 @@ It("Stem 1 past:i, present:i", () => {
         { expected: "سِيَاحَة", rootRadicals: "س-ي-ح" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A7%D8%AD
         { expected: "غَيْبَة", rootRadicals: "غ-ي-ب" }, //Source: https://en.wiktionary.org/wiki/%D8%BA%D8%A7%D8%A8#Arabic
         { expected: "عَيْش", rootRadicals: "ع-ي-ش" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D8%B4
+        { expected: "طَيَرَان", rootRadicals: "ط-ي-ر" }, //Source: https://en.wiktionary.org/wiki/%D8%B7%D8%A7%D8%B1#Arabic
     ]);
     
     RunParticipleTest(root, stem, "زَائِد", "مَزِيد");

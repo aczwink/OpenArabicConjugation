@@ -17,17 +17,17 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%B1%D9%88%D9%89
 
 It("R2:Waw, R3:Ya, Stem 1", () => {
     const root = "ر-و-ي";
-    const stem = ModernStandardArabicStem1ContextType.DefectiveType1;
+    const stem = ModernStandardArabicStem1ParametersType.DefectiveType1;
 
     RunVerbalNounTest(root, stem, "رِوَايَة");
-    RunVerbalNounTest("ه-و-ي", ModernStandardArabicStem1ContextType.DefectiveType3, "هَوًى"); //https://en.wiktionary.org/wiki/%D9%87%D9%88%D9%8A
+    RunVerbalNounTest("ه-و-ي", ModernStandardArabicStem1ParametersType.DefectiveType3, "هَوًى"); //https://en.wiktionary.org/wiki/%D9%87%D9%88%D9%8A
 
     RunParticipleTest(root, stem, "رَاوٍ", "مَرْوِيّ");
 

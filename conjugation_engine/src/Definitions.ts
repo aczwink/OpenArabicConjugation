@@ -93,14 +93,6 @@ export enum VerbType
     SoundQuadriliteral,
 }
 
-export interface Stem1Context
-{
-    readonly type: string;
-    readonly scheme: VerbType;
-    readonly _legacy_middleRadicalTashkil: BaseTashkil;
-    readonly _legacy_middleRadicalTashkilPresent: BaseTashkil;
-}
-
 export enum Case
 {
     Accusative,
@@ -152,17 +144,6 @@ export type PersonString = "first" | "second" | "third";
 export type TenseString = "perfect" | "present";
 export type VoiceString = "active" | "passive";
 
-interface Stem1Params
-{
-    readonly stem: 1;
-    readonly stem1Context: Stem1Context;
-}
-interface AdvancedStemParams
-{
-    readonly stem: AdvancedStemNumber;
-}
-type StemParams = Stem1Params | AdvancedStemParams;
-
 interface PerfectTenseParams
 {
     readonly tense: Tense.Perfect;
@@ -182,8 +163,7 @@ interface BasicConjugationParams
     readonly voice: Voice;
 }
 
-export type StemlessConjugationParams = BasicConjugationParams & TenseParams;
-export type ConjugationParams = StemlessConjugationParams & StemParams;
+export type ConjugationParams = BasicConjugationParams & TenseParams;
 
 
 export interface AdjectiveDeclensionParams

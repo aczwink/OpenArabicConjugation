@@ -97,6 +97,7 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
 
             switch(root.type)
             {
+                case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 case RootType.InitialWeak:
                 case RootType.FinalWeak:
                 case RootType.HamzaOnR1:

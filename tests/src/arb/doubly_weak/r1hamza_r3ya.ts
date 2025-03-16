@@ -18,13 +18,13 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
 import { Tashkil } from "openarabicconjugation/dist/Definitions";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%A3%D8%AA%D9%89
 
 It("R1:Hamza, R3:Ya, Stem 1", () => {
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
     throw new Error("TODO verbal noun test :)");
     RunParticipleTest("ء-ت-ي", stem, "آتٍ", "مَأْتِيّ");

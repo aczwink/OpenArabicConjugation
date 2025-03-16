@@ -18,14 +18,14 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounPatternTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%AD%D9%8A#Arabic
 
 It("Special: ح-ي-و, Stem1", () => {
     const root = "ح-ي-و";
-    const stem = ModernStandardArabicStem1ContextType.DefectiveType3;
+    const stem = ModernStandardArabicStem1ParametersType.DefectiveType3;
 
     RunVerbalNounPatternTest(stem, [
         { expected: "حَيَاة", rootRadicals: root }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%8A%D9%8A#Arabic

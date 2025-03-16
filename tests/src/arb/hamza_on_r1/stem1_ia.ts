@@ -17,13 +17,13 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%85%D9%86#Arabic
 
 It("Stem 1 past:i, present:a", () => {
     const root = "ء-م-ن";
-    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
+    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentA;
 
     RunParticipleTest(root, stem, "آمِن", "مَأْمُون");
     RunVerbalNounTest(root, stem, "أَمَان");

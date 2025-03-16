@@ -17,7 +17,7 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Double hamza initially", () => {
     const conjugations: ConjugationTest[] = [
@@ -28,7 +28,7 @@ It("Double hamza initially", () => {
 });
 
 It("Alif madda initially", () => {
-    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
 
     const conjugations: ConjugationTest[] = [
         { expected: "آصُلُ", tense: "present", person: "first" }

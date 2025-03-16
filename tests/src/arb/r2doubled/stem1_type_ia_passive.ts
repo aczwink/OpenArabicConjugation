@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { ConjugationTest, RunConjugationTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B4%D9%85
 
 It("Stem 1 Past:i Present:a passive", () => {
     const root = "ش-م-م";
-    const stem = ModernStandardArabicStem1ContextType.PastI_PresentA;
+    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentA;
     
     const conjugations: ConjugationTest[] = [
         //passive past

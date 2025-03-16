@@ -19,8 +19,9 @@
 import { ConjugationRule, ConjugationRuleMatchResult } from "./Conjugation";
 import { ConjugationParams, Tense } from "./Definitions";
 import { DoesPresentSuffixStartWithWawOrYa } from "./dialects/msa/conjugation/suffix";
+import { VerbStemData } from "./Verb";
 
-export class ConjugationRuleMatcher
+export class ConjugationRuleMatcher<T>
 {
     constructor()
     {
@@ -29,9 +30,9 @@ export class ConjugationRuleMatcher
         };
     }
 
-    public Match(rules: ConjugationRule[], params: ConjugationParams): ConjugationRuleMatchResult
+    public Match(rules: ConjugationRule[], stemData: VerbStemData<T>, params: ConjugationParams): ConjugationRuleMatchResult
     {
-        this.MatchAgainstRules(rules, params);
+        this.MatchAgainstRules(rules, stemData, params);
 
         if(this.evaluated.symbols === undefined)
             throw new Error("No symbols could be matched");
@@ -47,7 +48,7 @@ export class ConjugationRuleMatcher
     }
 
     //Private methods
-    private DoConditionsMatch(rule: ConjugationRule, params: ConjugationParams)
+    private DoConditionsMatch(rule: ConjugationRule, stemData: VerbStemData<T>, params: ConjugationParams)
     {
         const c = rule.conditions;
 
@@ -65,20 +66,20 @@ export class ConjugationRuleMatcher
             return false;
         if(c.stemParameters !== undefined)
         {
-            if(params.stem !== 1)
+            if(stemData.stem !== 1)
                 return false;
-            if(params.stem1Context.type !== c.stemParameters)
+            if(stemData.stemParameterization !== c.stemParameters)
                 return false;
         }
 
         return true;
     }
 
-    private MatchAgainstRules(rules: ConjugationRule[], params: ConjugationParams)
+    private MatchAgainstRules(rules: ConjugationRule[], stemData: VerbStemData<T>, params: ConjugationParams)
     {
         for (const rule of rules)
         {
-            if(this.DoConditionsMatch(rule, params))
+            if(this.DoConditionsMatch(rule, stemData, params))
             {
                 this.evaluated.emphasize = rule.emphasize ?? this.evaluated.emphasize;
                 this.evaluated.prefixVowel = rule.prefixVowel ?? this.evaluated.prefixVowel;
@@ -86,7 +87,7 @@ export class ConjugationRuleMatcher
                 this.evaluated.vowels = rule.vowels ?? this.evaluated.vowels;
 
                 if(rule.children !== undefined)
-                    this.MatchAgainstRules(rule.children, params);
+                    this.MatchAgainstRules(rule.children, stemData, params);
                 break;
             }
         }

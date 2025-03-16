@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,8 +17,10 @@
  * */
 
 import { ConjugationParams, Tashkil, Tense, Voice } from "../../../Definitions";
+import { VerbStemData } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 interface RootTashkil
 {
@@ -26,24 +28,24 @@ interface RootTashkil
     r2: Tashkil;
 }
 
-function DerivePastRootTashkil(params: ConjugationParams): RootTashkil
+function DerivePastRootTashkil(stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): RootTashkil
 {
-    const r1stem = ((params.stem === 4) || (params.stem === 8) || (params.stem === 9) || (params.stem === 10)) ? Tashkil.Sukun : ((params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Dhamma);
-    const r2active = (params.stem === 1) ? (params.stem1Context._legacy_middleRadicalTashkil) : Tashkil.Fatha;
+    const r1stem = ((stemData.stem === 4) || (stemData.stem === 8) || (stemData.stem === 9) || (stemData.stem === 10)) ? Tashkil.Sukun : ((params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Dhamma);
+    const r2active = (stemData.stem === 1) ? ExtractMiddleRadicalTashkil(stemData.stemParameterization) : Tashkil.Fatha;
     return {
         r1: r1stem,
         r2: (params.voice === Voice.Active) ? r2active : Tashkil.Kasra
     };
 }
 
-function Derive3RadicalRootTashkil(params: ConjugationParams): RootTashkil
+function Derive3RadicalRootTashkil(stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): RootTashkil
 {
     if(params.tense === Tense.Perfect)
-        return DerivePastRootTashkil(params);
+        return DerivePastRootTashkil(stemData, params);
 
     function R1Tashkil()
     {
-        switch(params.stem)
+        switch(stemData.stem)
         {
             case 1:
             case 4:
@@ -57,10 +59,10 @@ function Derive3RadicalRootTashkil(params: ConjugationParams): RootTashkil
 
     function R2Active(): Tashkil
     {
-        switch(params.stem)
+        switch(stemData.stem)
         {
             case 1:
-                return params.stem1Context._legacy_middleRadicalTashkilPresent;
+                return ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization);
             case 2:
             case 3:
             case 4:
@@ -96,7 +98,7 @@ function Derive4RadicalRootTashkil(params: ConjugationParams): RootTashkil & { r
     };
 }
 
-export function ApplyRootTashkil(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+export function ApplyRootTashkil(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
     if(augmentedRoot.type === RootType.Quadriliteral)
     {
@@ -107,7 +109,7 @@ export function ApplyRootTashkil(augmentedRoot: AugmentedRoot, params: Conjugati
     }
     else
     {
-        const tashkil = Derive3RadicalRootTashkil(params);
+        const tashkil = Derive3RadicalRootTashkil(stemData, params);
         augmentedRoot.ApplyRadicalTashkil(1, tashkil.r1);
         augmentedRoot.ApplyRadicalTashkil(2, tashkil.r2);
     }

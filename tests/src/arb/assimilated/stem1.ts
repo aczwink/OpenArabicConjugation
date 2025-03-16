@@ -17,26 +17,26 @@
  * */
 import { It } from "acts-util-test";
 import { RunConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Stem 1", () => {
     throw new Error("TODO verbal noun test :)");
 
-    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ContextType.PastA_PresentU, [
+    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ParametersType.PastA_PresentU, [
         { expected: "وَعَلَ" },
         { expected: "يَعُلُ", tense: "present" },
         { expected: "عُلْ", tense: "present", mood: "imperative", person: "second" },
         { expected: "وُعِلَ", voice: "passive" },
         { expected: "يُوعَلُ", voice: "passive", tense: "present" },
     ]);
-    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ContextType.PastI_PresentA, [
+    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ParametersType.PastI_PresentA, [
         { expected: "وَعِلَ" },
         { expected: "يَعَلُ", tense: "present" },
         { expected: "عَلْ", tense: "present", mood: "imperative", person: "second" },
         { expected: "وُعِلَ", voice: "passive" },
         { expected: "يُوعَلُ", voice: "passive", tense: "present" },
     ]);
-    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU, [
+    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU, [
         { expected: "وَعُلَ" },
         { expected: "يَعُلُ", tense: "present" },
         { expected: "عُلْ", tense: "present", mood: "imperative", person: "second" },

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,9 @@
  * */
 
 import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, Voice } from "../../../Definitions";
+import { VerbStemData } from "../../../Verb";
 import { AugmentedRoot, SymbolName } from "../AugmentedRoot";
+import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 function DoesPresentSuffixStartWithVowel(params: ConjugationParams)
 {
@@ -30,9 +32,9 @@ function DoesPresentSuffixStartWithVowel(params: ConjugationParams)
     return false;
 }
 
-export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    switch(params.stem)
+    switch(stemData.stem)
     {
         case 1:
         {
@@ -50,7 +52,7 @@ export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, params: Conjuga
                 else
                 {
                     //shorten vowel
-                    const tashkil = (params.stem1Context._legacy_middleRadicalTashkilPresent === Tashkil.Fatha) ? params.stem1Context._legacy_middleRadicalTashkil : vowelTashkil;
+                    const tashkil = (ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha) ? ExtractMiddleRadicalTashkil(stemData.stemParameterization) : vowelTashkil;
                     augmentedRoot.ApplyRadicalTashkil(2, (params.voice === Voice.Active) ? tashkil : Tashkil.Kasra);
                     augmentedRoot.AssimilateRadical(2);
                 }
@@ -68,7 +70,7 @@ export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, params: Conjuga
 
                 if(shortenVowel)
                     augmentedRoot.AssimilateRadical(2);
-                else if((params.voice === Voice.Passive) || (params.stem1Context._legacy_middleRadicalTashkilPresent === Tashkil.Fatha))
+                else if((params.voice === Voice.Passive) || (ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha))
                     augmentedRoot.ReplaceRadical(2, { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker });
 
                 augmentedRoot.ApplyRadicalTashkil(1, (params.voice === Voice.Active) ? vowelTashkil : Tashkil.Fatha);
@@ -98,12 +100,12 @@ export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, params: Conjuga
                 if(shortenVowel)
                 {
                     augmentedRoot.AssimilateRadical(2);
-                    if(params.stem === 8)
+                    if(stemData.stem === 8)
                         augmentedRoot.ApplyTashkil(SymbolName.Infix, Tashkil.Fatha);
                 }
                 else
                 {
-                    const alefCondition = (params.stem === 8) || (params.voice === Voice.Passive);
+                    const alefCondition = (stemData.stem === 8) || (params.voice === Voice.Passive);
                     augmentedRoot.InsertLongVowel(2, alefCondition ? Letter.Alef : Letter.Ya);
                 }
             }

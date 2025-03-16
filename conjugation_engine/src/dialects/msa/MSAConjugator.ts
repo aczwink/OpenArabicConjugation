@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Stem1Context, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber, VerbType } from "../../Definitions";
+import { Letter, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber, VerbType } from "../../Definitions";
 import { DialectConjugator, NounInput, TargetNounDerivation } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
@@ -54,39 +54,44 @@ import { GenerateParticipleStem6 } from "./participle/stem6";
 import { GenerateAllPossibleVerbalNounsStem7 } from "./verbal_nouns/stem7";
 import { AlterHamzaOnR1 } from "./conjugation/hamza_on_r1";
 import { GenerateParticipleStem9 } from "./participle/stem9";
+import { Verb, VerbStem1Data } from "../../Verb";
+import { DialectType } from "../../Dialects";
+import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
-export class MSAConjugator implements DialectConjugator
+export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem1ParametersType>
 {
     //Public methods
-    public Conjugate(root: VerbRoot, params: ConjugationParams): ConjugationVocalized[]
+    public Conjugate(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]
     {
-        const result = this.ProcessConjugationPipeline(root, params);
-        return DerivePrefix(result.augmentedRoot.symbols[0].tashkil as any, root.type, params).concat(result.augmentedRoot.symbols, result.suffix.suffix);
+        const result = this.ProcessConjugationPipeline(verb, params);
+        return DerivePrefix(result.augmentedRoot.symbols[0].tashkil as any, verb.root.type, verb, params).concat(result.augmentedRoot.symbols, result.suffix.suffix);
     }
 
-    public ConjugateParticiple(root: VerbRoot, stem: number, voice: Voice, stem1Context?: Stem1Context): ConjugationVocalized[]
+    public ConjugateParticiple(verb: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationVocalized[]
     {
         const voiceOld = voice === Voice.Active ? "active" : "passive";
+        const root = verb.root;
+        const stem = verb.stem;
         switch(stem)
         {
             case 1:
-                return GenerateParticipleStem1(root, voiceOld, stem1Context!);
+                return GenerateParticipleStem1(root, voiceOld, verb);
             case 2:
-                return GenerateParticipleStem2(this.ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem2(this.ConjugateBasicForm_OLD(root, stem), voice);
             case 3:
                 return GenerateParticipleStem3(root, voiceOld);
             case 4:
                 return GenerateParticipleStem4(root, voiceOld);
             case 5:
-                return GenerateParticipleStem5(root, this.ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem5(root, this.ConjugateBasicForm_OLD(root, stem), voice);
             case 6:
-                return GenerateParticipleStem6(root, this.ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem6(root, this.ConjugateBasicForm_OLD(root, stem), voice);
             case 8:
-                return GenerateParticipleStem8(root, this.ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem8(verb, this.ConjugateBasicForm(verb), voice);
             case 9:
-                return GenerateParticipleStem9(root, this.ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem9(root, this.ConjugateBasicForm_OLD(root, stem), voice);
             case 10:
                 return GenerateParticipleStem10(root, voiceOld);
         }
@@ -158,7 +163,7 @@ export class MSAConjugator implements DialectConjugator
         }
     }
 
-    public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | Stem1Context): ConjugationVocalized[][]
+    public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
     {
         switch(stem)
         {
@@ -185,7 +190,7 @@ export class MSAConjugator implements DialectConjugator
         }
     }
 
-    public HasPotentiallyMultipleVerbalNounForms(root: VerbRoot, stem: AdvancedStemNumber | Stem1Context)
+    public HasPotentiallyMultipleVerbalNounForms(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<ModernStandardArabicStem1ParametersType>)
     {
         if(typeof stem === "number")
         {
@@ -229,64 +234,72 @@ export class MSAConjugator implements DialectConjugator
         return vocalized;
     }
 
-    private ConjugateBasicForm(root: VerbRoot, stem: AdvancedStemNumber)
+    private ConjugateBasicForm(verb: Verb<ModernStandardArabicStem1ParametersType>)
     {
-        return this.ProcessConjugationPipeline(root, {
+        return this.ProcessConjugationPipeline(verb, {
             gender: Gender.Male,
             numerus: Numerus.Singular,
             person: Person.Third,
-            stem,
             tense: Tense.Perfect,
             voice: Voice.Active,
         })!.augmentedRoot;
     }
 
-    private ProcessConjugationPipeline(root: VerbRoot, params: ConjugationParams)
+    private ConjugateBasicForm_OLD(root: VerbRoot, stem: AdvancedStemNumber)
     {
-        const maybeAugmentedRoot = AugmentRoot(params.stem, root, params);
+        return this.ConjugateBasicForm({
+            dialect: DialectType.ModernStandardArabic,
+            root,
+            stem,
+            type: root.DeriveDeducedVerbType()
+        });
+    }
+
+    private ProcessConjugationPipeline(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
+    {
+        const maybeAugmentedRoot = AugmentRoot(verb.stem, verb.root, params);
         if(maybeAugmentedRoot === undefined)
             throw new Error("TODO: can't form augmented root");
         
-        const augmentedRoot = new AugmentedRoot(maybeAugmentedRoot, root);
+        const augmentedRoot = new AugmentedRoot(maybeAugmentedRoot, verb.root);
 
-        ApplyRootTashkil(augmentedRoot, params);
+        ApplyRootTashkil(augmentedRoot, verb, params);
 
         const suffix = DeriveSuffix(params);
-        augmentedRoot.ApplyRadicalTashkil(root.radicalsAsSeparateLetters.length as any, suffix.preSuffixTashkil);
+        augmentedRoot.ApplyRadicalTashkil(verb.root.radicalsAsSeparateLetters.length as any, suffix.preSuffixTashkil);
 
-        const verbScheme = (params.stem === 1) ? params.stem1Context.scheme : root.DeriveDeducedVerbType();
-        switch(verbScheme)
+        switch(verb.type)
         {
             case VerbType.Assimilated:
-                AlterAssimilatedPrefix(augmentedRoot, params);
+                AlterAssimilatedPrefix(augmentedRoot, verb, params);
             break;
             case VerbType.AssimilatedAndDefective:
-                if(params.stem === 1)
-                    AlterAssimilatedPrefix(augmentedRoot, params);
-                AlterDefectiveSuffix(params, suffix.suffix);
-                AlterDefectiveEnding(augmentedRoot, params);
+                if(verb.stem === 1)
+                    AlterAssimilatedPrefix(augmentedRoot, verb, params);
+                AlterDefectiveSuffix(params, verb, suffix.suffix);
+                AlterDefectiveEnding(augmentedRoot, verb, params);
             break;
             case VerbType.Defective:
-                if(IsSpeciallyIrregularDefective(root, params.stem))
-                    AlterSpeciallyIrregularDefective(root, augmentedRoot, suffix.suffix, params);
+                if(IsSpeciallyIrregularDefective(verb.root, verb.stem))
+                    AlterSpeciallyIrregularDefective(verb.root, augmentedRoot, suffix.suffix, verb, params);
                 else
                 {
-                    AlterDefectiveSuffix(params, suffix.suffix);
-                    AlterDefectiveEnding(augmentedRoot, params);
+                    AlterDefectiveSuffix(params, verb, suffix.suffix);
+                    AlterDefectiveEnding(augmentedRoot, verb, params);
                 }
             break;
             case VerbType.HamzaOnR1:
                 AlterHamzaOnR1(augmentedRoot, params);
                 break;
             case VerbType.Hollow:
-                ShortenOrAlefizeR2(augmentedRoot, params);
+                ShortenOrAlefizeR2(augmentedRoot, verb, params);
             break;
             case VerbType.Geminate:
-                GeminateDoubledConsonant(augmentedRoot, params);
+                GeminateDoubledConsonant(augmentedRoot, verb, params);
             break;
         }
 
-        if(params.stem === 8)
+        if(verb.stem === 8)
             Stem8AssimilateTaVerb(augmentedRoot, params.tense);
         return {
             augmentedRoot,

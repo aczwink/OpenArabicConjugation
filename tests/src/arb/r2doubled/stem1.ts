@@ -17,11 +17,11 @@
  * */
 import { It } from "acts-util-test";
 import { RunConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Stem 1", () => {
     throw new Error("TODO verbal noun test :)");
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentA;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentA;
 
     RunConjugationTest("ف-ل-ل", stem, [
         { expected: "فَلَّ" },

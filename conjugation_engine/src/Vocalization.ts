@@ -40,6 +40,7 @@ export function MapLetterToComparisonEquivalenceClass(letter: Letter)
     {
         case Letter.AlefHamza:
         case Letter.AlefHamzaBelow:
+        case Letter.AlefMadda:
             return Letter.Alef;
         case Letter.WawHamza:
             return Letter.Waw;
@@ -52,7 +53,6 @@ export function MapLetterToComparisonEquivalenceClass(letter: Letter)
             private MapWordToSearchVariant(word: string)
     {
         //map all chars to their basic form
-        const alif = trimmed.replace(/[\u0622]/g, "\u0627");
         const ya = waw.replace(/[\u0649]/g, "\u064A");
 
         return ya;

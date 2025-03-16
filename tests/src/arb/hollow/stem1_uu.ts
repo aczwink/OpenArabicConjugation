@@ -17,13 +17,13 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Hollow_(second-weak)_roots
 //Source for participles: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D9%84#Verb
 
 It("Stem 1 past:u, present:u", () => {
-    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
 
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "ج-و-د", expected: "جَوْدَة" }, //Source: http://ejtaal.net/aa/#hw4=185

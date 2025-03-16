@@ -16,17 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Tashkil, Letter, Voice } from "../../../Definitions";
-import { RootType, VerbRoot } from "../../../VerbRoot";
+import { Tashkil, Letter, Voice, VerbType } from "../../../Definitions";
+import { Verb } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 import { GenerateParticipleRegular } from "./regular";
 
-export function GenerateParticipleStem8(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
+export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
-    switch(root.type)
+    const root = verb.root;
+    switch(verb.type)
     {
-        case RootType.FinalWeak:
+        case VerbType.Assimilated:
+        case VerbType.Sound:
+            return GenerateParticipleRegular(baseForm, voice, true);
+
+        case VerbType.Defective:
             if(voice === Voice.Active)
             {
                 return [
@@ -35,7 +41,7 @@ export function GenerateParticipleStem8(root: VerbRoot, baseForm: AugmentedRoot,
                     { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                     { letter: root.r2, tashkil: Tashkil.Kasratan },
                 ];
-    
+
             }
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
@@ -45,19 +51,15 @@ export function GenerateParticipleStem8(root: VerbRoot, baseForm: AugmentedRoot,
                 { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.MiddleWeak:
+        case VerbType.Geminate:
+            return GenerateParticipleRegular(baseForm, Voice.Passive, true);
+
+        case VerbType.Hollow:
             baseForm.symbols[0].letter = Letter.Mim;
             baseForm.symbols[0].tashkil = Tashkil.Dhamma;
             baseForm.ApplyRadicalTashkil(1, Tashkil.Sukun);
             baseForm.ApplyRadicalTashkil(3, Tashkil.EndOfWordMarker);
             return baseForm.symbols;
-
-        case RootType.InitialWeak:
-        case RootType.Regular:
-            return GenerateParticipleRegular(baseForm, voice, true);
-
-        case RootType.SecondConsonantDoubled:
-            return GenerateParticipleRegular(baseForm, Voice.Passive, true);
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];
 }

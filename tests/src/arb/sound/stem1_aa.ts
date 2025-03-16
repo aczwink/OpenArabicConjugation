@@ -17,18 +17,19 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B1%D8%AD%D9%84#Verb
 
 It("Stem 1 past:a, present:a", () => {
     const root = "ر-ح-ل";
-    const stem = ModernStandardArabicStem1ContextType.PastA_PresentA;
+    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentA;
 
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "د-ف-ع", expected: "دَفْع"}, //Source: https://en.wiktionary.org/wiki/%D8%AF%D9%81%D8%B9#Verb
         { rootRadicals: "ق-ر-ء", expected: "قِرَاءَة"}, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%B1%D8%A3
         { rootRadicals: "ف-ع-ل", expected: "فِعْل"}, //Source: https://en.wiktionary.org/wiki/%D9%81%D8%B9%D9%84
+        { rootRadicals: "ن-ه-ض", expected: "نُهُوض"}, //Source: https://en.wiktionary.org/wiki/%D9%86%D9%87%D8%B6
     ]);
 
     RunParticipleTest(root, stem, "رَاحِل", "مَرْحُول");

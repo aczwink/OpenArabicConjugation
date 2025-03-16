@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { ConjugationParams, AdjectiveDeclensionParams, Gender, Letter, Numerus, Person, Stem1Context, Tashkil, Tense, NounDeclensionParams, Voice, AdvancedStemNumber } from "../../Definitions";
+import { ConjugationParams, AdjectiveDeclensionParams, Gender, Letter, Numerus, Person, Tashkil, Tense, NounDeclensionParams, Voice, AdvancedStemNumber, VerbType } from "../../Definitions";
 import { DialectConjugator, NounInput, TargetNounDerivation } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
@@ -25,15 +25,18 @@ import { AugmentRoot } from "./rootAugmentation";
 import { _TODO_ToConjugationVocalized, _TODO_VowelToTashkil, ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult } from "../../Conjugation";
 import { DeriveSuffix, SuffixResult } from "./suffix";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
+import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
+import { Verb, VerbStem1Data } from "../../Verb";
+import { DialectType } from "../../Dialects";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Levantine_Arabic_grammar
 
-export class LebaneseConjugator implements DialectConjugator
+export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Context>
 {
     //Public methods    
-    public Conjugate(root: VerbRoot, params: ConjugationParams): ConjugationVocalized[]
+    public Conjugate(verb: Verb<LebaneseStem1Context>, params: ConjugationParams): ConjugationVocalized[]
     {
-        const rootAugmentation = AugmentRoot(root, params);
+        const rootAugmentation = AugmentRoot(verb.root, verb, params);
         if(rootAugmentation === undefined)
         {
             return [
@@ -44,7 +47,7 @@ export class LebaneseConjugator implements DialectConjugator
             ];
         }
 
-        const matched = new ConjugationRuleMatcher().Match(rootAugmentation, params);
+        const matched = new ConjugationRuleMatcher<LebaneseStem1Context>().Match(rootAugmentation, verb, params);
 
         const prefix = DerivePrefix(matched.prefixVowel, matched.vowels[0], params);
         const suffix = DeriveSuffix(params);
@@ -54,20 +57,22 @@ export class LebaneseConjugator implements DialectConjugator
         return _TODO_ToConjugationVocalized(constructed);
     }
 
-    public ConjugateParticiple(root: VerbRoot, stem: number, voice: Voice, stem1Context?: Stem1Context | undefined): ConjugationVocalized[]
+    public ConjugateParticiple(verb: Verb<LebaneseStem1Context>, voice: Voice): ConjugationVocalized[]
     {
         if(voice !== Voice.Active)
             return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.AlefMaksuraMarker }];
-        
-        switch(root.type)
+
+        const root = verb.root;
+        const stem = verb.stem;        
+        switch(verb.root.type)
         {
             case RootType.FinalWeak:
             {
-                switch(stem)
+                switch(verb.stem)
                 {
                     case 5:
                     case 6:
-                        const base = this.ConjugateBaseForm(root, stem);
+                        const base = this.ConjugateBaseForm(verb.root, verb.stem);
                         base[base.length - 2].tashkil = Tashkil.Kasra;
                         base[base.length - 1].letter = Letter.Ya;
                         return [
@@ -80,29 +85,29 @@ export class LebaneseConjugator implements DialectConjugator
 
             case RootType.MiddleWeak:
             {
-                switch(stem)
+                switch(verb.stem)
                 {
                     case 1:
-                        if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
+                        if(verb.root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
                             {
                                 return [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                                    { letter: verb.root.r1, tashkil: Tashkil.Fatha },
                                     { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                                     { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker }
                                 ];
                             }
         
                             return [
-                                { letter: root.r1, tashkil: Tashkil.Fatha },
+                                { letter: verb.root.r1, tashkil: Tashkil.Fatha },
                                 { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                                 { letter: Letter.Ya, tashkil: Tashkil.Kasra },
-                                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                                { letter: verb.root.r3, tashkil: Tashkil.EndOfWordMarker },
                             ];
 
                     case 8:
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
-                            ...this.ConjugateBaseForm(root, stem)
+                            ...this.ConjugateBaseForm(verb.root, verb.stem)
                         ];
                 }
             }
@@ -110,12 +115,12 @@ export class LebaneseConjugator implements DialectConjugator
 
             case RootType.Quadriliteral:
             {
-                switch(stem)
+                switch(verb.stem)
                 {
                     case 2:
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
-                            ...this.ConjugateBaseForm(root, stem)
+                            ...this.ConjugateBaseForm(verb.root, verb.stem)
                         ];
                 }
             }
@@ -161,7 +166,7 @@ export class LebaneseConjugator implements DialectConjugator
         }
 
         const conjugator = new MSAConjugator;
-        const msaVersion = conjugator.ConjugateParticiple(root, stem, voice, stem1Context);
+        const msaVersion = conjugator.ConjugateParticiple(verb as any, voice);
 
         switch(root.type)
         {
@@ -247,27 +252,31 @@ export class LebaneseConjugator implements DialectConjugator
     }
 
     //Private methods
-    private ConjugateBaseForm(root: VerbRoot, stem: AdvancedStemNumber | Stem1Context)
+    private ConjugateBaseForm(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<LebaneseStem1Context>)
     {
+        const verb: Verb<LebaneseStem1Context> = {
+            dialect: DialectType.Lebanese,
+            stem: (typeof stem === "number" ? stem : 1) as any,
+            stemParameterization: (typeof stem === "number" ? undefined : stem.stemParameterization) as any,
+            type: (typeof stem === "number" ? root.DeriveDeducedVerbType() : stem.type),
+            root
+        };
         if(typeof stem === "number")
         {
-            return this.Conjugate(root, {
+            return this.Conjugate(verb, {
                 gender: Gender.Male,
                 tense: Tense.Perfect,
                 numerus: Numerus.Singular,
                 person: Person.Third,
-                stem,
                 voice: Voice.Active,
             });
         }
 
-        return this.Conjugate(root, {
+        return this.Conjugate(verb, {
             gender: Gender.Male,
             tense: Tense.Perfect,
             numerus: Numerus.Singular,
             person: Person.Third,
-            stem: 1,
-            stem1Context: stem,
             voice: Voice.Active,
         });
     }

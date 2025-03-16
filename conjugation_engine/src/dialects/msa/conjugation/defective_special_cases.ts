@@ -17,11 +17,12 @@
  * */
 
 import { ConjugationParams, Gender, Letter, Numerus, Person, Tashkil, Tense } from "../../../Definitions";
-import { ModernStandardArabicStem1ContextType } from "../../../DialectsMetadata";
+import { VerbStemData } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot, SymbolName } from "../AugmentedRoot";
 import { AlterDefectiveEnding, AlterDefectiveSuffix } from "./defective";
+import { ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 /*
 Currently known ones are: رأى, أرى, حيي
@@ -37,10 +38,10 @@ function AlterSpecialCaseHayiya(augmentedRoot: AugmentedRoot, params: Conjugatio
     }
 }
 
-function AlterSpecialCaseRa2a(augmentedRoot: AugmentedRoot, params: ConjugationParams, suffix: ConjugationVocalized[])
+function AlterSpecialCaseRa2a(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams, suffix: ConjugationVocalized[])
 {
-    AlterDefectiveEnding(augmentedRoot, params);
-    AlterDefectiveSuffix(params, suffix);
+    AlterDefectiveEnding(augmentedRoot, stemData, params);
+    AlterDefectiveSuffix(params, stemData, suffix);
 
     if(params.tense !== Tense.Perfect)
     {
@@ -64,35 +65,35 @@ function AlterSpecialCaseRa2a(augmentedRoot: AugmentedRoot, params: ConjugationP
     }
 }
 
-function AlterSpecialCaseA2ra(augmentedRoot: AugmentedRoot, params: ConjugationParams, suffix: ConjugationVocalized[])
+function AlterSpecialCaseA2ra(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams, suffix: ConjugationVocalized[])
 {
-    AlterDefectiveEnding(augmentedRoot, params);
-    AlterDefectiveSuffix(params, suffix);
+    AlterDefectiveEnding(augmentedRoot, stemData, params);
+    AlterDefectiveSuffix(params, stemData, suffix);
 
     augmentedRoot.AssimilateRadical(2);
 }
 
-export function AlterSpeciallyIrregularDefective(root: VerbRoot, augmentedRoot: AugmentedRoot, suffix: ConjugationVocalized[], params: ConjugationParams)
+export function AlterSpeciallyIrregularDefective(root: VerbRoot, augmentedRoot: AugmentedRoot, suffix: ConjugationVocalized[], stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    if(params.stem === 1)
+    if(stemData.stem === 1)
     {
         if(root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
             AlterSpecialCaseHayiya(augmentedRoot, params);
         else if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
-            AlterSpecialCaseRa2a(augmentedRoot, params, suffix);
+            AlterSpecialCaseRa2a(augmentedRoot, stemData, params, suffix);
     }
-    else if(params.stem === 4)
+    else if(stemData.stem === 4)
     {
-        AlterSpecialCaseA2ra(augmentedRoot, params, suffix);
+        AlterSpecialCaseA2ra(augmentedRoot, stemData, params, suffix);
     }
 }
 
 export function GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching(root: VerbRoot)
 {
     if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
-        return ModernStandardArabicStem1ContextType.DefectiveType1;
+        return ModernStandardArabicStem1ParametersType.DefectiveType1;
     if(root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
-        return ModernStandardArabicStem1ContextType.DefectiveType3;
+        return ModernStandardArabicStem1ParametersType.DefectiveType3;
     return undefined;
 }
 

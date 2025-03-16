@@ -17,10 +17,10 @@
  * */
 import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest } from "../../shared";
-import { ModernStandardArabicStem1ContextType } from "openarabicconjugation/dist/DialectsMetadata";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Ya as consonant before hamza", () => {
-    const stem = ModernStandardArabicStem1ContextType.RegularOrHollow_PastU_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
 
     const conjugations: ConjugationTest[] = [
         { expected: "يَأْمُنُ", tense: "present" }
