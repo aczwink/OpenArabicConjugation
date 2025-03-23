@@ -32,6 +32,7 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "ق-و-م", expected: "قِيَام" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D9%85#Arabic
         { rootRadicals: "ق-و-د", expected: "قِيَادَة" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D8%AF
         { rootRadicals: "ف-و-ت", expected: "فَوَات" }, //Source: https://en.wiktionary.org/wiki/%D9%81%D8%A7%D8%AA
+        { rootRadicals: "ط-و-ل", expected: "طُول" }, //Source: https://en.wiktionary.org/wiki/%D8%B7%D8%A7%D9%84
     ]);
     RunParticipleTest("ق-و-ل", stem, "قَائِل", "مَقُول");
 

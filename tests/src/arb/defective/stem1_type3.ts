@@ -30,6 +30,7 @@ It("Wikipedia defective stem1 type 3", () => {
         { rootRadicals: "ب-ق-ي", expected: "بَقَاء" }, //Source: https://en.wiktionary.org/wiki/%D8%A8%D9%82%D9%8A
         { rootRadicals: "خ-ش-ي", expected: "خَشْيَة" }, //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%B4%D9%8A
         { rootRadicals: "ل-ق-ي", expected: "لِقَاء" }, //Source: https://en.wiktionary.org/wiki/%D9%84%D9%82%D9%8A
+        { rootRadicals: "خ-ش-ي", expected: "خَشْيَة" }, //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%B4%D9%8A
     ]);
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعِيّ");
     

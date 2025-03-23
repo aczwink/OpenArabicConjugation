@@ -31,6 +31,8 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "ك-ر-م", expected: "كَرَم" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%B1%D9%85
         { rootRadicals: "ك-ث-ر", expected: "كَثْرَة" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%AB%D8%B1
         { rootRadicals: "ك-ر-م", expected: "كَرَامَة" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%B1%D9%85#Arabic
+        { rootRadicals: "س-ر-ع", expected: "سُرْعَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%B1%D8%B9#Arabic
+        { rootRadicals: "س-ه-ل", expected: "سُهُولَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D9%87%D9%84#Arabic
     ]);
     RunParticipleTest(root, stem, "خَبِير", "مَخْبُور");
 

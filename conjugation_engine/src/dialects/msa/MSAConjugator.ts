@@ -200,6 +200,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 {
                     case RootType.FinalWeak:
                     case RootType.Regular:
+                    case RootType.SecondConsonantDoubled:
                         return true;
                 }
             }

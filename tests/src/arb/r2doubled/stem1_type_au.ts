@@ -25,10 +25,10 @@ It("Stem 1 Past:a Present:u", () => {
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
 
     RunVerbalNounPatternTest(stem, [
-        //Source: https://en.wiktionary.org/wiki/%D9%85%D8%B1#Verb
-        { expected: "مُرُور", rootRadicals: "م-ر-ر" },
-        //Source: https://en.wiktionary.org/wiki/%D9%85%D8%AF
-        { expected: "مَدّ", rootRadicals: "م-د-د" }
+        { expected: "دَلَالَة", rootRadicals: "د-ل-ل" },
+        { expected: "مُرُور", rootRadicals: "م-ر-ر" }, //Source: https://en.wiktionary.org/wiki/%D9%85%D8%B1#Verb
+        { expected: "مَدّ", rootRadicals: "م-د-د" }, //Source: https://en.wiktionary.org/wiki/%D9%85%D8%AF
+        { expected: "زِفَاف", rootRadicals: "ز-ف-ف" }, //Source: https://en.wiktionary.org/wiki/%D8%B2%D9%81#Arabic
     ]);
     
     RunParticipleTest("د-ل-ل", stem, "دَالّ", "مَدْلُول");

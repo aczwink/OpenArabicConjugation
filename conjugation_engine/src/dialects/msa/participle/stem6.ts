@@ -29,6 +29,7 @@ export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot,
         case RootType.FinalWeak:
             return GenerateParticipleDefective(baseForm, voice);
         case RootType.MiddleWeak:
+        case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice);
     }
     return [{letter: "TODO GenerateParticipleStem6" as any, tashkil: Tashkil.Sukun }];
