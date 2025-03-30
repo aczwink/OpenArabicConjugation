@@ -272,6 +272,9 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                         ];
                     }
 
+                    const r2presentVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.ShortA : Vowel.ShortU;
+                    const r2imperativeVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.LongA : Vowel.LongU;
+                    const r2imperativeWithPresentSuffixVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.ShortA : Vowel.ShortI;
                     return [
                         {
                             conditions: {},
@@ -284,16 +287,20 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                 },
                                 {
                                     conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
-                                    vowels: [Vowel.Sukun, Vowel.ShortI]
+                                    vowels: [Vowel.Sukun, r2imperativeWithPresentSuffixVowel]
                                 },
                                 {
                                     conditions: { mood: Mood.Imperative },
-                                    vowels: [Vowel.Sukun, Vowel.LongU]
+                                    vowels: [Vowel.Sukun, r2imperativeVowel]
                                 },
                                 {
                                     conditions: { tense: Tense.Present, hasPresentSuffix: true },
                                     prefixVowel: Vowel.ShortI,
                                     children: [
+                                        {
+                                            conditions: { stemParameters: LebaneseStem1Context.PastA_PresentA },
+                                            vowels: [Vowel.Sukun, Vowel.ShortA]
+                                        },
                                         {
                                             conditions: { stemParameters: LebaneseStem1Context.PastA_PresentU_Form2 },
                                             vowels: [Vowel.ShortI, Vowel.Sukun]
@@ -308,7 +315,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                 {
                                     conditions: { tense: Tense.Present },
                                     prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.ShortU]
+                                    vowels: [Vowel.Sukun, r2presentVowel]
                                 }
                             ]
                         },

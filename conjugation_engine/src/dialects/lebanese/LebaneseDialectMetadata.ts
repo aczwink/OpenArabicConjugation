@@ -15,13 +15,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "../../Definitions";
+import { Gender, Letter, Mood, Numerus, Person, Tense, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { RootType, VerbRoot } from "../../VerbRoot";
 
 export enum LebaneseStem1Context
 {
     IrregularJy2 = "irjy2",
+    PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
     PastA_PresentU_Form2 = "au2",
@@ -104,6 +105,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                         }
                     ],
                     types: [
+                        LebaneseStem1Context.PastA_PresentA,
                         LebaneseStem1Context.PastA_PresentU,
                         LebaneseStem1Context.PastA_PresentU_Form2,
                         LebaneseStem1Context.PastI_PresentA,

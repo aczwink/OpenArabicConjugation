@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest, RunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
@@ -26,8 +26,14 @@ It("R2:Waw, R3:Ya, Stem 1", () => {
     const root = "ر-و-ي";
     const stem = ModernStandardArabicStem1ParametersType.DefectiveType1;
 
-    RunVerbalNounTest(root, stem, "رِوَايَة");
-    RunVerbalNounTest("ه-و-ي", ModernStandardArabicStem1ParametersType.DefectiveType3, "هَوًى"); //https://en.wiktionary.org/wiki/%D9%87%D9%88%D9%8A
+    RunVerbalNounPatternTest(stem, [
+        { expected: "رِوَايَة", rootRadicals: root },
+        { expected: "طَيّ", rootRadicals: "ط-و-ي" } //Source: https://en.wiktionary.org/wiki/%D8%B7%D9%88%D9%89
+    ]);
+    RunVerbalNounPatternTest(ModernStandardArabicStem1ParametersType.DefectiveType3, [
+        { expected: "هَوًى", rootRadicals: "ه-و-ي" }, //Source: https://en.wiktionary.org/wiki/%D9%87%D9%88%D9%8A
+        { expected: "قُوَّة", rootRadicals: "ق-و-ي" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D9%88%D9%8A
+    ]);
 
     RunParticipleTest(root, stem, "رَاوٍ", "مَرْوِيّ");
 

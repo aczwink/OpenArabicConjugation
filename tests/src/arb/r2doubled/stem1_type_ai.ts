@@ -22,17 +22,19 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%86#Verb
 
 It("Stem 1 Past:a Present:i", () => {
+    const root = "ح-ن-ن";
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
     RunVerbalNounPatternTest(stem, [
+        { rootRadicals: root, expected: "حَنِين" },
         { rootRadicals: "ج-ل-ل", expected: "جَلَال" }, //Source: https://en.wiktionary.org/wiki/%D8%AC%D9%84
         { rootRadicals: "ح-ب-ب", expected: "حُبّ" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%A8
         { rootRadicals: "ق-ل-ل", expected: "قِلّة" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D9%84
         { rootRadicals: "ح-د-د", expected: "حِدَاد" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%AF
         { rootRadicals: "ح-ل-ل", expected: "حُلُول" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%84
-        { rootRadicals: "ح-ن-ن", expected: "حَنِين" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%86
+        { rootRadicals: "ك-ل-ل", expected: "كَلّ" }, //Source: https://ejtaal.net/aa/#hw4=990
     ]);
-    RunParticipleTest("ح-ن-ن", stem, "حَانّ", "مَحْنُون");
+    RunParticipleTest(root, stem, "حَانّ", "مَحْنُون");
 
     const conjugations: ConjugationTest[] = [
         //active past

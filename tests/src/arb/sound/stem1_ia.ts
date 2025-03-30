@@ -34,6 +34,7 @@ It("Stem 1 past:i, present:a", () => {
         { rootRadicals: "ع-ل-ق", expected: "عَلَاقَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D9%84%D9%82#Arabic
         { rootRadicals: "ر-غ-ب", expected: "رَغْبَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B1%D8%BA%D8%A8#Arabic
         { rootRadicals: "ق-ب-ل", expected: "قُبُول" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%A8%D9%84#Arabic
+        { rootRadicals: "ش-ر-ك", expected: "شَرِكَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B4%D8%B1%D9%83
     ]);
 
     const conjugations: ConjugationTest[] = [
