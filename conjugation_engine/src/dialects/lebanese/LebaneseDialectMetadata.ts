@@ -25,9 +25,30 @@ export enum LebaneseStem1Context
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
-    PastA_PresentU_Form2 = "au2",
     PastI_PresentA = "ia",
     PastI_PresentI = "ii",
+    PastI_PresentU = "iu",
+    /**
+     * Past R2: a
+     * Present prefix: i
+     * Present R1: i
+     * Present R2: u
+     */
+    RegularPastA_PresentIIU = "aiiu",
+    /**
+     * Past R2: a
+     * Present prefix: i
+     * Present R1: s
+     * Present R2: u
+     */
+    RegularPastA_PresentISU = "aisu",
+    /**
+     * Past R2: a
+     * Present prefix: u
+     * Present R1: s
+     * Present R2: u
+     */
+    RegularPastA_PresentUSU = "ausu",
     Quadrilateral = "ss",
 }
 
@@ -79,6 +100,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     requiredContext: [],
                     types: [
                         LebaneseStem1Context.PastI_PresentI,
+                        LebaneseStem1Context.PastI_PresentU
                     ],
                 };
             }
@@ -106,8 +128,9 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     ],
                     types: [
                         LebaneseStem1Context.PastA_PresentA,
-                        LebaneseStem1Context.PastA_PresentU,
-                        LebaneseStem1Context.PastA_PresentU_Form2,
+                        LebaneseStem1Context.RegularPastA_PresentISU,
+                        LebaneseStem1Context.RegularPastA_PresentIIU,
+                        LebaneseStem1Context.RegularPastA_PresentUSU,
                         LebaneseStem1Context.PastI_PresentA,
                     ],
                 };

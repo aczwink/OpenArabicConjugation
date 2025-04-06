@@ -37,7 +37,6 @@ function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1Parame
 {
     switch(stemData.stem)
     {
-        //TODO: 7 missing
         case 1:
         {
             switch(ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization))
@@ -56,6 +55,7 @@ function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1Parame
         case 3:
         case 4:
         case 8:
+        case 7:
         case 10:
             return DefectiveType.Type1_Fa3aY;
 

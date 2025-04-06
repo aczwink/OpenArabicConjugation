@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 import { Tashkil, Letter, AdjectiveDeclensionParams, Case } from "../../../Definitions";
 import { DisplayVocalized, DisplayTashkil } from "../../../Vocalization";
 
-export function AdjEndingTashkil(params: AdjectiveDeclensionParams): DisplayTashkil
+export function AdjEndingTashkil(params: AdjectiveDeclensionParams): DisplayTashkil | undefined
 {
     switch(params.case)
     {
@@ -32,6 +32,9 @@ export function AdjEndingTashkil(params: AdjectiveDeclensionParams): DisplayTash
             if(params.definite)
                 return Tashkil.Kasra;
             return Tashkil.Kasratan;
+
+        case Case.Informal:
+            return undefined;
 
         case Case.Nominative:
             if(params.definite)
@@ -50,7 +53,7 @@ export function RegularFemaleWithFathaThenTaMarbuta(vocalized: DisplayVocalized[
     ]);
 }
 
-export function WithTashkilOnLast(vocalized: DisplayVocalized[], tashkil: DisplayTashkil)
+export function WithTashkilOnLast(vocalized: DisplayVocalized[], tashkil?: DisplayTashkil)
 {
     const last = vocalized[vocalized.length - 1];
     return vocalized.slice(0, vocalized.length - 1).concat([{

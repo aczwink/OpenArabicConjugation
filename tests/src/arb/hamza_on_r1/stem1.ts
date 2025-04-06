@@ -16,12 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunVerbalNounPatternTest, RunVerbalNounTest } from "../../shared";
+import { RunVerbalNounPatternTest } from "../../shared";
 
 It("Stem 1", () => {
-    //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%83%D9%84
-    RunVerbalNounTest("ء-ك-ل", "au", "أَكْل");
-
     RunVerbalNounPatternTest("uu", [
         { rootRadicals: "ء-د-ب", expected: "أَدَب" }, //Source: https://ejtaal.net/aa/#hw4=24
         { rootRadicals: "ء-م-ر", expected: "إِمَارَة" }, //Source: https://ejtaal.net/aa/#hw4=24

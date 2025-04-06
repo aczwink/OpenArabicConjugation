@@ -23,9 +23,9 @@ import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebane
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
 //Table: 31
 
-It("Stem1 Past:a Present:u type 2", () => {
+It("Stem1 Past:a Present:u PresentPrefix:i PresentR1:i", () => {
     const root = "د-ر-س";
-    const stem = LebaneseStem1Context.PastA_PresentU_Form2;
+    const stem = LebaneseStem1Context.RegularPastA_PresentIIU;
 
     RunActiveParticipleTest(root, stem, "دَارِس", DialectType.Lebanese);
     

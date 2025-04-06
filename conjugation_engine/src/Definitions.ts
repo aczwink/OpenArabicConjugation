@@ -97,6 +97,7 @@ export enum Case
 {
     Accusative,
     Genitive,
+    Informal,
     Nominative,
 }
 

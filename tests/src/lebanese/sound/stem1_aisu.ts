@@ -23,9 +23,9 @@ import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebane
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
 //Table: 77
 
-It("Stem1 Past:a Present:u", () => {
+It("Stem1 Past:a Present:u PresentPrefix:i PresentR1:s", () => {
     const root = "ك-ت-ب";
-    const stem = LebaneseStem1Context.PastA_PresentU;
+    const stem = LebaneseStem1Context.RegularPastA_PresentISU;
 
     RunActiveParticipleTest(root, stem, "كَاتِب", DialectType.Lebanese);
     
