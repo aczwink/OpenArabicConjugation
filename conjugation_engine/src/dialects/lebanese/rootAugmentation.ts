@@ -32,6 +32,26 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(root.type)
             {
                 case RootType.FinalWeak:
+                    if((stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) && (params.tense === Tense.Perfect))
+                    {
+                        return [
+                            {
+                                conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
+                                symbols: [root.r1, root.r2],
+                                vowels: [Vowel.ShortA, Vowel.BrokenA]
+                            },
+                            {
+                                conditions: { tense: Tense.Perfect, person: Person.Third },
+                                symbols: [root.r1, root.r2],
+                                vowels: [Vowel.ShortA]
+                            },
+                            {
+                                conditions: { tense: Tense.Perfect },
+                                symbols: [root.r1, root.r2],
+                                vowels: [Vowel.ShortA, Vowel.DiphtongAj]
+                            },
+                        ];
+                    }
                     if((params.tense === Tense.Present) && (params.mood !== Mood.Imperative) && (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
                     {
                         return [
@@ -468,6 +488,30 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                     ];
+                case RootType.Regular:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [root.r1, root.r2, root.r3],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    emphasize: (params.person === Person.Third) ? undefined : 2,
+                                    vowels: [Vowel.LongA, Vowel.ShortA],
+                                },
+                                {
+                                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                                    prefixVowel: Vowel.Sukun,
+                                    vowels: [Vowel.LongA, Vowel.Sukun],
+                                },
+                                {
+                                    conditions: { tense: Tense.Present },
+                                    prefixVowel: Vowel.Sukun,
+                                    vowels: [Vowel.LongA, Vowel.ShortI],
+                                },
+                            ]
+                        },
+                    ];
             }
         }
         break;
@@ -728,6 +772,39 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     conditions: { tense: Tense.Present },
                                     prefixVowel: Vowel.ShortI,
                                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun]
+                                },
+                            ]
+                        },
+                    ];
+            }
+        }
+        break;
+
+        case 10:
+        {
+            switch(root.type)
+            {
+                case RootType.Regular:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r3],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    emphasize: (params.person === Person.Third) ? 1 : 3,
+                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortA]
+                                },
+                                {
+                                    conditions: { tense: Tense.Present },
+                                    prefixVowel: Vowel.ShortI,
+                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
+                                    children: [
+                                        {
+                                            conditions: { hasPresentSuffix: true },
+                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.Sukun]
+                                        }
+                                    ],
                                 },
                             ]
                         },

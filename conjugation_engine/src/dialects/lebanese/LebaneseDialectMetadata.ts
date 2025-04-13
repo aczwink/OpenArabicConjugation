@@ -82,6 +82,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     types: [
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastI_PresentA,
+                        LebaneseStem1Context.PastI_PresentI,
                     ],
                 };
             }

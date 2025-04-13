@@ -145,6 +145,15 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
             {
                 switch(stem)
                 {
+                    case 3:
+                    {
+                        const base = this.ConjugateBaseForm(root, stem);
+                        base[base.length - 2].tashkil = Tashkil.Kasra;
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Sukun },
+                            ...base
+                        ];
+                    }
                     case 5:
                     case 6:
                         return [
@@ -227,6 +236,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                         msaVersion[0].tashkil = Tashkil.Sukun;
                         return msaVersion;
                     case 9:
+                    case 10:
                         msaVersion[0].tashkil = Tashkil.Kasra;
                         return msaVersion;
                 }

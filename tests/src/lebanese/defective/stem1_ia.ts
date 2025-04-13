@@ -23,7 +23,7 @@ import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebane
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
 //Table: 8
 
-It("بقي", () => {
+It("Past:i Present:a", () => {
     const root = "ب-ق-ي";
     const stem = LebaneseStem1Context.PastI_PresentA;
 
