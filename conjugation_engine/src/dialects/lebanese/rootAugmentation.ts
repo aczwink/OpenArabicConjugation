@@ -701,6 +701,49 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(root.type)
             {
+                case RootType.FinalWeak:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [root.r1, Letter.Ta, root.r2],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.DiphtongAj],
+                                    children: [
+                                        {
+                                            conditions: { person: Person.Third, gender: Gender.Male, numerus: Numerus.Singular },
+                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.BrokenA],
+                                        },
+                                        {
+                                            conditions: { person: Person.Third },
+                                            vowels: [Vowel.Sukun, Vowel.ShortA],
+                                        }
+                                    ]
+                                },
+                                {
+                                    conditions: {},
+                                    prefixVowel: Vowel.ShortI,
+                                    vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.LongI],
+                                    children: [
+                                        {
+                                            conditions: { mood: Mood.Imperative, numerus: Numerus.Singular },
+                                            vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.LongI],
+                                        },
+                                        {
+                                            conditions: { mood: Mood.Imperative, numerus: Numerus.Plural },
+                                            vowels: [Vowel.Sukun, Vowel.ShortI],
+                                        },
+                                        {
+                                            conditions: { hasPresentSuffix: true },
+                                            vowels: [Vowel.Sukun, Vowel.Sukun],
+                                        },
+                                    ],
+                                },
+                            ]
+                        },
+                    ];
+
                 case RootType.MiddleWeak:
                     return [
                         {
@@ -784,6 +827,40 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(root.type)
             {
+                case RootType.FinalWeak:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r2],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj],
+                                    children: [
+                                        {
+                                            conditions: { person: Person.Third, gender: Gender.Male, numerus: Numerus.Singular },
+                                            vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
+                                        },
+                                        {
+                                            conditions: { person: Person.Third },
+                                            vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
+                                        }
+                                    ]
+                                },
+                                {
+                                    conditions: {},
+                                    prefixVowel: Vowel.ShortI,
+                                    vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
+                                    children: [
+                                        {
+                                            conditions: { hasPresentSuffix: true },
+                                            vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
+                                        }
+                                    ],
+                                },
+                            ]
+                        },
+                    ];
                 case RootType.Regular:
                     return [
                         {

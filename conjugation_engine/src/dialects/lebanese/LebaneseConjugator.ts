@@ -72,6 +72,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                 {
                     case 5:
                     case 6:
+                    case 10:
                         const base = this.ConjugateBaseForm(verb.root, verb.stem);
                         base[base.length - 2].tashkil = Tashkil.Kasra;
                         base[base.length - 1].letter = Letter.Ya;
@@ -79,6 +80,17 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
                             ...base
                         ];
+                    case 8:
+                    {
+                        const base = this.ConjugateBaseForm(verb.root, verb.stem);
+                        base[base.length - 3].tashkil = Tashkil.Sukun;
+                        base[base.length - 2].tashkil = Tashkil.Kasra;
+                        base[base.length - 1].letter = Letter.Ya;
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Kasra },
+                            ...base
+                        ];
+                    }
                 }
             }
             break;

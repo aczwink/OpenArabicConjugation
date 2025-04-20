@@ -24,7 +24,6 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 It("Stem 1 type 1 passive", () => {
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
-    throw new Error("TODO verbal noun test :)");
     const conjugations: ConjugationTest[] = [
         //past passive
         { voice: "passive", expected: "رُمِيَ", gender: "male", person: "third", },
