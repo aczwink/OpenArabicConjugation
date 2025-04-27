@@ -139,8 +139,18 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.SecondConsonantDoubled:
             {
                 return {
-                    requiredContext: [],
+                    requiredContext: [
+                        {
+                            gender: Gender.Male,
+                            mood: Mood.Indicative,
+                            numerus: Numerus.Singular,
+                            person: Person.Third,
+                            tense: Tense.Present,
+                            voice: Voice.Active
+                        }
+                    ],
                     types: [
+                        LebaneseStem1Context.PastA_PresentA,
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastA_PresentU,
                     ],

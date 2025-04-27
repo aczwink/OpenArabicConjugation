@@ -228,7 +228,21 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     ];
 
                 case RootType.SecondConsonantDoubled:
-                    const presentVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) ? Vowel.ShortI : Vowel.ShortU;
+                    function MapPresentVowel(stemParameterization: string): Vowel
+                    {
+                        switch(stemParameterization)
+                        {
+                            case LebaneseStem1Context.PastA_PresentA:
+                                return Vowel.ShortA;
+                            case LebaneseStem1Context.PastA_PresentI:
+                                return Vowel.ShortI;
+                            case LebaneseStem1Context.PastA_PresentU:
+                                return Vowel.ShortU;
+                        }
+                        return Vowel.Sukun; //should never happen
+                    }
+
+                    const presentVowel = MapPresentVowel(stemData.stemParameterization);
                     return [
                         {
                             conditions: {},
