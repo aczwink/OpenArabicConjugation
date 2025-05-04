@@ -21,6 +21,12 @@ import { RootType, VerbRoot } from "../../VerbRoot";
 
 export enum LebaneseStem1Context
 {
+    /**
+     * Past R2: a
+     * Present prefix: a (unlike normal defective type 1 which is i)
+     * Present R2: i
+     */
+    DefectiveType1WithPrefixA = "d1a",
     IrregularJy2 = "irjy2",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
@@ -38,6 +44,14 @@ export enum LebaneseStem1Context
     /**
      * Past R2: a
      * Present prefix: i
+     * Present R1: i
+     * Present R2: u
+     * Imperative: u
+     */
+    RegularPastA_PresentIIUU = "aiiuu",
+    /**
+     * Past R2: a
+     * Present prefix: i
      * Present R1: s
      * Present R2: u
      */
@@ -49,6 +63,12 @@ export enum LebaneseStem1Context
      * Present R2: u
      */
     RegularPastA_PresentUSU = "ausu",
+    /**
+     * Past R2: i
+     * Present prefix: a
+     * Present R2: a
+     */
+    RegularPastI_PresentAA = "iaa",
     Quadrilateral = "ss",
 }
 
@@ -80,6 +100,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 return {
                     requiredContext: [],
                     types: [
+                        LebaneseStem1Context.DefectiveType1WithPrefixA,
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastI_PresentA,
                         LebaneseStem1Context.PastI_PresentI,
@@ -125,14 +146,25 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                             person: Person.Second,
                             tense: Tense.Present,
                             voice: Voice.Active
+                        },
+                        {
+                            gender: Gender.Female,
+                            mood: Mood.Imperative,
+                            numerus: Numerus.Singular,
+                            person: Person.Second,
+                            tense: Tense.Present,
+                            voice: Voice.Active
                         }
                     ],
                     types: [
                         LebaneseStem1Context.PastA_PresentA,
                         LebaneseStem1Context.RegularPastA_PresentISU,
                         LebaneseStem1Context.RegularPastA_PresentIIU,
+                        LebaneseStem1Context.RegularPastA_PresentIIUU,
                         LebaneseStem1Context.RegularPastA_PresentUSU,
+                        LebaneseStem1Context.RegularPastI_PresentAA,
                         LebaneseStem1Context.PastI_PresentA,
+                        LebaneseStem1Context.PastI_PresentI
                     ],
                 };
             }

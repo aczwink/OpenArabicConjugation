@@ -20,8 +20,6 @@ import { RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Stem 1", () => {
-    throw new Error("TODO verbal noun test :)");
-
     RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ParametersType.PastA_PresentU, [
         { expected: "وَعَلَ" },
         { expected: "يَعُلُ", tense: "present" },
@@ -33,13 +31,6 @@ It("Stem 1", () => {
         { expected: "وَعِلَ" },
         { expected: "يَعَلُ", tense: "present" },
         { expected: "عَلْ", tense: "present", mood: "imperative", person: "second" },
-        { expected: "وُعِلَ", voice: "passive" },
-        { expected: "يُوعَلُ", voice: "passive", tense: "present" },
-    ]);
-    RunConjugationTest("و-ع-ل", ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU, [
-        { expected: "وَعُلَ" },
-        { expected: "يَعُلُ", tense: "present" },
-        { expected: "عُلْ", tense: "present", mood: "imperative", person: "second" },
         { expected: "وُعِلَ", voice: "passive" },
         { expected: "يُوعَلُ", voice: "passive", tense: "present" },
     ]);

@@ -35,7 +35,7 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
         case RootType.InitialWeak:
             return [
                 { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
-                { letter: Letter.Ya, tashkil: Tashkil.Sukun },
+                { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
                 { letter: root.r2, tashkil: Tashkil.Fatha },
                 { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunVerbalNounTest } from "../../shared";
+import { RunConjugationTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D9%81%D9%82#Verb
@@ -24,5 +24,16 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 It("Stem 1 - Type Past:u Present:u", () => {
     const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
 
-    RunVerbalNounTest("ي-س-ر", stem, "يُسْر");
+    RunVerbalNounPatternTest(stem, [
+        { expected: "يُسْر", rootRadicals: "ي-س-ر" },
+        { expected: "وَشْك", rootRadicals: "و-ش-ك" },
+    ]);
+
+    RunConjugationTest("و-ع-ل", stem, [
+        { expected: "وَعُلَ" },
+        { expected: "يَعُلُ", tense: "present" },
+        { expected: "عُلْ", tense: "present", mood: "imperative", person: "second" },
+        { expected: "وُعِلَ", voice: "passive" },
+        { expected: "يُوعَلُ", voice: "passive", tense: "present" },
+    ]);
 });
