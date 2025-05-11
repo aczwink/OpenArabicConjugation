@@ -42,6 +42,11 @@ export enum RootType
 
     Quadriliteral,
 
+    /**
+     * 4 radicals but r4 = ya
+     */
+    Quadriliteral_FinalWeak,
+
     DoublyWeak_WawOnR1_WawOrYaOnR3,
 }
 
@@ -77,6 +82,7 @@ export class VerbRoot
         switch(this.type)
         {
             case RootType.Quadriliteral:
+            case RootType.Quadriliteral_FinalWeak:
                 return [this.r1, this.r2, this.r3, this.r4];
             case RootType.InitialWeak:
             case RootType.Regular:
@@ -93,7 +99,11 @@ export class VerbRoot
     public get type()
     {
         if(this.radicals.length === 4)
+        {
+            if(this.r4 === Letter.Ya)
+                return RootType.Quadriliteral_FinalWeak;
             return RootType.Quadriliteral;
+        }
         if(this.r2 === this.r3)
             return RootType.SecondConsonantDoubled;
 
@@ -134,6 +144,8 @@ export class VerbRoot
                 return VerbType.Hollow;
             case RootType.Quadriliteral:
                 return VerbType.SoundQuadriliteral;
+            case RootType.Quadriliteral_FinalWeak:
+                return VerbType.QuadriliteralAndDefective;
             case RootType.Regular:
                 return VerbType.Sound;
             case RootType.SecondConsonantDoubled:

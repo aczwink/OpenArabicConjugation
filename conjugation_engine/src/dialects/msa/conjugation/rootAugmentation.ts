@@ -26,7 +26,7 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
     {
         case 1:
         {
-            if(root.type === RootType.Quadriliteral)
+            if((root.type === RootType.Quadriliteral) || (root.type === RootType.Quadriliteral_FinalWeak))
             {
                 return [
                     { symbolName: SymbolName.R1 },
@@ -44,7 +44,7 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
 
         case 2:
         {
-            if(root.type === RootType.Quadriliteral)
+            if((root.type === RootType.Quadriliteral) || (root.type === RootType.Quadriliteral_FinalWeak))
             {
                 return [
                     { letter: Letter.Ta, symbolName: SymbolName.Prefix1, tashkil: Tashkil.Fatha },
@@ -84,7 +84,7 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
         break;
         case 4:
         {
-            if(root.type === RootType.Quadriliteral)
+            if((root.type === RootType.Quadriliteral) || (root.type === RootType.Quadriliteral_FinalWeak))
             {
                 return [
                     { symbolName: SymbolName.R1 },

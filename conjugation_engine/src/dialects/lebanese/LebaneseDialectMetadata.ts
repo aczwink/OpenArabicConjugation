@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Gender, Letter, Mood, Numerus, Person, Tense, Voice } from "../../Definitions";
+import { Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { RootType, VerbRoot } from "../../VerbRoot";
 
@@ -81,6 +81,11 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
     iso639code = "apc";
     glottoCode = "stan1323";
 
+    public DeriveDeducedVerbTypeFromRootType(root: VerbRoot): VerbType
+    {
+        return root.DeriveDeducedVerbType();
+    }
+
     public GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<LebaneseStem1Context>
     {
         if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
@@ -127,6 +132,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 };
             }
             case RootType.Quadriliteral:
+            case RootType.Quadriliteral_FinalWeak:
             {
                 return {
                     requiredContext: [],

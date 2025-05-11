@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,7 @@
  * */
 
 import { ConjugationItem, Vowel } from "../../Conjugation";
-import { ConjugationParams, Numerus, Person, Letter, Gender, Tense } from "../../Definitions";
+import { ConjugationParams, Numerus, Person, Letter, Gender, Tense, VerbType } from "../../Definitions";
 
 export interface SuffixResult
 {
@@ -26,40 +26,8 @@ export interface SuffixResult
     previousVowel: Vowel;
 }
 
-function DeriveSuffixPresent(params: ConjugationParams): SuffixResult
+function DeriveSuffixPerfect(params: ConjugationParams): SuffixResult
 {
-    if(params.numerus === Numerus.Plural)
-    {
-        switch(params.person)
-        {
-            case Person.Second:
-            case Person.Third:
-                return {
-                    final: Letter.Alef,
-                    previousVowel: Vowel.LongU
-                };
-        }
-    }
-    else
-    {
-        if((params.person === Person.Second) && (params.gender === Gender.Female))
-        {
-            return {
-                previousVowel: Vowel.LongI,
-            };
-        }
-    }
-
-    return {
-        previousVowel: Vowel.Sukun
-    };
-}
-
-export function DeriveSuffix(params: ConjugationParams): SuffixResult
-{
-    if(params.tense === Tense.Present)
-        return DeriveSuffixPresent(params);
-
     if(params.numerus === Numerus.Plural)
     {
         switch(params.person)
@@ -123,4 +91,76 @@ export function DeriveSuffix(params: ConjugationParams): SuffixResult
             followingVowel: Vowel.Sukun
         }
     };
+}
+
+function DeriveSuffixPerfectDefective(params: ConjugationParams): SuffixResult
+{
+    if((params.person === Person.Third) && (params.numerus === Numerus.Singular) && (params.gender === Gender.Male))
+    {
+        return {
+            previousVowel: Vowel.BrokenA,
+        };
+    }
+    else if(params.person !== Person.Third)
+    {
+        const result = DeriveSuffixPerfect(params);
+        result.previousVowel = Vowel.DiphtongAj;
+        return result;
+    }
+    return DeriveSuffixPerfect(params);
+}
+
+function DeriveSuffixPresent(params: ConjugationParams): SuffixResult
+{
+    if(params.numerus === Numerus.Plural)
+    {
+        switch(params.person)
+        {
+            case Person.Second:
+            case Person.Third:
+                return {
+                    final: Letter.Alef,
+                    previousVowel: Vowel.LongU
+                };
+        }
+    }
+    else
+    {
+        if((params.person === Person.Second) && (params.gender === Gender.Female))
+        {
+            return {
+                previousVowel: Vowel.LongI,
+            };
+        }
+    }
+
+    return {
+        previousVowel: Vowel.Sukun
+    };
+}
+
+function DeriveSuffixPresentDefective(params: ConjugationParams): SuffixResult
+{
+    const regular = DeriveSuffixPresent(params);
+    if((params.numerus === Numerus.Plural) && (params.person !== Person.First))
+    {
+        return regular;
+    }
+    regular.previousVowel = Vowel.LongI;
+    return regular;
+}
+
+export function DeriveSuffix(verbType: VerbType, params: ConjugationParams): SuffixResult
+{
+    switch(verbType)
+    {
+        case VerbType.QuadriliteralAndDefective:
+            if(params.tense === Tense.Present)
+                return DeriveSuffixPresentDefective(params);
+            return DeriveSuffixPerfectDefective(params);
+    }
+
+    if(params.tense === Tense.Present)
+        return DeriveSuffixPresent(params);
+    return DeriveSuffixPerfect(params);
 }

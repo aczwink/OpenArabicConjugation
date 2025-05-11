@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,6 @@ import { ConjugationTest, RunDefectiveConjugationTest } from "../../shared";
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D9%84%D8%AA%D9%82%D9%89
 
 It("Stem 8 passive", () => {
-    throw new Error("TODO verbal noun test :)");
     const conjugations: ConjugationTest[] = [
         //passive past
         { voice: "passive", expected: "اُلْتُقِيَ", gender: "male", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },

@@ -18,6 +18,7 @@
 
 import { AdvancedStemNumber, VerbType } from "./Definitions";
 import { DialectType } from "./Dialects";
+import { GetDialectMetadata } from "./DialectsMetadata";
 import { VerbRoot } from "./VerbRoot";
 
 interface VerbFormBase
@@ -46,7 +47,7 @@ export type Verb<T extends string> = VerbStemData<T> &
 
 export function CreateVerb(dialect: DialectType, root: VerbRoot, stem: string | AdvancedStemNumber, verbType?: VerbType): Verb<string>
 {
-    const type = verbType ?? root.DeriveDeducedVerbType();
+    const type = verbType ?? GetDialectMetadata(dialect).DeriveDeducedVerbTypeFromRootType(root);
 
     if(typeof stem === "number")
     {

@@ -872,6 +872,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         break;
 
         case VerbType.SoundQuadriliteral:
+        case VerbType.QuadriliteralAndDefective:
             return [
                 [
                     { letter: root.r1, tashkil: Tashkil.Fatha, },

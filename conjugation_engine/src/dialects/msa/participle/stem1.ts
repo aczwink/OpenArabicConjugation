@@ -70,6 +70,7 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
             ];
 
         case RootType.Quadriliteral:
+        case RootType.Quadriliteral_FinalWeak:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: root.r1, tashkil: Tashkil.Fatha },

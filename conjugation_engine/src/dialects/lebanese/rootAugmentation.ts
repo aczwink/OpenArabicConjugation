@@ -21,6 +21,7 @@ import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense } from 
 import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/suffix";
+import { QuadriliteralConjugationTemplate } from "./conjugation_templates/quadriliteral";
 import { IrregularIja, IsHamzaOnR1SpecialCase } from "./irregular";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
@@ -204,30 +205,8 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     ];
 
                 case RootType.Quadriliteral:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r2, root.r3, root.r4],
-                            vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortA],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? 0 : 2,
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.Sukun,
-                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
-                                    children: [
-                                        {
-                                            conditions: { hasPresentSuffix: true },
-                                            vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.Sukun],
-                                        }
-                                    ]
-                                },
-                            ]
-                        },
-                    ];
+                case RootType.Quadriliteral_FinalWeak:
+                    return QuadriliteralConjugationTemplate(root, params);
 
                 case RootType.SecondConsonantDoubled:
                     function MapPresentVowel(stemParameterization: string): Vowel
@@ -463,6 +442,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                         },
                     ];
 
+                case RootType.MiddleWeak:
                 case RootType.Regular:
                     return [
                         {

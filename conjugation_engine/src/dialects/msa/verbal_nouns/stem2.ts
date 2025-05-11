@@ -35,6 +35,7 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
             ];
             
         case RootType.Quadriliteral:
+        case RootType.Quadriliteral_FinalWeak:
             return [
                 [
                     { letter: Letter.Ta, tashkil: Tashkil.Fatha },

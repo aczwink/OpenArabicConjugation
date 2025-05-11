@@ -100,7 +100,7 @@ function Derive4RadicalRootTashkil(params: ConjugationParams): RootTashkil & { r
 
 export function ApplyRootTashkil(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    if(augmentedRoot.type === RootType.Quadriliteral)
+    if((augmentedRoot.type === RootType.Quadriliteral) || (augmentedRoot.type === RootType.Quadriliteral_FinalWeak))
     {
         const tashkil = Derive4RadicalRootTashkil(params);
         augmentedRoot.ApplyRadicalTashkil(1, tashkil.r1);
