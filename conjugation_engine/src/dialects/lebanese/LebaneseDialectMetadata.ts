@@ -86,7 +86,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
         return root.DeriveDeducedVerbType();
     }
 
-    public GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<LebaneseStem1Context>
+    public GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<LebaneseStem1Context>
     {
         if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
         {
@@ -98,9 +98,9 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             };
         }
 
-        switch(root.type)
+        switch(verbType)
         {
-            case RootType.FinalWeak:
+            case VerbType.Defective:
             {
                 return {
                     requiredContext: [],
@@ -112,6 +112,10 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     ],
                 };
             }
+        }
+
+        switch(root.type)
+        {            
             case RootType.HamzaOnR1:
             {
                 return {
@@ -124,7 +128,16 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case RootType.MiddleWeak:
             {
                 return {
-                    requiredContext: [],
+                    requiredContext: [
+                        {
+                            gender: Gender.Male,
+                            mood: Mood.Indicative,
+                            numerus: Numerus.Singular,
+                            person: Person.Third,
+                            tense: Tense.Present,
+                            voice: Voice.Active
+                        }
+                    ],
                     types: [
                         LebaneseStem1Context.PastI_PresentI,
                         LebaneseStem1Context.PastI_PresentU

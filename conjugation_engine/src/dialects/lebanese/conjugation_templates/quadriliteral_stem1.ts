@@ -20,7 +20,7 @@ import { ConjugationRule, Vowel } from "../../../Conjugation";
 import { ConjugationParams, Tense, Person } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 
-export function QuadriliteralConjugationTemplate(root: VerbRoot, params: ConjugationParams): ConjugationRule[] | undefined
+export function QuadriliteralStem1ConjugationTemplate(root: VerbRoot, params: ConjugationParams): ConjugationRule[] | undefined
 {
     if(root.type === RootType.Quadriliteral_FinalWeak)
     {

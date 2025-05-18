@@ -80,7 +80,7 @@ function TestParticiple(expected: string, got: DisplayVocalized[], voice: VoiceS
 function ValidateStem1Context(ctx: VerbStem1Data<string>, root: VerbRoot, dialectType: DialectType)
 {
     const meta = GetDialectMetadata(dialectType);
-    const choices = meta.GetStem1ContextChoices(root);
+    const choices = meta.GetStem1ContextChoices(ctx.type, root);
     for (const opt of choices.types)
     {
         if(ctx.stemParameterization === opt)

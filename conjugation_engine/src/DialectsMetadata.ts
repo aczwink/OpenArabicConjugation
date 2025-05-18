@@ -38,7 +38,7 @@ export interface DialectMetadata<T extends string>
     glottoCode: string;
 
     DeriveDeducedVerbTypeFromRootType(root: VerbRoot): VerbType;
-    GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<T>;
+    GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<T>;
 }
 
 export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<string>

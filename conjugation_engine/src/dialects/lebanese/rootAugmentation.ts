@@ -17,11 +17,11 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../Conjugation";
-import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense } from "../../Definitions";
+import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType } from "../../Definitions";
 import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
-import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/suffix";
-import { QuadriliteralConjugationTemplate } from "./conjugation_templates/quadriliteral";
+import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
+import { QuadriliteralStem1ConjugationTemplate } from "./conjugation_templates/quadriliteral_stem1";
 import { IrregularIja, IsHamzaOnR1SpecialCase } from "./irregular";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
@@ -30,88 +30,14 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
     switch(stemData.stem)
     {
         case 1:
+            switch(stemData.type)
+            {
+                case VerbType.Defective:
+                    return DefectiveStem1ConjugationTemplate(root, stemData, params);
+            }
+
             switch(root.type)
             {
-                case RootType.FinalWeak:
-                    const isType1 = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) || (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA);
-                    if(isType1 && (params.tense === Tense.Perfect))
-                    {
-                        return [
-                            {
-                                conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
-                                symbols: [root.r1, root.r2],
-                                vowels: [Vowel.ShortA, Vowel.BrokenA]
-                            },
-                            {
-                                conditions: { tense: Tense.Perfect, person: Person.Third },
-                                symbols: [root.r1, root.r2],
-                                vowels: [Vowel.ShortA]
-                            },
-                            {
-                                conditions: { tense: Tense.Perfect },
-                                symbols: [root.r1, root.r2],
-                                vowels: [Vowel.ShortA, Vowel.DiphtongAj]
-                            },
-                        ];
-                    }
-                    if((params.tense === Tense.Present) && (params.mood !== Mood.Imperative) && (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
-                    {
-                        return [
-                            {
-                                conditions: { tense: Tense.Present },
-                                prefixVowel: Vowel.ShortI,
-                                symbols: [root.r1, root.r2],
-                                vowels: [Vowel.Sukun, Vowel.BrokenA]
-                            }
-                        ];
-                    }
-
-                    const prefixVowel = (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA) ? Vowel.ShortA : Vowel.ShortI;
-                    return [
-                        {
-                            conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
-                            symbols: [root.r1, root.r2],
-                            vowels: [Vowel.ShortI, Vowel.LongI]
-                        },
-                        {
-                            conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular },
-                            symbols: [root.r1, root.r2, root.r3],
-                            vowels: [Vowel.ShortI, Vowel.Sukun, Vowel.ShortI]
-                        },
-                        {
-                            conditions: { tense: Tense.Perfect, person: Person.Third },
-                            symbols: [root.r1, root.r2, root.r3],
-                            vowels: [Vowel.ShortI, Vowel.Sukun]
-                        },
-                        {
-                            conditions: { tense: Tense.Perfect },
-                            symbols: [root.r1, root.r2],
-                            vowels: [Vowel.Sukun, Vowel.LongI]
-                        },
-                        {
-                            conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
-                            symbols: [root.r1, root.r2],
-                            vowels: [Vowel.Sukun]
-                        },
-                        {
-                            conditions: { mood: Mood.Imperative },
-                            symbols: [root.r1, root.r2],
-                            vowels: [Vowel.Sukun, Vowel.LongI]
-                        },
-                        {
-                            conditions: { tense: Tense.Present, hasPresentSuffix: true },
-                            prefixVowel,
-                            symbols: [root.r1, root.r2],
-                            vowels: [Vowel.Sukun]
-                        },
-                        {
-                            conditions: { tense: Tense.Present },
-                            prefixVowel,
-                            symbols: [root.r1, root.r2],
-                            vowels: [Vowel.Sukun, Vowel.LongI]
-                        }
-                    ];
-
                 case RootType.MiddleWeak:
                 {
                     if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
@@ -206,7 +132,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
                 case RootType.Quadriliteral:
                 case RootType.Quadriliteral_FinalWeak:
-                    return QuadriliteralConjugationTemplate(root, params);
+                    return QuadriliteralStem1ConjugationTemplate(root, params);
 
                 case RootType.SecondConsonantDoubled:
                     function MapPresentVowel(stemParameterization: string): Vowel

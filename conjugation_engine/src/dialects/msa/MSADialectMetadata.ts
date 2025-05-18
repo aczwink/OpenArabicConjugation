@@ -41,7 +41,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
         return verbType;
     }
 
-    public GetStem1ContextChoices(root: VerbRoot): Stem1ContextChoice<ModernStandardArabicStem1ParametersType>
+    public GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<ModernStandardArabicStem1ParametersType>
     {
         const presentContext = {
             gender: Gender.Male,
