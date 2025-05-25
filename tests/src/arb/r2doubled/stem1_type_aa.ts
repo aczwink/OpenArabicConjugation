@@ -16,20 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
-It("Stem 1", () => {
-    throw new Error("TODO verbal noun test :)");
+//Source: https://en.wiktionary.org/wiki/%D8%AD%D8%B8
+
+It("Stem 1 Past:a Present:i", () => {
+    const root = "ح-ظ-ظ";
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentA;
 
-    RunConjugationTest("ف-ل-ل", stem, [
-        { expected: "فَلَّ" },
-        { expected: "فَلَلْتُ", person: "first" },
-        { expected: "يَفَلُّ", tense: "present" },
-        { expected: "فُلَّ", voice: "passive" },
-        { expected: "يُفَلُّ", voice: "passive", tense: "present" },
+    RunVerbalNounPatternTest(stem, [
+        { rootRadicals: root, expected: "حَظّ" },
     ]);
-    
-    throw new Error("TODO rest :)");
+    RunParticipleTest(root, stem, "حَاظّ", "مَحْظُوظ");
+
+    const conjugations: ConjugationTest[] = [
+        //TODO
+    ];
+
+    RunConjugationTest(root, stem, conjugations);
 });

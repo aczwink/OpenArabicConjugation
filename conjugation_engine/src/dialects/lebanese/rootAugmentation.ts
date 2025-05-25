@@ -21,7 +21,9 @@ import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbTy
 import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
+import { DefectiveStem3ConjugationTemplate } from "./conjugation_templates/defective_stem3";
 import { QuadriliteralStem1ConjugationTemplate } from "./conjugation_templates/quadriliteral_stem1";
+import { RegularStem1ConjugationTemplate } from "./conjugation_templates/regular_stem1";
 import { IrregularIja, IsHamzaOnR1SpecialCase } from "./irregular";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
@@ -173,126 +175,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     ];
 
                 case RootType.Regular:
-                    if((stemData.stemParameterization === LebaneseStem1Context.PastI_PresentA) || (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentI) || (stemData.stemParameterization === LebaneseStem1Context.RegularPastI_PresentAA))
-                    {
-                        const prefixVowel = (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentA) ? Vowel.ShortI : Vowel.ShortA;
-                        const r2presentVowel = (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentA) ? Vowel.ShortA : Vowel.ShortI;
-                        return [
-                            {
-                                conditions: {},
-                                symbols: [root.r1, root.r2, root.r3],
-                                children: [
-                                    {
-                                        conditions: { tense: Tense.Perfect },
-                                        emphasize: (params.person === Person.Third) ? 0 : 1,
-                                        children: [
-                                            {
-                                                conditions: { gender: Gender.Male, numerus: Numerus.Singular, person: Person.Third },
-                                                vowels: [Vowel.ShortI, Vowel.ShortI],
-                                            },
-                                            {
-                                                conditions: { person: Person.Third },
-                                                vowels: [Vowel.ShortI, Vowel.Sukun],
-                                            },
-                                            {
-                                                conditions: {},
-                                                vowels: [Vowel.Sukun, Vowel.ShortI],
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
-                                        vowels: [Vowel.Sukun, (stemData.stemParameterization === LebaneseStem1Context.RegularPastI_PresentAA) ? Vowel.ShortI : Vowel.ShortA]
-                                    },
-                                    {
-                                        conditions: { mood: Mood.Imperative },
-                                        vowels: [Vowel.Sukun, (stemData.stemParameterization === LebaneseStem1Context.RegularPastI_PresentAA) ? Vowel.LongU : Vowel.LongA]
-                                    },
-                                    {
-                                        conditions: { tense: Tense.Present, hasPresentSuffix: true, stemParameters: LebaneseStem1Context.PastI_PresentI },
-                                        prefixVowel,
-                                        vowels: [Vowel.Sukun, Vowel.Sukun]
-                                    },
-                                    {
-                                        conditions: { tense: Tense.Present, hasPresentSuffix: true, stemParameters: LebaneseStem1Context.RegularPastI_PresentAA },
-                                        prefixVowel,
-                                        vowels: [Vowel.Sukun, Vowel.Sukun]
-                                    },
-                                    {
-                                        conditions: { tense: Tense.Present },
-                                        prefixVowel,
-                                        vowels: [Vowel.Sukun, r2presentVowel]
-                                    }
-                                ]
-                            },
-                        ];
-                    }
-
-                    function R2ImperativeWithPresentSuffixVowel(stemParameterization: LebaneseStem1Context)
-                    {
-                        switch(stemParameterization)
-                        {
-                            case LebaneseStem1Context.PastA_PresentA:
-                                return Vowel.ShortA;
-                            case LebaneseStem1Context.RegularPastA_PresentUSU:
-                            case LebaneseStem1Context.RegularPastA_PresentIIUU:
-                                return Vowel.ShortU;
-                            default:
-                                return Vowel.ShortI;
-                        }
-                    }
-
-                    const presentPrefixVowel = (stemData.stemParameterization === LebaneseStem1Context.RegularPastA_PresentUSU) ? Vowel.ShortU : Vowel.ShortI;
-                    const r2presentVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.ShortA : Vowel.ShortU;
-                    const r2imperativeVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.LongA : Vowel.LongU;
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r2, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? 0 : 1,
-                                    vowels: [Vowel.ShortA, Vowel.ShortA]
-                                },
-                                {
-                                    conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
-                                    vowels: [Vowel.Sukun, R2ImperativeWithPresentSuffixVowel(stemData.stemParameterization)]
-                                },
-                                {
-                                    conditions: { mood: Mood.Imperative },
-                                    vowels: [Vowel.Sukun, r2imperativeVowel]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
-                                    prefixVowel: presentPrefixVowel,
-                                    children: [
-                                        {
-                                            conditions: { stemParameters: LebaneseStem1Context.PastA_PresentA },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA]
-                                        },
-                                        {
-                                            conditions: { stemParameters: LebaneseStem1Context.RegularPastA_PresentIIU },
-                                            vowels: [Vowel.ShortI, Vowel.Sukun]
-                                        },
-                                        {
-                                            conditions: { stemParameters: LebaneseStem1Context.RegularPastA_PresentIIUU },
-                                            vowels: [Vowel.ShortI, Vowel.Sukun]
-                                        },
-                                        {
-                                            conditions: {},
-                                            vowels: [Vowel.Sukun, Vowel.Sukun]
-                                        },
-                                    ]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: presentPrefixVowel,
-                                    vowels: [Vowel.Sukun, r2presentVowel]
-                                }
-                            ]
-                        },
-                    ];
+                    return RegularStem1ConjugationTemplate(root, stemData, params);
             }
         break;
 
@@ -402,6 +285,8 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(root.type)
             {
+                case RootType.FinalWeak:
+                    return DefectiveStem3ConjugationTemplate(root);
                 case RootType.MiddleWeak:
                     return [
                         {

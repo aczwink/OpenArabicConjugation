@@ -96,7 +96,11 @@ tables = getElementsByClassName(document, "inflection-table");
 table = tables[tableIndex];
 
 children = table[0].getchildren();
-baseIdx = 6;
+baseRow = children[2];
+baseIdx = 5;
+if(len(baseRow.getchildren()) > 1): #in case there is no passive participle
+	baseIdx += 1;
+
 for voice in ["active", "passive"]:
     for tense in ["past", "indicative", "subjunctive", "jussive"]:
         print();

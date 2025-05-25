@@ -18,7 +18,7 @@
 import "acts-util-core";
 import { Fail } from "acts-util-test";
 import { Conjugator } from "openarabicconjugation/dist/Conjugator";
-import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
+import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
 import { VerbRoot } from "openarabicconjugation/dist/VerbRoot";
 import { GenderToString, MoodToString, NumerusToString, PersonToString, TenseToString, VoiceToString } from "openarabicconjugation/dist/Util";
 import { DisplayVocalized, ParseVocalizedText, VocalizedToString } from "openarabicconjugation/dist/Vocalization";
@@ -63,7 +63,6 @@ function Test(expected: string[], got: DisplayVocalized[], stemData: VerbStemDat
         if(params.tense === Tense.Present)
             context.push(MoodToString(params.mood));
         context.push(NumerusToString(params.numerus), PersonToString(params.person), GenderToString(params.gender));
-        const firstExpected = ParseVocalizedText(expected[0]);
         const buckwalterExpected = expected.Values().Map(ex => Buckwalter.ToString(ParseVocalizedText(ex)));
         Fail("expected: " + expected.join(", ") + " / " + buckwalterExpected.Join(", ") + " got: " + gotStr + " / " + Buckwalter.ToString(got) + " " + context.join(" "));
     }
@@ -99,7 +98,7 @@ export interface ConjugationTest
     tense?: TenseString;
     voice?: VoiceString;
 }
-export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumber | string, conjugations: ConjugationTest[], dialect: DialectType = DialectType.ModernStandardArabic)
+export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumber | string, conjugations: ConjugationTest[], dialect: DialectType = DialectType.ModernStandardArabic, verbType?: VerbType)
 {
     function MapMood(mood: MoodString)
     {
@@ -143,7 +142,7 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const verb = CreateVerb(dialect, root, stem);
+    const verb = CreateVerb(dialect, root, stem, verbType);
 
     if(verb.stem === 1)
         ValidateStem1Context(verb, root, dialect);
@@ -179,13 +178,12 @@ export function RunDefectiveConjugationTest(rootRadicalsWithoutR3: string, stem:
     RunConjugationTest(rootRadicalsWithoutR3 + "-ي", stem, conjugations);
 }
 
-export function RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, dialect: DialectType)
+export function RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, dialect: DialectType, verbType?: VerbType)
 {
-    const metadata = GetDialectMetadata(dialect);
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const verb = CreateVerb(dialect, root, stem);
+    const verb = CreateVerb(dialect, root, stem, verbType);
 
     if(verb.stem === 1)
         ValidateStem1Context(verb, root, dialect);
@@ -234,9 +232,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
             throw new Error("Expected multiple verbal nouns but apparently only one exists");
 
         const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
-        const choicesAsStrings = choices.Values().Map(VocalizedTostring).ToArray();
-
-        const index = choicesAsStrings.indexOf(pattern.expected);
+        const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(pattern.expected)));
         if(index === -1)
             throw new Error("Expected verbal noun '" + pattern.expected + "' could not be generated.");
         length = choices.length;

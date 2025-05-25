@@ -106,6 +106,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     requiredContext: [],
                     types: [
                         LebaneseStem1Context.DefectiveType1WithPrefixA,
+                        LebaneseStem1Context.PastA_PresentA,
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastI_PresentA,
                         LebaneseStem1Context.PastI_PresentI,
@@ -183,7 +184,8 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                         LebaneseStem1Context.RegularPastA_PresentUSU,
                         LebaneseStem1Context.RegularPastI_PresentAA,
                         LebaneseStem1Context.PastI_PresentA,
-                        LebaneseStem1Context.PastI_PresentI
+                        LebaneseStem1Context.PastI_PresentI,
+                        LebaneseStem1Context.PastI_PresentU
                     ],
                 };
             }

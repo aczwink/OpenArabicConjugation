@@ -516,6 +516,16 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                                 ],
                             ];
                         }
+                        case Tashkil.Fatha:
+                        {
+                            return [
+                                [
+                                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                                    { letter: root.r2, tashkil: Tashkil.Sukun },
+                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                                ]
+                            ];
+                        }
                         case Tashkil.Kasra:
                         {
                             return [

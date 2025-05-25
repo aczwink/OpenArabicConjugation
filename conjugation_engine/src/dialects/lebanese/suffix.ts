@@ -18,6 +18,9 @@
 
 import { ConjugationItem, Vowel } from "../../Conjugation";
 import { ConjugationParams, Numerus, Person, Letter, Gender, Tense, VerbType } from "../../Definitions";
+import { Verb } from "../../Verb";
+import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/suffix";
+import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
 export interface SuffixResult
 {
@@ -139,24 +142,30 @@ function DeriveSuffixPresent(params: ConjugationParams): SuffixResult
     };
 }
 
-function DeriveSuffixPresentDefective(params: ConjugationParams): SuffixResult
+function DeriveSuffixPresentDefective(verb: Verb<LebaneseStem1Context>, params: ConjugationParams): SuffixResult
 {
     const regular = DeriveSuffixPresent(params);
     if((params.numerus === Numerus.Plural) && (params.person !== Person.First))
     {
         return regular;
     }
-    regular.previousVowel = Vowel.LongI;
+    const stem1Cond1 = (verb.stem === 1) && (verb.stemParameterization === LebaneseStem1Context.PastI_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender);
+    const stem1Cond2 = (verb.stem === 1) && (verb.stemParameterization === LebaneseStem1Context.PastA_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender);
+    if(stem1Cond1 || stem1Cond2)
+        regular.previousVowel = Vowel.BrokenA;
+    else
+        regular.previousVowel = Vowel.LongI;
     return regular;
 }
 
-export function DeriveSuffix(verbType: VerbType, params: ConjugationParams): SuffixResult
+export function DeriveSuffix(verb: Verb<LebaneseStem1Context>, params: ConjugationParams): SuffixResult
 {
-    switch(verbType)
+    switch(verb.type)
     {
+        case VerbType.Defective:
         case VerbType.QuadriliteralAndDefective:
             if(params.tense === Tense.Present)
-                return DeriveSuffixPresentDefective(params);
+                return DeriveSuffixPresentDefective(verb, params);
             return DeriveSuffixPerfectDefective(params);
     }
 

@@ -30,14 +30,14 @@ export function GenerateParticipleStem3(root: VerbRoot, voice: VoiceString): Con
                 return [
                     { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                     { letter: root.r1, tashkil: Tashkil.Fatha },
-                    { letter: Letter.Alef, tashkil: Tashkil.Fatha },
+                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                     { letter: root.r2, tashkil: Tashkil.Kasratan },
                 ];
             }
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: root.r1, tashkil: Tashkil.Fatha },
-                { letter: Letter.Alef, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                 { letter: root.r2, tashkil: Tashkil.Fathatan },
                 { letter: Letter.AlefMaksura, tashkil: Tashkil.Sukun },
             ];

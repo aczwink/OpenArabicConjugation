@@ -20,45 +20,29 @@ import { ConjugationRule, Vowel } from "../../../Conjugation";
 import { ConjugationParams, Tense, Person, Gender, Mood, Numerus } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
-import { DoesPresentSuffixStartWithWawOrYa } from "../../msa/conjugation/suffix";
 import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
 
 export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: VerbStem1Data<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
 {
-    const isType1 = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) || (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA);
+    const isType1 = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) || (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) || (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA);
     if(isType1 && (params.tense === Tense.Perfect))
     {
         return [
             {
-                conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
-                symbols: [root.r1, root.r2],
-                vowels: [Vowel.ShortA, Vowel.BrokenA]
-            },
-            {
-                conditions: { tense: Tense.Perfect, person: Person.Third },
+                conditions: { person: Person.Third },
                 symbols: [root.r1, root.r2],
                 vowels: [Vowel.ShortA]
             },
             {
-                conditions: { tense: Tense.Perfect },
+                conditions: {},
                 symbols: [root.r1, root.r2],
                 vowels: [Vowel.ShortA, Vowel.DiphtongAj]
             },
         ];
     }
-    if((params.tense === Tense.Present) && (params.mood !== Mood.Imperative) && (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
-    {
-        return [
-            {
-                conditions: { tense: Tense.Present },
-                prefixVowel: Vowel.ShortI,
-                symbols: [root.r1, root.r2],
-                vowels: [Vowel.Sukun, Vowel.BrokenA]
-            }
-        ];
-    }
 
     const prefixVowel = (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA) ? Vowel.ShortA : Vowel.ShortI;
+    const r2impVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.BrokenA : Vowel.LongI;
     return [
         {
             conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
@@ -88,19 +72,13 @@ export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: Verb
         {
             conditions: { mood: Mood.Imperative },
             symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun, Vowel.LongI]
-        },
-        {
-            conditions: { tense: Tense.Present, hasPresentSuffix: true },
-            prefixVowel,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun]
+            vowels: [Vowel.Sukun, r2impVowel]
         },
         {
             conditions: { tense: Tense.Present },
             prefixVowel,
             symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun, Vowel.LongI]
+            vowels: [Vowel.Sukun]
         }
     ];
 }

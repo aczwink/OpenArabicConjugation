@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Tashkil, VoiceString } from "../../../Definitions";
+import { Letter, Tashkil, VerbType, VoiceString } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
@@ -23,26 +23,28 @@ import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, Modern
 
 export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[]
 {
+    switch(stem1Context.type)
+    {
+        case VerbType.Defective:
+        case VerbType.AssimilatedAndDefective:
+            if(voice === "active")
+                {
+                    return [
+                        { letter: root.r1, tashkil: Tashkil.Fatha },
+                        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                        { letter: root.r2, tashkil: Tashkil.Kasratan },
+                    ];
+                }
+                return [
+                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                    { letter: root.r1, tashkil: Tashkil.Sukun },
+                    { letter: root.r2, tashkil: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra },
+                    { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.Sukun },
+                    { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+                ];
+    }
     switch(root.type)
     {
-        case RootType.FinalWeak:
-        case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-            if(voice === "active")
-            {
-                return [
-                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                    { letter: root.r2, tashkil: Tashkil.Kasratan },
-                ];
-            }
-            return [
-                { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra },
-                { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.Sukun },
-                { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
-            ];
-
         case RootType.MiddleWeak:
             if(voice === "active")
             {

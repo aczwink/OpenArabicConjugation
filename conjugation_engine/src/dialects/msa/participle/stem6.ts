@@ -28,6 +28,7 @@ export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot,
     {
         case RootType.FinalWeak:
             return GenerateParticipleDefective(baseForm, voice);
+        case RootType.InitialWeak:
         case RootType.MiddleWeak:
         case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice);

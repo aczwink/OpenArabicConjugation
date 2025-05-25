@@ -50,7 +50,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         const matched = new ConjugationRuleMatcher<LebaneseStem1Context>().Match(rootAugmentation, verb, params);
 
         const prefix = DerivePrefix(matched.prefixVowel, matched.vowels[0], params);
-        const suffix = DeriveSuffix(verb.type, params);
+        const suffix = DeriveSuffix(verb, params);
 
         const constructed = this.Construct(matched, prefix, suffix);
 
@@ -190,9 +190,9 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         const conjugator = new MSAConjugator;
         const msaVersion = conjugator.ConjugateParticiple(verb as any, voice);
 
-        switch(root.type)
+        switch(verb.type)
         {
-            case RootType.FinalWeak:
+            case VerbType.Defective:
                 switch(stem)
                 {
                     case 1:
@@ -202,7 +202,16 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                             tashkil: Tashkil.LongVowelMarker
                         });
                         return msaVersion;
+                }
+        }
+
+        switch(root.type)
+        {
+            case RootType.FinalWeak:
+                switch(stem)
+                {
                     case 2:
+                    case 3:
                         msaVersion[0].tashkil = Tashkil.Sukun;
                         msaVersion[3].tashkil = Tashkil.Kasra;
                         msaVersion.push({
