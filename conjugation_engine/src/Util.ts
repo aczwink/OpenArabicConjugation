@@ -53,7 +53,13 @@ function IsArabicChar(char: string)
     return IsValidRootRadical(char);
 }
 
-export function IsArabicText(text: string)
+export function IsArabicPhrase(text: string)
+{
+    const parts = text.split(" ");
+    return parts.Values().Map(IsArabicWord).All();
+}
+
+export function IsArabicWord(text: string)
 {
     for (const char of text)
     {

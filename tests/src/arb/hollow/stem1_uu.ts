@@ -19,11 +19,12 @@ import { It } from "acts-util-test";
 import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
-//Source: https://en.wikipedia.org/wiki/Arabic_verbs#Hollow_(second-weak)_roots
-//Source for participles: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D9%84#Verb
+//Source: https://en.wiktionary.org/wiki/%D9%82%D8%A7%D9%84#Verb
+//Also: https://en.wikipedia.org/wiki/Arabic_verbs#Hollow_(second-weak)_roots
 
 It("Stem 1 past:u, present:u", () => {
-    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
+    const root = "ق-و-ل";
+    const stem = ModernStandardArabicStem1ParametersType.PastU_PresentU;
 
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "ج-و-د", expected: "جَوْدَة" }, //Source: http://ejtaal.net/aa/#hw4=185
@@ -34,86 +35,154 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "ف-و-ت", expected: "فَوَات" }, //Source: https://en.wiktionary.org/wiki/%D9%81%D8%A7%D8%AA
         { rootRadicals: "ط-و-ل", expected: "طُول" }, //Source: https://en.wiktionary.org/wiki/%D8%B7%D8%A7%D9%84
     ]);
-    RunParticipleTest("ق-و-ل", stem, "قَائِل", "مَقُول");
+    RunParticipleTest(root, stem, "قَائِل", "مَقُول");
 
     const conjugations: ConjugationTest[] = [
-        //past
-        { expected: "قَالَ", gender: "male", person: "third", },
-        { expected: "قَالَتْ", gender: "female", person: "third", },
-        { expected: "قُلْتَ", gender: "male", person: "second" },
-        { expected: "قُلْتِ", gender: "female", person: "second" },
-        { expected: "قُلْتُ", gender: "male", person: "first" },
+        //active past
+        { voice: "active", expected: "قَالَ", gender: "male", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قَالَتْ", gender: "female", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْتَ", gender: "male", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْتِ", gender: "female", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْتُ", gender: "male", person: "first", numerus: "singular", tense: "perfect", mood: "indicative" },
 
-        { expected: "قَالَا", gender: "male", person: "third", numerus: "dual" },
-        { expected: "قَالَتَا", gender: "female", person: "third", numerus: "dual" },
-        { expected: "قُلْتُمَا", gender: "male", person: "second", numerus: "dual" },
-        
-        { expected: "قَالُوا", gender: "male", person: "third", numerus: "plural" },
-        { expected: "قُلْنَ", gender: "female", person: "third", numerus: "plural" },
-        { expected: "قُلْتُمْ", gender: "male", person: "second", numerus: "plural" },
-        { expected: "قُلْتُنَّ", gender: "female", person: "second", numerus: "plural" },
-        { expected: "قُلْنَا", gender: "male", person: "first", numerus: "plural" },
+        { voice: "active", expected: "قَالَا", gender: "male", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قَالَتَا", gender: "female", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْتُمَا", gender: "male", person: "second", numerus: "dual", tense: "perfect", mood: "indicative" },
 
-        //present indicative
-        { expected: "يَقُول", gender: "male", person: "third", tense: "present" },
-        { expected: "تَقُول", gender: "female", person: "third", tense: "present" },
-        { expected: "تَقُولُ", gender: "male", person: "second", tense: "present" },
-        { expected: "تَقُولِينَ", gender: "female", person: "second", tense: "present" },
-        { expected: "أَقُولُ", gender: "male", person: "first", tense: "present" },
+        { voice: "active", expected: "قَالُوا", gender: "male", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْتُمْ", gender: "male", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْتُنَّ", gender: "female", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "قُلْنَا", gender: "male", person: "first", numerus: "plural", tense: "perfect", mood: "indicative" },
 
-        { expected: "يَقُولَانِ", gender: "male", person: "third", numerus: "dual", tense: "present" },
-        { expected: "تَقُولَانِ", gender: "female", person: "third", numerus: "dual", tense: "present" },
-        { expected: "تَقُولَانِ", gender: "male", person: "second", numerus: "dual", tense: "present" },
-        
-        { expected: "يَقُولُونَ", gender: "male", person: "third", numerus: "plural", tense: "present" },
-        { expected: "يَقُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present" },
-        { expected: "تَقُولُونَ", gender: "male", person: "second", numerus: "plural", tense: "present" },
-        { expected: "تَقُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present" },
-        { expected: "نَقُول", gender: "male", person: "first", numerus: "plural", tense: "present" },
+        //active indicative
+        { voice: "active", expected: "يَقُولُ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُولُ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُولُ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُولِينَ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "أَقُولُ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "indicative" },
 
-        //subjunctive
-        { expected: "يَقُول", gender: "male", person: "third", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُول", gender: "female", person: "third", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُولَ", gender: "male", person: "second", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُولِي", gender: "female", person: "second", tense: "present", mood: "subjunctive" },
-        { expected: "أَقُولَ", gender: "male", person: "first", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "يَقُولَانِ", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُولَانِ", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُولَانِ", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "indicative" },
 
-        { expected: "يَقُولَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُولَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُولَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "subjunctive" },
-        
-        { expected: "يَقُولُوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
-        { expected: "يَقُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُولُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
-        { expected: "تَقُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
-        { expected: "نَقُول", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "يَقُولُونَ", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "يَقُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُولُونَ", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَقُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "نَقُولُ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "indicative" },
 
-        //jussive
-        { expected: "يَقُل", gender: "male", person: "third", tense: "present", mood: "jussive" },
-        { expected: "تَقُل", gender: "female", person: "third", tense: "present", mood: "jussive" },
-        { expected: "تَقُل", gender: "male", person: "second", tense: "present", mood: "jussive" },
-        { expected: "تَقُولِي", gender: "female", person: "second", tense: "present", mood: "jussive" },
-        { expected: "أَقُلْ", gender: "male", person: "first", tense: "present", mood: "jussive" },
+        //active subjunctive
+        { voice: "active", expected: "يَقُولَ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُولَ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُولَ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُولِي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "أَقُولَ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "subjunctive" },
 
-        { expected: "يَقُولَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
-        { expected: "تَقُولَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
-        { expected: "تَقُولَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "jussive" },
-        
-        { expected: "يَقُولُوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
-        { expected: "يَقُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
-        { expected: "تَقُولُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
-        { expected: "تَقُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
-        { expected: "نَقُل", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "يَقُولَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُولَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُولَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "subjunctive" },
+
+        { voice: "active", expected: "يَقُولُوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "يَقُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُولُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَقُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "نَقُولَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
+
+        //active jussive
+        { voice: "active", expected: "يَقُلْ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُلْ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُلْ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُولِي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "أَقُلْ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
+
+        { voice: "active", expected: "يَقُولَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُولَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُولَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "jussive" },
+
+        { voice: "active", expected: "يَقُولُوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "يَقُلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُولُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَقُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "نَقُلْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
 
         //imperative
-        { expected: "قُلْ", gender: "male", person: "second", tense: "present", mood: "imperative" },
-        { expected: "قُولِي", gender: "female", person: "second", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "قُلْ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "قُولِي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
 
-        { expected: "قُولَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "قُولَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "imperative" },
 
-        { expected: "قُولُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
-        { expected: "قُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "قُولُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "قُلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
+
+        //passive past
+        { voice: "passive", expected: "قِيلَ", gender: "male", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِيلَتْ", gender: "female", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْتَ", gender: "male", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْتِ", gender: "female", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْتُ", gender: "male", person: "first", numerus: "singular", tense: "perfect", mood: "indicative" },
+
+        { voice: "passive", expected: "قِيلَا", gender: "male", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِيلَتَا", gender: "female", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْتُمَا", gender: "male", person: "second", numerus: "dual", tense: "perfect", mood: "indicative" },
+
+        { voice: "passive", expected: "قِيلُوا", gender: "male", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْنَ", gender: "female", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْتُمْ", gender: "male", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْتُنَّ", gender: "female", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "قِلْنَا", gender: "male", person: "first", numerus: "plural", tense: "perfect", mood: "indicative" },
+
+        //passive indicative
+        { voice: "passive", expected: "يُقَالُ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَالُ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَالُ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَالِينَ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "أُقَالُ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "indicative" },
+
+        { voice: "passive", expected: "يُقَالَانِ", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَالَانِ", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَالَانِ", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "indicative" },
+
+        { voice: "passive", expected: "يُقَالُونَ", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "يُقَلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَالُونَ", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُقَلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "نُقَالُ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "indicative" },
+
+        //passive subjunctive
+        { voice: "passive", expected: "يُقَالَ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَالَ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَالَ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَالِي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "أُقَالَ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "subjunctive" },
+
+        { voice: "passive", expected: "يُقَالَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَالَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَالَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "subjunctive" },
+
+        { voice: "passive", expected: "يُقَالُوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "يُقَلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَالُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُقَلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "نُقَالَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
+
+        //passive jussive
+        { voice: "passive", expected: "يُقَلْ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَلْ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَلْ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَالِي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "أُقَلْ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
+
+        { voice: "passive", expected: "يُقَالَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَالَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَالَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "jussive" },
+
+        { voice: "passive", expected: "يُقَالُوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "يُقَلْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَالُوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُقَلْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "نُقَلْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ق-و-ل", stem, conjugations);
+    RunConjugationTest(root, stem, conjugations);
 });

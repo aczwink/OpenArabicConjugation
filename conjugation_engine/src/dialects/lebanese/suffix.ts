@@ -144,14 +144,24 @@ function DeriveSuffixPresent(params: ConjugationParams): SuffixResult
 
 function DeriveSuffixPresentDefective(verb: Verb<LebaneseStem1Context>, params: ConjugationParams): SuffixResult
 {
+    function IsType1(stemParameterization: LebaneseStem1Context)
+    {
+        switch(stemParameterization)
+        {
+            case LebaneseStem1Context.DefectiveWithImperativeA:
+            case LebaneseStem1Context.PastI_PresentA:
+            case LebaneseStem1Context.PastA_PresentA:
+                return !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender);
+        }
+        return false;
+    }
+
     const regular = DeriveSuffixPresent(params);
     if((params.numerus === Numerus.Plural) && (params.person !== Person.First))
     {
         return regular;
     }
-    const stem1Cond1 = (verb.stem === 1) && (verb.stemParameterization === LebaneseStem1Context.PastI_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender);
-    const stem1Cond2 = (verb.stem === 1) && (verb.stemParameterization === LebaneseStem1Context.PastA_PresentA) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender);
-    if(stem1Cond1 || stem1Cond2)
+    if((verb.stem === 1) && IsType1(verb.stemParameterization))
         regular.previousVowel = Vowel.BrokenA;
     else
         regular.previousVowel = Vowel.LongI;

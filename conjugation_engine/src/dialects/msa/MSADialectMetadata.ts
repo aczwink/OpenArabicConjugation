@@ -59,11 +59,22 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
             voice: Voice.Active
         };
 
-        switch(root.type)
+        switch(verbType)
         {
-            case RootType.InitialWeak:
-            case RootType.HamzaOnR1:
-            case RootType.Regular:
+            case VerbType.Assimilated:
+            {
+                return {
+                    requiredContext: [
+                        presentContext
+                    ],
+                    types: [
+                        ModernStandardArabicStem1ParametersType.PastA_PresentA,
+                        ModernStandardArabicStem1ParametersType.PastA_PresentI,
+                        ModernStandardArabicStem1ParametersType.PastI_PresentI,
+                    ]
+                };
+            }
+            case VerbType.Sound:
             {
                 return {
                     requiredContext: [
@@ -74,10 +85,28 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         ModernStandardArabicStem1ParametersType.PastA_PresentI,
                         ModernStandardArabicStem1ParametersType.PastA_PresentU,
                         ModernStandardArabicStem1ParametersType.PastI_PresentA,
-                        ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI,
-                        ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU,
+                        ModernStandardArabicStem1ParametersType.PastI_PresentI,
+                        ModernStandardArabicStem1ParametersType.PastU_PresentU,
                     ]
-                }
+                };
+            }
+        }
+
+        switch(root.type)
+        {
+            case RootType.HamzaOnR1:
+            {
+                return {
+                    requiredContext: [
+                        presentContext
+                    ],
+                    types: [
+                        ModernStandardArabicStem1ParametersType.PastA_PresentI,
+                        ModernStandardArabicStem1ParametersType.PastA_PresentU,
+                        ModernStandardArabicStem1ParametersType.PastI_PresentA,
+                        ModernStandardArabicStem1ParametersType.PastU_PresentU,
+                    ]
+                };
             }
             case RootType.FinalWeak:
                 const special = GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching(root);
@@ -99,7 +128,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 };
             case RootType.MiddleWeak:
                 {
-                    const r2DependentType = (root.r2 === Letter.Waw) ? ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU : ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
+                    const r2DependentType = (root.r2 === Letter.Waw) ? ModernStandardArabicStem1ParametersType.PastU_PresentU : ModernStandardArabicStem1ParametersType.PastI_PresentI;
                     return {
                         requiredContext: [
                             presentContext,
@@ -108,7 +137,6 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         types: [
                             r2DependentType,
                             ModernStandardArabicStem1ParametersType.PastI_PresentA,
-                            ModernStandardArabicStem1ParametersType.Hollow_PastU_PresentA,
                         ],
                     };
                 }

@@ -111,6 +111,11 @@ export function IsLongVowel(vocalized: ConjugationVocalized, predecessor?: Conju
     return isLongAlef || isLongYa || isLongWaw;
 }
 
+export function ParseVocalizedPhrase(text: string)
+{
+    return text.split(" ").map(ParseVocalizedText);
+}
+
 export function ParseVocalizedText(text: string)
 {
     const result: DisplayVocalized[] = [];

@@ -23,7 +23,7 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 
 It("Stem 1 past:i, present:i", () => {
     const root = "ز-ي-د";
-    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentI;
     
     RunVerbalNounPatternTest(stem, [
         { expected: "زِيَادَة", rootRadicals: root },

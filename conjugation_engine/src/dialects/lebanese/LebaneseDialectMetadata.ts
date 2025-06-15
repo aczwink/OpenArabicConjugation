@@ -27,6 +27,7 @@ export enum LebaneseStem1Context
      * Present R2: i
      */
     DefectiveType1WithPrefixA = "d1a",
+    DefectiveWithImperativeA = "diaa",
     IrregularJy2 = "irjy2",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
@@ -106,6 +107,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     requiredContext: [],
                     types: [
                         LebaneseStem1Context.DefectiveType1WithPrefixA,
+                        LebaneseStem1Context.DefectiveWithImperativeA,
                         LebaneseStem1Context.PastA_PresentA,
                         LebaneseStem1Context.PastA_PresentI,
                         LebaneseStem1Context.PastI_PresentA,
@@ -140,6 +142,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                         }
                     ],
                     types: [
+                        LebaneseStem1Context.PastI_PresentA,
                         LebaneseStem1Context.PastI_PresentI,
                         LebaneseStem1Context.PastI_PresentU
                     ],

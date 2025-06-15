@@ -59,6 +59,17 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
                 { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
             ];
 
+        case RootType.Quadriliteral:
+            return [
+                { letter: Letter.Alef, tashkil: Tashkil.Kasra },
+                { letter: root.r1, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: Tashkil.Kasra },
+                { letter: root.r3, tashkil: Tashkil.Sukun },
+                { letter: root.r4, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:
             return [

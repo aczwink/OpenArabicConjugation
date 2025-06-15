@@ -23,7 +23,7 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 //https://en.wiktionary.org/wiki/%D8%AC%D8%A7%D8%A1
 
 It("R2:Ya, R3:Hamza", () => {
-    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentI;
 
     throw new Error("TODO verbal noun test :)");
     RunParticipleTest("ج-ي-ء", stem, "جَاءٍ", "مَجِيء");

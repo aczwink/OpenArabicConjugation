@@ -150,6 +150,14 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                             { letter: root.r2, tashkil: Tashkil.Kasra },
                             { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                         ];
+                    case 7:
+                    {
+                        const base = this.ConjugateBaseForm(root, stem);
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Kasra },
+                            ...base
+                        ];
+                    }
                 }
             }
             break;
@@ -172,6 +180,14 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
                             ...this.ConjugateBaseForm(root, stem)
+                        ];
+                    case 7:
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Dhamma },
+                            { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                         ];
                     case 8:
                         const base = this.ConjugateBaseForm(root, stem);

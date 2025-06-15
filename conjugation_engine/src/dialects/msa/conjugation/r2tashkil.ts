@@ -26,22 +26,20 @@ export enum ModernStandardArabicStem1ParametersType
     DefectiveType1 = "ai",
     DefectiveType2 = "au",
     DefectiveType3 = "ia",
-    Hollow_PastU_PresentA = "ua",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
     PastI_PresentA = "ia",
+    PastI_PresentI = "ii",
+    PastU_PresentU = "uu",
     Quadrilateral = "ss",
-    RegularOrHollow_PastI_PresentI = "ii",
-    RegularOrHollow_PastU_PresentU = "uu",
 }
 
 export function ExtractMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
 {
     switch(type)
     {
-        case ModernStandardArabicStem1ParametersType.Hollow_PastU_PresentA:
-        case ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU:
+        case ModernStandardArabicStem1ParametersType.PastU_PresentU:
             return Tashkil.Dhamma;
         case ModernStandardArabicStem1ParametersType.DefectiveType1:
         case ModernStandardArabicStem1ParametersType.DefectiveType2:
@@ -51,7 +49,7 @@ export function ExtractMiddleRadicalTashkil(type: ModernStandardArabicStem1Param
             return Tashkil.Fatha;
         case ModernStandardArabicStem1ParametersType.DefectiveType3:
         case ModernStandardArabicStem1ParametersType.PastI_PresentA:
-        case ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI:
+        case ModernStandardArabicStem1ParametersType.PastI_PresentI:
             return Tashkil.Kasra;
         case ModernStandardArabicStem1ParametersType.Quadrilateral:
             return Tashkil.Sukun;
@@ -64,14 +62,13 @@ export function ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicSte
     {
         case ModernStandardArabicStem1ParametersType.DefectiveType1:
         case ModernStandardArabicStem1ParametersType.PastA_PresentI:
-        case ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI:
+        case ModernStandardArabicStem1ParametersType.PastI_PresentI:
             return Tashkil.Kasra;
         case ModernStandardArabicStem1ParametersType.DefectiveType2:
         case ModernStandardArabicStem1ParametersType.PastA_PresentU:
-        case ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU:
+        case ModernStandardArabicStem1ParametersType.PastU_PresentU:
             return Tashkil.Dhamma;
         case ModernStandardArabicStem1ParametersType.DefectiveType3:
-        case ModernStandardArabicStem1ParametersType.Hollow_PastU_PresentA:
         case ModernStandardArabicStem1ParametersType.PastA_PresentA:
         case ModernStandardArabicStem1ParametersType.PastI_PresentA:
             return Tashkil.Fatha;

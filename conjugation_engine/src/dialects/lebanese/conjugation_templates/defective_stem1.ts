@@ -17,7 +17,7 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Tense, Person, Gender, Mood, Numerus } from "../../../Definitions";
+import { ConjugationParams, Tense, Person, Gender, Mood, Numerus, Letter } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
 import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
@@ -42,7 +42,7 @@ export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: Verb
     }
 
     const prefixVowel = (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA) ? Vowel.ShortA : Vowel.ShortI;
-    const r2impVowel = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) ? Vowel.BrokenA : Vowel.LongI;
+    const r2impVowel = ((stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) || (stemData.stemParameterization === LebaneseStem1Context.DefectiveWithImperativeA)) ? Vowel.BrokenA : Vowel.LongI;
     return [
         {
             conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
@@ -51,12 +51,12 @@ export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: Verb
         },
         {
             conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular },
-            symbols: [root.r1, root.r2, root.r3],
+            symbols: [root.r1, root.r2, Letter.Ya],
             vowels: [Vowel.ShortI, Vowel.Sukun, Vowel.ShortI]
         },
         {
             conditions: { tense: Tense.Perfect, person: Person.Third },
-            symbols: [root.r1, root.r2, root.r3],
+            symbols: [root.r1, root.r2, Letter.Ya],
             vowels: [Vowel.ShortI, Vowel.Sukun]
         },
         {

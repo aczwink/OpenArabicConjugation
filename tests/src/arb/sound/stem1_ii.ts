@@ -24,7 +24,7 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 
 It("Stem 1 past:i, present:i", () => {
     throw new Error("TODO verbal noun test :)");
-    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastI_PresentI;
+    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentI;
 
     RunParticipleTest("ح-س-ب", stem, "حَاسِب", "مَحْسُوب");
 

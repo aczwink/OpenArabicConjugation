@@ -28,7 +28,7 @@ It("Double hamza initially", () => {
 });
 
 It("Alif madda initially", () => {
-    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.PastU_PresentU;
 
     const conjugations: ConjugationTest[] = [
         { expected: "آصُلُ", tense: "present", person: "first" }

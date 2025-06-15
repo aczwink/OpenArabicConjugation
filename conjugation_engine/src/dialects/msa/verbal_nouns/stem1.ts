@@ -340,6 +340,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                                 [
                                     { letter: root.r1, tashkil: Tashkil.Fatha },
                                     { letter: root.r2, tashkil: Tashkil.Fatha },
+                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                                ],
+                                [
+                                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                                    { letter: root.r2, tashkil: Tashkil.Fatha },
                                     { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                                     { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                                 ],
@@ -916,9 +921,10 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
             return true;
         case RootType.HamzaOnR1:
         {
-            switch(ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
+            switch(stem1Context.stemParameterization)
             {
-                case Tashkil.Dhamma:
+                case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
                     return true;
             }
         }

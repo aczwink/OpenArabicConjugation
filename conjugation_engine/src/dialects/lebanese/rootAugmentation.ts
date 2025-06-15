@@ -22,9 +22,12 @@ import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
 import { DefectiveStem3ConjugationTemplate } from "./conjugation_templates/defective_stem3";
+import { GeminateStem7ConjugationTemplate } from "./conjugation_templates/geminate_stem7";
+import { HollowStem1ConjugationTemplate } from "./conjugation_templates/hollow_stem1";
 import { QuadriliteralStem1ConjugationTemplate } from "./conjugation_templates/quadriliteral_stem1";
 import { RegularStem1ConjugationTemplate } from "./conjugation_templates/regular_stem1";
-import { IrregularIja, IsHamzaOnR1SpecialCase } from "./irregular";
+import { SoundStem7ConjugationTemplate } from "./conjugation_templates/sound_stem7";
+import { IsHamzaOnR1SpecialCase } from "./irregular";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
 export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
@@ -41,29 +44,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(root.type)
             {
                 case RootType.MiddleWeak:
-                {
-                    if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
-                        return IrregularIja(root);
-
-                    const r2presentVowel = (stemData.stemParameterization === LebaneseStem1Context.PastI_PresentI) ? Vowel.LongI : Vowel.LongU;
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [(params.person === Person.Third) ? Vowel.LongA : Vowel.ShortI]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.Sukun,
-                                    vowels: [r2presentVowel]
-                                }
-                            ]
-                        },
-                    ];
-                }
+                    return HollowStem1ConjugationTemplate(root, stemData, params);
 
                 case RootType.HamzaOnR1:
                     if(IsHamzaOnR1SpecialCase(root) && (params.tense === Tense.Present))
@@ -517,6 +498,18 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                     ];
+            }
+        }
+        break;
+
+        case 7:
+        {
+            switch(stemData.type)
+            {
+                case VerbType.Geminate:
+                    return GeminateStem7ConjugationTemplate(root, stemData, params);
+                case VerbType.Sound:
+                    return SoundStem7ConjugationTemplate(root, stemData, params);
             }
         }
         break;

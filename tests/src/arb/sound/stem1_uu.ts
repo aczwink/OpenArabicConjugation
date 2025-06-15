@@ -23,7 +23,7 @@ import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/d
 
 It("Stem 1 past:u, present:u", () => {
     const root = "خ-ب-ر";
-    const stem = ModernStandardArabicStem1ParametersType.RegularOrHollow_PastU_PresentU;
+    const stem = ModernStandardArabicStem1ParametersType.PastU_PresentU;
 
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "ب-ع-د", expected: "بُعْد" }, //Source: https://en.wiktionary.org/wiki/%D8%A8%D8%B9%D8%AF
