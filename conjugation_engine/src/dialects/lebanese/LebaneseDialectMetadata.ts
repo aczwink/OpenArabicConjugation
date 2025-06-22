@@ -21,6 +21,7 @@ import { RootType, VerbRoot } from "../../VerbRoot";
 
 export enum LebaneseStem1Context
 {
+    AssimilatedPastII_PresentA = "iia",
     /**
      * Past R2: a
      * Present prefix: a (unlike normal defective type 1 which is i)
@@ -101,6 +102,17 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
 
         switch(verbType)
         {
+            case VerbType.Assimilated:
+            {
+                return {
+                    requiredContext: [],
+                    types: [
+                        LebaneseStem1Context.AssimilatedPastII_PresentA,
+                        LebaneseStem1Context.PastA_PresentI,
+                        LebaneseStem1Context.PastI_PresentA,
+                    ],
+                };
+            }
             case VerbType.Defective:
             {
                 return {

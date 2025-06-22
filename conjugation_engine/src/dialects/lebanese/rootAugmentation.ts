@@ -20,10 +20,14 @@ import { ConjugationRule, Vowel } from "../../Conjugation";
 import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType } from "../../Definitions";
 import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
+import { AssimilatedStem1ConjugationTemplate } from "./conjugation_templates/assimilated_stem1";
 import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
 import { DefectiveStem3ConjugationTemplate } from "./conjugation_templates/defective_stem3";
+import { DefectiveStem7ConjugationTemplate } from "./conjugation_templates/defective_stem7";
 import { GeminateStem7ConjugationTemplate } from "./conjugation_templates/geminate_stem7";
+import { GeminateStem8ConjugationTemplate } from "./conjugation_templates/geminate_stem8";
 import { HollowStem1ConjugationTemplate } from "./conjugation_templates/hollow_stem1";
+import { HollowStem7ConjugationTemplate } from "./conjugation_templates/hollow_stem7";
 import { QuadriliteralStem1ConjugationTemplate } from "./conjugation_templates/quadriliteral_stem1";
 import { RegularStem1ConjugationTemplate } from "./conjugation_templates/regular_stem1";
 import { SoundStem7ConjugationTemplate } from "./conjugation_templates/sound_stem7";
@@ -37,6 +41,8 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         case 1:
             switch(stemData.type)
             {
+                case VerbType.Assimilated:
+                    return AssimilatedStem1ConjugationTemplate(root, stemData, params);
                 case VerbType.Defective:
                     return DefectiveStem1ConjugationTemplate(root, stemData, params);
             }
@@ -232,6 +238,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                         },
                     ];
 
+                case RootType.InitialWeak:
                 case RootType.MiddleWeak:
                 case RootType.Regular:
                     return [
@@ -506,8 +513,12 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
+                case VerbType.Defective:
+                    return DefectiveStem7ConjugationTemplate(root, stemData, params);
                 case VerbType.Geminate:
                     return GeminateStem7ConjugationTemplate(root, stemData, params);
+                case VerbType.Hollow:
+                    return HollowStem7ConjugationTemplate(root, stemData, params);
                 case VerbType.Sound:
                     return SoundStem7ConjugationTemplate(root, stemData, params);
             }
@@ -516,6 +527,12 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 8:
         {
+            switch(stemData.type)
+            {
+                case VerbType.Geminate:
+                    return GeminateStem8ConjugationTemplate(root, stemData, params);
+            }
+            
             switch(root.type)
             {
                 case RootType.FinalWeak:

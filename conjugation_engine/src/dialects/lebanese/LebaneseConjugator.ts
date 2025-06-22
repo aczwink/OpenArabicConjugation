@@ -63,7 +63,33 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
             return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.AlefMaksuraMarker }];
 
         const root = verb.root;
-        const stem = verb.stem;        
+        const stem = verb.stem;
+
+        switch(verb.type)
+        {
+            case VerbType.Assimilated:
+            {
+                switch(stem)
+                {
+                    case 1:
+                        return [
+                            { letter: Letter.Waw, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r2, tashkil: Tashkil.Kasra },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ];
+                    case 2:
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Sukun },
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Kasra },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ];
+                }
+            }
+        }
+
         switch(verb.root.type)
         {
             case RootType.FinalWeak:
@@ -80,6 +106,15 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
                             ...base
                         ];
+
+                    case 7:
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Kasra },
+                            { letter: root.r1, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+                        ];
+
                     case 8:
                     {
                         const base = this.ConjugateBaseForm(verb.root, verb.stem);
@@ -116,6 +151,15 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                                 { letter: verb.root.r3, tashkil: Tashkil.EndOfWordMarker },
                             ];
 
+                    case 7:
+                    {
+                        const base = this.ConjugateBaseForm(root, verb.stem);
+                        return [
+                            { letter: Letter.Mim, tashkil: Tashkil.Kasra },
+                            ...base
+                        ];
+                    }
+
                     case 8:
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
@@ -151,13 +195,11 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                             { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                         ];
                     case 7:
-                    {
-                        const base = this.ConjugateBaseForm(root, stem);
+                    case 8:
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
-                            ...base
+                            ...this.ConjugateBaseForm(root, stem)
                         ];
-                    }
                 }
             }
             break;

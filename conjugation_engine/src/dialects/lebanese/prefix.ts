@@ -33,7 +33,7 @@ function DerivePrefixSubjunctive(prefixEndingVowel: Vowel, followingVowel: Vowel
             ];
         }
 
-        if(followingVowel === Vowel.Sukun)
+        if((followingVowel === Vowel.Sukun) || (prefixEndingVowel === Vowel.LongU))
         {
             return [
                 {

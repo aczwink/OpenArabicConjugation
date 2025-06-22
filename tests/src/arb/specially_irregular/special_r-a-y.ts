@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest, RunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B1%D8%A3%D9%89
@@ -24,7 +24,10 @@ It("Specially irregular defective رَأَى", () => {
     const root = "ر-ء-ي"
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
-    RunVerbalNounTest(root, stem, "رَأْي");
+    RunVerbalNounPatternTest(stem, [
+        { expected: "رَأْي", rootRadicals: root },
+        { expected: "رُؤْيَة", rootRadicals: root },
+    ])
     RunParticipleTest(root, stem, "رَاءٍ", "مَرْئِيّ");
 
     const conjugations: ConjugationTest[] = [
