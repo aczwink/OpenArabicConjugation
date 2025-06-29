@@ -490,6 +490,12 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                                     { letter: Letter.Mim, tashkil: Tashkil.Fatha },
                                     { letter: root.r1, tashkil: Tashkil.Kasra },
                                     { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                                ],
+                                [
+                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                                    { letter: root.r1, tashkil: Tashkil.Kasra },
+                                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
                                     { letter: root.r3, tashkil: Tashkil.Fatha },
                                     { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
                                 ],
