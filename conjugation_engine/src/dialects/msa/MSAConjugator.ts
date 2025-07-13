@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, StemNumber, VerbType } from "../../Definitions";
+import { Letter, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveDeclensionParams, NounDeclensionParams, NounState, VerbType } from "../../Definitions";
 import { DialectConjugator, NounInput, TargetNounDerivation } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
-import { AugmentedRoot } from "./AugmentedRoot";
+import { AugmentedRoot, AugmentedRootSymbolInput, SymbolName } from "./AugmentedRoot";
 import { DeriveSuffix } from "./conjugation/suffix";
 import { DerivePrefix } from "./conjugation/prefix";
 import { AugmentRoot } from "./conjugation/rootAugmentation";
@@ -57,6 +57,9 @@ import { GenerateParticipleStem9 } from "./participle/stem9";
 import { Verb, VerbStem1Data } from "../../Verb";
 import { DialectType } from "../../Dialects";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
+import { SelectTemplate } from "./conjugation_templates/select";
+import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
+import { _TODO_ToConjugationVocalized, _TODO_VowelToTashkil, ConjugationItem, Vowel } from "../../Conjugation";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -65,6 +68,8 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     //Public methods
     public Conjugate(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]
     {
+        this.MissingTestsCheck(verb);
+
         const result = this.ProcessConjugationPipeline(verb, params);
         return DerivePrefix(result.augmentedRoot.symbols[0].tashkil as any, verb.root.type, verb, params).concat(result.augmentedRoot.symbols, result.suffix.suffix);
     }
@@ -256,8 +261,77 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         });
     }
 
+    private MissingTestsCheck(verb: Verb<ModernStandardArabicStem1ParametersType>)
+    {
+        if((verb.root.r1 === Letter.Hamza) && (verb.root.r3 === Letter.Ya) && (verb.stem === 4))
+        {
+            //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
+            throw new Error("TODO: write test! 2");
+        }
+
+        if((verb.root.r1 === Letter.Waw) && (verb.root.r3 === Letter.Waw) && (verb.stem === 8))
+        {
+            //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
+            throw new Error("TODO: write test! 3");
+        }
+        if((verb.root.r1 === Letter.Waw) && (verb.root.r3 === Letter.Ya) && (verb.stem === 8))
+        {
+            //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
+            throw new Error("TODO: write test! 3");
+        }
+
+        if((verb.root.type === RootType.MiddleWeak) && (verb.stem === 7))
+        {
+            //https://en.wikipedia.org/wiki/Arabic_verbs#Hollow_(second-weak)_verbs
+            throw new Error("TODO: write test! 4" +  verb.root.radicalsAsSeparateLetters.join("-"));
+        }
+    }
+
     private ProcessConjugationPipeline(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
     {
+        const template = SelectTemplate(verb, params);
+        if(template !== undefined)
+        {
+            const suffix = DeriveSuffix(params);
+
+            const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>().Match(template, verb, params);
+
+            const items: ConjugationItem[] = [];
+            for(let i = 0; i < matched.symbols.length; i++)
+            {
+                items.push({
+                    consonant: matched.symbols[i],
+                    followingVowel: matched.vowels[i] ?? Vowel.Sukun,
+                });
+            }
+
+            const word = _TODO_ToConjugationVocalized({
+                items,
+            });
+
+            const input: AugmentedRootSymbolInput[] = [];
+            for (const element of word)
+            {
+                input.push({
+                    letter: element.letter,
+                    symbolName: SymbolName.Infix,
+                    tashkil: element.tashkil,
+                });
+            }
+            const last = input[input.length - 1];
+            if(last.symbolName === SymbolName.Infix)
+            {
+                last.tashkil = suffix.preSuffixTashkil;
+            }
+
+            const augmentedRoot = new AugmentedRoot(input, verb.root);
+
+            return {
+                augmentedRoot,
+                suffix
+            };
+        }
+
         const maybeAugmentedRoot = AugmentRoot(verb.stem, verb.root, params);
         if(maybeAugmentedRoot === undefined)
             throw new Error("TODO: can't form augmented root");

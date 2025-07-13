@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%B5%D8%B7%D9%84%D8%AD#Arabic
 //and https://en.wikipedia.org/wiki/Arabic_verbs#Form_VIII_assimilations
@@ -175,5 +175,5 @@ It("Stem 8 with R1 = Saad assimilation", () => {
         { voice: "passive", expected: "نُصْطَلَحْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ص-ل-ح", 8, conjugations);
+    _Legacy_RunConjugationTest("ص-ل-ح", 8, conjugations);
 });

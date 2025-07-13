@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,9 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
+import { DialectType } from "openarabicconjugation/dist/Dialects";
+import { VerbTestData, RunSoundEqualityTest } from "../../shared";
 
-//Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
+//Source: https://en.wikipedia.org/wiki/Arabic_verbs#Assimilated_(first-weak)_verbs
 
-It("R1:Hamza, R2=R3", () => {    
-    throw new Error("TODO here! :)");
+It("Sound stems", () => {
+    const verbData: VerbTestData = {
+        rootRadicals: "و-د-ع",
+        dialect: DialectType.ModernStandardArabic,
+        stem: 2,
+    };
+
+    RunSoundEqualityTest(verbData);
 });

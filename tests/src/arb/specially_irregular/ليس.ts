@@ -16,13 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
+import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
+import { DialectType } from "openarabicconjugation/dist/Dialects";
+import { VerbType } from "openarabicconjugation/dist/Definitions";
 
 //Source: https://en.wiktionary.org/wiki/%D9%84%D9%8A%D8%B3
 
-It("Stem 4", () => {
+It("ليس", () => {
     const root = "ل-ي-س"
-    const stem = "s";
+    const stem = ModernStandardArabicStem1ParametersType.IrregularLaysa;
 
     const conjugations: ConjugationTest[] = [
         //past
@@ -43,5 +46,5 @@ It("Stem 4", () => {
         { expected: "لَسْنَا", gender: "male", person: "first", numerus: "plural" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations, DialectType.ModernStandardArabic, VerbType.Irregular);
 });

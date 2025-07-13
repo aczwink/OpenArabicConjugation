@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%AE%D8%B0#Verb
@@ -174,7 +174,7 @@ It("Stem 1 irregular short imperative ء-خ-ذ", () => {
         { voice: "passive", expected: "نُؤْخَذْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ء-خ-ذ", stem, conjugations);
+    _Legacy_RunConjugationTest("ء-خ-ذ", stem, conjugations);
 });
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%83%D9%84#Verb
@@ -183,7 +183,7 @@ It("Stem 1 irregular short imperative ء-ك-ل", () => {
     const root = "ء-ك-ل";
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
 
-    //throw new Error("TODO verbal noun test :)");
+    throw new Error("TODO verbal noun test :)");
     RunParticipleTest(root, stem, "آكِل", "مَأْكُول");
     
     const conjugations: ConjugationTest[] = [
@@ -333,5 +333,5 @@ It("Stem 1 irregular short imperative ء-ك-ل", () => {
         { voice: "passive", expected: "نُؤْكَلْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

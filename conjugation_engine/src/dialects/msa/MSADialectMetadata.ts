@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
+import { AdvancedStemNumber, ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching } from "./conjugation/defective_special_cases";
@@ -30,11 +30,18 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
     iso639code = "arb";
     glottoCode = "stan1318";
 
-    public DeriveDeducedVerbTypeFromRootType(root: VerbRoot): VerbType
+    public DeriveVerbType(root: VerbRoot, stem: ModernStandardArabicStem1ParametersType | AdvancedStemNumber): VerbType
     {
         const verbType = root.DeriveDeducedVerbType();
         switch(verbType)
         {
+            case VerbType.Assimilated:
+                switch(stem)
+                {
+                    case 2:
+                        return VerbType.Sound;
+                }
+                break;
             case VerbType.QuadriliteralAndDefective:
                 return VerbType.SoundQuadriliteral;
         }
@@ -71,6 +78,15 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         ModernStandardArabicStem1ParametersType.PastA_PresentA,
                         ModernStandardArabicStem1ParametersType.PastA_PresentI,
                         ModernStandardArabicStem1ParametersType.PastI_PresentI,
+                    ]
+                };
+            }
+            case VerbType.Irregular:
+            {
+                return {
+                    requiredContext: [],
+                    types: [
+                        ModernStandardArabicStem1ParametersType.IrregularLaysa
                     ]
                 };
             }

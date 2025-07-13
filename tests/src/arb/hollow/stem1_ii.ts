@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B2%D8%A7%D8%AF#Verb
@@ -30,11 +30,11 @@ It("Stem 1 past:i, present:i", () => {
         { expected: "عَيْش", rootRadicals: "ع-ي-ش" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D8%B4
         { expected: "عِيشَة", rootRadicals: "ع-ي-ش" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D8%B4
         { expected: "مَعِيشَة", rootRadicals: "ع-ي-ش" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D8%B4
-        { expected: "سِيَاحَة", rootRadicals: "س-ي-ح" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A7%D8%AD
         { expected: "غَيْبَة", rootRadicals: "غ-ي-ب" }, //Source: https://en.wiktionary.org/wiki/%D8%BA%D8%A7%D8%A8#Arabic
         { expected: "طَيَرَان", rootRadicals: "ط-ي-ر" }, //Source: https://en.wiktionary.org/wiki/%D8%B7%D8%A7%D8%B1#Arabic
         { expected: "ضَيَاع", rootRadicals: "ض-ي-ع" }, //Source: https://en.wiktionary.org/wiki/%D8%B6%D8%A7%D8%B9
         { expected: "مَصِير", rootRadicals: "ص-ي-ر" }, //Source: https://en.wiktionary.org/wiki/%D8%B5%D8%A7%D8%B1
+        { expected: "غِيَاب", rootRadicals: "غ-ي-ب" }, //Source: https://en.wiktionary.org/wiki/%D8%BA%D8%A7%D8%A8#Arabic
     ]);
     
     RunParticipleTest(root, stem, "زَائِد", "مَزِيد");
@@ -186,5 +186,5 @@ It("Stem 1 past:i, present:i", () => {
         { voice: "passive", expected: "نُزَدْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

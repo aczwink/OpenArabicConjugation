@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import "acts-util-core";
-import { Fail } from "acts-util-test";
+import { Expect, Fail } from "acts-util-test";
 import { Conjugator } from "openarabicconjugation/dist/Conjugator";
 import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
 import { VerbRoot } from "openarabicconjugation/dist/VerbRoot";
@@ -26,6 +26,14 @@ import { Buckwalter } from "openarabicconjugation/dist/Transliteration";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { GetDialectMetadata } from "openarabicconjugation/dist/DialectsMetadata";
 import { CreateVerb, VerbStem1Data, VerbStemData } from "openarabicconjugation/dist/Verb";
+
+export interface VerbTestData
+{
+    dialect: DialectType;
+    rootRadicals: string;
+    stem: AdvancedStemNumber | string;
+    verbType?: VerbType;
+}
 
 function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
 {
@@ -88,6 +96,17 @@ function ValidateStem1Context(ctx: VerbStem1Data<string>, root: VerbRoot, dialec
     throw new Error("Illegal stem 1 context");
 }
 
+function CreateVerbInstance(verbData: VerbTestData)
+{
+    const root = new VerbRoot(verbData.rootRadicals.split("-").join(""));
+    const verb = CreateVerb(verbData.dialect, root, verbData.stem, verbData.verbType);
+
+    if(verb.stem === 1)
+        ValidateStem1Context(verb, root, verbData.dialect);
+
+    return verb;
+}
+
 export interface ConjugationTest
 {
     expected: string | string[];
@@ -98,7 +117,7 @@ export interface ConjugationTest
     tense?: TenseString;
     voice?: VoiceString;
 }
-export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumber | string, conjugations: ConjugationTest[], dialect: DialectType = DialectType.ModernStandardArabic, verbType?: VerbType)
+export function _Legacy_RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumber | string, conjugations: ConjugationTest[], dialect: DialectType = DialectType.ModernStandardArabic, verbType?: VerbType)
 {
     function MapMood(mood: MoodString)
     {
@@ -141,11 +160,12 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
 
     const conjugator = new Conjugator();
 
-    const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const verb = CreateVerb(dialect, root, stem, verbType);
-
-    if(verb.stem === 1)
-        ValidateStem1Context(verb, root, dialect);
+    const verb = CreateVerbInstance({
+        dialect,
+        rootRadicals,
+        stem,
+        verbType
+    });
 
     for (const test of conjugations)
     {
@@ -172,21 +192,27 @@ export function RunConjugationTest(rootRadicals: string, stem: AdvancedStemNumbe
     }
 }
 
+export function RunConjugationTest(verbTestData: VerbTestData, conjugations: ConjugationTest[])
+{
+    _Legacy_RunConjugationTest(verbTestData.rootRadicals, verbTestData.stem, conjugations, verbTestData.dialect, verbTestData.verbType);
+}
+
 export function RunDefectiveConjugationTest(rootRadicalsWithoutR3: string, stem: AdvancedStemNumber | string, conjugations: ConjugationTest[])
 {
-    RunConjugationTest(rootRadicalsWithoutR3 + "-و", stem, conjugations);
-    RunConjugationTest(rootRadicalsWithoutR3 + "-ي", stem, conjugations);
+    _Legacy_RunConjugationTest(rootRadicalsWithoutR3 + "-و", stem, conjugations);
+    _Legacy_RunConjugationTest(rootRadicalsWithoutR3 + "-ي", stem, conjugations);
 }
 
 export function RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, dialect: DialectType, verbType?: VerbType)
 {
     const conjugator = new Conjugator();
 
-    const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const verb = CreateVerb(dialect, root, stem, verbType);
-
-    if(verb.stem === 1)
-        ValidateStem1Context(verb, root, dialect);
+    const verb = CreateVerbInstance({
+        dialect,
+        rootRadicals,
+        stem,
+        verbType
+    });
     
     const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
     TestParticiple(expected, activeGot, "active");
@@ -197,17 +223,68 @@ export function RunParticipleTest(rootRadicals: string, stem: AdvancedStemNumber
     const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
 
-    const root = new VerbRoot(rootRadicals.split("-").join(""));
-    const verb = CreateVerb(dialect, root, stem);
-
-    if(verb.stem === 1)
-        ValidateStem1Context(verb, root, DialectType.ModernStandardArabic);
+    const verb = CreateVerbInstance({
+        dialect,
+        rootRadicals,
+        stem,
+    });
     
     const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
     TestParticiple(activeExpected, activeGot, "active");
 
     const passiveGot = conjugator.ConjugateParticiple(verb, Voice.Passive);
     TestParticiple(passiveExpected, passiveGot, "passive");
+}
+
+export function RunSoundEqualityTest(verbData: VerbTestData)
+{
+    function ReplaceRoot(vocalized: DisplayVocalized[], root: VerbRoot)
+    {
+        const replacedRoot = ["a", "b", "c", "d"];
+
+        for(let i = 0; i < root.radicalsAsSeparateLetters.length; i++)
+        {
+            const radical = root.radicalsAsSeparateLetters[i];
+
+            const idx = vocalized.findIndex(x => x.letter === radical);
+            if(idx === -1)
+                throw new Error("Root replacement failed");
+            vocalized[idx].letter = replacedRoot[i] as any;
+        }
+    }
+
+    function TestRootless(expected: DisplayVocalized[], rootOfExpected: VerbRoot, got: DisplayVocalized[], rootOfGot: VerbRoot)
+    {
+        ReplaceRoot(expected, rootOfExpected);
+        ReplaceRoot(got, rootOfGot);
+
+        const result = CompareVocalized(expected, got);
+        if(!result)
+        {
+            console.log(expected, got);
+            Fail("Comparison failed");
+        }
+    }
+
+
+    const verb = CreateVerbInstance(verbData);
+    Expect(verb.type).ToBe(VerbType.Sound);
+
+    const soundVerb = CreateVerb(verbData.dialect, new VerbRoot("فعل"), verbData.stem);
+
+    const conjugator = new Conjugator();
+
+    //TODO: compare all conjugations
+    
+    const a1 = conjugator.ConjugateParticiple(verb, Voice.Active);
+    const a2 = conjugator.ConjugateParticiple(soundVerb, Voice.Active);
+    TestRootless(a2, soundVerb.root, a1, verb.root);
+
+    const p1 = conjugator.ConjugateParticiple(verb, Voice.Passive);
+    const p2 = conjugator.ConjugateParticiple(soundVerb, Voice.Passive);
+    TestRootless(p2, soundVerb.root, p1, verb.root);
+
+    //TODO: compare all verbal nouns
 }
 
 interface VerbalNounTestPattern

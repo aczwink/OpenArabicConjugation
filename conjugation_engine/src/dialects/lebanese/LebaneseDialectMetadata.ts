@@ -83,7 +83,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
     iso639code = "apc";
     glottoCode = "stan1323";
 
-    public DeriveDeducedVerbTypeFromRootType(root: VerbRoot): VerbType
+    public DeriveVerbType(root: VerbRoot): VerbType
     {
         return root.DeriveDeducedVerbType();
     }

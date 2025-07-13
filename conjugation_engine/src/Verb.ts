@@ -47,7 +47,7 @@ export type Verb<T extends string> = VerbStemData<T> &
 
 export function CreateVerb(dialect: DialectType, root: VerbRoot, stem: string | AdvancedStemNumber, verbType?: VerbType): Verb<string>
 {
-    const type = verbType ?? GetDialectMetadata(dialect).DeriveDeducedVerbTypeFromRootType(root);
+    const type = verbType ?? GetDialectMetadata(dialect).DeriveVerbType(root, stem);
 
     if(typeof stem === "number")
     {

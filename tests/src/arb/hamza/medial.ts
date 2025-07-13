@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 It("Ya as consonant before hamza", () => {
@@ -26,5 +26,5 @@ It("Ya as consonant before hamza", () => {
         { expected: "يَأْمُنُ", tense: "present" }
     ];
 
-    RunConjugationTest("ء-م-ن", stem, conjugations);
+    _Legacy_RunConjugationTest("ء-م-ن", stem, conjugations);
 });

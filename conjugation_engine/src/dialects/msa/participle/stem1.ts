@@ -25,24 +25,35 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
 {
     switch(stem1Context.type)
     {
-        case VerbType.Defective:
         case VerbType.AssimilatedAndDefective:
+        case VerbType.Defective:
             if(voice === "active")
-                {
-                    return [
-                        { letter: root.r1, tashkil: Tashkil.Fatha },
-                        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                        { letter: root.r2, tashkil: Tashkil.Kasratan },
-                    ];
-                }
+            {
                 return [
-                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                    { letter: root.r2, tashkil: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra },
-                    { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.Sukun },
-                    { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                    { letter: root.r2, tashkil: Tashkil.Kasratan },
                 ];
+            }
+
+            return [
+                { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                { letter: root.r1, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra },
+                { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.Sukun },
+                { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
+        case VerbType.Irregular:
+            if(stem1Context.stemParameterization === ModernStandardArabicStem1ParametersType.IrregularLaysa)
+            {
+                return [
+                    { letter: "-" as any, tashkil: Tashkil.EndOfWordMarker }
+                ];
+            }
+            break;
     }
+    
     switch(root.type)
     {
         case RootType.MiddleWeak:

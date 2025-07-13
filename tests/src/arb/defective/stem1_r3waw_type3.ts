@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%86%D8%AF%D9%8A
@@ -25,6 +25,7 @@ It("Stem 1 type 3 with waw as third radical", () => {
     const stem = ModernStandardArabicStem1ParametersType.PastI_PresentA;
 
     throw new Error("TODO verbal noun test :)");
+    throw new Error("TODO participle test :)");
     
     const conjugations: ConjugationTest[] = [
         //past
@@ -105,5 +106,5 @@ It("Stem 1 type 3 with waw as third radical", () => {
         { expected: "اِنْدَيْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    RunConjugationTest("ن-د-و", stem, conjugations);
+    _Legacy_RunConjugationTest("ن-د-و", stem, conjugations);
 });

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunParticipleTest, ConjugationTest, RunConjugationTest } from "../../shared";
+import { RunParticipleTest, ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%AA%D8%AE%D8%B0
 
@@ -171,5 +171,5 @@ It("Stem 8", () => {
         { voice: "passive", expected: "نُتَّخَذْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ء-خ-ذ", 8, conjugations);
+    _Legacy_RunConjugationTest("ء-خ-ذ", 8, conjugations);
 });

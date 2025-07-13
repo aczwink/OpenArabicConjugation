@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%86%D8%B3%D9%8A#Verb
@@ -94,5 +94,5 @@ It("Stem 1 type 3 passive", () => {
         { voice: "passive", expected: "نُنْسَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ن-س-ي", stem, conjugations);
+    _Legacy_RunConjugationTest("ن-س-ي", stem, conjugations);
 });

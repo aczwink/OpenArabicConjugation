@@ -89,6 +89,7 @@ export enum VerbType
     Geminate,
     HamzaOnR1,
     Hollow,
+    Irregular,
     QuadriliteralAndDefective,
     Sound,
     SoundQuadriliteral,

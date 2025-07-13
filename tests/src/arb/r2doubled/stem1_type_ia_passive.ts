@@ -17,7 +17,7 @@
  * */
 import { It } from "acts-util-test";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
-import { ConjugationTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B4%D9%85
 
@@ -95,5 +95,5 @@ It("Stem 1 Past:i Present:a passive", () => {
         { voice: "passive", expected: ["نُشَمَّ", "نُشَمِّ", "نُشْمَمْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

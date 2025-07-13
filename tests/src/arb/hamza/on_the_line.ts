@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AC%D8%A7%D8%A1
@@ -29,5 +29,5 @@ It("Hamza on the line", () => {
         { expected: "جَاءَتْ", gender: "female" },
     ];
 
-    RunConjugationTest("ج-ي-ء", stem, conjugations);
+    _Legacy_RunConjugationTest("ج-ي-ء", stem, conjugations);
 });

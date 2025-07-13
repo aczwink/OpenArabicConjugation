@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest, RunVerbalNounTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%AD%D9%85%D8%B1
@@ -107,5 +107,5 @@ It("Stem 9", () => {
         { voice: "active", expected: "اِحْمَرِرْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

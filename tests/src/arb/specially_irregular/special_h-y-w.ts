@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest, RunVerbalNounPatternTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
@@ -181,5 +181,5 @@ It("Special: ح-ي-و, Stem1", () => {
         { voice: "passive", expected: "نُحْيَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

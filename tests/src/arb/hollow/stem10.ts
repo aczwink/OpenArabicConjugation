@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%B3%D8%AA%D8%AD%D8%A7%D9%84#Arabic
 
@@ -174,5 +174,5 @@ It("Hollow stem 10 test", () => {
         { voice: "passive", expected: "نُسْتَحَلْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ح-و-ل", 10, conjugations);
+    _Legacy_RunConjugationTest("ح-و-ل", 10, conjugations);
 });

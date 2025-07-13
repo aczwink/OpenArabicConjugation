@@ -22,12 +22,144 @@ import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
+function MissingTestCheck(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>)
+{
+    if((stem1Context.stemParameterization === ModernStandardArabicStem1ParametersType.DefectiveType3) && root.radicalsAsSeparateLetters.Equals([Letter.Nun, Letter.Dal, Letter.Waw]))
+    {
+        //test: arb/defective/stem1_r3waw_type3.js
+        throw new Error("TODO: Write test! 1");
+    }
+
+    if((root.r1 === Letter.Hamza) && (root.r3 === Letter.Ya))
+    {
+        //test: arb/doubly_weak/r1hamza_r3ya.js
+        throw new Error("TODO: Write test! 2");
+    }
+}
+
 export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
 {
+    MissingTestCheck(root, stem1Context);
+
+    const fa3l = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Sukun },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fi3l = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: root.r2, tashkil: Tashkil.Sukun },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fu3l = [
+        { letter: root.r1, tashkil: Tashkil.Dhamma },
+        { letter: root.r2, tashkil: Tashkil.Sukun },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fa3al = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fi3la = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: root.r2, tashkil: Tashkil.Sukun },
+        { letter: root.r3, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fa3ila = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Kasra },
+        { letter: root.r3, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fa3aal = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fa3iil = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Kasra },
+        { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fi3aal = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fu3aal = [
+        { letter: root.r1, tashkil: Tashkil.Dhamma },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fu3uul = [
+        { letter: root.r1, tashkil: Tashkil.Dhamma },
+        { letter: root.r2, tashkil: Tashkil.Dhamma },
+        { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fa3aala = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fi3aala = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fa3aa2 = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
+    ];
+    const fi3aa2 = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
+    const fayla = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: Letter.Ya, tashkil: Tashkil.Sukun },
+        { letter: root.r3, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
+    ];
+
+    const fiyaala = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: root.r3, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
+    ];
+
     switch(stem1Context.type)
     {
         case VerbType.Assimilated:
         {
+            const fi3l = [
+                { letter: root.r2, tashkil: Tashkil.Kasra },
+                { letter: root.r3, tashkil: Tashkil.Fatha },
+                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+            ];
             switch(ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
             {
                 case Tashkil.Dhamma:
@@ -36,16 +168,8 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     {
                         case Tashkil.Dhamma:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fu3l,
+                                fa3l,
                             ];
                     }
                 }
@@ -56,36 +180,14 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     {
                         case Tashkil.Fatha:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fu3uul,
+                                fa3l,
                             ];
                         case Tashkil.Kasra:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3l,
+                                fu3uul,
+                                fi3l,
                             ];
                     }
                 }
@@ -96,24 +198,12 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     {
                         case Tashkil.Fatha:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3l,
                             ];
                         case Tashkil.Kasra:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3l,
+                                fi3l,
                             ];
                     }
                 }
@@ -128,11 +218,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
             {
                 case ModernStandardArabicStem1ParametersType.DefectiveType1:
                     return [
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Sukun },
-                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3l,
                         [
                             { letter: root.r1, tashkil: Tashkil.Kasra },
                             { letter: root.r2, tashkil: Tashkil.Fatha },
@@ -189,23 +275,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     }
     
                     return [
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3aa2,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
                             { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
                         ],
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Kasra },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fi3aa2,
                         hikaya,
                         [
                             { letter: root.r1, tashkil: Tashkil.Kasra },
@@ -269,12 +345,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     }
 
                     return [
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3aa2,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Fathatan },
@@ -304,11 +375,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 case Tashkil.Dhamma:
                 {
                     return [
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3al,
                         [
                             { letter: Letter.Hamza, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Fatha },
@@ -331,19 +398,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     {
                         case Tashkil.Dhamma:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3l,
                             ];
                         case Tashkil.Kasra:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3l,
                             ];
                     }
                 }
@@ -354,17 +413,8 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     {
                         case Tashkil.Fatha:
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3al,
+                                fa3aal,
                             ];
                     }
                 }
@@ -375,134 +425,100 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
         case VerbType.Hollow:
         {
-            switch(ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
+            switch(stem1Context.stemParameterization)
             {
-                case Tashkil.Dhamma:
-                {
-                    switch(ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Dhamma:
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Waw, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Waw, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Waw, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                            ];
-                    }
-                }
-                break;
-                case Tashkil.Kasra:
-                {
-                    switch(ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Fatha:
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                            ];
-                        case Tashkil.Kasra:
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                                [
-                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
-                                ],
-                            ];
-                    }
-                }
-                break;
+                case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                    return [
+                        fayla,
+                    ];
+
+                case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+                    return [
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker }
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Ya, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        fayla,
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
+                        ],
+                        fiyaala,
+                        [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
+                        ],
+                    ];
+
+                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+                    return [
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Dhamma },
+                            { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Waw, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Waw, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Waw, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker }
+                        ],
+                        fiyaala,
+                        [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker }
+                        ],
+                    ];
             }
         }
         break;
@@ -518,90 +534,33 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         case Tashkil.Dhamma:
                         {
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fu3uul,
+                                fa3aala,
+                                fa3l,
+                                fi3aal,
                             ];
                         }
                         case Tashkil.Fatha:
                         {
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ]
+                                fa3l
                             ];
                         }
                         case Tashkil.Kasra:
                         {
                             return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fu3uul,
                                 [
                                     { letter: root.r1, tashkil: Tashkil.Dhamma },
                                     { letter: root.r2, tashkil: Tashkil.Sukun },
                                     { letter: root.r2, tashkil: Tashkil.EndOfWordMarker },
                                 ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
+                                fa3aal,
+                                fa3iil,
+                                fa3l,
+                                fi3aal,
+                                fi3l,
+                                fi3la,
                             ];
                         }
                     }
@@ -628,11 +587,107 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         }
         break;
 
+        case VerbType.Irregular:
+        {
+            switch(stem1Context.stemParameterization)
+            {
+                case ModernStandardArabicStem1ParametersType.IrregularLaysa:
+                    return [
+                        [
+                            { letter: "-" as any, tashkil: Tashkil.EndOfWordMarker }
+                        ]
+                    ];
+            }
+        }
+        break;
+
         case VerbType.Sound:
         {
-            switch(ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
+            switch(stem1Context.stemParameterization)
             {
-                case Tashkil.Dhamma:
+                case ModernStandardArabicStem1ParametersType.PastA_PresentA:
+                    return [
+                        fu3uul,
+                        fu3aal,
+                        fa3l,
+                        fi3l,
+                        fi3aala,
+                        [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                    ];
+
+                case ModernStandardArabicStem1ParametersType.PastA_PresentI:
+                    return [
+                        fu3l,
+                        fu3uul,
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Dhamma },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Dhamma },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        fa3ila,
+                        fa3iil,
+                        fa3l,
+                        fi3l,
+                        fi3la,
+                        [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Kasra },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                    ];
+
+                case ModernStandardArabicStem1ParametersType.PastA_PresentU:
+                    return [
+                        fu3uul,
+                        fu3aal,
+                        fa3al,
+                        fa3aala,
+                        fa3l,
+                        fi3aala,
+                        fi3la,
+                        [
+                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                    ];
+
+                case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                    return [
+                        fu3uul,
+                        fu3l,
+                        fa3al,
+                        fa3ila,
+                        fa3l,
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        fa3aal,
+                        fa3aala,
+                        fi3l,
+                    ];
+
+                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
                     return [
                         [
                             { letter: root.r1, tashkil: Tashkil.Dhamma },
@@ -652,11 +707,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: root.r3, tashkil: Tashkil.Fatha },
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                         ],
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3al,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Fatha },
@@ -682,235 +733,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                         ],
                     ];
-                case Tashkil.Fatha:
-                {
-                    switch(ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Fatha:
-                        {
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                            ];
-                        }
-                        
-                        case Tashkil.Kasra:
-                        {
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                            ];
-                        }
-
-                        case Tashkil.Dhamma:
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                            ];
-                    }
-                }
-                break;
-
-                case Tashkil.Kasra:
-                {
-                    switch(ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Fatha:
-                        {
-                            return [
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Dhamma },
-                                    { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Dhamma },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                    { letter: root.r3, tashkil: Tashkil.Fatha },
-                                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                                [
-                                    { letter: root.r1, tashkil: Tashkil.Kasra },
-                                    { letter: root.r2, tashkil: Tashkil.Sukun },
-                                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                                ],
-                            ];
-                        }
-                    }
-                }
-                break;
             }
         }
         break;
@@ -988,26 +810,11 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
         break;
         case RootType.MiddleWeak:
         {
-            switch(ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
+            switch(stem1Context.stemParameterization)
             {
-                case Tashkil.Dhamma:
-                {
-                    switch(ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Dhamma:
-                            return true;
-                    }
-                }
-                break;
-                case Tashkil.Kasra:
-                {
-                    switch(ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Kasra:
-                            return true;
-                    }
-                }
-                break;
+                case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+                    return true;
             }
         }
         break;

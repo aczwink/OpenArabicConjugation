@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunConjugationTest } from "../../shared";
+import { _Legacy_RunConjugationTest } from "../../shared";
 
 It("Stem 7", () => {
     throw new Error("TODO verbal noun test :)");
-    RunConjugationTest("ف-ل-ل", 7, [
+    _Legacy_RunConjugationTest("ف-ل-ل", 7, [
         { expected: "اِنْفَلَّ" },
         { expected: "يَنْفَلُّ", tense: "present" },
     ]);

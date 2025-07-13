@@ -26,6 +26,7 @@ export enum ModernStandardArabicStem1ParametersType
     DefectiveType1 = "ai",
     DefectiveType2 = "au",
     DefectiveType3 = "ia",
+    IrregularLaysa = "irregular_laysa",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
@@ -54,6 +55,7 @@ export function ExtractMiddleRadicalTashkil(type: ModernStandardArabicStem1Param
         case ModernStandardArabicStem1ParametersType.Quadrilateral:
             return Tashkil.Sukun;
     }
+    throw new Error("Doesn't work for irregular verbs");
 }
 
 export function ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
@@ -75,4 +77,5 @@ export function ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicSte
         case ModernStandardArabicStem1ParametersType.Quadrilateral:
             return Tashkil.Sukun;
     }
+    throw new Error("Doesn't work for irregular verbs");
 }

@@ -16,11 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest, RunVerbalNounTest, VerbTestData, RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
+import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B1%D8%A3%D9%89
 It("Specially irregular defective رَأَى", () => {
+    const verbTestData: VerbTestData = {
+        dialect: DialectType.ModernStandardArabic,
+        rootRadicals: "ر-ء-ي",
+        stem: ModernStandardArabicStem1ParametersType.PastA_PresentI,
+    }
     const root = "ر-ء-ي"
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
@@ -177,7 +183,7 @@ It("Specially irregular defective رَأَى", () => {
         { voice: "passive", expected: "نُرَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    RunConjugationTest(verbTestData, conjugations);
 });
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%B1%D9%89#Arabic
@@ -336,5 +342,5 @@ It("Specially irregular defective أَرَى", () => {
         { voice: "passive", expected: "نُرَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

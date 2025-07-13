@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest } from "../../shared";
 
 //Sources:
 // https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
@@ -26,6 +26,7 @@ It("R1:Waw, R3:Waw or Ya, Stem 4", () => {
     const root = "و-ص-ي";
     const stem = 4;
 
+    throw new Error("TODO verbal noun test :)");
     RunParticipleTest(root, stem, "مُوصٍ", "مُوصًى");
 
     const conjugations: ConjugationTest[] = [
@@ -175,5 +176,5 @@ It("R1:Waw, R3:Waw or Ya, Stem 4", () => {
         { voice: "passive", expected: "نُوصَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest(root, stem, conjugations);
+    _Legacy_RunConjugationTest(root, stem, conjugations);
 });

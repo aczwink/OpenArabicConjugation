@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
@@ -68,7 +68,7 @@ It("Stem2", () => {
         { tense: "present", mood: "imperative", numerus: "plural", person: "second", expected: "خَلّْصُوا" },
     ];
 
-    RunConjugationTest(root, 2, conjugations, DialectType.Lebanese);
+    _Legacy_RunConjugationTest(root, 2, conjugations, DialectType.Lebanese);
 });
 
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
@@ -83,5 +83,5 @@ It("Stem 2 - No shadda on r1", () => {
         { tense: "present", mood: "indicative", numerus: "singular", person: "first", gender: "male", expected: "بْبَلِّشْ" },
     ];
 
-    RunConjugationTest(root, stem, conjugations, DialectType.Lebanese);
+    _Legacy_RunConjugationTest(root, stem, conjugations, DialectType.Lebanese);
 });

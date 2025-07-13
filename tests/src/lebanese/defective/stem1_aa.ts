@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebanese/LebaneseDialectMetadata";
 import { VerbType } from "openarabicconjugation/dist/Definitions";
@@ -71,5 +71,5 @@ It("Lebanese: Stem1 Past:a Present:a", () => {
         { tense: "present", mood: "imperative", numerus: "plural", person: "second", expected: "قْرُوا" },
     ];
 
-    RunConjugationTest(root, stem, conjugations, DialectType.Lebanese, verbType);
+    _Legacy_RunConjugationTest(root, stem, conjugations, DialectType.Lebanese, verbType);
 });

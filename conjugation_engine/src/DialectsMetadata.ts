@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationParams, VerbType } from "./Definitions";
+import { AdvancedStemNumber, ConjugationParams, VerbType } from "./Definitions";
 import { DialectType } from "./Dialects";
 import { LebaneseDialectMetadata } from "./dialects/lebanese/LebaneseDialectMetadata";
 import { MSADialectMetadata } from "./dialects/msa/MSADialectMetadata";
@@ -37,7 +37,7 @@ export interface DialectMetadata<T extends string>
     iso639code: string;
     glottoCode: string;
 
-    DeriveDeducedVerbTypeFromRootType(root: VerbRoot): VerbType;
+    DeriveVerbType(root: VerbRoot, stem: T | AdvancedStemNumber): VerbType;
     GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<T>;
 }
 

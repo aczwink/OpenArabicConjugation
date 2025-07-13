@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest } from "../../shared";
-import { Tashkil } from "openarabicconjugation/dist/Definitions";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
@@ -176,5 +175,5 @@ It("R1:Hamza, R3:Ya, Stem 1", () => {
         { voice: "passive", expected: "نُؤْتَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ء-ت-ي", stem, conjugations);
+    _Legacy_RunConjugationTest("ء-ت-ي", stem, conjugations);
 });

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%86#Verb
@@ -29,10 +29,11 @@ It("Stem 1 Past:a Present:i", () => {
         { rootRadicals: root, expected: "حَنِين" },
         { rootRadicals: "ج-ل-ل", expected: "جَلَال" }, //Source: https://en.wiktionary.org/wiki/%D8%AC%D9%84
         { rootRadicals: "ح-ب-ب", expected: "حُبّ" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%A8
-        { rootRadicals: "ق-ل-ل", expected: "قِلّة" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D9%84
+        { rootRadicals: "ق-ل-ل", expected: "قِلَّة" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D9%84
         { rootRadicals: "ح-د-د", expected: "حِدَاد" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%AF
         { rootRadicals: "ح-ل-ل", expected: "حُلُول" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%84
         { rootRadicals: "ك-ل-ل", expected: "كَلّ" }, //Source: https://ejtaal.net/aa/#hw4=990
+        { rootRadicals: "ع-ز-ز", expected: "عِزّ" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B2
     ]);
     RunParticipleTest(root, stem, "حَانّ", "مَحْنُون");
 
@@ -183,5 +184,5 @@ It("Stem 1 Past:a Present:i", () => {
         { voice: "passive", expected: ["نُحَنَّ", "نُحَنِّ", "نُحْنَنْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ح-ن-ن", stem, conjugations);
+    _Legacy_RunConjugationTest("ح-ن-ن", stem, conjugations);
 });

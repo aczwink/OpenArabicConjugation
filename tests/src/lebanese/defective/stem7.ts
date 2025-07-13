@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
@@ -63,7 +63,7 @@ It("Stem 7", () => {
         { tense: "present", mood: "subjunctive", numerus: "plural", person: "first", expected: "نِنْلِغِي" },
     ];
 
-    RunConjugationTest(root, stem, conjugations, DialectType.Lebanese);
+    _Legacy_RunConjugationTest(root, stem, conjugations, DialectType.Lebanese);
 
     throw new Error("TODO: imperative is missing");
 });

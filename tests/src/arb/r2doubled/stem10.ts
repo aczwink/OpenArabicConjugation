@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunParticipleTest, ConjugationTest, RunConjugationTest, RunVerbalNounTest } from "../../shared";
+import { RunParticipleTest, ConjugationTest, _Legacy_RunConjugationTest, RunVerbalNounTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%B3%D8%AA%D8%AD%D9%82#Arabic
 
@@ -173,5 +173,5 @@ It("Stem 10", () => {
         { voice: "passive", expected: ["نُسْتَحَقَّ", "نُسْتَحَقِّ", "نُسْتَحْقَقْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunConjugationTest("ح-ق-ق", 10, conjugations);
+    _Legacy_RunConjugationTest("ح-ق-ق", 10, conjugations);
 });
