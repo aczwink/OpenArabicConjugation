@@ -37,26 +37,11 @@ export function GeminateDoubledConsonant(augmentedRoot: AugmentedRoot, stemData:
                 augmentedRoot.r2.tashkil = Tashkil.Sukun;
             }
             break;
-        case 4:
-            if(params.tense === Tense.Perfect)
-                augmentedRoot.r1.tashkil = (params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Kasra;
-            else if(params.tense === Tense.Present)
-            {
-                if(params.voice === Voice.Active)
-                    augmentedRoot.r1.tashkil = Tashkil.Kasra;
-                else
-                    augmentedRoot.r1.tashkil = Tashkil.Fatha;
-            }
-            augmentedRoot.r2.tashkil = Tashkil.Sukun;
-            break;
         case 7:
             if(params.tense === Tense.Perfect)
                 augmentedRoot.r1.tashkil = (params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Kasra;
             else if(params.tense === Tense.Present)
                 augmentedRoot.r1.tashkil = Tashkil.Fatha;
-            augmentedRoot.r2.tashkil = Tashkil.Sukun;
-            break;
-        case 8:
             augmentedRoot.r2.tashkil = Tashkil.Sukun;
             break;
     }

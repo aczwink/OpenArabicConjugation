@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%B1%D8%A7%D8%AD#Verb
 
@@ -24,7 +24,7 @@ It("Stem 4", () => {
     const root = "ر-و-ح"
     const stem = 4;
     
-    RunParticipleTest(root, stem, "مُرِيح", "مُرَاح");
+    _Legacy_RunParticipleTest(root, stem, "مُرِيح", "مُرَاح");
 
     const conjugations: ConjugationTest[] = [
         //active past

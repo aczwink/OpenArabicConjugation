@@ -31,6 +31,19 @@ def getElementsByClassName(element, className):
     result = [];
     _getElementsByClassName(element, className, result);
     return result;
+
+def get_table_body(table):
+    for child in table.getchildren():
+        if(child.tag == "tbody"):
+            return child;
+    raise Error("Table has no body");
+
+def query(url):
+    if(url.startswith("file://")):
+        with open(url[7:], "r") as f:
+            return f.read();
+    response = requests.get(url);
+    return response.text;
     
 def traverse_imperative_table(male, female):
     order = [
@@ -89,15 +102,16 @@ def traverse_table(voice, tense, male, female):
 url = sys.argv[1];
 tableIndex = int(sys.argv[2]);
 
-response = requests.get(url);
-document = etree.fromstring(response.text, etree.HTMLParser());
+response = query(url);
+document = etree.fromstring(response, etree.HTMLParser());
 
 tables = getElementsByClassName(document, "inflection-table");
 table = tables[tableIndex];
+tbody = get_table_body(table);
 
-children = table[0].getchildren();
+children = tbody.getchildren();
 baseRow = children[2];
-baseIdx = 5;
+baseIdx = 6; #verbal noun, active participle, (potentially passive participle), empty row, active voice row, numerus row, person row
 if(len(baseRow.getchildren()) > 1): #in case there is no passive participle
 	baseIdx += 1;
 
@@ -119,4 +133,4 @@ for voice in ["active", "passive"]:
         traverse_imperative_table(male, female);
         baseIdx += 2;
         
-        baseIdx += 3; #skip passive rows
+        baseIdx += 4; #skip to passive rows (empty row, passive voice row, numerus row, person row)

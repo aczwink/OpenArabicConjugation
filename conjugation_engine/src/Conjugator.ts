@@ -20,10 +20,11 @@ import { VerbRoot } from "./VerbRoot";
 import { NounInput, TargetNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
 import { ConjugationVocalized, DisplayVocalized, ParseVocalizedText } from "./Vocalization";
-import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveDeclensionParams, NounDeclensionParams, Gender, StemNumber, AdvancedStemNumber } from "./Definitions";
+import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveDeclensionParams, NounDeclensionParams, Gender, AdvancedStemNumber } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb, VerbStem1Data } from "./Verb";
+import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 
 export class Conjugator
 {
@@ -72,6 +73,17 @@ export class Conjugator
         const dialectConjugator = this.CreateDialectConjugator(dialect);
 
         return dialectConjugator.DeriveSoundNoun(singular, singularGender, target);
+    }
+
+    public DeclineStativeActiveParticiple(verb: Verb<string>): DisplayVocalized[]
+    {
+        const dialectConjugator = this.CreateDialectConjugator(DialectType.ModernStandardArabic);
+        if(!(dialectConjugator instanceof MSAConjugator))
+            throw new Error("This does only work for Modern Standard Arabic!");
+
+        const pattern = dialectConjugator.DeclineStativeActiveParticiple(this.VerifyIsMSA(verb));
+
+        return this.ExecuteWordTransformationPipeline(pattern);
     }
 
     public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<string>): DisplayVocalized[][]
@@ -129,5 +141,28 @@ export class Conjugator
         }
 
         return result;
+    }
+
+    private VerifyIsMSA(verb: Verb<string>): Verb<ModernStandardArabicStem1ParametersType>
+    {
+        if(verb.stem === 1)
+        {
+            switch(verb.stemParameterization)
+            {
+                case ModernStandardArabicStem1ParametersType.DefectiveType1:
+                case ModernStandardArabicStem1ParametersType.DefectiveType2:
+                case ModernStandardArabicStem1ParametersType.DefectiveType3:
+                case ModernStandardArabicStem1ParametersType.IrregularHayiya:
+                case ModernStandardArabicStem1ParametersType.IrregularLaysa:
+                case ModernStandardArabicStem1ParametersType.PastA_PresentA:
+                case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+                case ModernStandardArabicStem1ParametersType.Quadrilateral:
+                    return verb as Verb<ModernStandardArabicStem1ParametersType>;
+                default:
+                    throw new Error("Wrong stem parameterization!");
+            }
+        }
+        return verb as Verb<ModernStandardArabicStem1ParametersType>;
     }
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%B3%D8%B1
@@ -25,7 +25,7 @@ It("Stem 1 past:a, present:i", () => {
     const root = "ء-س-ر";
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentI;
 
-    RunParticipleTest(root, stem, "آسِر", "مَأْسُور");
+    _Legacy_RunParticipleTest(root, stem, "آسِر", "مَأْسُور");
     RunVerbalNounTest(root, stem, "أَسْر");
 
     const conjugations: ConjugationTest[] = [

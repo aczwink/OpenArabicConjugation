@@ -45,11 +45,22 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
             ];
 
         case VerbType.Irregular:
-            if(stem1Context.stemParameterization === ModernStandardArabicStem1ParametersType.IrregularLaysa)
+            switch(stem1Context.stemParameterization)
             {
-                return [
-                    { letter: "-" as any, tashkil: Tashkil.EndOfWordMarker }
-                ];
+                case ModernStandardArabicStem1ParametersType.IrregularHayiya:
+                    if(voice === "active")
+                    {
+                        return [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Ya, tashkil: Tashkil.Sukun },
+                            { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+                        ];
+                    }
+                    break;
+                case ModernStandardArabicStem1ParametersType.IrregularLaysa:
+                    return [
+                        { letter: "-" as any, tashkil: Tashkil.EndOfWordMarker }
+                    ];
             }
             break;
     }

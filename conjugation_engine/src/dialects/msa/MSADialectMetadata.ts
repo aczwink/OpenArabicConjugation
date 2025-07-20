@@ -86,6 +86,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 return {
                     requiredContext: [],
                     types: [
+                        ModernStandardArabicStem1ParametersType.IrregularHayiya,
                         ModernStandardArabicStem1ParametersType.IrregularLaysa
                     ]
                 };

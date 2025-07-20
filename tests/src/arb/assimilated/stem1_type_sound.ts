@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { VerbType } from "openarabicconjugation/dist/Definitions";
@@ -29,7 +29,7 @@ It("Stem 1 - Sound", () => {
     const verbType = VerbType.Sound;
 
     throw new Error("TODO: verbal noun test");
-    RunActiveParticipleTest(root, stem, "وَلِع", DialectType.ModernStandardArabic, verbType);
+    _Legacy_RunActiveParticipleTest(root, stem, "وَلِع", DialectType.ModernStandardArabic, verbType);
     
     const conjugations: ConjugationTest[] = [
         //active past

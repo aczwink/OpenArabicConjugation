@@ -18,7 +18,7 @@
 
 import { ConjugationRule, ConjugationRuleMatchResult } from "./Conjugation";
 import { ConjugationParams, Tense } from "./Definitions";
-import { DoesPresentSuffixStartWithWawOrYa } from "./dialects/msa/conjugation/suffix";
+import { DoesPresentSuffixStartWithWawOrYa } from "./dialects/msa/conjugation/_legacy_suffix";
 import { VerbStemData } from "./Verb";
 
 export class ConjugationRuleMatcher<T>
@@ -54,8 +54,16 @@ export class ConjugationRuleMatcher<T>
 
         if((c.tense !== undefined) && (c.tense !== params.tense))
             return false;
-        if((c.mood !== undefined) && (params.tense === Tense.Present) && (c.mood !== params.mood))
-            return false;
+        if(c.mood !== undefined)
+        {
+            if(params.tense === Tense.Present)
+            {
+                if(c.mood !== params.mood)
+                    return false;
+            }
+            else
+                return false;
+        }
         if((c.numerus !== undefined) && (c.numerus !== params.numerus))
             return false;
         if((c.person !== undefined) && (c.person !== params.person))

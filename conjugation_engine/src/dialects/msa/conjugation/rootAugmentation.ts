@@ -102,7 +102,6 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
                 case RootType.FinalWeak:
                 case RootType.HamzaOnR1:
                 case RootType.MiddleWeak:
-                case RootType.SecondConsonantDoubled:
                 case RootType.Regular:
                     const x: AugmentedRootSymbolInput[] = [
                         { symbolName: SymbolName.R1 },
@@ -181,7 +180,6 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
                 case RootType.FinalWeak:
                 case RootType.HamzaOnR1:
                 case RootType.MiddleWeak:
-                case RootType.SecondConsonantDoubled:
                 case RootType.Regular:
                     const x: AugmentedRootSymbolInput[] = [
                         { symbolName: SymbolName.R1 },

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B9%D9%89
@@ -29,7 +29,7 @@ It("doubly weak verb وَعَى test", () => {
         { expected: "وَعْي", rootRadicals: root },
         { expected: "وِقَايَة", rootRadicals: "و-ق-ي" }, //https://en.wiktionary.org/wiki/%D9%88%D9%82%D9%89#Arabic
     ]);
-    RunParticipleTest(root, stem, "وَاعٍ", "مَوْعِيّ");
+    _Legacy_RunParticipleTest(root, stem, "وَاعٍ", "مَوْعِيّ");
 
     const conjugations: ConjugationTest[] = [
         //past

@@ -20,7 +20,7 @@ import { DialectConjugator, NounInput, TargetNounDerivation } from "../../Dialec
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
 import { AugmentedRoot, AugmentedRootSymbolInput, SymbolName } from "./AugmentedRoot";
-import { DeriveSuffix } from "./conjugation/suffix";
+import { _TODO_DeriveSuffix } from "./conjugation/_legacy_suffix";
 import { DerivePrefix } from "./conjugation/prefix";
 import { AugmentRoot } from "./conjugation/rootAugmentation";
 import { ShortenOrAlefizeR2 } from "./conjugation/hollow";
@@ -59,7 +59,7 @@ import { DialectType } from "../../Dialects";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
 import { SelectTemplate } from "./conjugation_templates/select";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
-import { _TODO_ToConjugationVocalized, _TODO_VowelToTashkil, ConjugationItem, Vowel } from "../../Conjugation";
+import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, _TODO_VowelToTashkil, ConjugationItem, Vowel } from "../../Conjugation";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -166,6 +166,25 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 ]);
             }
         }
+    }
+
+    public DeclineStativeActiveParticiple(verb: Verb<ModernStandardArabicStem1ParametersType>)
+    {
+        const root = verb.root;
+        if(verb.stem !== 1)
+            throw new Error("Does only work for stem 1 verbs");
+
+        switch(verb.type)
+        {
+            case VerbType.Sound:
+                return [
+                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                    { letter: root.r2, tashkil: Tashkil.Kasra },
+                    { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                    { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                ];
+        }
+        throw new Error("Method not implemented.");
     }
 
     public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
@@ -289,19 +308,27 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
     private ProcessConjugationPipeline(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
     {
-        const template = SelectTemplate(verb, params);
+        const template = SelectTemplate(verb, params.voice);
         if(template !== undefined)
         {
-            const suffix = DeriveSuffix(params);
+            const suffix = _TODO_DeriveSuffix(params);
+            switch(verb.type)
+            {
+                case VerbType.Irregular:
+                    if((params.tense === Tense.Present) && (verb.stem === 1) && (verb.stemParameterization === ModernStandardArabicStem1ParametersType.IrregularHayiya))
+                        AlterDefectiveSuffix(params, verb, suffix.suffix);
+                    break;
+            }
 
             const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>().Match(template, verb, params);
 
             const items: ConjugationItem[] = [];
+            const vowels = [...matched.vowels, _TODO_TashkilToVowel(suffix.preSuffixTashkil)];
             for(let i = 0; i < matched.symbols.length; i++)
             {
                 items.push({
                     consonant: matched.symbols[i],
-                    followingVowel: matched.vowels[i] ?? Vowel.Sukun,
+                    followingVowel: vowels[i],
                 });
             }
 
@@ -318,10 +345,17 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     tashkil: element.tashkil,
                 });
             }
-            const last = input[input.length - 1];
-            if(last.symbolName === SymbolName.Infix)
+            let rIdx = -1;
+            const rSyms = [SymbolName.R1, SymbolName.R2, SymbolName.R3, SymbolName.R4];
+            let arrIdx = 0;
+            for (const radical of verb.root.radicalsAsSeparateLetters)
             {
-                last.tashkil = suffix.preSuffixTashkil;
+                const foundIndex = input.findIndex( (x, i) => (i > rIdx) && (x.symbolName === SymbolName.Infix) && (x.letter === radical));
+                if(foundIndex !== -1)
+                {
+                    rIdx = foundIndex;
+                    (input[rIdx] as any).symbolName = rSyms[arrIdx++];
+                }
             }
 
             const augmentedRoot = new AugmentedRoot(input, verb.root);
@@ -340,7 +374,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
         ApplyRootTashkil(augmentedRoot, verb, params);
 
-        const suffix = DeriveSuffix(params);
+        const suffix = _TODO_DeriveSuffix(params);
         augmentedRoot.ApplyRadicalTashkil(verb.root.radicalsAsSeparateLetters.length as any, suffix.preSuffixTashkil);
 
         switch(verb.type)

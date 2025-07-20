@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest, RunVerbalNounTest, VerbTestData, RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounPatternTest, RunVerbalNounTest, VerbTestData, RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
@@ -34,7 +34,7 @@ It("Specially irregular defective رَأَى", () => {
         { expected: "رَأْي", rootRadicals: root },
         { expected: "رُؤْيَة", rootRadicals: root },
     ])
-    RunParticipleTest(root, stem, "رَاءٍ", "مَرْئِيّ");
+    _Legacy_RunParticipleTest(root, stem, "رَاءٍ", "مَرْئِيّ");
 
     const conjugations: ConjugationTest[] = [
         //past
@@ -193,7 +193,7 @@ It("Specially irregular defective أَرَى", () => {
     const stem = 4;
 
     RunVerbalNounTest(root, stem, "إِرَاءَة");
-    RunParticipleTest(root, stem, "مُرٍ", "مُرًى");
+    _Legacy_RunParticipleTest(root, stem, "مُرٍ", "مُرًى");
     
     const conjugations: ConjugationTest[] = [
         //past

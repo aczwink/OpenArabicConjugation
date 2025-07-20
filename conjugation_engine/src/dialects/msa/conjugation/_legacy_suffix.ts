@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -265,7 +265,7 @@ function DeriveSuffixPresent(params: ConjugationParams, mood: Mood): { suffix: C
     }
 }
 
-export function DeriveSuffix(params: ConjugationParams): { suffix: ConjugationVocalized[]; preSuffixTashkil: Tashkil}
+export function _TODO_DeriveSuffix(params: ConjugationParams): { suffix: ConjugationVocalized[]; preSuffixTashkil: Tashkil}
 {
     if(params.tense === Tense.Perfect)
         return DeriveSuffixPerfect(params);

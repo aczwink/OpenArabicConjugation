@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebanese/LebaneseDialectMetadata";
 
@@ -28,7 +28,7 @@ It("Past:i Present:a Imperative:a", () => {
     const root = "ن-س-ي";
     const stem = LebaneseStem1Context.DefectiveWithImperativeA;
 
-    RunActiveParticipleTest(root, stem, "نَاسِي", DialectType.Lebanese);
+    _Legacy_RunActiveParticipleTest(root, stem, "نَاسِي", DialectType.Lebanese);
     
     const conjugations: ConjugationTest[] = [
         //past

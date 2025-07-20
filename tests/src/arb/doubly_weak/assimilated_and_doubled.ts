@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%88%D8%AF
@@ -29,7 +29,7 @@ It("Should be normal R2 doubled", () => {
         { expected: "وِدّ", rootRadicals: root },
         { expected: "مَوَدَّة", rootRadicals: root },
     ])
-    RunParticipleTest(root, stem, "وَادّ", "مَوْدُود");
+    _Legacy_RunParticipleTest(root, stem, "وَادّ", "مَوْدُود");
 
     const conjugations: ConjugationTest[] = [
         //active past

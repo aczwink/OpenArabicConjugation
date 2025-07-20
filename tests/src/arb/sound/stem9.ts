@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunActiveParticipleTest, _Legacy_RunConjugationTest, RunVerbalNounTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%AD%D9%85%D8%B1
@@ -26,7 +26,7 @@ It("Stem 9", () => {
     const stem = 9;
     
     RunVerbalNounTest(root, stem, "اِحْمِرَار");
-    RunActiveParticipleTest(root, stem, "مُحْمَرّ", DialectType.ModernStandardArabic);
+    _Legacy_RunActiveParticipleTest(root, stem, "مُحْمَرّ", DialectType.ModernStandardArabic);
 
     const conjugations: ConjugationTest[] = [
         //active past

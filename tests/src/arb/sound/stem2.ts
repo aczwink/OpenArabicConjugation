@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D9%83%D8%AA%D8%A8#Conjugation_2
 
@@ -29,7 +29,7 @@ It("Stem 2: كَتَّبَ - يُكَتِّبُ", () => {
         { rootRadicals: "ج-ر-ب", expected: "تَجْرِبَة" }, //Source: https://en.wiktionary.org/wiki/%D8%AC%D8%B1%D8%A8
     ]);
 
-    RunParticipleTest(root, stem, "مُكَتِّب", "مُكَتَّب");
+    _Legacy_RunParticipleTest(root, stem, "مُكَتِّب", "مُكَتَّب");
 
     const conjugations: ConjugationTest[] = [
         //past

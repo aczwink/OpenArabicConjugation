@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
@@ -26,7 +26,7 @@ It("R2:Ya, R3:Hamza", () => {
     const stem = ModernStandardArabicStem1ParametersType.PastI_PresentI;
 
     throw new Error("TODO verbal noun test :)");
-    RunParticipleTest("ج-ي-ء", stem, "جَاءٍ", "مَجِيء");
+    _Legacy_RunParticipleTest("ج-ي-ء", stem, "جَاءٍ", "مَجِيء");
 
     const conjugations: ConjugationTest[] = [
         //active past

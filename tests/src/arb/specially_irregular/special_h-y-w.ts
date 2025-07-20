@@ -16,23 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunActiveParticipleTest, RunVerbalNounPatternTest, VerbTestData, RunConjugationTest, RunActiveParticipleTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
+import { VerbType } from "openarabicconjugation/dist/Definitions";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%AD%D9%8A#Arabic
 
 It("Special: ح-ي-و, Stem1", () => {
-    const root = "ح-ي-و";
-    const stem = ModernStandardArabicStem1ParametersType.DefectiveType3;
+    const verbTestData: VerbTestData = {
+        dialect: DialectType.ModernStandardArabic,
+        rootRadicals: "ح-ي-و",
+        stem: ModernStandardArabicStem1ParametersType.IrregularHayiya,
+        verbType: VerbType.Irregular,
+    };
 
-    RunVerbalNounPatternTest(stem, [
-        { expected: "حَيَاة", rootRadicals: root }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%8A%D9%8A#Arabic
-        { expected: "حَيَاء", rootRadicals: root } //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%8A%D9%8A#Arabic
-    ])
+    RunVerbalNounPatternTest(verbTestData.stem, [
+        { expected: "حَيَاة", rootRadicals: verbTestData.rootRadicals }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%8A%D9%8A#Arabic
+        { expected: "حَيَاء", rootRadicals: verbTestData.rootRadicals } //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%8A%D9%8A#Arabic
+    ], verbTestData.verbType);
 
-    RunActiveParticipleTest(root, stem, "حَيّ", DialectType.ModernStandardArabic);
+    RunActiveParticipleTest(verbTestData, "حَيّ");
 
     const conjugations: ConjugationTest[] = [
         //active past
@@ -181,5 +186,5 @@ It("Special: ح-ي-و, Stem1", () => {
         { voice: "passive", expected: "نُحْيَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    _Legacy_RunConjugationTest(root, stem, conjugations);
+    RunConjugationTest(verbTestData, conjugations);
 });

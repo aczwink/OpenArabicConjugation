@@ -25,18 +25,7 @@ import { AlterDefectiveEnding, AlterDefectiveSuffix } from "./defective";
 import { ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 /*
-Currently known ones are: رأى, أرى, حيي
-*/
-
-function AlterSpecialCaseHayiya(augmentedRoot: AugmentedRoot, params: ConjugationParams)
-{
-    if(params.tense === Tense.Perfect)
-        augmentedRoot.ReplaceRadical(3, { letter: Letter.Ya, tashkil: Tashkil.Fatha });
-    else
-    {
-        augmentedRoot.ReplaceRadical(3, { letter: Letter.Alef, tashkil: Tashkil.Fatha });
-    }
-}
+Currently known ones are: رأى, أرى */
 
 function AlterSpecialCaseRa2a(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams, suffix: ConjugationVocalized[])
 {
@@ -77,9 +66,7 @@ export function AlterSpeciallyIrregularDefective(root: VerbRoot, augmentedRoot: 
 {
     if(stemData.stem === 1)
     {
-        if(root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
-            AlterSpecialCaseHayiya(augmentedRoot, params);
-        else if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
+        if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
             AlterSpecialCaseRa2a(augmentedRoot, stemData, params, suffix);
     }
     else if(stemData.stem === 4)
@@ -92,8 +79,6 @@ export function GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching(r
 {
     if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
         return ModernStandardArabicStem1ParametersType.DefectiveType1;
-    if(root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
-        return ModernStandardArabicStem1ParametersType.DefectiveType3;
     return undefined;
 }
 

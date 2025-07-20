@@ -31,6 +31,7 @@ export interface VerbTestData
 {
     dialect: DialectType;
     rootRadicals: string;
+    stativeActiveParticiple?: true;
     stem: AdvancedStemNumber | string;
     verbType?: VerbType;
 }
@@ -203,7 +204,7 @@ export function RunDefectiveConjugationTest(rootRadicalsWithoutR3: string, stem:
     _Legacy_RunConjugationTest(rootRadicalsWithoutR3 + "-ي", stem, conjugations);
 }
 
-export function RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, dialect: DialectType, verbType?: VerbType)
+export function _Legacy_RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, dialect: DialectType, verbType?: VerbType)
 {
     const conjugator = new Conjugator();
 
@@ -218,7 +219,17 @@ export function RunActiveParticipleTest(rootRadicals: string, stem: AdvancedStem
     TestParticiple(expected, activeGot, "active");
 }
 
-export function RunParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, activeExpected: string, passiveExpected: string)
+export function RunActiveParticipleTest(verbTestData: VerbTestData, expected: string)
+{
+    const conjugator = new Conjugator();
+
+    const verb = CreateVerbInstance(verbTestData);
+    
+    const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
+    TestParticiple(expected, activeGot, "active");
+}
+
+export function _Legacy_RunParticipleTest(rootRadicals: string, stem: AdvancedStemNumber | string, activeExpected: string, passiveExpected: string)
 {
     const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
@@ -230,6 +241,24 @@ export function RunParticipleTest(rootRadicals: string, stem: AdvancedStemNumber
     });
     
     const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
+    TestParticiple(activeExpected, activeGot, "active");
+
+    const passiveGot = conjugator.ConjugateParticiple(verb, Voice.Passive);
+    TestParticiple(passiveExpected, passiveGot, "passive");
+}
+
+export function RunParticipleTest(verbTestData: VerbTestData, activeExpected: string, passiveExpected: string)
+{
+    const dialect = DialectType.ModernStandardArabic;
+    const conjugator = new Conjugator();
+
+    const verb = CreateVerbInstance({
+        dialect,
+        rootRadicals: verbTestData.rootRadicals,
+        stem: verbTestData.stem,
+    });
+    
+    const activeGot = (verbTestData.stativeActiveParticiple === true) ? conjugator.DeclineStativeActiveParticiple(verb) : conjugator.ConjugateParticiple(verb, Voice.Active);
     TestParticiple(activeExpected, activeGot, "active");
 
     const passiveGot = conjugator.ConjugateParticiple(verb, Voice.Passive);
@@ -292,7 +321,7 @@ interface VerbalNounTestPattern
     expected: string;
     rootRadicals: string;
 }
-export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patterns: VerbalNounTestPattern[])
+export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patterns: VerbalNounTestPattern[], verbType?: VerbType)
 {
     const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
@@ -303,7 +332,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
     for (const pattern of patterns)
     {
         const root = new VerbRoot(pattern.rootRadicals.split("-").join(""));
-        const verb = CreateVerb(dialect, root, stem);
+        const verb = CreateVerb(dialect, root, stem, verbType);
 
         if(!conjugator.HasPotentiallyMultipleVerbalNounForms(root, (verb.stem === 1) ? verb : verb.stem))
             throw new Error("Expected multiple verbal nouns but apparently only one exists");
@@ -348,8 +377,8 @@ export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber
 
 export function RunDefectiveParticipleTest(rootRadicalsWithoutR3: string, stem: AdvancedStemNumber | string, activeExpected: string, passiveExpected: string)
 {
-    RunParticipleTest(rootRadicalsWithoutR3 + "-و", stem, activeExpected, passiveExpected);
-    RunParticipleTest(rootRadicalsWithoutR3 + "-ي", stem, activeExpected, passiveExpected);
+    _Legacy_RunParticipleTest(rootRadicalsWithoutR3 + "-و", stem, activeExpected, passiveExpected);
+    _Legacy_RunParticipleTest(rootRadicalsWithoutR3 + "-ي", stem, activeExpected, passiveExpected);
 }
 
 export function RunDefectiveVerbalNounTest(rootRadicalsWithoutR3: string, stem: AdvancedStemNumber | string, expected: string)

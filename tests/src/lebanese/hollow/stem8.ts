@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
 //Table: 36
 
 It("Stem8", () => {
-    RunActiveParticipleTest("ر-و-ح", 8, "مِرْتَاحْ", DialectType.Lebanese);
+    _Legacy_RunActiveParticipleTest("ر-و-ح", 8, "مِرْتَاحْ", DialectType.Lebanese);
     
     const conjugations: ConjugationTest[] = [
         //past

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B8%D9%84#Verb
@@ -25,7 +25,7 @@ It("Stem 1 Past:i Present:a", () => {
     throw new Error("TODO verbal noun test :)");
     const stem = ModernStandardArabicStem1ParametersType.PastI_PresentA;
 
-    RunParticipleTest("ظ-ل-ل", stem, "ظَالّ", "مَظْلُول");
+    _Legacy_RunParticipleTest("ظ-ل-ل", stem, "ظَالّ", "مَظْلُول");
 
     const conjugations: ConjugationTest[] = [
         //active past

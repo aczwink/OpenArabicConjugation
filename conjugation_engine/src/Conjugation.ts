@@ -71,6 +71,13 @@ export interface ConjugatedWord
     final?: Letter;
 }
 
+export interface SuffixResult
+{
+    final?: Letter | ConjugationItem;
+    prefinal?: ConjugationItem;
+    previousVowel: Vowel;
+}
+
 //TODO: these are there for integration into current conjugtion pipeline. They should be removed as soon as code is migrated
 export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
 {
@@ -153,6 +160,22 @@ export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
     }
 
     return result;
+}
+
+export function _TODO_TashkilToVowel(taskil: Tashkil)
+{
+    switch(taskil)
+    {
+        case Tashkil.Dhamma:
+            return Vowel.ShortU;
+        case Tashkil.Fatha:
+            return Vowel.ShortA;
+        case Tashkil.Kasra:
+            return Vowel.ShortI;
+        case Tashkil.Sukun:
+            return Vowel.Sukun;
+    }
+    throw new Error("_TODO_TashkilToVowel: " + taskil);
 }
 
 export function _TODO_VowelToTashkil(vowel: Vowel)

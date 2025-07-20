@@ -16,18 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationItem, Vowel } from "../../Conjugation";
+import { SuffixResult, Vowel } from "../../Conjugation";
 import { ConjugationParams, Numerus, Person, Letter, Gender, Tense, VerbType } from "../../Definitions";
 import { Verb } from "../../Verb";
-import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/suffix";
+import { DoesPresentSuffixStartWithWawOrYa } from "../msa/conjugation/_legacy_suffix";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
-
-export interface SuffixResult
-{
-    final?: Letter | ConjugationItem;
-    prefinal?: ConjugationItem;
-    previousVowel: Vowel;
-}
 
 function DeriveSuffixPerfect(params: ConjugationParams): SuffixResult
 {

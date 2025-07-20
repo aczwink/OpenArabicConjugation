@@ -52,7 +52,7 @@ export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1Para
             ];
 
         case VerbType.Geminate:
-            return GenerateParticipleRegular(baseForm, Voice.Passive, true);
+            return GenerateParticipleRegular(baseForm, Voice.Passive, false);
 
         case VerbType.Hollow:
             baseForm.symbols[0].letter = Letter.Mim;

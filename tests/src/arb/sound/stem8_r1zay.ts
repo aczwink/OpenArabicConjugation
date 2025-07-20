@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%B2%D8%AF%D9%87%D8%B1
 //and https://en.wikipedia.org/wiki/Arabic_verbs#Form_VIII_assimilations
@@ -26,7 +26,7 @@ It("Stem 8 with R1 = Zay assimilation", () => {
     const stem = 8;
     
     RunVerbalNounTest(root, stem, "اِزْدِهَار");
-    RunParticipleTest(root, stem, "مُزْدَهِر", "مُزْدَهَر");
+    _Legacy_RunParticipleTest(root, stem, "مُزْدَهِر", "مُزْدَهَر");
 
     const conjugations: ConjugationTest[] = [
         //active past

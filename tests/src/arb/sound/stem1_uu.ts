@@ -16,16 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, RunParticipleTest, RunVerbalNounPatternTest } from "../../shared";
+import { ConjugationTest, RunVerbalNounPatternTest, VerbTestData, RunConjugationTest, RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
+import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AE%D8%A8%D8%B1#Arabic
 
 It("Stem 1 past:u, present:u", () => {
-    const root = "خ-ب-ر";
-    const stem = ModernStandardArabicStem1ParametersType.PastU_PresentU;
+    const verb: VerbTestData = {
+        dialect: DialectType.ModernStandardArabic,
+        rootRadicals: "خ-ب-ر",
+        stativeActiveParticiple: true,
+        stem: ModernStandardArabicStem1ParametersType.PastU_PresentU,
+    };
 
-    RunVerbalNounPatternTest(stem, [
+    RunVerbalNounPatternTest(verb.stem, [
         { rootRadicals: "ب-ع-د", expected: "بُعْد" }, //Source: https://en.wiktionary.org/wiki/%D8%A8%D8%B9%D8%AF
         { rootRadicals: "ج-م-ل", expected: "جَمَال" }, //Source: https://en.wiktionary.org/wiki/%D8%AC%D9%85%D9%84
         { rootRadicals: "ك-ر-م", expected: "كَرَم" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D8%B1%D9%85
@@ -35,7 +40,7 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "س-ه-ل", expected: "سُهُولَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D9%87%D9%84#Arabic
         { rootRadicals: "ض-ع-ف", expected: "ضَعْف" }, //Source: https://en.wiktionary.org/wiki/%D8%B6%D8%B9%D9%81
     ]);
-    RunParticipleTest(root, stem, "خَبِير", "مَخْبُور");
+    RunParticipleTest(verb, "خَبِير", "مَخْبُور");
 
     const conjugations: ConjugationTest[] = [
         //active past
@@ -184,5 +189,5 @@ It("Stem 1 past:u, present:u", () => {
         { voice: "passive", expected: "نُخْبَرْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
     
-    _Legacy_RunConjugationTest(root, stem, conjugations);
+    RunConjugationTest(verb, conjugations);
 });

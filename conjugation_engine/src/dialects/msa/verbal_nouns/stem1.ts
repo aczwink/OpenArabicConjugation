@@ -309,24 +309,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     ];
 
                 case ModernStandardArabicStem1ParametersType.DefectiveType3:
-                    if(root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
-                    {
-                        return [
-                            [
-                                { letter: root.r1, tashkil: Tashkil.Fatha },
-                                { letter: root.r2, tashkil: Tashkil.Fatha },
-                                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
-                            ],
-                            [
-                                { letter: root.r1, tashkil: Tashkil.Fatha },
-                                { letter: root.r2, tashkil: Tashkil.Fatha },
-                                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                            ],
-                        ];
-                    }
-
                     if((root.r2 === Letter.Waw) && (root.r3 === Letter.Ya))
                     {
                         return [
@@ -591,6 +573,16 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         {
             switch(stem1Context.stemParameterization)
             {
+                case ModernStandardArabicStem1ParametersType.IrregularHayiya:
+                    return [
+                        fa3aa2,
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                    ];
                 case ModernStandardArabicStem1ParametersType.IrregularLaysa:
                     return [
                         [

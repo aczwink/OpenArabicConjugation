@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunDefectiveConjugationTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunActiveParticipleTest, RunDefectiveConjugationTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D9%86%D8%A8%D8%BA%D9%89
@@ -26,8 +26,8 @@ It("Stem 7", () => {
     const stem = 7;
     
     throw new Error("TODO verbal noun test :)");
-    RunActiveParticipleTest(root + "-و", stem, "مُنْبَغٍ", DialectType.ModernStandardArabic);
-    RunActiveParticipleTest(root + "-ي", stem, "مُنْبَغٍ", DialectType.ModernStandardArabic);
+    _Legacy_RunActiveParticipleTest(root + "-و", stem, "مُنْبَغٍ", DialectType.ModernStandardArabic);
+    _Legacy_RunActiveParticipleTest(root + "-ي", stem, "مُنْبَغٍ", DialectType.ModernStandardArabic);
     
     const conjugations: ConjugationTest[] = [
         //active past

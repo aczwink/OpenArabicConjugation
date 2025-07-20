@@ -16,15 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Gender, Numerus, Person, VerbType } from "../../../Definitions";
+import { ConjugationRule } from "../../../Conjugation";
+import { VerbType, Voice } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { GeminateStem4Template } from "./geminate_stem4";
+import { GeminateStem8Template } from "./geminate_stem8";
+import { IrregularHayiyaTemplate } from "./irregular_hayiya";
+import { IrregularLaysaTemplate } from "./irregular_laysa";
 
-export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationRule[] | undefined
+export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
-    const root = stemData.root;
-
     switch(stemData.stem)
     {
         case 1:
@@ -34,31 +36,32 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
                 {
                     switch(stemData.stemParameterization)
                     {
+                        case ModernStandardArabicStem1ParametersType.IrregularHayiya:
+                            return IrregularHayiyaTemplate(stemData, voice);
                         case ModernStandardArabicStem1ParametersType.IrregularLaysa:
-                            return [
-                                {
-                                    conditions: { person: Person.Third, gender: Gender.Female, numerus: Numerus.Plural },
-                                    prefixVowel: Vowel.Sukun,
-                                    symbols: [root.r1, root.r3],
-                                    vowels: [Vowel.ShortA]
-                                },
-                                {
-                                    conditions: { person: Person.Third },
-                                    prefixVowel: Vowel.Sukun,
-                                    symbols: [root.r1, root.r3],
-                                    vowels: [Vowel.DiphtongAj]
-                                },
-                                {
-                                    conditions: {},
-                                    prefixVowel: Vowel.Sukun,
-                                    symbols: [root.r1, root.r3],
-                                    vowels: [Vowel.ShortA]
-                                },
-                            ];
+                            return IrregularLaysaTemplate(stemData);
                     }
                 }
                 break;
             }
+        break;
+        case 4:
+        {
+            switch(stemData.type)
+            {
+                case VerbType.Geminate:
+                    return GeminateStem4Template(stemData, voice);
+            }
+        }
+        break;
+        case 8:
+        {
+            switch(stemData.type)
+            {
+                case VerbType.Geminate:
+                    return GeminateStem8Template(stemData, voice);
+            }
+        }
         break;
     }
     return undefined;

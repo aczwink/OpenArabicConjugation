@@ -20,8 +20,8 @@ import { ConjugationParams, Letter, Tashkil, Voice, Tense, Person, Numerus, Gend
 import { VerbStemData } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
-import { DoesPresentSuffixStartWithWawOrYa } from "./suffix";
+import { ModernStandardArabicStem1ParametersType } from "./r2tashkil";
+import { DoesPresentSuffixStartWithWawOrYa } from "./_legacy_suffix";
 
 enum DefectiveType
 {
@@ -39,16 +39,17 @@ function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1Parame
     {
         case 1:
         {
-            switch(ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization))
+            switch(stemData.stemParameterization)
             {
-                case Tashkil.Dhamma:
-                    return DefectiveType.Type2_Fa3aA;
-                case Tashkil.Kasra:
+                case ModernStandardArabicStem1ParametersType.DefectiveType1:
                     return DefectiveType.Type1_Fa3aY;
-                case Tashkil.Fatha:
+                case ModernStandardArabicStem1ParametersType.DefectiveType2:
+                    return DefectiveType.Type2_Fa3aA;
+                case ModernStandardArabicStem1ParametersType.DefectiveType3:
+                case ModernStandardArabicStem1ParametersType.IrregularHayiya:
                     return DefectiveType.Type3_Fa3iya;
                 default:
-                    throw new Error("TODO: should never happen!");
+                    throw new Error("TODO: should never happen!: " + stemData.stemParameterization);
             }
         }
         case 2:

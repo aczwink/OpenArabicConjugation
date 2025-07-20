@@ -47,6 +47,16 @@ function DerivePrefixTashkil(rootType: RootType, stemData: VerbStemData<ModernSt
     }
 }
 
+function GetImperativeTashkil(stemParameterization: ModernStandardArabicStem1ParametersType)
+{
+    switch(stemParameterization)
+    {
+        case ModernStandardArabicStem1ParametersType.IrregularHayiya:
+            return Tashkil.Kasra;
+    }
+    return ExtractPresentMiddleRadicalTashkil(stemParameterization);
+}
+
 export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]
 {
     if(params.tense === Tense.Perfect)
@@ -66,7 +76,7 @@ export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), root
 
         if(prevTashkil === Tashkil.Sukun)
         {
-            const stem1ctx = (stemData.stem === 1) ? ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) : undefined;
+            const stem1ctx = (stemData.stem === 1) ? GetImperativeTashkil(stemData.stemParameterization) : undefined;
             //insert hamzat al wasl
             return [{ letter: Letter.Alef, tashkil: (stem1ctx === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra}];
         }
