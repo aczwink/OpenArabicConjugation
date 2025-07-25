@@ -65,7 +65,7 @@ export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: Verb
             vowels: [Vowel.Sukun, Vowel.LongI]
         },
         {
-            conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+            conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
             symbols: [root.r1, root.r2],
             vowels: [Vowel.Sukun]
         },

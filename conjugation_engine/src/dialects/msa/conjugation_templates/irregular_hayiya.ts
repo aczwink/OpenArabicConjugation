@@ -46,7 +46,7 @@ export function IrregularHayiyaTemplate(stemData: Verb<ModernStandardArabicStem1
                     vowels: [Vowel.Sukun, Vowel.ShortA],
                 },
                 {
-                    conditions: { hasPresentSuffix: true },
+                    conditions: { hasPresentVowelSuffix: true },
                     symbols: [root.r1, root.r2],
                     vowels: [Vowel.Sukun, Vowel.ShortA],
                 },

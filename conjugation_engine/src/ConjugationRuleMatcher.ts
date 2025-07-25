@@ -18,13 +18,14 @@
 
 import { ConjugationRule, ConjugationRuleMatchResult } from "./Conjugation";
 import { ConjugationParams, Tense } from "./Definitions";
-import { DoesPresentSuffixStartWithWawOrYa } from "./dialects/msa/conjugation/_legacy_suffix";
+import { DoesPresentSuffixStartWithLongVowel } from "./dialects/msa/conjugation/_legacy_suffix";
 import { VerbStemData } from "./Verb";
 
 export class ConjugationRuleMatcher<T>
 {
-    constructor()
+    constructor(doesSuffixBeginWithSukun: boolean)
     {
+        this.doesSuffixBeginWithSukun = doesSuffixBeginWithSukun;
         this.evaluated = {
             conditions: {}
         };
@@ -70,7 +71,9 @@ export class ConjugationRuleMatcher<T>
             return false;
         if((c.gender !== undefined) && (c.gender !== params.gender))
             return false;
-        if((c.hasPresentSuffix === true) && (params.tense === Tense.Present) && !DoesPresentSuffixStartWithWawOrYa(params.person, params.numerus, params.gender))
+        if((c.hasPresentVowelSuffix === true) && (params.tense === Tense.Present) && !DoesPresentSuffixStartWithLongVowel(params.person, params.numerus, params.gender))
+            return false;
+        if((c.doesSuffixBeginWithSukun === true) && !this.doesSuffixBeginWithSukun)
             return false;
         if(c.stemParameters !== undefined)
         {
@@ -103,4 +106,5 @@ export class ConjugationRuleMatcher<T>
 
     //State
     private evaluated: ConjugationRule;
+    private doesSuffixBeginWithSukun: boolean;
 }

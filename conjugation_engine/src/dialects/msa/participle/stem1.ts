@@ -19,7 +19,7 @@ import { Letter, Tashkil, VerbType, VoiceString } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
-import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { _Legacy_ExtractMiddleRadicalTashkil, _Legacy_ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
 export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[]
 {
@@ -39,9 +39,9 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra },
-                { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.Sukun },
-                { letter: (ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+                { letter: root.r2, tashkil: (_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Tashkil.Dhamma : Tashkil.Kasra },
+                { letter: (_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.Sukun },
+                { letter: (_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Dhamma) ? Letter.Waw : Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
             ];
 
         case VerbType.Irregular:
@@ -88,8 +88,8 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
             }
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: (ExtractMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Kasra) ? Tashkil.Kasra : Tashkil.Dhamma },
-                { letter: (ExtractMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Kasra) ? Letter.Ya : Letter.Waw, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r1, tashkil: (_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Kasra) ? Tashkil.Kasra : Tashkil.Dhamma },
+                { letter: (_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization) === Tashkil.Kasra) ? Letter.Ya : Letter.Waw, tashkil: Tashkil.LongVowelMarker },
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 

@@ -43,8 +43,9 @@ export interface ConjugationRule
 {
     children?: ConjugationRule[];
     conditions: {
+        doesSuffixBeginWithSukun?: true;
         gender?: Gender;
-        hasPresentSuffix?: boolean;
+        hasPresentVowelSuffix?: true;
         mood?: Mood;
         numerus?: Numerus;
         person?: Person;

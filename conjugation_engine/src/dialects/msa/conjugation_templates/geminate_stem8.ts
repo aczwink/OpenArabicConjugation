@@ -35,11 +35,7 @@ export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1Pa
             vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortI],
             children: [
                 {
-                    conditions: { numerus: Numerus.Dual },
-                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
-                },
-                {
-                    conditions: { hasPresentSuffix: true },
+                    conditions: { hasPresentVowelSuffix: true },
                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
                 }
             ]
@@ -50,11 +46,7 @@ export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1Pa
             vowels: [Vowel.Sukun, Vowel.ShortA, presentR2Vowel],
             children: [
                 {
-                    conditions: { numerus: Numerus.Dual },
-                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
-                },
-                {
-                    conditions: { hasPresentSuffix: true },
+                    conditions: { hasPresentVowelSuffix: true },
                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
                 }
             ]

@@ -280,3 +280,8 @@ export function DoesPresentSuffixStartWithWawOrYa(person: Person, numerus: Numer
 
     return singular || plural;
 }
+
+export function DoesPresentSuffixStartWithLongVowel(person: Person, numerus: Numerus, gender: Gender)
+{
+    return (numerus === Numerus.Dual) || DoesPresentSuffixStartWithWawOrYa(person, numerus, gender);
+}

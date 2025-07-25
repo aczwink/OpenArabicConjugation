@@ -66,7 +66,7 @@ export function AssimilatedStem1ConjugationTemplate(root: VerbRoot, stemData: Ve
                     ]
                 },
                 {
-                    conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+                    conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
                     symbols: [root.r1, root.r2, root.r3],
                     vowels: [Vowel.Sukun, present_r2]
                 },
@@ -82,7 +82,7 @@ export function AssimilatedStem1ConjugationTemplate(root: VerbRoot, stemData: Ve
                     vowels: [present_r2],
                     children: [
                         {
-                            conditions: { hasPresentSuffix: true, stemParameters: LebaneseStem1Context.PastA_PresentI },
+                            conditions: { hasPresentVowelSuffix: true, stemParameters: LebaneseStem1Context.PastA_PresentI },
                             vowels: [Vowel.Sukun]
                         }
                     ]

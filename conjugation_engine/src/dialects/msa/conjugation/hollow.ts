@@ -19,7 +19,7 @@
 import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, Voice } from "../../../Definitions";
 import { VerbStemData } from "../../../Verb";
 import { AugmentedRoot, SymbolName } from "../AugmentedRoot";
-import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
+import { _Legacy_ExtractMiddleRadicalTashkil, _Legacy_ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 function DoesPresentSuffixStartWithVowel(params: ConjugationParams)
 {
@@ -52,7 +52,7 @@ export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, stemData: VerbS
                 else
                 {
                     //shorten vowel
-                    const tashkil = (ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha) ? ExtractMiddleRadicalTashkil(stemData.stemParameterization) : vowelTashkil;
+                    const tashkil = (_Legacy_ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha) ? _Legacy_ExtractMiddleRadicalTashkil(stemData.stemParameterization) : vowelTashkil;
                     augmentedRoot.ApplyRadicalTashkil(2, (params.voice === Voice.Active) ? tashkil : Tashkil.Kasra);
                     augmentedRoot.AssimilateRadical(2);
                 }
@@ -70,7 +70,7 @@ export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, stemData: VerbS
 
                 if(shortenVowel)
                     augmentedRoot.AssimilateRadical(2);
-                else if((params.voice === Voice.Passive) || (ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha))
+                else if((params.voice === Voice.Passive) || (_Legacy_ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha))
                     augmentedRoot.ReplaceRadical(2, { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker });
 
                 augmentedRoot.ApplyRadicalTashkil(1, (params.voice === Voice.Active) ? vowelTashkil : Tashkil.Fatha);

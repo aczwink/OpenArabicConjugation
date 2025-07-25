@@ -21,58 +21,58 @@ import { Gender, Letter, Mood, Numerus, Person, Tense, Voice } from "../../../De
 import { Verb } from "../../../Verb";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-export function GeminateStem4Template(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
+export function GeminateStem10Template(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
     const root = stemData.root;
 
-    const perfectHamzaVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
-    const perfectVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortI;
+    const taVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
+    const pastVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortI;
     const presentVowel = (voice === Voice.Active) ? Vowel.ShortI : Vowel.ShortA;
     return [
         {
             conditions: { mood: Mood.Imperative },
-            symbols: [root.r1, root.r2, root.r3],
-            vowels: [Vowel.Sukun, Vowel.ShortI],
+            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r3],
+            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
             children: [
                 {
                     conditions: { hasPresentVowelSuffix: true },
-                    vowels: [Vowel.ShortI, Vowel.Sukun],
+                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortI, Vowel.Sukun],
                 }
             ]
         },
         {
             conditions: { mood: Mood.Jussive },
-            symbols: [root.r1, root.r2, root.r3],
-            vowels: [Vowel.Sukun, presentVowel],
+            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r3],
+            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, presentVowel],
             children: [
                 {
                     conditions: { hasPresentVowelSuffix: true },
-                    vowels: [presentVowel, Vowel.Sukun],
+                    vowels: [Vowel.Sukun, Vowel.ShortA, presentVowel, Vowel.Sukun],
                 }
             ]
         },
         {
             conditions: { tense: Tense.Present },
-            symbols: [root.r1, root.r2, root.r3],
-            vowels: [presentVowel, Vowel.Sukun],
+            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r3],
+            vowels: [Vowel.Sukun, Vowel.ShortA, presentVowel, Vowel.Sukun],
             children: [
                 {
                     conditions: { numerus: Numerus.Plural, gender: Gender.Female },
-                    vowels: [Vowel.Sukun, presentVowel],
+                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, presentVowel],
                 },
             ],
         },
         {
             conditions: { tense: Tense.Perfect },
-            symbols: [Letter.Hamza, root.r1, root.r2, root.r3],
-            vowels: [perfectHamzaVowel, Vowel.Sukun, perfectVowel],
+            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r3],
+            vowels: [Vowel.Sukun, taVowel, Vowel.Sukun, pastVowel],
             children: [
                 {
                     conditions: { person: Person.Third, numerus: Numerus.Plural, gender: Gender.Female },
                 },
                 {
                     conditions: { person: Person.Third },
-                    vowels: [perfectHamzaVowel, perfectVowel, Vowel.Sukun],
+                    vowels: [Vowel.Sukun, taVowel, pastVowel, Vowel.Sukun],
                 },
             ]
         },

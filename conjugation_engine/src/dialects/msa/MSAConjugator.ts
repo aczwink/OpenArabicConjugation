@@ -304,6 +304,38 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             //https://en.wikipedia.org/wiki/Arabic_verbs#Hollow_(second-weak)_verbs
             throw new Error("TODO: write test! 4" +  verb.root.radicalsAsSeparateLetters.join("-"));
         }
+
+        if(verb.root.r1 === Letter.Waw)
+        {
+            switch(verb.stem)
+            {
+                case 7:
+                case 9:
+                    throw new Error("TODO: write test: waw " + verb.stem + " " + verb.root.ToString());
+            }
+        }
+        else if(verb.root.r1 === Letter.Ya)
+        {
+            switch(verb.stem)
+            {
+                case 1:
+                    switch(verb.stemParameterization)
+                    {
+                        case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                        case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+                        case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+                            return;
+                    }
+                case 2:
+                case 3:
+                case 4:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    throw new Error("TODO: write test: ya " + verb.stem + " " + verb.root.ToString());
+            }
+        }
     }
 
     private ProcessConjugationPipeline(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
@@ -320,7 +352,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     break;
             }
 
-            const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>().Match(template, verb, params);
+            const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>(suffix.preSuffixTashkil === Tashkil.Sukun).Match(template, verb, params);
 
             const items: ConjugationItem[] = [];
             const vowels = [...matched.vowels, _TODO_TashkilToVowel(suffix.preSuffixTashkil)];

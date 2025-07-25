@@ -22,7 +22,7 @@ import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
 import { DerivePrefix } from "./prefix";
 import { MSAConjugator } from "../msa/MSAConjugator";
 import { AugmentRoot } from "./rootAugmentation";
-import { _TODO_ToConjugationVocalized, _TODO_VowelToTashkil, ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult, SuffixResult } from "../../Conjugation";
+import { _TODO_ToConjugationVocalized, _TODO_VowelToTashkil, ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult, SuffixResult, Vowel } from "../../Conjugation";
 import { DeriveSuffix } from "./suffix";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
@@ -47,10 +47,11 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
             ];
         }
 
-        const matched = new ConjugationRuleMatcher<LebaneseStem1Context>().Match(rootAugmentation, verb, params);
+        const suffix = DeriveSuffix(verb, params);
+
+        const matched = new ConjugationRuleMatcher<LebaneseStem1Context>(suffix.previousVowel === Vowel.Sukun).Match(rootAugmentation, verb, params);
 
         const prefix = DerivePrefix(matched.prefixVowel, matched.vowels[0], params);
-        const suffix = DeriveSuffix(verb, params);
 
         const constructed = this.Construct(matched, prefix, suffix);
 

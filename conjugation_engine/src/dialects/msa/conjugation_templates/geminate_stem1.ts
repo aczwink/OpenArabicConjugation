@@ -17,26 +17,25 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Gender, Letter, Mood, Numerus, Person, Tense, Voice } from "../../../Definitions";
-import { Verb } from "../../../Verb";
-import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { Gender, Mood, Numerus, Person, Tense, Voice } from "../../../Definitions";
+import { VerbStem1Data } from "../../../Verb";
+import { VerbRoot } from "../../../VerbRoot";
+import { ExtractMiddleRadicalTashkilVowel, ExtractPresentMiddleRadicalVowel, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-export function GeminateStem4Template(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
+export function GeminateStem1Template(root: VerbRoot, stemData: VerbStem1Data<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
-    const root = stemData.root;
-
-    const perfectHamzaVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
-    const perfectVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortI;
-    const presentVowel = (voice === Voice.Active) ? Vowel.ShortI : Vowel.ShortA;
+    const perfectVowelR1 = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
+    const perfectVowelR2 = (voice === Voice.Active) ? ExtractMiddleRadicalTashkilVowel(stemData.stemParameterization) : Vowel.ShortI;
+    const presentVowel = (voice === Voice.Active) ? ExtractPresentMiddleRadicalVowel(stemData.stemParameterization) : Vowel.ShortA;
     return [
         {
             conditions: { mood: Mood.Imperative },
             symbols: [root.r1, root.r2, root.r3],
-            vowels: [Vowel.Sukun, Vowel.ShortI],
+            vowels: [Vowel.Sukun, presentVowel],
             children: [
                 {
                     conditions: { hasPresentVowelSuffix: true },
-                    vowels: [Vowel.ShortI, Vowel.Sukun],
+                    vowels: [presentVowel, Vowel.Sukun],
                 }
             ]
         },
@@ -57,22 +56,22 @@ export function GeminateStem4Template(stemData: Verb<ModernStandardArabicStem1Pa
             vowels: [presentVowel, Vowel.Sukun],
             children: [
                 {
-                    conditions: { numerus: Numerus.Plural, gender: Gender.Female },
+                    conditions: { doesSuffixBeginWithSukun: true },
                     vowels: [Vowel.Sukun, presentVowel],
                 },
             ],
         },
         {
             conditions: { tense: Tense.Perfect },
-            symbols: [Letter.Hamza, root.r1, root.r2, root.r3],
-            vowels: [perfectHamzaVowel, Vowel.Sukun, perfectVowel],
+            symbols: [root.r1, root.r2, root.r3],
             children: [
                 {
-                    conditions: { person: Person.Third, numerus: Numerus.Plural, gender: Gender.Female },
+                    conditions: { doesSuffixBeginWithSukun: true },
+                    vowels: [perfectVowelR1, perfectVowelR2],
                 },
                 {
                     conditions: { person: Person.Third },
-                    vowels: [perfectHamzaVowel, perfectVowel, Vowel.Sukun],
+                    vowels: [perfectVowelR1, Vowel.Sukun],
                 },
             ]
         },

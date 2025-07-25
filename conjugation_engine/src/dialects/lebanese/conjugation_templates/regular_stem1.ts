@@ -98,7 +98,7 @@ function RegularStem1_I_ConjugationTemplate(root: VerbRoot, stemData: VerbStem1D
                     ]
                 },
                 {
-                    conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+                    conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
                     vowels: [Vowel.Sukun, ImperativeVowel()]
                 },
                 {
@@ -111,7 +111,7 @@ function RegularStem1_I_ConjugationTemplate(root: VerbRoot, stemData: VerbStem1D
                     vowels: [Vowel.Sukun, R2PresentVowel()],
                     children: [
                         {
-                            conditions: { hasPresentSuffix: true },
+                            conditions: { hasPresentVowelSuffix: true },
                             children: [
                                 {
                                     conditions: {stemParameters: LebaneseStem1Context.PastI_PresentU },
@@ -173,7 +173,7 @@ export function RegularStem1ConjugationTemplate(root: VerbRoot, stemData: VerbSt
                     vowels: [Vowel.ShortA, Vowel.ShortA]
                 },
                 {
-                    conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+                    conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
                     vowels: [Vowel.Sukun, R2ImperativeWithPresentSuffixVowel(stemData.stemParameterization)]
                 },
                 {
@@ -181,7 +181,7 @@ export function RegularStem1ConjugationTemplate(root: VerbRoot, stemData: VerbSt
                     vowels: [Vowel.Sukun, r2imperativeVowel]
                 },
                 {
-                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
                     prefixVowel: presentPrefixVowel,
                     children: [
                         {

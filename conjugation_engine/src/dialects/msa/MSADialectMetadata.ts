@@ -39,6 +39,9 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(stem)
                 {
                     case 2:
+                    case 3:
+                    case 5:
+                    case 6:
                         return VerbType.Sound;
                 }
                 break;
@@ -70,6 +73,20 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
         {
             case VerbType.Assimilated:
             {
+                if(root.r1 === Letter.Ya)
+                {
+                    return {
+                        requiredContext: [
+                            presentContext
+                        ],
+                        types: [
+                            ModernStandardArabicStem1ParametersType.PastI_PresentA,
+                            ModernStandardArabicStem1ParametersType.PastI_PresentI,
+                            ModernStandardArabicStem1ParametersType.PastU_PresentU,
+                        ]
+                    };
+                }
+
                 return {
                     requiredContext: [
                         presentContext

@@ -57,7 +57,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     {
                         return [
                             {
-                                conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+                                conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
                                 symbols: [root.r2, root.r3],
                                 vowels: [Vowel.ShortI]
                             },
@@ -67,7 +67,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                 vowels: [Vowel.ShortU]
                             },
                             {
-                                conditions: { hasPresentSuffix: true },
+                                conditions: { hasPresentVowelSuffix: true },
                                 prefixVowel: Vowel.LongA,
                                 symbols: [root.r2, root.r3],
                                 vowels: [Vowel.Sukun]
@@ -98,7 +98,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.ShortA, Vowel.ShortA]
                                 },
                                 {
-                                    conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+                                    conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
                                     vowels: [Vowel.Sukun, Vowel.ShortU]
                                 },
                                 {
@@ -106,7 +106,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.LongU]
                                 },
                                 {
-                                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
                                     prefixVowel: Vowel.ShortU,
                                     vowels: [Vowel.Sukun, Vowel.Sukun]
                                 },
@@ -195,7 +195,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                         {
-                            conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                            conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
                             prefixVowel: Vowel.Sukun,
                             symbols: [root.r1, root.r2, root.r2],
                             vowels: [Vowel.ShortA, Vowel.Sukun]
@@ -257,7 +257,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
                                     children: [
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.Sukun]
                                         },
                                     ]
@@ -292,7 +292,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.LongA, Vowel.ShortI],
                                     children: [
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.LongA, Vowel.Sukun]
                                         },
                                     ]
@@ -312,7 +312,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.LongA, Vowel.ShortA],
                                 },
                                 {
-                                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
                                     prefixVowel: Vowel.Sukun,
                                     vowels: [Vowel.LongA, Vowel.Sukun],
                                 },
@@ -345,7 +345,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             symbols: [root.r1, root.r2, root.r3],
                             children: [
                                 {
-                                    conditions: { mood: Mood.Imperative, hasPresentSuffix: true },
+                                    conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
                                     vowels: [Vowel.Sukun, Vowel.ShortI]
                                 },
                                 {
@@ -353,7 +353,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.LongU]
                                 },
                                 {
-                                    conditions: { hasPresentSuffix: true },
+                                    conditions: { hasPresentVowelSuffix: true },
                                     vowels: [Vowel.ShortI, Vowel.Sukun]
                                 },
                                 {
@@ -404,11 +404,11 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
                                     children: [
                                         {
-                                            conditions: { hasPresentSuffix: true, numerus: Numerus.Singular },
+                                            conditions: { hasPresentVowelSuffix: true, numerus: Numerus.Singular },
                                             vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.LongI],
                                         },
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.LongU],
                                         },
                                     ]
@@ -475,11 +475,11 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.LongA, Vowel.BrokenA],
                                     children: [
                                         {
-                                            conditions: { hasPresentSuffix: true, numerus: Numerus.Singular },
+                                            conditions: { hasPresentVowelSuffix: true, numerus: Numerus.Singular },
                                             vowels: [Vowel.Sukun, Vowel.LongA, Vowel.LongI],
                                         },
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.Sukun, Vowel.LongA, Vowel.LongU],
                                         },
                                     ]
@@ -569,7 +569,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                             vowels: [Vowel.Sukun, Vowel.ShortI],
                                         },
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.Sukun, Vowel.Sukun],
                                         },
                                     ],
@@ -609,7 +609,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortA]
                                 },
                                 {
-                                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
                                     prefixVowel: Vowel.ShortI,
                                     vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.Sukun]
                                 },
@@ -687,7 +687,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
                                     children: [
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
                                         }
                                     ],
@@ -712,7 +712,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
                                     children: [
                                         {
-                                            conditions: { hasPresentSuffix: true },
+                                            conditions: { hasPresentVowelSuffix: true },
                                             vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.Sukun]
                                         }
                                     ],

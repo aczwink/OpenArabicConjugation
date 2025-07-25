@@ -20,7 +20,7 @@ import { Letter, Tashkil, PrimaryTashkil, ConjugationParams, Voice, Tense, Perso
 import { VerbStemData } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
-import { ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
+import { _Legacy_ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 function DerivePrefixTashkil(rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
@@ -54,7 +54,7 @@ function GetImperativeTashkil(stemParameterization: ModernStandardArabicStem1Par
         case ModernStandardArabicStem1ParametersType.IrregularHayiya:
             return Tashkil.Kasra;
     }
-    return ExtractPresentMiddleRadicalTashkil(stemParameterization);
+    return _Legacy_ExtractPresentMiddleRadicalTashkil(stemParameterization);
 }
 
 export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]

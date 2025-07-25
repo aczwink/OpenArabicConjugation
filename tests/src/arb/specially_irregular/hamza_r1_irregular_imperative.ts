@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
+import { ConjugationTest, RunVerbalNounTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%AE%D8%B0#Verb
@@ -183,7 +183,7 @@ It("Stem 1 irregular short imperative ء-ك-ل", () => {
     const root = "ء-ك-ل";
     const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
 
-    throw new Error("TODO verbal noun test :)");
+    RunVerbalNounTest(root, stem, "أَكْل");
     _Legacy_RunParticipleTest(root, stem, "آكِل", "مَأْكُول");
     
     const conjugations: ConjugationTest[] = [

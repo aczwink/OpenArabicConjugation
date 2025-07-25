@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import { Vowel } from "../../../Conjugation";
 import { BaseTashkil, Tashkil } from "../../../Definitions";
 
 export enum ModernStandardArabicStem1ParametersType
@@ -37,7 +38,7 @@ export enum ModernStandardArabicStem1ParametersType
     Quadrilateral = "ss",
 }
 
-export function ExtractMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
+export function _Legacy_ExtractMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
 {
     switch(type)
     {
@@ -59,7 +60,7 @@ export function ExtractMiddleRadicalTashkil(type: ModernStandardArabicStem1Param
     throw new Error("Doesn't work for irregular verbs: " + type);
 }
 
-export function ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
+export function _Legacy_ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
 {
     switch(type)
     {
@@ -77,6 +78,50 @@ export function ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicSte
             return Tashkil.Fatha;
         case ModernStandardArabicStem1ParametersType.Quadrilateral:
             return Tashkil.Sukun;
+    }
+    throw new Error("Doesn't work for irregular verbs: " + type);
+}
+
+export function ExtractMiddleRadicalTashkilVowel(type: ModernStandardArabicStem1ParametersType): Vowel
+{
+    switch(type)
+    {
+        case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+            return Vowel.ShortU;
+        case ModernStandardArabicStem1ParametersType.DefectiveType1:
+        case ModernStandardArabicStem1ParametersType.DefectiveType2:
+        case ModernStandardArabicStem1ParametersType.PastA_PresentA:
+        case ModernStandardArabicStem1ParametersType.PastA_PresentI:
+        case ModernStandardArabicStem1ParametersType.PastA_PresentU:
+            return Vowel.ShortA;
+        case ModernStandardArabicStem1ParametersType.DefectiveType3:
+        case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+        case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+            return Vowel.ShortI;
+        case ModernStandardArabicStem1ParametersType.Quadrilateral:
+            return Vowel.Sukun;
+    }
+    throw new Error("Doesn't work for irregular verbs: " + type);
+}
+
+export function ExtractPresentMiddleRadicalVowel(type: ModernStandardArabicStem1ParametersType): Vowel
+{
+    switch(type)
+    {
+        case ModernStandardArabicStem1ParametersType.DefectiveType1:
+        case ModernStandardArabicStem1ParametersType.PastA_PresentI:
+        case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+            return Vowel.ShortI;
+        case ModernStandardArabicStem1ParametersType.DefectiveType2:
+        case ModernStandardArabicStem1ParametersType.PastA_PresentU:
+        case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+            return Vowel.ShortU;
+        case ModernStandardArabicStem1ParametersType.DefectiveType3:
+        case ModernStandardArabicStem1ParametersType.PastA_PresentA:
+        case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+            return Vowel.ShortA;
+        case ModernStandardArabicStem1ParametersType.Quadrilateral:
+            return Vowel.Sukun;
     }
     throw new Error("Doesn't work for irregular verbs: " + type);
 }

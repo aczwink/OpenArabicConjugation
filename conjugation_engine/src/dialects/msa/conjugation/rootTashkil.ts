@@ -20,7 +20,7 @@ import { ConjugationParams, Tashkil, Tense, Voice } from "../../../Definitions";
 import { VerbStemData } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { ExtractMiddleRadicalTashkil, ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
+import { _Legacy_ExtractMiddleRadicalTashkil, _Legacy_ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 interface RootTashkil
 {
@@ -31,7 +31,7 @@ interface RootTashkil
 function DerivePastRootTashkil(stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): RootTashkil
 {
     const r1stem = ((stemData.stem === 4) || (stemData.stem === 8) || (stemData.stem === 9) || (stemData.stem === 10)) ? Tashkil.Sukun : ((params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Dhamma);
-    const r2active = (stemData.stem === 1) ? ExtractMiddleRadicalTashkil(stemData.stemParameterization) : Tashkil.Fatha;
+    const r2active = (stemData.stem === 1) ? _Legacy_ExtractMiddleRadicalTashkil(stemData.stemParameterization) : Tashkil.Fatha;
     return {
         r1: r1stem,
         r2: (params.voice === Voice.Active) ? r2active : Tashkil.Kasra
@@ -62,7 +62,7 @@ function Derive3RadicalRootTashkil(stemData: VerbStemData<ModernStandardArabicSt
         switch(stemData.stem)
         {
             case 1:
-                return ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization);
+                return _Legacy_ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization);
             case 2:
             case 3:
             case 4:

@@ -216,7 +216,6 @@ export function AugmentRoot(stem: number, root: VerbRoot, params: ConjugationPar
                 case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 case RootType.HamzaOnR1:
                 case RootType.MiddleWeak:
-                case RootType.SecondConsonantDoubled:
                 case RootType.Regular:
                     return [
                         { letter: Letter.Siin, symbolName: SymbolName.Prefix1, tashkil: Tashkil.Sukun },

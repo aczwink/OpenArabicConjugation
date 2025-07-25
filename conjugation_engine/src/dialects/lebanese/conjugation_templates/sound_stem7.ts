@@ -35,7 +35,7 @@ export function SoundStem7ConjugationTemplate(root: VerbRoot, stemData: VerbStem
                     vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortA]
                 },
                 {
-                    conditions: { tense: Tense.Present, hasPresentSuffix: true },
+                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
                     prefixVowel: Vowel.ShortU,
                     vowels: [Vowel.Sukun, Vowel.ShortU, Vowel.Sukun]
                 },

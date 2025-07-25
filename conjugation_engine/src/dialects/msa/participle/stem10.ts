@@ -41,7 +41,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
                 { letter: root.r2, tashkil: Tashkil.Fathatan },
-                { letter: Letter.AlefMaksura, tashkil: Tashkil.Sukun },
+                { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
             ];
 
         case RootType.MiddleWeak:

@@ -50,7 +50,7 @@ export function QuadriliteralStem1ConjugationTemplate(root: VerbRoot, params: Co
                     vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
                     children: [
                         {
-                            conditions: { hasPresentSuffix: true },
+                            conditions: { hasPresentVowelSuffix: true },
                             vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.Sukun],
                         }
                     ]
