@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,43 +16,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Letter, Tashkil, VoiceString } from "../../../Definitions";
-import { RootType, VerbRoot } from "../../../VerbRoot";
+import { Letter, Tashkil, Voice } from "../../../Definitions";
+import { Verb } from "../../../Verb";
+import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
+import { AugmentedRoot } from "../AugmentedRoot";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { GenerateParticipleDefective } from "./regular";
 
-export function GenerateParticipleStem4(root: VerbRoot, voice: VoiceString): ConjugationVocalized[]
+export function GenerateParticipleStem4(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
-    const voicingTashkil = (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha;
-    switch(root.type)
+    const voicingTashkil = (voice === Voice.Active) ? Tashkil.Kasra : Tashkil.Fatha;
+    switch(baseForm.type)
     {
+        case RootType.FinalWeak:
+            if((verb.root.r1 === Letter.Ra) && (verb.root.r2 === Letter.Hamza) && (verb.root.r3 === Letter.Ya))
+                break; //TODO: Ara / Yuri is special
+            baseForm.symbols.Remove(0); //remove the hamza
+            return GenerateParticipleDefective(baseForm, voice);
+            
         case RootType.MiddleWeak:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                { letter: root.r1, tashkil: voicingTashkil },
-                { letter: (voice === "active") ? Letter.Ya : Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                { letter: baseForm.r1.letter, tashkil: voicingTashkil },
+                { letter: (voice === Voice.Active) ? Letter.Ya : Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: baseForm.r3.letter, tashkil: Tashkil.EndOfWordMarker },
             ];
 
         case RootType.SecondConsonantDoubled:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                { letter: root.r1, tashkil: voicingTashkil },
-                { letter: root.r2, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: Tashkil.EndOfWordMarker },
+                { letter: baseForm.r1.letter, tashkil: voicingTashkil },
+                { letter: baseForm.r2.letter, tashkil: Tashkil.Sukun },
+                { letter: baseForm.r2.letter, tashkil: Tashkil.EndOfWordMarker },
             ];
 
         case RootType.HamzaOnR1:
         case RootType.Regular:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: voicingTashkil },
-                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                { letter: baseForm.r1.letter, tashkil: Tashkil.Sukun },
+                { letter: baseForm.r2.letter, tashkil: voicingTashkil },
+                { letter: baseForm.r3.letter, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
     return [
         {
-            letter: ("TODO: implement me: " + root.type) as any,
+            letter: ("TODO: implement me: " + baseForm.type) as any,
             tashkil: Tashkil.EndOfWordMarker
         }
     ];

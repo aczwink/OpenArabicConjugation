@@ -88,7 +88,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 3:
                 return GenerateParticipleStem3(root, voiceOld);
             case 4:
-                return GenerateParticipleStem4(root, voiceOld);
+                return GenerateParticipleStem4(verb, this.ConjugateBasicForm(verb), voice);
             case 5:
                 return GenerateParticipleStem5(root, this.ConjugateBasicForm_OLD(root, stem), voice);
             case 6:
@@ -297,12 +297,6 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         {
             //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
             throw new Error("TODO: write test! 3");
-        }
-
-        if((verb.root.type === RootType.MiddleWeak) && (verb.stem === 7))
-        {
-            //https://en.wikipedia.org/wiki/Arabic_verbs#Hollow_(second-weak)_verbs
-            throw new Error("TODO: write test! 4" +  verb.root.radicalsAsSeparateLetters.join("-"));
         }
 
         if(verb.root.r1 === Letter.Waw)
