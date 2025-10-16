@@ -411,6 +411,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
             {
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
                     return [
+                        fa3l,
                         fayla,
                     ];
 
@@ -761,6 +762,7 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
         }
         break;
         case RootType.FinalWeak:
+        case RootType.MiddleWeak:
             return true;
         case RootType.HamzaOnR1:
         {
@@ -797,16 +799,6 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
                     }
                 }
                 break;
-            }
-        }
-        break;
-        case RootType.MiddleWeak:
-        {
-            switch(stem1Context.stemParameterization)
-            {
-                case ModernStandardArabicStem1ParametersType.PastI_PresentI:
-                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
-                    return true;
             }
         }
         break;
