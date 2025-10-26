@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,9 @@
  * */
 
 import { ConjugationParams, Letter, Mood, Numerus, Person, Tashkil, Tense, Voice } from "../../../Definitions";
+import { Verb } from "../../../Verb";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Hamzated_verbs
 
@@ -28,7 +30,7 @@ function IsSpecialShortImperative(augmentedRoot: AugmentedRoot)
     return condition;
 }
 
-export function AlterHamzaOnR1(augmentedRoot: AugmentedRoot, params: ConjugationParams)
+export function AlterHamzaOnR1(augmentedRoot: AugmentedRoot, verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
     if(params.tense === Tense.Present)
     {
@@ -36,5 +38,11 @@ export function AlterHamzaOnR1(augmentedRoot: AugmentedRoot, params: Conjugation
             augmentedRoot.DropRadial(1);
         else if((params.person === Person.First) && (params.numerus === Numerus.Singular) && (params.voice === Voice.Passive))
             augmentedRoot.ReplaceRadical(1, { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker });
+        else if((params.person === Person.First) && (params.numerus === Numerus.Singular) && (verb.stem === 4))
+            augmentedRoot.ReplaceRadical(1, { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker });
+    }
+    else if((verb.stem === 4) && (params.voice === Voice.Passive))
+    {
+        augmentedRoot.ReplaceRadical(1, { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker });
     }
 }

@@ -1,4 +1,5 @@
 conjugation_engine/dist
 conjugation_engine/node_modules
+conjugation_engine/package-lock.json
 tests/dist
 tests/node_modules

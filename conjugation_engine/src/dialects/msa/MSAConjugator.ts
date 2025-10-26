@@ -214,25 +214,25 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         }
     }
 
-    public HasPotentiallyMultipleVerbalNounForms(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<ModernStandardArabicStem1ParametersType>)
+    public HasPotentiallyMultipleVerbalNounForms(verb: Verb<ModernStandardArabicStem1ParametersType>)
     {
-        if(typeof stem === "number")
+        if(verb.stem === 1)
+            return HasPotentiallyMultipleVerbalNounFormsStem1(verb.root, verb);
+        
+        if(verb.stem === 2)
         {
-            if(stem === 2)
+            switch(verb.root.type)
             {
-                switch(root.type)
-                {
-                    case RootType.FinalWeak:
-                    case RootType.Regular:
-                    case RootType.SecondConsonantDoubled:
-                        return true;
-                }
+                case RootType.FinalWeak:
+                case RootType.Regular:
+                case RootType.SecondConsonantDoubled:
+                    return true;
             }
-            if((stem === 3) && (root.type === RootType.Regular))
-                return true;
-            return false;
         }
-        return HasPotentiallyMultipleVerbalNounFormsStem1(root, stem);
+        if((verb.stem === 3) && (verb.root.type === RootType.Regular))
+            return true;
+
+        return false;
     }
 
     //Private methods
@@ -424,7 +424,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 }
             break;
             case VerbType.HamzaOnR1:
-                AlterHamzaOnR1(augmentedRoot, params);
+                AlterHamzaOnR1(augmentedRoot, verb, params);
                 break;
             case VerbType.Hollow:
                 ShortenOrAlefizeR2(augmentedRoot, verb, params);

@@ -42,7 +42,11 @@ def query(url):
     if(url.startswith("file://")):
         with open(url[7:], "r") as f:
             return f.read();
-    response = requests.get(url);
+            
+    headers = {
+    	'User-Agent': 'OpenArabicConjugation Test generator'
+    };
+    response = requests.get(url, headers=headers);
     return response.text;
     
 def traverse_imperative_table(male, female):

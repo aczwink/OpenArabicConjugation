@@ -94,10 +94,10 @@ export class Conjugator
         return patterns.map(x => this.ExecuteWordTransformationPipeline(x));
     }
 
-    public HasPotentiallyMultipleVerbalNounForms(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<string>)
+    public HasPotentiallyMultipleVerbalNounForms(verb: Verb<string>)
     {
         const dialectConjugator = new MSAConjugator;
-        return dialectConjugator.HasPotentiallyMultipleVerbalNounForms(root, stem as any);
+        return dialectConjugator.HasPotentiallyMultipleVerbalNounForms(verb as Verb<any>);
     }
 
     //Private methods

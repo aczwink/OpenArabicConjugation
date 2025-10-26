@@ -17,7 +17,7 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Gender, Mood, Numerus, Person, Tense, Voice } from "../../../Definitions";
+import { Mood, Person, Tense, Voice } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
 import { ExtractMiddleRadicalTashkilVowel, ExtractPresentMiddleRadicalVowel, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
@@ -67,6 +67,7 @@ export function GeminateStem1Template(root: VerbRoot, stemData: VerbStem1Data<Mo
             children: [
                 {
                     conditions: { doesSuffixBeginWithSukun: true },
+                    //base: { REGULAR },
                     vowels: [perfectVowelR1, perfectVowelR2],
                 },
                 {
@@ -75,6 +76,5 @@ export function GeminateStem1Template(root: VerbRoot, stemData: VerbStem1Data<Mo
                 },
             ]
         },
-        
     ];
 }

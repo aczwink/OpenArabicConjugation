@@ -17,7 +17,7 @@
  * */
 import { It } from "acts-util-test";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
-import { VerbTestData, RunSoundEqualityTest, RunConjugationTest, RunParticipleTest } from "../../shared";
+import { VerbTestData, RunSoundEqualityTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Assimilated_(first-weak)_verbs
 //https://en.wiktionary.org/wiki/%D9%88%D8%A7%D8%B2%D9%86
@@ -31,7 +31,7 @@ It("R1:و stem 3", () => {
 
     RunSoundEqualityTest(verbData);
 
-    throw new Error("TODO: verbal noun test");
+    RunVerbalNounTest("و-ج-ه", 3, "مُوَاجَهَة"); //Source: https://en.wiktionary.org/wiki/%D9%88%D8%A7%D8%AC%D9%87
     RunParticipleTest(verbData, "مُوَازِن", "مُوَازَن");
 
     RunConjugationTest(verbData, [

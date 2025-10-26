@@ -155,7 +155,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
     {
         case VerbType.Assimilated:
         {
-            const fi3l = [
+            const _3ila = [
                 { letter: root.r2, tashkil: Tashkil.Kasra },
                 { letter: root.r3, tashkil: Tashkil.Fatha },
                 { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
@@ -169,7 +169,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         case Tashkil.Dhamma:
                             return [
                                 fu3l,
-                                fa3l,
                             ];
                     }
                 }
@@ -187,7 +186,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             return [
                                 fa3l,
                                 fu3uul,
-                                fi3l,
+                                _3ila,
                             ];
                     }
                 }
@@ -203,7 +202,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         case Tashkil.Kasra:
                             return [
                                 fa3l,
-                                fi3l,
+                                _3ila,
                             ];
                     }
                 }
@@ -748,13 +747,31 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
     ];
 }
 
-export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>)
+export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, verb: VerbStem1Data<ModernStandardArabicStem1ParametersType>)
 {
+    switch(verb.type)
+    {
+        case VerbType.Sound:
+            switch(_Legacy_ExtractMiddleRadicalTashkil(verb.stemParameterization))
+            {
+                case Tashkil.Dhamma:
+                case Tashkil.Fatha:
+                    return true;
+                case Tashkil.Kasra:
+                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(verb.stemParameterization))
+                    {
+                        case Tashkil.Fatha:
+                            return true;
+                    }
+            }
+            break;
+    }
+
     switch(root.type)
     {
         case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
         {
-            switch(stem1Context.stemParameterization)
+            switch(verb.stemParameterization)
             {
                 case ModernStandardArabicStem1ParametersType.DefectiveType1:
                     return true;
@@ -766,7 +783,7 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
             return true;
         case RootType.HamzaOnR1:
         {
-            switch(stem1Context.stemParameterization)
+            switch(verb.stemParameterization)
             {
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
                 case ModernStandardArabicStem1ParametersType.PastU_PresentU:
@@ -776,13 +793,11 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
         break;
         case RootType.InitialWeak:
         {
-            switch(_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
+            switch(_Legacy_ExtractMiddleRadicalTashkil(verb.stemParameterization))
             {
-                case Tashkil.Dhamma:
-                    return true;
                 case Tashkil.Fatha:
                 {
-                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
+                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(verb.stemParameterization))
                     {
                         case Tashkil.Fatha:
                         case Tashkil.Kasra:
@@ -792,7 +807,7 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
                 break;
                 case Tashkil.Kasra:
                 {
-                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
+                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(verb.stemParameterization))
                     {
                         case Tashkil.Kasra:
                             return true;
@@ -804,11 +819,11 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
         break;
         case RootType.SecondConsonantDoubled:
         {
-            switch(_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
+            switch(_Legacy_ExtractMiddleRadicalTashkil(verb.stemParameterization))
             {
                 case Tashkil.Fatha:
                 {
-                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
+                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(verb.stemParameterization))
                     {
                         case Tashkil.Dhamma:
                         case Tashkil.Kasra:
@@ -818,22 +833,6 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, stem1
                 break;
                 case Tashkil.Kasra:
                     return true;
-            }
-        }
-        break;
-        case RootType.Regular:
-        {            
-            switch(_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
-            {
-                case Tashkil.Dhamma:
-                case Tashkil.Fatha:
-                    return true;
-                case Tashkil.Kasra:
-                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
-                    {
-                        case Tashkil.Fatha:
-                            return true;
-                    }
             }
         }
         break;

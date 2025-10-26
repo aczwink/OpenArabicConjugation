@@ -18,24 +18,79 @@
 import { It } from "acts-util-test";
 import { ConjugationTest, RunDefectiveConjugationTest } from "../../shared";
 
-//Source: https://en.wiktionary.org/wiki/%D8%AA%D8%B9%D8%A7%D9%84%D9%89
+//Source: https://en.wiktionary.org/wiki/%D8%AA%D9%81%D8%A7%D8%AF%D9%89
+//Passive generated from https://en.wiktionary.org/wiki/%D8%AA%D9%81%D8%A7%D8%AF%D9%89 by editing and adding the "pass" flag and saving the preview
 
 It("Stem 6 passive", () => {
     const conjugations: ConjugationTest[] = [
-        //past passive
-        { voice: "passive", expected: "تُعُولِيَ", gender: "male", person: "third", },
+        //passive past
+        { voice: "passive", expected: "تُفُودِيَ", gender: "male", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيَتْ", gender: "female", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيتَ", gender: "male", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيتِ", gender: "female", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيتُ", gender: "male", person: "first", numerus: "singular", tense: "perfect", mood: "indicative" },
 
-        //present indicative
-        { voice: "passive", expected: "يُتَعَالَى", gender: "male", person: "third", tense: "present" },
+        { voice: "passive", expected: "تُفُودِيَا", gender: "male", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيَتَا", gender: "female", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيتُمَا", gender: "male", person: "second", numerus: "dual", tense: "perfect", mood: "indicative" },
 
-        //subjunctive
-        { voice: "passive", expected: "يُتَعَالَى", gender: "male", person: "third", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُفُودُوا", gender: "male", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِينَ", gender: "female", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيتُمْ", gender: "male", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِيتُنَّ", gender: "female", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "تُفُودِينَا", gender: "male", person: "first", numerus: "plural", tense: "perfect", mood: "indicative" },
 
-        //jussive
-        { voice: "passive", expected: "يُتَعَالَ", gender: "male", person: "third", tense: "present", mood: "jussive" },
+        //passive indicative
+        { voice: "passive", expected: "يُتَفَادَى", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَى", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَى", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَيْنَ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "أُتَفَادَى", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "indicative" },
+
+        { voice: "passive", expected: "يُتَفَادَيَانِ", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَيَانِ", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَيَانِ", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "indicative" },
+
+        { voice: "passive", expected: "يُتَفَادَوْنَ", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "يُتَفَادَيْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَوْنَ", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُتَفَادَيْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "نُتَفَادَى", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "indicative" },
+
+        //passive subjunctive
+        { voice: "passive", expected: "يُتَفَادَى", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَى", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَى", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَيْ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "أُتَفَادَى", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "subjunctive" },
+
+        { voice: "passive", expected: "يُتَفَادَيَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَيَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَيَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "subjunctive" },
+
+        { voice: "passive", expected: "يُتَفَادَوْا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "يُتَفَادَيْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَوْا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُتَفَادَيْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "نُتَفَادَى", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
+
+        //passive jussive
+        { voice: "passive", expected: "يُتَفَادَ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَيْ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "أُتَفَادَ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
+
+        { voice: "passive", expected: "يُتَفَادَيَا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَيَا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَيَا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "jussive" },
+
+        { voice: "passive", expected: "يُتَفَادَوْا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "يُتَفَادَيْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَوْا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُتَفَادَيْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "نُتَفَادَ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    RunDefectiveConjugationTest("ع-ل", 6, conjugations);
-    
-    throw new Error("TODO: find source");
+    RunDefectiveConjugationTest("ف-د", 6, conjugations);
 });

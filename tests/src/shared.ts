@@ -334,7 +334,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
         const root = new VerbRoot(pattern.rootRadicals.split("-").join(""));
         const verb = CreateVerb(dialect, root, stem, verbType);
 
-        if(!conjugator.HasPotentiallyMultipleVerbalNounForms(root, (verb.stem === 1) ? verb : verb.stem))
+        if(!conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
             throw new Error("Expected multiple verbal nouns but apparently only one exists");
 
         const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
@@ -355,13 +355,12 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
 export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string)
 {
     const dialect = DialectType.ModernStandardArabic;
-    const meta = GetDialectMetadata(dialect);
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
     const verb = CreateVerb(dialect, root, stem);
 
-    if(conjugator.HasPotentiallyMultipleVerbalNounForms(root, (verb.stem === 1) ? verb : verb.stem))
+    if(conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
         throw new Error("Expected a single verbal noun but apparently multiple ones exist");
     const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
 
