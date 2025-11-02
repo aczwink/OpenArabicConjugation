@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Gender, Letter, Mood, Numerus, Person, Tashkil, Tense } from "./Definitions";
+import { Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType } from "./Definitions";
 import { ConjugationVocalized } from "./Vocalization";
 
 export enum Vowel
@@ -39,27 +39,44 @@ export interface ConjugationItem
     followingVowel: Vowel;
 }
 
-export interface ConjugationRule
+interface ConjugationRuleConditions
+{
+    doesSuffixBeginWithSukun?: boolean;
+    gender?: Gender;
+    hasPresentVowelSuffix?: true;
+    mood?: Mood;
+    numerus?: Numerus;
+    person?: Person;
+    stemParameters?: string;
+    tense?: Tense;
+}
+
+interface ConjugationRuleFull
 {
     children?: ConjugationRule[];
-    conditions: {
-        doesSuffixBeginWithSukun?: true;
-        gender?: Gender;
-        hasPresentVowelSuffix?: true;
-        mood?: Mood;
-        numerus?: Numerus;
-        person?: Person;
-        stemParameters?: string;
-        tense?: Tense;
-    };
+    conditions: ConjugationRuleConditions;
     emphasize?: number;
     prefixVowel?: Vowel;
     symbols?: Letter[];
     vowels?: Vowel[];
 }
 
+interface BaseData
+{
+    verbType: VerbType;
+}
+
+interface ConjugationRuleBase
+{
+    conditions: ConjugationRuleConditions;
+    base: BaseData;
+}
+
+export type ConjugationRule = ConjugationRuleBase | ConjugationRuleFull;
+
 export interface ConjugationRuleMatchResult
 {
+    base?: BaseData;
     emphasize?: number;
     prefixVowel?: Vowel;
     symbols: Letter[];

@@ -18,6 +18,12 @@
 
 export enum DialectType
 {
+    Lebanese,
     ModernStandardArabic,
-    Lebanese
+    SouthLevantine
+}
+
+export function GetAllConjugatableDialects()
+{
+    return [DialectType.Lebanese, DialectType.ModernStandardArabic, DialectType.SouthLevantine];
 }

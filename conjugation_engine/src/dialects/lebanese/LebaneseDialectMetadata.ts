@@ -15,8 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
+import { AdvancedStemNumber, Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
+import { Verb } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 
 export enum LebaneseStem1Context
@@ -83,8 +84,13 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
     iso639code = "apc";
     glottoCode = "stan1323";
 
-    public DeriveVerbType(root: VerbRoot): VerbType
+    public DeriveVerbType(root: VerbRoot, stem: LebaneseStem1Context | AdvancedStemNumber): VerbType
     {
+        switch(stem)
+        {
+            case LebaneseStem1Context.IrregularJy2:
+                return VerbType.Irregular;
+        }
         return root.DeriveDeducedVerbType();
     }
 
@@ -230,5 +236,84 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             requiredContext: [],
             types: []
         };
+    }
+
+    public IsConjugatable(verb: Verb<LebaneseStem1Context>): boolean
+    {
+        switch(verb.type)
+        {
+            case VerbType.Assimilated:
+                switch(verb.stem)
+                {
+                    case 1:
+                        return true;
+                }
+                break;
+            case VerbType.Defective:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 10:
+                        return true;
+                }
+                break;
+            case VerbType.Geminate:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 7:
+                    case 8:
+                        return true;
+                }
+                break;
+            case VerbType.HamzaOnR1:
+                switch(verb.stem)
+                {
+                    case 1:
+                        return true;
+                }
+                break;
+            case VerbType.Hollow:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 3:
+                    case 7:
+                    case 8:
+                        return true;
+                }
+                break;
+            case VerbType.Irregular:
+                switch(verb.stem)
+                {
+                    case 1:
+                        return true;
+                }
+                break;
+            case VerbType.QuadriliteralAndDefective:
+                switch(verb.stem)
+                {
+                    case 1:
+                        return true;
+                }
+                break;
+            case VerbType.Sound:
+                return true;
+            case VerbType.SoundQuadriliteral:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 2:
+                        return true;
+                }
+                break;
+        }
+        return false;
     }
 }

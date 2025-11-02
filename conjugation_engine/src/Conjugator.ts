@@ -25,6 +25,7 @@ import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb, VerbStem1Data } from "./Verb";
 import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
+import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
 
 export class Conjugator
 {
@@ -55,7 +56,7 @@ export class Conjugator
 
     public DeclineAdjective(word: string, params: AdjectiveDeclensionParams, dialect: DialectType)
     {
-        const dialectConjugator = this.CreateDialectConjugator(dialect);
+        const dialectConjugator = new MSAConjugator;
 
         const parsed = ParseVocalizedText(word);
         return dialectConjugator.DeclineAdjective(parsed, params);
@@ -63,15 +64,13 @@ export class Conjugator
 
     public DeclineNoun(inputNoun: NounInput, params: NounDeclensionParams, dialect: DialectType)
     {
-        const dialectConjugator = this.CreateDialectConjugator(dialect);
-
+        const dialectConjugator = new MSAConjugator;
         return dialectConjugator.DeclineNoun(inputNoun, params);
     }
 
     public DeriveSoundNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetNounDerivation, dialect: DialectType): DisplayVocalized[]
     {
-        const dialectConjugator = this.CreateDialectConjugator(dialect);
-
+        const dialectConjugator = new MSAConjugator;
         return dialectConjugator.DeriveSoundNoun(singular, singularGender, target);
     }
 
@@ -109,6 +108,8 @@ export class Conjugator
                 return new MSAConjugator;
             case DialectType.Lebanese:
                 return new LebaneseConjugator;
+            case DialectType.SouthLevantine:
+                return new SouthLevantineConjugator;
         }
     }
 

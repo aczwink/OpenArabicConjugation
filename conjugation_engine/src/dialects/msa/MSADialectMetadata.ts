@@ -17,6 +17,7 @@
  * */
 import { AdvancedStemNumber, ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
+import { Verb } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching } from "./conjugation/defective_special_cases";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
@@ -42,6 +43,13 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     case 3:
                     case 5:
                     case 6:
+                        return VerbType.Sound;
+                }
+                break;
+            case VerbType.Hollow:
+                switch(stem)
+                {
+                    case 2:
                         return VerbType.Sound;
                 }
                 break;
@@ -207,5 +215,61 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
             default:
                 throw new Error("TODO: implement me");
         }
+    }
+
+    public IsConjugatable(verb: Verb<ModernStandardArabicStem1ParametersType>): boolean
+    {
+        switch(verb.type)
+        {
+            case VerbType.Assimilated:
+                switch(verb.stem)
+                {
+                    case 1:
+                        return true;
+                }
+                break;
+            case VerbType.Defective:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        return true;
+                }
+                break;
+            case VerbType.Hollow:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 4:
+                    case 8:
+                        return true;
+                }
+                break;
+            case VerbType.Sound:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        return true;
+                }
+                break;
+            case VerbType.SoundQuadriliteral:
+                switch(verb.stem)
+                {
+                    case 2:
+                        return true;
+                }
+                break;
+        }
+        return false;
     }
 }

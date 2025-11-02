@@ -35,6 +35,15 @@ export class ConjugationRuleMatcher<T>
     {
         this.MatchAgainstRules(rules, stemData, params);
 
+        if("base" in this.evaluated)
+        {
+            return {
+                base: this.evaluated.base,
+                symbols: [],
+                vowels: []
+            };
+        }
+
         if(this.evaluated.symbols === undefined)
             throw new Error("No symbols could be matched");
         if(this.evaluated.vowels === undefined)
@@ -73,7 +82,7 @@ export class ConjugationRuleMatcher<T>
             return false;
         if((c.hasPresentVowelSuffix === true) && (params.tense === Tense.Present) && !DoesPresentSuffixStartWithLongVowel(params.person, params.numerus, params.gender))
             return false;
-        if((c.doesSuffixBeginWithSukun === true) && !this.doesSuffixBeginWithSukun)
+        if((c.doesSuffixBeginWithSukun !== undefined) && (c.doesSuffixBeginWithSukun !== this.doesSuffixBeginWithSukun))
             return false;
         if(c.stemParameters !== undefined)
         {
@@ -92,13 +101,25 @@ export class ConjugationRuleMatcher<T>
         {
             if(this.DoConditionsMatch(rule, stemData, params))
             {
-                this.evaluated.emphasize = rule.emphasize ?? this.evaluated.emphasize;
-                this.evaluated.prefixVowel = rule.prefixVowel ?? this.evaluated.prefixVowel;
-                this.evaluated.symbols = rule.symbols ?? this.evaluated.symbols;
-                this.evaluated.vowels = rule.vowels ?? this.evaluated.vowels;
+                if("base" in rule)
+                {
+                    this.evaluated = {
+                        conditions: {},
+                        base: rule.base
+                    };
+                }
+                else if("base" in this.evaluated)
+                    throw new Error("Can't mix base and full rules for now");
+                else
+                {
+                    this.evaluated.emphasize = rule.emphasize ?? this.evaluated.emphasize;
+                    this.evaluated.prefixVowel = rule.prefixVowel ?? this.evaluated.prefixVowel;
+                    this.evaluated.symbols = rule.symbols ?? this.evaluated.symbols;
+                    this.evaluated.vowels = rule.vowels ?? this.evaluated.vowels;
 
-                if(rule.children !== undefined)
-                    this.MatchAgainstRules(rule.children, stemData, params);
+                    if(rule.children !== undefined)
+                        this.MatchAgainstRules(rule.children, stemData, params);
+                }
                 break;
             }
         }

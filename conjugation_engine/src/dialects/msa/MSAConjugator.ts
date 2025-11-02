@@ -332,7 +332,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         }
     }
 
-    private ProcessConjugationPipeline(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
+    private ProcessConjugationPipeline(verb: Verb<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): { augmentedRoot: AugmentedRoot; suffix: { suffix: ConjugationVocalized[] }; }
     {
         const template = SelectTemplate(verb, params.voice);
         if(template !== undefined)
@@ -347,6 +347,16 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             }
 
             const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>(suffix.preSuffixTashkil === Tashkil.Sukun).Match(template, verb, params);
+            if(matched.base !== undefined)
+            {
+                return this.ProcessConjugationPipeline({
+                    dialect: verb.dialect,
+                    root: verb.root,
+                    stem: verb.stem as any,
+                    stemParameterization: (verb.stem === 1) ? verb.stemParameterization : undefined,
+                    type: matched.base.verbType
+                }, params);
+            }
 
             const items: ConjugationItem[] = [];
             const vowels = [...matched.vowels, _TODO_TashkilToVowel(suffix.preSuffixTashkil)];

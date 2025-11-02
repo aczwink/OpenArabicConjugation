@@ -17,64 +17,29 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Mood, Person, Tense, Voice } from "../../../Definitions";
+import { Person, Tense, VerbType, Voice } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
-import { ExtractMiddleRadicalTashkilVowel, ExtractPresentMiddleRadicalVowel, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { ExtractPresentMiddleRadicalVowel, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
 export function GeminateStem1Template(root: VerbRoot, stemData: VerbStem1Data<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
-    const perfectVowelR1 = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
-    const perfectVowelR2 = (voice === Voice.Active) ? ExtractMiddleRadicalTashkilVowel(stemData.stemParameterization) : Vowel.ShortI;
+    const perfectVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
     const presentVowel = (voice === Voice.Active) ? ExtractPresentMiddleRadicalVowel(stemData.stemParameterization) : Vowel.ShortA;
     return [
         {
-            conditions: { mood: Mood.Imperative },
-            symbols: [root.r1, root.r2, root.r3],
-            vowels: [Vowel.Sukun, presentVowel],
-            children: [
-                {
-                    conditions: { hasPresentVowelSuffix: true },
-                    vowels: [presentVowel, Vowel.Sukun],
-                }
-            ]
-        },
-        {
-            conditions: { mood: Mood.Jussive },
-            symbols: [root.r1, root.r2, root.r3],
-            vowels: [Vowel.Sukun, presentVowel],
-            children: [
-                {
-                    conditions: { hasPresentVowelSuffix: true },
-                    vowels: [presentVowel, Vowel.Sukun],
-                }
-            ]
-        },
-        {
-            conditions: { tense: Tense.Present },
+            conditions: { tense: Tense.Present, doesSuffixBeginWithSukun: false },
             symbols: [root.r1, root.r2, root.r3],
             vowels: [presentVowel, Vowel.Sukun],
-            children: [
-                {
-                    conditions: { doesSuffixBeginWithSukun: true },
-                    vowels: [Vowel.Sukun, presentVowel],
-                },
-            ],
         },
         {
-            conditions: { tense: Tense.Perfect },
+            conditions: { tense: Tense.Perfect, doesSuffixBeginWithSukun: false, person: Person.Third },
             symbols: [root.r1, root.r2, root.r3],
-            children: [
-                {
-                    conditions: { doesSuffixBeginWithSukun: true },
-                    //base: { REGULAR },
-                    vowels: [perfectVowelR1, perfectVowelR2],
-                },
-                {
-                    conditions: { person: Person.Third },
-                    vowels: [perfectVowelR1, Vowel.Sukun],
-                },
-            ]
+            vowels: [perfectVowel, Vowel.Sukun],
         },
+        {
+            conditions: {},
+            base: { verbType: VerbType.Sound },
+        }
     ];
 }

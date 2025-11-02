@@ -271,14 +271,16 @@ export function RunSoundEqualityTest(verbData: VerbTestData)
     {
         const replacedRoot = ["a", "b", "c", "d"];
 
+        let startIndex = 0;
         for(let i = 0; i < root.radicalsAsSeparateLetters.length; i++)
         {
             const radical = root.radicalsAsSeparateLetters[i];
 
-            const idx = vocalized.findIndex(x => x.letter === radical);
+            const idx = vocalized.findIndex( (x, i) => (x.letter === radical) && (i >= startIndex) );
             if(idx === -1)
                 throw new Error("Root replacement failed");
             vocalized[idx].letter = replacedRoot[i] as any;
+            startIndex = idx+1;
         }
     }
 

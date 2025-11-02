@@ -67,3 +67,9 @@ export function CreateVerb(dialect: DialectType, root: VerbRoot, stem: string | 
         type
     };
 }
+
+export function VerifySubStem1ContextType<T extends string, U extends T>(verb: Verb<T>): Verb<U>
+{
+    //TODO: this needs to actually be implemented
+    return verb as any;
+}

@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { ConjugationParams, AdjectiveDeclensionParams, Gender, Letter, Numerus, Person, Tashkil, Tense, NounDeclensionParams, Voice, AdvancedStemNumber, VerbType } from "../../Definitions";
-import { DialectConjugator, NounInput, TargetNounDerivation } from "../../DialectConjugator";
+import { ConjugationParams, Gender, Letter, Numerus, Person, Tashkil, Tense, Voice, AdvancedStemNumber, VerbType } from "../../Definitions";
+import { DialectConjugator } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
-import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
+import { ConjugationVocalized } from "../../Vocalization";
 import { DerivePrefix } from "./prefix";
 import { MSAConjugator } from "../msa/MSAConjugator";
 import { AugmentRoot } from "./rootAugmentation";
@@ -327,21 +327,6 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         }
 
         return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.AlefMaksuraMarker }];
-    }
-
-    public DeclineAdjective(vocalized: DisplayVocalized[], params: AdjectiveDeclensionParams): DisplayVocalized[]
-    {
-        return [{ emphasis: true, letter: "TODO" as any, shadda: true, }];
-    }
-
-    public DeclineNoun(inputNoun: NounInput, params: NounDeclensionParams): DisplayVocalized[]
-    {
-        return [{ emphasis: true, letter: "TODO" as any, shadda: true, }];
-    }
-    
-    public DeriveSoundNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetNounDerivation): DisplayVocalized[]
-    {
-        return [{ emphasis: true, letter: "TODO" as any, shadda: true, }];
     }
 
     //Private methods

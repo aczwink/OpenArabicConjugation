@@ -20,6 +20,8 @@ import { AdvancedStemNumber, ConjugationParams, VerbType } from "./Definitions";
 import { DialectType } from "./Dialects";
 import { LebaneseDialectMetadata } from "./dialects/lebanese/LebaneseDialectMetadata";
 import { MSADialectMetadata } from "./dialects/msa/MSADialectMetadata";
+import { SouthLevantineDialectMetadata } from "./dialects/south-levantine/SouthLevantineDialectMetadata";
+import { Verb } from "./Verb";
 import { VerbRoot } from "./VerbRoot";
 
 export interface Stem1ContextChoice<T extends string>
@@ -39,6 +41,7 @@ export interface DialectMetadata<T extends string>
 
     DeriveVerbType(root: VerbRoot, stem: T | AdvancedStemNumber): VerbType;
     GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<T>;
+    IsConjugatable(verb: Verb<T>): boolean;
 }
 
 export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<string>
@@ -50,5 +53,8 @@ export function GetDialectMetadata(dialectType: DialectType): DialectMetadata<st
             
         case DialectType.Lebanese:
             return new LebaneseDialectMetadata;
+
+        case DialectType.SouthLevantine:
+            return new SouthLevantineDialectMetadata;
     }
 }

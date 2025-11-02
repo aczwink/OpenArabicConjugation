@@ -15,10 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { VerbRoot } from "./VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
-import { ConjugationParams, AdjectiveDeclensionParams, NounDeclensionParams, Gender, Numerus, StemNumber, Voice } from "./Definitions";
-import { Verb, VerbStem1Data } from "./Verb";
+import { ConjugationParams, Gender, Numerus, Voice } from "./Definitions";
+import { Verb } from "./Verb";
 
 export enum TargetNounDerivation
 {
@@ -38,7 +37,4 @@ export interface DialectConjugator<T extends string>
 {
     Conjugate(verb: Verb<T>, params: ConjugationParams): ConjugationVocalized[];
     ConjugateParticiple(verb: Verb<T>, voice: Voice): ConjugationVocalized[];
-    DeclineAdjective(vocalized: DisplayVocalized[], params: AdjectiveDeclensionParams): DisplayVocalized[];
-    DeclineNoun(inputNoun: NounInput, params: NounDeclensionParams): DisplayVocalized[];
-    DeriveSoundNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetNounDerivation): DisplayVocalized[];
 }
