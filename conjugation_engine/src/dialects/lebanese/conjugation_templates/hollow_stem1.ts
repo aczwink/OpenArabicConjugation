@@ -39,7 +39,7 @@ export function HollowStem1ConjugationTemplate(root: VerbRoot, stemData: VerbSte
         throw new Error("Should not happen: " + stemData.stemParameterization);
     }
 
-    if(stemData.stemParameterization === LebaneseStem1Context.IrregularJy2)
+    if(stemData.stemParameterization === LebaneseStem1Context.IrregularIja)
         return IrregularIja(root);
 
     return [

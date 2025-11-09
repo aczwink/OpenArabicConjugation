@@ -24,6 +24,15 @@ export function GenerateAllPossibleVerbalNounsStem7(root: VerbRoot): Conjugation
     switch(root.type)
     {
         case RootType.MiddleWeak:
+            return [
+                { letter: Letter.Alef, tashkil: Tashkil.Kasra },
+                { letter: Letter.Nun, tashkil: Tashkil.Sukun },
+                { letter: root.r1, tashkil: Tashkil.Kasra },
+                { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
         case RootType.Regular:
             return [
                 { letter: Letter.Alef, tashkil: Tashkil.Kasra },

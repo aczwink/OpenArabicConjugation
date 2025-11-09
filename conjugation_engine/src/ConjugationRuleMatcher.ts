@@ -91,6 +91,8 @@ export class ConjugationRuleMatcher<T>
             if(stemData.stemParameterization !== c.stemParameters)
                 return false;
         }
+        if((c.voice !== undefined) && (c.voice !== params.voice))
+            return false;
 
         return true;
     }

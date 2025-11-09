@@ -17,31 +17,31 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Tense, Letter, Person, Gender, Mood } from "../../../Definitions";
-import { Verb } from "../../../Verb";
-import { SouthLevantineStem1Context } from "../SouthLevantineDialectMetadata";
+import { Letter, Tense, VerbType, Voice } from "../../../Definitions";
+import { VerbRoot } from "../../../VerbRoot";
 
-export function DefectiveStem4Template(verb: Verb<SouthLevantineStem1Context>): ConjugationRule[] | undefined
+export function AssimilatedStem10Template(root: VerbRoot): ConjugationRule[] | undefined
 {
-    const root = verb.root;
-
+    const diphtong = (root.r1 === Letter.Waw) ? Vowel.DiphtongAw : Vowel.DiphtongAj;
     return [
         {
-            conditions: { tense: Tense.Perfect },
-            symbols: [Letter.Hamza, root.r1, root.r2],
-            vowels: [Vowel.ShortA, Vowel.Sukun],
-        },
-        {
-            conditions: { tense: Tense.Present },
-            prefixVowel: Vowel.ShortI,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun],
+            conditions: { voice: Voice.Passive },
             children: [
                 {
-                    conditions: { person: Person.Third, gender: Gender.Male, mood: Mood.Indicative },
-                    prefixVowel: Vowel.LongI,
+                    conditions: { tense: Tense.Present },
+                    symbols: [Letter.Siin, Letter.Ta, root.r2, root.r3],
+                    vowels: [Vowel.Sukun, diphtong, Vowel.ShortA],
+                },
+                {
+                    conditions: { tense: Tense.Perfect },
+                    symbols: [Letter.Siin, Letter.Ta, root.r2, root.r3],
+                    vowels: [Vowel.Sukun, Vowel.LongU, Vowel.ShortI],
                 }
             ]
         },
+        {
+            conditions: {},
+            base: { verbType: VerbType.Sound }
+        }
     ];
 }

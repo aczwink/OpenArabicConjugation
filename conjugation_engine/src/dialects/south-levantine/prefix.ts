@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationItem, Vowel, _TODO_VowelToTashkil } from "../../Conjugation";
+import { ConjugationItem, Vowel } from "../../Conjugation";
 import { ConjugationParams, Person, Numerus, Letter, Gender, Tense, Mood } from "../../Definitions";
 
 function DerivePrefixSubjunctive(prefixEndingVowel: Vowel, followingVowel: Vowel, params: ConjugationParams): ConjugationItem[]
@@ -73,9 +73,22 @@ function BiPrefixTashkil(prefixEndingVowel: Vowel)
 export function DerivePrefix(prefixEndingVowel: Vowel | undefined, followingVowel: Vowel, params: ConjugationParams): ConjugationItem[]
 {
     if(params.tense === Tense.Perfect)
+    {
+        if(followingVowel === Vowel.Sukun)
+        {
+            //insert hamzat al wasl
+            return [
+                {
+                    consonant: Letter.Alef,
+                    followingVowel: Vowel.ShortI
+                }
+            ];
+        }
         return [];
+    }
     if(params.mood === Mood.Imperative)
     {
+        //insert hamzat al wasl
         return [
             {
                 consonant: Letter.Alef,
@@ -109,12 +122,12 @@ export function DerivePrefix(prefixEndingVowel: Vowel | undefined, followingVowe
             ];
         }
 
-        if((params.person === Person.Third) && (params.gender === Gender.Male) && (BiPrefixTashkil(prefixEndingVowel) === Vowel.ShortI))
+        if((params.person === Person.Third) && (params.gender === Gender.Male) && (params.mood === Mood.Indicative))
         {
             return [
                 {
                     consonant: Letter.Ba,
-                    followingVowel: Vowel.LongI
+                    followingVowel: prefixEndingVowel
                 },
             ];
         }

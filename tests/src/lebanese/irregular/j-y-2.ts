@@ -16,16 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, VerbTestData } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebanese/LebaneseDialectMetadata";
+import { VerbType } from "openarabicconjugation/dist/Definitions";
 
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
 //Table: 1
 
 It("Irregular إجا", () => {
-    const stem = LebaneseStem1Context.IrregularJy2;
-    _Legacy_RunActiveParticipleTest("ج-ي-ء", stem, "جَاي", DialectType.Lebanese);
+    const verb: VerbTestData = {
+        dialect: DialectType.Lebanese,
+        rootRadicals: "ج-ي-ء",
+        stem: LebaneseStem1Context.IrregularIja,
+        verbType: VerbType.Irregular
+    };
+    RunActiveParticipleTest(verb, "جَاي");
     
     const conjugations: ConjugationTest[] = [
         //past
@@ -67,5 +73,5 @@ It("Irregular إجا", () => {
         { tense: "present", mood: "imperative", numerus: "plural", person: "second", expected: "تَعُوا" },
     ];
 
-    _Legacy_RunConjugationTest("ج-ي-ء", stem, conjugations, DialectType.Lebanese);
+    RunConjugationTest(verb, conjugations);
 });

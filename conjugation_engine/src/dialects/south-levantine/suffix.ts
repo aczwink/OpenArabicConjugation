@@ -74,11 +74,17 @@ function DeriveSuffixPerfect(params: ConjugationParams): SuffixResult
                     previousVowel: Vowel.Sukun
                 };   
             }
-            break;
+            return {
+                previousVowel: Vowel.ShortA,
+                final: {
+                    consonant: Letter.Ta,
+                    followingVowel: Vowel.Sukun
+                }
+            };
     }
 
     return {
-        previousVowel: Vowel.ShortA,
+        previousVowel: Vowel.Sukun,
         final: {
             consonant: Letter.Ta,
             followingVowel: Vowel.Sukun

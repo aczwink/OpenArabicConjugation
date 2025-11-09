@@ -19,7 +19,6 @@ import { AdvancedStemNumber, ConjugationParams, Gender, Letter, Mood, Numerus, P
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { Verb } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
-import { GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching } from "./conjugation/defective_special_cases";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
 
 export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicStem1ParametersType>
@@ -50,6 +49,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(stem)
                 {
                     case 2:
+                    case 6:
                         return VerbType.Sound;
                 }
                 break;
@@ -106,13 +106,25 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     ]
                 };
             }
+            case VerbType.Defective:
+            {                
+                return {
+                    requiredContext: [],
+                    types: [
+                        ModernStandardArabicStem1ParametersType.DefectiveType1,
+                        ModernStandardArabicStem1ParametersType.DefectiveType2,
+                        ModernStandardArabicStem1ParametersType.DefectiveType3,
+                    ],
+                };
+            }
             case VerbType.Irregular:
             {
                 return {
                     requiredContext: [],
                     types: [
                         ModernStandardArabicStem1ParametersType.IrregularHayiya,
-                        ModernStandardArabicStem1ParametersType.IrregularLaysa
+                        ModernStandardArabicStem1ParametersType.IrregularLaysa,
+                        ModernStandardArabicStem1ParametersType.IrregularRa2a,
                     ]
                 };
             }
@@ -150,24 +162,6 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     ]
                 };
             }
-            case RootType.FinalWeak:
-                const special = GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching(root);
-                if(special !== undefined)
-                {
-                    return {
-                        requiredContext: [],
-                        types: [special],
-                    };
-                }
-                
-                return {
-                    requiredContext: [],
-                    types: [
-                        ModernStandardArabicStem1ParametersType.DefectiveType1,
-                        ModernStandardArabicStem1ParametersType.DefectiveType2,
-                        ModernStandardArabicStem1ParametersType.DefectiveType3,
-                    ],
-                };
             case RootType.MiddleWeak:
                 {
                     const r2DependentType = (root.r2 === Letter.Waw) ? ModernStandardArabicStem1ParametersType.PastU_PresentU : ModernStandardArabicStem1ParametersType.PastI_PresentI;
@@ -225,6 +219,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(verb.stem)
                 {
                     case 1:
+                    case 10:
                         return true;
                 }
                 break;
@@ -236,6 +231,15 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     case 3:
                     case 4:
                     case 5:
+                    case 7:
+                    case 8:
+                        return true;
+                }
+                break;
+            case VerbType.Geminate:
+                switch(verb.stem)
+                {
+                    case 1:
                         return true;
                 }
                 break;
@@ -244,28 +248,26 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 {
                     case 1:
                     case 4:
+                    case 7:
                     case 8:
+                    case 10:
+                        return true;
+                }
+                break;
+            case VerbType.Irregular:
+                switch(verb.stem)
+                {
+                    case 1:
                         return true;
                 }
                 break;
             case VerbType.Sound:
-                switch(verb.stem)
-                {
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                        return true;
-                }
-                break;
+                return true;
             case VerbType.SoundQuadriliteral:
                 switch(verb.stem)
                 {
                     case 2:
+                    case 4:
                         return true;
                 }
                 break;

@@ -16,20 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Tashkil, Letter, AdjectiveDeclensionParams, Case } from "../../../Definitions";
+import { Tashkil, Case } from "../../../Definitions";
 import { DisplayVocalized, DisplayTashkil } from "../../../Vocalization";
 
-export function AdjEndingTashkil(params: AdjectiveDeclensionParams): DisplayTashkil | undefined
+export function AdjectiveEndingTashkil(casus: Case, isDefinite: boolean): DisplayTashkil | undefined
 {
-    switch(params.case)
+    switch(casus)
     {
         case Case.Accusative:
-            if(params.definite)
+            if(isDefinite)
                 return Tashkil.Fatha;
             return Tashkil.Fathatan;
 
         case Case.Genitive:
-            if(params.definite)
+            if(isDefinite)
                 return Tashkil.Kasra;
             return Tashkil.Kasratan;
 
@@ -37,20 +37,10 @@ export function AdjEndingTashkil(params: AdjectiveDeclensionParams): DisplayTash
             return undefined;
 
         case Case.Nominative:
-            if(params.definite)
+            if(isDefinite)
                 return Tashkil.Dhamma;
             return Tashkil.Dhammatan;
     }
-}
-
-export function RegularFemaleWithFathaThenTaMarbuta(vocalized: DisplayVocalized[])
-{
-    const last = vocalized[vocalized.length - 1];
-
-    return vocalized.slice(0, vocalized.length - 1).concat([
-        { ...last, tashkil: Tashkil.Fatha },
-        { emphasis: false, letter: Letter.TaMarbuta, shadda: false }
-    ]);
 }
 
 export function WithTashkilOnLast(vocalized: DisplayVocalized[], tashkil?: DisplayTashkil)

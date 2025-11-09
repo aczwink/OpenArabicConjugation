@@ -108,6 +108,8 @@ export const Buckwalter = {
         {
             case Tashkil.Dhamma:
                 return "u";
+            case Tashkil.Dhammatan:
+                return "N";
             case Tashkil.Fatha:
                 return "a";
             case Tashkil.Fathatan:

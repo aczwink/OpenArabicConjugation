@@ -29,6 +29,7 @@ export enum ModernStandardArabicStem1ParametersType
     DefectiveType3 = "ia",
     IrregularHayiya = "irregular_hayiya",
     IrregularLaysa = "irregular_laysa",
+    IrregularRa2a = "irregular_ra2a",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
@@ -46,6 +47,7 @@ export function _Legacy_ExtractMiddleRadicalTashkil(type: ModernStandardArabicSt
             return Tashkil.Dhamma;
         case ModernStandardArabicStem1ParametersType.DefectiveType1:
         case ModernStandardArabicStem1ParametersType.DefectiveType2:
+        case ModernStandardArabicStem1ParametersType.IrregularRa2a:
         case ModernStandardArabicStem1ParametersType.PastA_PresentA:
         case ModernStandardArabicStem1ParametersType.PastA_PresentI:
         case ModernStandardArabicStem1ParametersType.PastA_PresentU:
@@ -65,6 +67,7 @@ export function _Legacy_ExtractPresentMiddleRadicalTashkil(type: ModernStandardA
     switch(type)
     {
         case ModernStandardArabicStem1ParametersType.DefectiveType1:
+        case ModernStandardArabicStem1ParametersType.IrregularRa2a:
         case ModernStandardArabicStem1ParametersType.PastA_PresentI:
         case ModernStandardArabicStem1ParametersType.PastI_PresentI:
             return Tashkil.Kasra;

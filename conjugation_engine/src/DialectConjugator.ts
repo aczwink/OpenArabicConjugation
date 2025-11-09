@@ -18,23 +18,31 @@
 import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
 import { ConjugationParams, Gender, Numerus, Voice } from "./Definitions";
 import { Verb } from "./Verb";
+import { ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult, SuffixResult } from "./Conjugation";
 
-export enum TargetNounDerivation
+export enum TargetAdjectiveNounDerivation
 {
     DeriveFeminineSingular,
     DeriveDualSameGender,
     DerivePluralSameGender,
 }
 
-export interface NounInput
+export interface AdjectiveOrNounInput
 {
     vocalized: DisplayVocalized[];
     gender: Gender;
     numerus: Numerus;
 }
 
+export interface ConjugationResult
+{
+    matchResult: ConjugationRuleMatchResult;
+    prefix: ConjugationItem[];
+    suffix: SuffixResult;
+}
+
 export interface DialectConjugator<T extends string>
 {
-    Conjugate(verb: Verb<T>, params: ConjugationParams): ConjugationVocalized[];
-    ConjugateParticiple(verb: Verb<T>, voice: Voice): ConjugationVocalized[];
+    Conjugate(verb: Verb<T>, params: ConjugationParams): ConjugationVocalized[] | ConjugationResult;
+    ConjugateParticiple(verb: Verb<T>, voice: Voice, requestBaseForm: (verb: Verb<T>) => ConjugatedWord): ConjugationVocalized[];
 }

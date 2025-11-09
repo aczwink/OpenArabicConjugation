@@ -58,6 +58,13 @@ export class SouthLevantineDialectMetadata implements DialectMetadata<SouthLevan
                         return true;
                 }
                 break;
+            case VerbType.Hollow:
+                switch(verb.stem)
+                {
+                    case 7:
+                        return true;
+                }
+                break;
         }
         return false;
     }

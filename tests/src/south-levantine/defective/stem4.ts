@@ -41,13 +41,13 @@ It("Stem 4", () => {
         { tense: "perfect", numerus: "plural", person: "first", expected: "أَعْدَيْنَا" },
 
         //present
-        { tense: "present", mood: "indicative", numerus: "singular", person: "third", gender: "male", expected: "بْيِعْدِي" },
+        { tense: "present", mood: "indicative", numerus: "singular", person: "third", gender: "male", expected: "بِيعْدِي" },
         { tense: "present", mood: "indicative", numerus: "singular", person: "third", gender: "female", expected: "بْتِعْدِي" },
         { tense: "present", mood: "indicative", numerus: "singular", person: "second", gender: "male", expected: "بْتِعْدِي" },
         { tense: "present", mood: "indicative", numerus: "singular", person: "second", gender: "female", expected: "بْتِعْدِي" },
         { tense: "present", mood: "indicative", numerus: "singular", person: "first", gender: "male", expected: "بَعْدِي" },
 
-        { tense: "present", mood: "indicative", numerus: "plural", person: "third", expected: "بْيِعْدُو" },
+        { tense: "present", mood: "indicative", numerus: "plural", person: "third", expected: "بِيعْدُو" },
         { tense: "present", mood: "indicative", numerus: "plural", person: "second", expected: "بْتِعْدُو" },
         { tense: "present", mood: "indicative", numerus: "plural", person: "first", expected: "مْنِعْدِي" },
 

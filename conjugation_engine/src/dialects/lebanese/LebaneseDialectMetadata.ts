@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { AdvancedStemNumber, Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
+import { AdvancedStemNumber, Gender, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../Definitions";
 import { DialectMetadata, Stem1ContextChoice } from "../../DialectsMetadata";
 import { Verb } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
@@ -30,7 +30,7 @@ export enum LebaneseStem1Context
      */
     DefectiveType1WithPrefixA = "d1a",
     DefectiveWithImperativeA = "diaa",
-    IrregularJy2 = "irjy2",
+    IrregularIja = "irregular_ija",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
@@ -86,26 +86,11 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
 
     public DeriveVerbType(root: VerbRoot, stem: LebaneseStem1Context | AdvancedStemNumber): VerbType
     {
-        switch(stem)
-        {
-            case LebaneseStem1Context.IrregularJy2:
-                return VerbType.Irregular;
-        }
         return root.DeriveDeducedVerbType();
     }
 
     public GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<LebaneseStem1Context>
     {
-        if(root.radicalsAsSeparateLetters.Equals([Letter.Jiim, Letter.Ya, Letter.Hamza]))
-        {
-            return {
-                requiredContext: [],
-                types: [
-                    LebaneseStem1Context.IrregularJy2
-                ]
-            };
-        }
-
         switch(verbType)
         {
             case VerbType.Assimilated:
@@ -131,6 +116,15 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                         LebaneseStem1Context.PastI_PresentA,
                         LebaneseStem1Context.PastI_PresentI,
                     ],
+                };
+            }
+            case VerbType.Irregular:
+            {
+                return {
+                    requiredContext: [],
+                    types: [
+                        LebaneseStem1Context.IrregularIja
+                    ]
                 };
             }
         }
@@ -284,7 +278,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 {
                     case 1:
                     case 3:
-                    case 7:
+                    //case 7: //test incomplete :(
                     case 8:
                         return true;
                 }

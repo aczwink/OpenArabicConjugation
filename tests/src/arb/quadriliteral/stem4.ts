@@ -80,11 +80,11 @@ It("Stem 4", () => {
         { voice: "active", expected: "نَطْمَئِنَّ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
 
         //active jussive
-        { voice: "active", expected: "يَطْمَئِنَّ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
-        { voice: "active", expected: "تَطْمَئِنَّ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
-        { voice: "active", expected: "تَطْمَئِنَّ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["يَطْمَئِنَّ", "يَطْمَئِنِّ", "يَطْمَأْنِنْ"], gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["تَطْمَئِنَّ", "تَطْمَئِنِّ", "تَطْمَأْنِنْ"], gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["تَطْمَئِنَّ", "تَطْمَئِنِّ", "تَطْمَأْنِنْ"], gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
         { voice: "active", expected: "تَطْمَئِنِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
-        { voice: "active", expected: "أَطْمَئِنَّ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["أَطْمَئِنَّ", "أَطْمَئِنِّ", "أَطْمَأْنِنْ"], gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
 
         { voice: "active", expected: "يَطْمَئِنَّا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
         { voice: "active", expected: "تَطْمَئِنَّا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
@@ -94,10 +94,10 @@ It("Stem 4", () => {
         { voice: "active", expected: "يَطْمَأْنِنَّ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
         { voice: "active", expected: "تَطْمَئِنُّوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
         { voice: "active", expected: "تَطْمَأْنِنَّ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
-        { voice: "active", expected: "نَطْمَئِنَّ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["نَطْمَئِنَّ", "نَطْمَئِنِّ", "نَطْمَأْنِنْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
 
         //imperative
-        { voice: "active", expected: "اِطْمَئِنَّ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
+        { voice: "active", expected: ["اِطْمَئِنَّ", "اِطْمَئِنِّ", "اِطْمَأْنِنْ"], gender: "male", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
         { voice: "active", expected: "اِطْمَئِنِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
 
         { voice: "active", expected: "اِطْمَئِنَّا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "imperative" },

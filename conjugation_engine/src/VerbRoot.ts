@@ -48,6 +48,7 @@ export enum RootType
     Quadriliteral_FinalWeak,
 
     DoublyWeak_WawOnR1_WawOrYaOnR3,
+    DoublyWeak_WawOrYaOnR2AndR3,
 }
 
 export class VerbRoot
@@ -90,13 +91,14 @@ export class VerbRoot
             case RootType.FinalWeak:
             case RootType.HamzaOnR1:
             case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
+            case RootType.DoublyWeak_WawOrYaOnR2AndR3:
                 return [this.r1, this.r2, this.r3];
             case RootType.SecondConsonantDoubled:
                 return [this.r1, this.r2, this.r2];
         }
     }
 
-    public get type()
+    public get type(): RootType
     {
         if(this.radicals.length === 4)
         {
@@ -116,7 +118,7 @@ export class VerbRoot
         if((this.r2 === Letter.Waw) || (this.r2 === Letter.Ya))
         {
             if((this.r3 === Letter.Waw) || (this.r3 === Letter.Ya))
-                return RootType.FinalWeak;
+                return RootType.DoublyWeak_WawOrYaOnR2AndR3;
             return RootType.MiddleWeak;
         }
 
@@ -134,10 +136,11 @@ export class VerbRoot
         {
             case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 return VerbType.AssimilatedAndDefective;
-            case RootType.InitialWeak:
-                return VerbType.Assimilated;
+            case RootType.DoublyWeak_WawOrYaOnR2AndR3:
             case RootType.FinalWeak:
                 return VerbType.Defective;
+            case RootType.InitialWeak:
+                return VerbType.Assimilated;
             case RootType.HamzaOnR1:
                 return VerbType.HamzaOnR1;
             case RootType.MiddleWeak:

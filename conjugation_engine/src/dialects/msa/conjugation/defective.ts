@@ -42,6 +42,7 @@ function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1Parame
             switch(stemData.stemParameterization)
             {
                 case ModernStandardArabicStem1ParametersType.DefectiveType1:
+                case ModernStandardArabicStem1ParametersType.IrregularRa2a:
                     return DefectiveType.Type1_Fa3aY;
                 case ModernStandardArabicStem1ParametersType.DefectiveType2:
                     return DefectiveType.Type2_Fa3aA;
@@ -330,7 +331,7 @@ export function AlterDefectiveEnding(augmentedRoot: AugmentedRoot, stemData: Ver
         case 4:
         case 5:
         case 6:
-        //TODO: 7 missing
+        case 7:
         case 8:
         case 10:
         {

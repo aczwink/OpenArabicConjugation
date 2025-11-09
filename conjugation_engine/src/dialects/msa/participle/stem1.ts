@@ -61,6 +61,12 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
                     return [
                         { letter: "-" as any, tashkil: Tashkil.EndOfWordMarker }
                     ];
+                case ModernStandardArabicStem1ParametersType.IrregularRa2a:
+                    return GenerateParticipleStem1(root, voice, {
+                        stem: 1,
+                        stemParameterization: stem1Context.stemParameterization,
+                        type: VerbType.Defective
+                    });
             }
             break;
     }

@@ -16,33 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Case, Gender, Letter, NounDeclensionParams, NounState, Numerus, Tashkil } from "../../../Definitions";
-import { NounInput } from "../../../DialectConjugator";
+import { Case, Gender, Letter, AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Numerus, Tashkil } from "../../../Definitions";
+import { AdjectiveOrNounInput } from "../../../DialectConjugator";
 import { DisplayTashkil, DisplayVocalized } from "../../../Vocalization";
-import { AdjEndingTashkil, WithTashkilOnLast } from "../adjectives/shared";
+import { AdjectiveEndingTashkil, WithTashkilOnLast } from "./shared";
 
-function NounEndingTashkil(inputNoun: NounInput, params: NounDeclensionParams): DisplayTashkil | undefined
+function EndingTashkil(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayTashkil | undefined
 {
     if(inputNoun.gender === Gender.Female)
     {
         if((inputNoun.numerus === Numerus.Plural) && (params.case === Case.Accusative))
-            return NounEndingTashkil(inputNoun, { ...params, case: Case.Genitive });
+            return EndingTashkil(inputNoun, { ...params, case: Case.Genitive });
     }
 
-    if(params.state === NounState.Construct)
-        return AdjEndingTashkil({ case: params.case, definite: true, gender: inputNoun.gender });
+    if(params.state === AdjectiveOrNounState.Construct)
+        return AdjectiveEndingTashkil(params.case, true);
 
-    return AdjEndingTashkil({ case: params.case, definite: params.state === NounState.Definite, gender: inputNoun.gender });
+    return AdjectiveEndingTashkil(params.case, params.state === AdjectiveOrNounState.Definite);
 }
 
-function DeclineDefault(inputNoun: NounInput, params: NounDeclensionParams)
+function DeclineDefault(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams)
 {
-    if((params.case === Case.Accusative) && (params.state === NounState.Indefinite) && (inputNoun.gender === Gender.Male))
+    if((params.case === Case.Accusative) && (params.state === AdjectiveOrNounState.Indefinite) && (inputNoun.gender === Gender.Male))
         return WithTashkilOnLast(inputNoun.vocalized, Tashkil.Fathatan).concat([ { emphasis: false, letter: Letter.Alef, shadda: false }]);
-    return WithTashkilOnLast(inputNoun.vocalized, NounEndingTashkil(inputNoun, params));
+    return WithTashkilOnLast(inputNoun.vocalized, EndingTashkil(inputNoun, params));
 }
 
-export function DeclineNounTriptoteSuffix(inputNoun: NounInput, params: NounDeclensionParams): DisplayVocalized[]
+export function DeclineTriptoteSuffix(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
 {
     switch(inputNoun.numerus)
     {
@@ -51,15 +51,12 @@ export function DeclineNounTriptoteSuffix(inputNoun: NounInput, params: NounDecl
 
         case Numerus.Dual:
         {
-            const fixedEnding = WithTashkilOnLast(inputNoun.vocalized, Tashkil.Kasra);
+            const fixedEnding = WithTashkilOnLast(inputNoun.vocalized, (params.case === Case.Informal) ? undefined : Tashkil.Kasra);
 
             if(params.case === Case.Nominative)
-            {
-                fixedEnding[fixedEnding.length - 2].letter = Letter.Alef;
-                fixedEnding[fixedEnding.length - 2].tashkil = undefined;
-            }
-
-            if(params.state === NounState.Construct)
+                fixedEnding[fixedEnding.length - 2] = { letter: Letter.Alef, emphasis: false, shadda: false };
+            
+            if(params.state === AdjectiveOrNounState.Construct)
                 fixedEnding.pop();
 
             return fixedEnding;
@@ -73,14 +70,17 @@ export function DeclineNounTriptoteSuffix(inputNoun: NounInput, params: NounDecl
 
             if(isSoundMale)
             {
-                const fixedEnding = WithTashkilOnLast(inputNoun.vocalized, Tashkil.Fatha);
+                const fixedEnding = WithTashkilOnLast(inputNoun.vocalized, (params.case === Case.Informal) ? undefined : Tashkil.Fatha);
                 if(params.case !== Case.Nominative)
                 {
-                    fixedEnding[fixedEnding.length - 2].letter = Letter.Ya;
-                    fixedEnding[fixedEnding.length - 3].tashkil = Tashkil.Kasra;
+                    fixedEnding[fixedEnding.length - 2] = { letter: Letter.Ya, emphasis: false, shadda: false };
+                    fixedEnding[fixedEnding.length - 3] = {
+                        ...fixedEnding[fixedEnding.length - 3],
+                        tashkil: Tashkil.Kasra
+                    };
                 }
 
-                if(params.state === NounState.Construct)
+                if(params.state === AdjectiveOrNounState.Construct)
                     fixedEnding.pop();
 
                 return fixedEnding;

@@ -16,11 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdjectiveDeclensionParams, Gender, Letter, Tashkil } from "../../../Definitions";
+import { AdjectiveOrNounDeclensionParams, Letter, Tashkil } from "../../../Definitions";
 import { DisplayVocalized } from "../../../Vocalization";
-import { WithTashkilOnLast, RegularFemaleWithFathaThenTaMarbuta, AdjEndingTashkil } from "./shared";
 
-export function DeclineAdjectiveInSuffix(vocalized: DisplayVocalized[], params: AdjectiveDeclensionParams): DisplayVocalized[]
+export function DeclineAdjectiveInSuffix(vocalized: DisplayVocalized[], params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
 {
     const last = vocalized[vocalized.length - 1];
     const standard = vocalized.slice(0, vocalized.length - 1).concat([
@@ -35,12 +34,13 @@ export function DeclineAdjectiveInSuffix(vocalized: DisplayVocalized[], params: 
         }
     ]);
 
-    if(params.gender === Gender.Male)
+    throw new Error("HERE");
+    /*if(params.gender === Gender.Male)
     {
         if(params.definite)
             return standard;
         return vocalized;
     }
 
-    return WithTashkilOnLast(RegularFemaleWithFathaThenTaMarbuta(standard), AdjEndingTashkil(params));
+    return WithTashkilOnLast(RegularFemaleWithFathaThenTaMarbuta(standard), AdjectiveEndingTashkil(params));*/
 }

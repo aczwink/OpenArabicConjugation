@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,12 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunVerbalNounTest } from "../../shared";
 
-It("Stem 2", () => {
-    const root = "س-ل-س-ل";
-    const stem = 2;
-    //Source: https://en.wiktionary.org/wiki/%D8%B3_%D9%84_%D8%B3_%D9%84
-    RunVerbalNounTest(root, stem, "تَسَلْسُل");
-    throw new Error("TODO find one :)");
+It("Basic type, Sound plural", () => {
+    throw new Error("TODO: write me!");
 });

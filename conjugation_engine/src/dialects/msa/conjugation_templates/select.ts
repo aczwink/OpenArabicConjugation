@@ -20,12 +20,15 @@ import { ConjugationRule } from "../../../Conjugation";
 import { VerbType, Voice } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { AssimilatedStem1Template } from "./assimilated_stem1";
+import { AssimilatedStem10Template } from "./assimilated_stem10";
 import { GeminateStem1Template } from "./geminate_stem1";
 import { GeminateStem10Template } from "./geminate_stem10";
 import { GeminateStem4Template } from "./geminate_stem4";
 import { GeminateStem8Template } from "./geminate_stem8";
 import { IrregularHayiyaTemplate } from "./irregular_hayiya";
 import { IrregularLaysaTemplate } from "./irregular_laysa";
+import { QuadriliteralStem4Template } from "./quadriliteral_stem4";
 
 export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
@@ -34,6 +37,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
         case 1:
             switch(stemData.type)
             {
+                case VerbType.Assimilated:
+                    return AssimilatedStem1Template(stemData.root, stemData);
                 case VerbType.Geminate:
                     return GeminateStem1Template(stemData.root, stemData, voice);
                 case VerbType.Irregular:
@@ -55,6 +60,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
             {
                 case VerbType.Geminate:
                     return GeminateStem4Template(stemData, voice);
+                case VerbType.SoundQuadriliteral:
+                    return QuadriliteralStem4Template(stemData.root, voice);
             }
         }
         break;
@@ -71,6 +78,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
         {
             switch(stemData.type)
             {
+                case VerbType.Assimilated:
+                    return AssimilatedStem10Template(stemData.root);
                 case VerbType.Geminate:
                     return GeminateStem10Template(stemData, voice);
             }

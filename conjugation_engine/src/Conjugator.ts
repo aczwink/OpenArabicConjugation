@@ -16,16 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { Hamzate } from "./Hamza";
-import { VerbRoot } from "./VerbRoot";
-import { NounInput, TargetNounDerivation } from "./DialectConjugator";
+import { AdjectiveOrNounInput, DialectConjugator, TargetAdjectiveNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
-import { ConjugationVocalized, DisplayVocalized, ParseVocalizedText } from "./Vocalization";
-import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveDeclensionParams, NounDeclensionParams, Gender, AdvancedStemNumber } from "./Definitions";
+import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
+import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
-import { Verb, VerbStem1Data } from "./Verb";
+import { Verb } from "./Verb";
 import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
+import { _TODO_ConjugationVocalizedToConjugatedWord, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult, SuffixResult } from "./Conjugation";
 
 export class Conjugator
 {
@@ -39,39 +39,30 @@ export class Conjugator
             if(params.person !== Person.Second)
                 throw new Error("imperative does only exist for second person");
         }
-
-        const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
-        const pattern = dialectConjugator.Conjugate(verb as any, params);
-
-        return this.ExecuteWordTransformationPipeline(pattern);
+        
+        const word = this.ConjugateInternal(verb, params);
+        return this.ExecuteWordTransformationPipeline(_TODO_ToConjugationVocalized(word));
     }
 
     public ConjugateParticiple(verb: Verb<string>, voice: Voice): DisplayVocalized[]
     {
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
-        const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice);
+        const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice, this.ConjugateBaseForm.bind(this));
 
         return this.ExecuteWordTransformationPipeline(pattern);
     }
 
-    public DeclineAdjective(word: string, params: AdjectiveDeclensionParams, dialect: DialectType)
+    public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams, dialect: DialectType)
     {
         const dialectConjugator = new MSAConjugator;
 
-        const parsed = ParseVocalizedText(word);
-        return dialectConjugator.DeclineAdjective(parsed, params);
+        return dialectConjugator.DeclineAdjectiveOrNoun(input, params);
     }
 
-    public DeclineNoun(inputNoun: NounInput, params: NounDeclensionParams, dialect: DialectType)
+    public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation, dialect: DialectType): DisplayVocalized[]
     {
         const dialectConjugator = new MSAConjugator;
-        return dialectConjugator.DeclineNoun(inputNoun, params);
-    }
-
-    public DeriveSoundNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetNounDerivation, dialect: DialectType): DisplayVocalized[]
-    {
-        const dialectConjugator = new MSAConjugator;
-        return dialectConjugator.DeriveSoundNoun(singular, singularGender, target);
+        return dialectConjugator.DeriveSoundAdjectiveOrNoun(singular, singularGender, target);
     }
 
     public DeclineStativeActiveParticiple(verb: Verb<string>): DisplayVocalized[]
@@ -85,10 +76,10 @@ export class Conjugator
         return this.ExecuteWordTransformationPipeline(pattern);
     }
 
-    public GenerateAllPossibleVerbalNouns(root: VerbRoot, stem: AdvancedStemNumber | VerbStem1Data<string>): DisplayVocalized[][]
+    public GenerateAllPossibleVerbalNouns(verb: Verb<string>): DisplayVocalized[][]
     {
         const dialectConjugator = new MSAConjugator;
-        const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(root, stem as any);
+        const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(verb as Verb<any>);
 
         return patterns.map(x => this.ExecuteWordTransformationPipeline(x));
     }
@@ -100,7 +91,61 @@ export class Conjugator
     }
 
     //Private methods
-    private CreateDialectConjugator(dialect: DialectType)
+    private ConjugateBaseForm(verb: Verb<string>)
+    {
+        return this.ConjugateInternal(verb, {
+            gender: Gender.Male,
+            numerus: Numerus.Singular,
+            person: Person.Third,
+            tense: Tense.Perfect,
+            voice: Voice.Active
+        });
+    }
+
+    private ConjugateInternal(verb: Verb<string>, params: ConjugationParams)
+    {
+        const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
+        const result = dialectConjugator.Conjugate(verb, params);
+
+        if(Array.isArray(result))
+            return _TODO_ConjugationVocalizedToConjugatedWord(result);
+
+        const constructed = this.ConstructWord(result.matchResult, result.prefix, result.suffix);
+        return constructed;
+    }
+
+    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationItem[], suffix: SuffixResult): ConjugatedWord
+    {
+        const vowels = [...rule.vowels, suffix.previousVowel];
+        let vowelIndex = 0;
+
+        const items = prefix.concat(rule.symbols.map((x,i)=> ({
+            consonant: x,
+            followingVowel: vowels[vowelIndex++],
+            emphasis: (i === rule.emphasize) ? true : undefined
+        })));
+        if(suffix.prefinal !== undefined)
+            items.push(suffix.prefinal);
+
+        if(suffix.final !== undefined)
+        {
+            if(typeof suffix.final === "string")
+            {
+                return {
+                    items,
+                    final: suffix.final
+                };
+            }
+            else
+                items.push(suffix.final);
+        }
+
+        return {
+            items
+        };
+    }
+
+    private CreateDialectConjugator(dialect: DialectType): DialectConjugator<string>
     {
         switch(dialect)
         {

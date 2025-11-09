@@ -78,8 +78,7 @@ export enum ExtraTashkil
     DaggerAlef = "\u0670",
 };
 
-export type PrimaryTashkil = Tashkil.Dhamma | Tashkil.Fatha | Tashkil.Kasra;
-export type BaseTashkil = (PrimaryTashkil | Tashkil.Sukun);
+export type BaseTashkil = (Tashkil.Dhamma | Tashkil.Fatha | Tashkil.Kasra | Tashkil.Sukun);
 
 export enum VerbType
 {
@@ -169,22 +168,15 @@ interface BasicConjugationParams
 export type ConjugationParams = BasicConjugationParams & TenseParams;
 
 
-export interface AdjectiveDeclensionParams
-{
-    gender: Gender;
-    definite: boolean;
-    case: Case;
-}
-
-export enum NounState
+export enum AdjectiveOrNounState
 {
     Indefinite,
     Definite,
     Construct
 }
 
-export interface NounDeclensionParams
+export interface AdjectiveOrNounDeclensionParams
 {
     case: Case;
-    state: NounState;
+    state: AdjectiveOrNounState;
 }

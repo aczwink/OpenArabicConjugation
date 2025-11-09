@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Letter, Tashkil, PrimaryTashkil, ConjugationParams, Voice, Tense, Person, Numerus, Gender, Mood } from "../../../Definitions";
+import { Letter, Tashkil, ConjugationParams, Voice, Tense, Person, Numerus, Gender, Mood } from "../../../Definitions";
 import { VerbStemData } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
@@ -26,8 +26,13 @@ function DerivePrefixTashkil(rootType: RootType, stemData: VerbStemData<ModernSt
 {
     if(rootType === RootType.Quadriliteral)
     {
-        if(stemData.stem === 1)
-            return Tashkil.Dhamma;
+        switch(stemData.stem)
+        {
+            case 1:
+                return Tashkil.Dhamma
+            case 4:
+                return (params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Dhamma;
+        }
     }
     
     switch(stemData.stem)
@@ -57,7 +62,7 @@ function GetImperativeTashkil(stemParameterization: ModernStandardArabicStem1Par
     return _Legacy_ExtractPresentMiddleRadicalTashkil(stemParameterization);
 }
 
-export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]
+export function DerivePrefix(prevTashkil: Tashkil, rootType: RootType, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams): ConjugationVocalized[]
 {
     if(params.tense === Tense.Perfect)
     {
@@ -71,10 +76,10 @@ export function DerivePrefix(prevTashkil: (PrimaryTashkil | Tashkil.Sukun), root
 
     if(params.mood === Mood.Imperative)
     {
-        if(stemData.stem === 4)
+        if((stemData.stem === 4) && (rootType !== RootType.Quadriliteral))
             return [{ letter: Letter.AlefHamza, tashkil: Tashkil.Fatha}];
 
-        if(prevTashkil === Tashkil.Sukun)
+        if((prevTashkil === Tashkil.Sukun) || (prevTashkil === Tashkil.LongVowelMarker))
         {
             const stem1ctx = (stemData.stem === 1) ? GetImperativeTashkil(stemData.stemParameterization) : undefined;
             //insert hamzat al wasl

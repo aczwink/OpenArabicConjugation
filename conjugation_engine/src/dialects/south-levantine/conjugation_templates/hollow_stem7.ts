@@ -17,31 +17,31 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Tense, Letter, Person, Gender, Mood } from "../../../Definitions";
+import { Tense, Letter, Person } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { SouthLevantineStem1Context } from "../SouthLevantineDialectMetadata";
 
-export function DefectiveStem4Template(verb: Verb<SouthLevantineStem1Context>): ConjugationRule[] | undefined
+export function HollowStem7Template(verb: Verb<SouthLevantineStem1Context>): ConjugationRule[] | undefined
 {
     const root = verb.root;
 
     return [
         {
             conditions: { tense: Tense.Perfect },
-            symbols: [Letter.Hamza, root.r1, root.r2],
-            vowels: [Vowel.ShortA, Vowel.Sukun],
+            symbols: [Letter.Nun, root.r1, root.r3],
+            vowels: [Vowel.Sukun, Vowel.ShortA],
+            children: [
+                {
+                    conditions: { person: Person.Third },
+                    vowels: [Vowel.Sukun, Vowel.LongA],
+                }
+            ]
         },
         {
             conditions: { tense: Tense.Present },
             prefixVowel: Vowel.ShortI,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun],
-            children: [
-                {
-                    conditions: { person: Person.Third, gender: Gender.Male, mood: Mood.Indicative },
-                    prefixVowel: Vowel.LongI,
-                }
-            ]
+            symbols: [Letter.Nun, root.r1, root.r3],
+            vowels: [Vowel.Sukun, Vowel.LongA]
         },
     ];
 }

@@ -27,7 +27,7 @@ import { ModernStandardArabicStem1ParametersType } from "./r2tashkil";
 /*
 Currently known ones are: رأى, أرى */
 
-function AlterSpecialCaseRa2a(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams, suffix: ConjugationVocalized[])
+export function AlterSpecialCaseRa2a(augmentedRoot: AugmentedRoot, stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams, suffix: ConjugationVocalized[])
 {
     AlterDefectiveEnding(augmentedRoot, stemData, params);
     AlterDefectiveSuffix(params, stemData, suffix);
@@ -64,28 +64,14 @@ function AlterSpecialCaseA2ra(augmentedRoot: AugmentedRoot, stemData: VerbStemDa
 
 export function AlterSpeciallyIrregularDefective(root: VerbRoot, augmentedRoot: AugmentedRoot, suffix: ConjugationVocalized[], stemData: VerbStemData<ModernStandardArabicStem1ParametersType>, params: ConjugationParams)
 {
-    if(stemData.stem === 1)
-    {
-        if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
-            AlterSpecialCaseRa2a(augmentedRoot, stemData, params, suffix);
-    }
-    else if(stemData.stem === 4)
+    if(stemData.stem === 4)
     {
         AlterSpecialCaseA2ra(augmentedRoot, stemData, params, suffix);
     }
 }
 
-export function GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching(root: VerbRoot)
-{
-    if(root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]))
-        return ModernStandardArabicStem1ParametersType.DefectiveType1;
-    return undefined;
-}
-
 export function IsSpeciallyIrregularDefective(root: VerbRoot, stem: number)
 {
-    if(stem === 1)
-        return GetSpeciallyIrregularDefectivePresentTashkilForStem1IfMatching(root) !== undefined;
     if( (stem === 4) && root.radicalsAsSeparateLetters.Equals([Letter.Ra, Letter.Hamza, Letter.Ya]) )
         return true;
     return false;

@@ -34,8 +34,18 @@ export function GenerateAllPossibleVerbalNounsStem10(root: VerbRoot): Conjugatio
                 { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-        case RootType.HamzaOnR1:
         case RootType.InitialWeak:
+            return [
+                { letter: Letter.Alef, tashkil: Tashkil.Kasra },
+                { letter: Letter.Siin, tashkil: Tashkil.Sukun },
+                { letter: Letter.Ta, tashkil: Tashkil.Kasra },
+                { letter: root.r1, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
+        case RootType.HamzaOnR1:
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:
             return [

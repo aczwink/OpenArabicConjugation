@@ -15,12 +15,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Tashkil } from "../../../Definitions";
-import { RootType, VerbRoot } from "../../../VerbRoot";
+import { Letter, Tashkil, VerbType } from "../../../Definitions";
+import { Verb } from "../../../Verb";
+import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): ConjugationVocalized[][]
+export function GenerateAllPossibleVerbalNounsStem2(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
 {
+    const root = verb.root;
+
+    switch(verb.type)
+    {
+        case VerbType.Defective:
+            const taf3iya = [
+                { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                { letter: root.r1, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: Tashkil.Kasra },
+                { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+            ];
+            if(root.type === RootType.DoublyWeak_WawOrYaOnR2AndR3)
+            {
+                return [
+                    taf3iya
+                ];
+            }
+            return [
+                [
+                    { letter: root.r1, tashkil: Tashkil.Fatha },
+                    { letter: root.r2, tashkil: Tashkil.Fatha },
+                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                    { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
+                ],
+                taf3iya
+            ];
+    }
+
     switch(root.type)
     {
         case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
@@ -43,23 +74,6 @@ export function GenerateAllPossibleVerbalNounsStem2(root: VerbRoot): Conjugation
                     { letter: root.r2, tashkil: Tashkil.Sukun },
                     { letter: root.r3, tashkil: Tashkil.Dhamma },
                     { letter: root.r4, tashkil: Tashkil.EndOfWordMarker },
-                ]
-            ];
-
-        case RootType.FinalWeak:
-            return [
-                [
-                    { letter: root.r1, tashkil: Tashkil.Fatha },
-                    { letter: root.r2, tashkil: Tashkil.Fatha },
-                    { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                    { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
-                ],
-                [
-                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                    { letter: root.r2, tashkil: Tashkil.Kasra },
-                    { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                    { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                 ]
             ];
 

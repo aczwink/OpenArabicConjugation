@@ -21,7 +21,7 @@ import { Conjugator } from "openarabicconjugation/dist/Conjugator";
 import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
 import { VerbRoot } from "openarabicconjugation/dist/VerbRoot";
 import { GenderToString, MoodToString, NumerusToString, PersonToString, TenseToString, VoiceToString } from "openarabicconjugation/dist/Util";
-import { DisplayVocalized, ParseVocalizedText, VocalizedToString } from "openarabicconjugation/dist/Vocalization";
+import { DisplayVocalized, ParseVocalizedText, VocalizedWordTostring } from "openarabicconjugation/dist/Vocalization";
 import { Buckwalter } from "openarabicconjugation/dist/Transliteration";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { GetDialectMetadata } from "openarabicconjugation/dist/DialectsMetadata";
@@ -55,15 +55,20 @@ function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
     return true;
 }
 
-function VocalizedTostring(vocalized: DisplayVocalized[])
+export function ShouldEqual(expected: string, got: DisplayVocalized[], formContext: () => string[])
 {
-    const str = vocalized.Values().Map(VocalizedToString).Join("");
-    return str;
+    const expected_vocalized = ParseVocalizedText(expected);
+    if(!CompareVocalized(expected_vocalized, got))
+    {
+        const gotStr = VocalizedWordTostring(got);
+        const context = formContext().join(", ");
+        Fail("expected: " + expected + " / " + Buckwalter.ToString(expected_vocalized) + " got: " + gotStr + " / " + Buckwalter.ToString(got) + " - " + context);
+    }
 }
 
 function Test(expected: string[], got: DisplayVocalized[], stemData: VerbStemData<string>, params: ConjugationParams)
 {
-    const gotStr = VocalizedTostring(got);
+    const gotStr = VocalizedWordTostring(got);
     const anyExpected = expected.Values().Map(ex => CompareVocalized(ParseVocalizedText(ex), got)).AnyTrue();
     if(!anyExpected)
     {
@@ -80,7 +85,7 @@ function Test(expected: string[], got: DisplayVocalized[], stemData: VerbStemDat
 function TestParticiple(expected: string, got: DisplayVocalized[], voice: VoiceString)
 {
     const a = ParseVocalizedText(expected);
-    const gotStr = VocalizedTostring(got);
+    const gotStr = VocalizedWordTostring(got);
     if(!CompareVocalized(a, got))
         Fail("expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got) + " voice: " + voice);
 }
@@ -249,14 +254,9 @@ export function _Legacy_RunParticipleTest(rootRadicals: string, stem: AdvancedSt
 
 export function RunParticipleTest(verbTestData: VerbTestData, activeExpected: string, passiveExpected: string)
 {
-    const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
 
-    const verb = CreateVerbInstance({
-        dialect,
-        rootRadicals: verbTestData.rootRadicals,
-        stem: verbTestData.stem,
-    });
+    const verb = CreateVerbInstance(verbTestData);
     
     const activeGot = (verbTestData.stativeActiveParticiple === true) ? conjugator.DeclineStativeActiveParticiple(verb) : conjugator.ConjugateParticiple(verb, Voice.Active);
     TestParticiple(activeExpected, activeGot, "active");
@@ -339,7 +339,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
         if(!conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
             throw new Error("Expected multiple verbal nouns but apparently only one exists");
 
-        const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
+        const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
         const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(pattern.expected)));
         if(index === -1)
             throw new Error("Expected verbal noun '" + pattern.expected + "' could not be generated.");
@@ -364,14 +364,14 @@ export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber
 
     if(conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
         throw new Error("Expected a single verbal noun but apparently multiple ones exist");
-    const choices = conjugator.GenerateAllPossibleVerbalNouns(root, (verb.stem === 1) ? verb : verb.stem);
+    const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
 
     if(choices.length !== 1)
         throw new Error("Expected only a single verbal noun but got " + choices.length);
     const got = choices[0];
 
     const a = ParseVocalizedText(expected);
-    const gotStr = VocalizedTostring(got);
+    const gotStr = VocalizedWordTostring(got);
     if(!CompareVocalized(a, got))
         Fail("Verbal noun test failed. Expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got));
 }
