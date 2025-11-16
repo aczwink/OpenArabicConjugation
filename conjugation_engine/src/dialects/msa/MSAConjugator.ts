@@ -93,7 +93,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 8:
                 return GenerateParticipleStem8(verb, this.ConjugateBasicForm(verb), voice);
             case 9:
-                return GenerateParticipleStem9(root, this.ConjugateBasicForm_OLD(root, stem), voice);
+                return GenerateParticipleStem9(verb, voice);
             case 10:
                 return GenerateParticipleStem10(root, voiceOld);
         }

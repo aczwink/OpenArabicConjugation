@@ -68,7 +68,12 @@ export class ConjugationRuleMatcher<T>
         {
             if(params.tense === Tense.Present)
             {
-                if(c.mood !== params.mood)
+                if(Array.isArray(c.mood))
+                {
+                    if(!c.mood.includes(params.mood))
+                        return false;
+                }
+                else if(c.mood !== params.mood)
                     return false;
             }
             else

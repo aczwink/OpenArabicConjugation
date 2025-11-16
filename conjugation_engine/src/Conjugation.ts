@@ -45,7 +45,7 @@ interface ConjugationRuleConditions
     doesSuffixBeginWithSukun?: boolean;
     gender?: Gender;
     hasPresentVowelSuffix?: true;
-    mood?: Mood;
+    mood?: Mood | Mood[];
     numerus?: Numerus;
     person?: Person;
     stemParameters?: string;
@@ -96,6 +96,19 @@ export interface SuffixResult
     final?: Letter | ConjugationItem;
     prefinal?: ConjugationItem;
     previousVowel: Vowel;
+}
+
+export function ToLongVowel(vowel: Vowel.ShortA | Vowel.ShortI | Vowel.ShortU)
+{
+    switch(vowel)
+    {
+        case Vowel.ShortA:
+            return Vowel.LongA;
+        case Vowel.ShortI:
+            return Vowel.LongI;
+        case Vowel.ShortU:
+            return Vowel.LongU;
+    }
 }
 
 //TODO: these are there for integration into current conjugtion pipeline. They should be removed as soon as code is migrated

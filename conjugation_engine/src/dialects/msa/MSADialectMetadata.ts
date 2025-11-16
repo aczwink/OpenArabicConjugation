@@ -53,6 +53,13 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         return VerbType.Sound;
                 }
                 break;
+            case VerbType.Geminate:
+                switch(stem)
+                {
+                    case 2:
+                        return VerbType.Sound;
+                }
+                break;
             case VerbType.QuadriliteralAndDefective:
                 return VerbType.SoundQuadriliteral;
         }

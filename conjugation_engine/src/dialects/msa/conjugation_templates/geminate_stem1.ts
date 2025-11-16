@@ -17,7 +17,7 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Person, Tense, VerbType, Voice } from "../../../Definitions";
+import { Letter, Mood, Person, Tense, VerbType, Voice } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
 import { ExtractPresentMiddleRadicalVowel, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
@@ -26,6 +26,39 @@ export function GeminateStem1Template(root: VerbRoot, stemData: VerbStem1Data<Mo
 {
     const perfectVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
     const presentVowel = (voice === Voice.Active) ? ExtractPresentMiddleRadicalVowel(stemData.stemParameterization) : Vowel.ShortA;
+
+    if(root.r1 === Letter.Waw)
+    {
+        return [
+            {
+                conditions: { mood: Mood.Imperative, doesSuffixBeginWithSukun: true },
+                prefixVowel: Vowel.LongI,
+                symbols: [root.r2, root.r3],
+                vowels: [presentVowel],
+            },
+            {
+                conditions: { tense: Tense.Present, doesSuffixBeginWithSukun: false },
+                symbols: [root.r1, root.r2, root.r3],
+                vowels: [presentVowel, Vowel.Sukun],
+            },
+            {
+                conditions: { tense: Tense.Present, voice: Voice.Passive, doesSuffixBeginWithSukun: true },
+                prefixVowel: Vowel.LongU,
+                symbols: [root.r2, root.r3],
+                vowels: [presentVowel],
+            },
+            {
+                conditions: { tense: Tense.Perfect, doesSuffixBeginWithSukun: false, person: Person.Third },
+                symbols: [root.r1, root.r2, root.r3],
+                vowels: [perfectVowel, Vowel.Sukun],
+            },
+            {
+                conditions: {},
+                base: { verbType: VerbType.Sound },
+            }
+        ];
+    }
+
     return [
         {
             conditions: { tense: Tense.Present, doesSuffixBeginWithSukun: false },

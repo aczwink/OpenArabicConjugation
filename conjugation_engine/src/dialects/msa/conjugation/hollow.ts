@@ -36,47 +36,6 @@ export function ShortenOrAlefizeR2(augmentedRoot: AugmentedRoot, stemData: VerbS
 {
     switch(stemData.stem)
     {
-        case 1:
-        {
-            const vowelTashkil = (augmentedRoot.r2.letter === Letter.Waw) ? Tashkil.Dhamma : Tashkil.Kasra;
-
-            if(params.tense === Tense.Perfect)
-            {
-                if((params.person === Person.Third) && !((params.numerus === Numerus.Plural) && (params.gender === Gender.Female)))
-                {
-                    if(params.voice === Voice.Active)
-                        augmentedRoot.InsertLongVowel(2, Letter.Alef);
-                    else
-                        augmentedRoot.InsertLongVowel(2, Letter.Ya);
-                }
-                else
-                {
-                    //shorten vowel
-                    const tashkil = (_Legacy_ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha) ? _Legacy_ExtractMiddleRadicalTashkil(stemData.stemParameterization) : vowelTashkil;
-                    augmentedRoot.ApplyRadicalTashkil(2, (params.voice === Voice.Active) ? tashkil : Tashkil.Kasra);
-                    augmentedRoot.AssimilateRadical(2);
-                }
-            }
-            else
-            {
-                let shortenVowel = (params.numerus === Numerus.Plural) && (params.gender === Gender.Female);
-
-                if((params.mood === Mood.Jussive) || (params.mood === Mood.Imperative))
-                {
-                    shortenVowel = !DoesPresentSuffixStartWithVowel(params);
-                }
-
-                augmentedRoot.ApplyRadicalTashkil(2, Tashkil.LongVowelMarker);
-
-                if(shortenVowel)
-                    augmentedRoot.AssimilateRadical(2);
-                else if((params.voice === Voice.Passive) || (_Legacy_ExtractPresentMiddleRadicalTashkil(stemData.stemParameterization) === Tashkil.Fatha))
-                    augmentedRoot.ReplaceRadical(2, { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker });
-
-                augmentedRoot.ApplyRadicalTashkil(1, (params.voice === Voice.Active) ? vowelTashkil : Tashkil.Fatha);
-            }
-        }
-        break;
         case 4:
         case 8:
         case 10:

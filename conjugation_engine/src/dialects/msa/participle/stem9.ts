@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,19 +15,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Tashkil, Voice } from "../../../Definitions";
-import { RootType, VerbRoot } from "../../../VerbRoot";
+import { Letter, Tashkil, VerbType, Voice } from "../../../Definitions";
+import { Verb } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
-import { AugmentedRoot } from "../AugmentedRoot";
-import { GenerateParticipleRegular } from "./regular";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-export function GenerateParticipleStem9(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
+export function GenerateParticipleStem9(verb: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationVocalized[]
 {
-    switch(root.type)
+    const root = verb.root;
+
+    switch(verb.type)
     {
-        case RootType.Regular:
-            if(voice === Voice.Active)
-                return GenerateParticipleRegular(baseForm, Voice.Passive, false);
+        case VerbType.Sound:
+            return [
+                { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
+                { letter: root.r1, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: root.r3, tashkil: Tashkil.Sukun },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+            ];
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];
 }

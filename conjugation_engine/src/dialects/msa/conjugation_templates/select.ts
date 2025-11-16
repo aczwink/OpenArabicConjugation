@@ -26,9 +26,11 @@ import { GeminateStem1Template } from "./geminate_stem1";
 import { GeminateStem10Template } from "./geminate_stem10";
 import { GeminateStem4Template } from "./geminate_stem4";
 import { GeminateStem8Template } from "./geminate_stem8";
+import { HollowStem1Template } from "./hollow_stem1";
 import { IrregularHayiyaTemplate } from "./irregular_hayiya";
 import { IrregularLaysaTemplate } from "./irregular_laysa";
 import { QuadriliteralStem4Template } from "./quadriliteral_stem4";
+import { SoundStem9Template } from "./sound_stem9";
 
 export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
@@ -41,6 +43,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
                     return AssimilatedStem1Template(stemData.root, stemData);
                 case VerbType.Geminate:
                     return GeminateStem1Template(stemData.root, stemData, voice);
+                case VerbType.Hollow:
+                    return HollowStem1Template(stemData.root, stemData, voice);
                 case VerbType.Irregular:
                 {
                     switch(stemData.stemParameterization)
@@ -71,6 +75,15 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
             {
                 case VerbType.Geminate:
                     return GeminateStem8Template(stemData, voice);
+            }
+        }
+        break;
+        case 9:
+        {
+            switch(stemData.type)
+            {
+                case VerbType.Sound:
+                    return SoundStem9Template(stemData, voice);
             }
         }
         break;

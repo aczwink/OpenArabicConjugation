@@ -188,20 +188,6 @@ export function AugmentRoot(verb: Verb<string>, params: ConjugationParams): Augm
             }
         }
         break;
-        case 9:
-        {
-            switch(root.type)
-            {
-                case RootType.Regular:
-                    return [
-                        { symbolName: SymbolName.R1 },
-                        { symbolName: SymbolName.R2 },
-                        { symbolName: SymbolName.Infix, letter: root.r3, tashkil: Tashkil.Sukun },
-                        { symbolName: SymbolName.R3 },
-                    ];
-            }
-        }
-        break;
         case 10:
         {
             switch(verb.type)

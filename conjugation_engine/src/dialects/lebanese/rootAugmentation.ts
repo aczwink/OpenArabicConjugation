@@ -168,9 +168,9 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 2:
         {
-            switch(root.type)
+            switch(stemData.type)
             {
-                case RootType.FinalWeak:
+                case VerbType.Defective:
                     return [
                         {
                             conditions: { tense: Tense.Perfect },
@@ -207,7 +207,10 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.LongI]
                         }
                     ];
-
+            }
+            
+            switch(root.type)
+            {
                 case RootType.Quadriliteral:
                     return [
                         {
@@ -271,10 +274,14 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 3:
         {
+            switch(stemData.type)
+            {
+                case VerbType.Defective:
+                    return DefectiveStem3ConjugationTemplate(root);
+            }
+
             switch(root.type)
             {
-                case RootType.FinalWeak:
-                    return DefectiveStem3ConjugationTemplate(root);
                 case RootType.MiddleWeak:
                     return [
                         {
@@ -529,13 +536,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Geminate:
-                    return GeminateStem8ConjugationTemplate(root, stemData, params);
-            }
-            
-            switch(root.type)
-            {
-                case RootType.FinalWeak:
+                case VerbType.Defective:
                     return [
                         {
                             conditions: {},
@@ -577,7 +578,13 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                     ];
-
+                    
+                case VerbType.Geminate:
+                    return GeminateStem8ConjugationTemplate(root, stemData, params);
+            }
+            
+            switch(root.type)
+            {
                 case RootType.MiddleWeak:
                     return [
                         {
@@ -659,9 +666,9 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 10:
         {
-            switch(root.type)
+            switch(stemData.type)
             {
-                case RootType.FinalWeak:
+                case VerbType.Defective:
                     return [
                         {
                             conditions: {},
@@ -695,6 +702,10 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                     ];
+            }
+
+            switch(root.type)
+            {
                 case RootType.Regular:
                     return [
                         {

@@ -107,7 +107,7 @@ export function ExtractMiddleRadicalTashkilVowel(type: ModernStandardArabicStem1
     throw new Error("Doesn't work for irregular verbs: " + type);
 }
 
-export function ExtractPresentMiddleRadicalVowel(type: ModernStandardArabicStem1ParametersType): Vowel
+export function ExtractPresentMiddleRadicalVowel(type: ModernStandardArabicStem1ParametersType)
 {
     switch(type)
     {
