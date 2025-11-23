@@ -18,7 +18,7 @@
 import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
 import { ConjugationParams, Gender, Numerus, Voice } from "./Definitions";
 import { Verb } from "./Verb";
-import { ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult, SuffixResult } from "./Conjugation";
+import { ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, SuffixResult } from "./Conjugation";
 
 export enum TargetAdjectiveNounDerivation
 {
@@ -37,12 +37,12 @@ export interface AdjectiveOrNounInput
 export interface ConjugationResult
 {
     matchResult: ConjugationRuleMatchResult;
-    prefix: ConjugationItem[];
+    prefix: ConjugationElement[];
     suffix: SuffixResult;
 }
 
 export interface DialectConjugator<T extends string>
 {
     Conjugate(verb: Verb<T>, params: ConjugationParams): ConjugationVocalized[] | ConjugationResult;
-    ConjugateParticiple(verb: Verb<T>, voice: Voice, requestBaseForm: (verb: Verb<T>) => ConjugatedWord): ConjugationVocalized[];
+    ConjugateParticiple(verb: Verb<T>, voice: Voice, requestBaseForm: () => ConjugatedWord): ConjugationVocalized[] | ConjugatedWord;
 }

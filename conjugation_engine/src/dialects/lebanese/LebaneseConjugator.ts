@@ -50,16 +50,16 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         };
     }
 
-    public ConjugateParticiple(verb: Verb<LebaneseStem1Context>, voice: Voice, requestBaseForm: (verb: Verb<LebaneseStem1Context>) => ConjugatedWord): ConjugationVocalized[]
+    public ConjugateParticiple(verb: Verb<LebaneseStem1Context>, voice: Voice, requestBaseForm: () => ConjugatedWord): ConjugationVocalized[]
     {
         function GetBaseForm()
         {
-            const word = requestBaseForm(verb);
+            const word = requestBaseForm();
             return _TODO_ToConjugationVocalized(word);
         }
 
         if(voice !== Voice.Active)
-            return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.AlefMaksuraMarker }];
+            throw new Error("Passive participles can't be conjugated in lebanese dialect.");
 
         const root = verb.root;
         const stem = verb.stem;
@@ -118,7 +118,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                     case 10:
                         const base = GetBaseForm();
                         base[base.length - 2].tashkil = Tashkil.Kasra;
-                        base[base.length - 1].letter = Letter.Ya;
+                        base[base.length - 1] = { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker };
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
                             ...base
@@ -137,7 +137,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                         const base = GetBaseForm();
                         base[base.length - 3].tashkil = Tashkil.Sukun;
                         base[base.length - 2].tashkil = Tashkil.Kasra;
-                        base[base.length - 1].letter = Letter.Ya;
+                        base[base.length - 1] = { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker };
                         return [
                             { letter: Letter.Mim, tashkil: Tashkil.Kasra },
                             ...base
@@ -254,7 +254,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         }
 
         const conjugator = new MSAConjugator;
-        const msaVersion = conjugator.ConjugateParticiple(verb as any, voice);
+        const msaVersion = conjugator.ConjugateParticiple(verb as any, voice, requestBaseForm) as ConjugationVocalized[];
 
         switch(verb.type)
         {
@@ -333,6 +333,6 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                 break;
         }
 
-        return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.AlefMaksuraMarker }];
+        return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
     }
 }

@@ -15,42 +15,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Tashkil, VoiceString } from "../../../Definitions";
+import { ConjugatedWord } from "../../../Conjugation";
+import { Letter, Tashkil, Voice } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
+import { GenerateParticipleDefective } from "./regular";
 
-export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): ConjugationVocalized[]
+export function GenerateParticipleStem10(root: VerbRoot, voice: Voice, baseForm: ConjugatedWord): ConjugationVocalized[] | ConjugatedWord
 {
     switch(root.type)
     {
         case RootType.FinalWeak:
-            if(voice === "active")
-            {
-                return [
-                    { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                    { letter: Letter.Siin, tashkil: Tashkil.Sukun },
-                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                    { letter: root.r2, tashkil: Tashkil.Kasratan },
-                ];
-    
-            }
-            return [
-                { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                { letter: Letter.Siin, tashkil: Tashkil.Sukun },
-                { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: Tashkil.Fathatan },
-                { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
-            ];
+            return GenerateParticipleDefective(baseForm, voice, true);
 
         case RootType.MiddleWeak:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha },
-                { letter: (voice === "active") ? Letter.Ya : Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r1, tashkil: (voice === Voice.Active) ? Tashkil.Kasra : Tashkil.Fatha },
+                { letter: (voice === Voice.Active) ? Letter.Ya : Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
@@ -59,7 +43,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r1, tashkil: (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha },
+                { letter: root.r1, tashkil: (voice === Voice.Active) ? Tashkil.Kasra : Tashkil.Fatha },
                 { letter: root.r2, tashkil: Tashkil.Sukun },
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
@@ -70,9 +54,9 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: VoiceString): Co
                 { letter: Letter.Siin, tashkil: Tashkil.Sukun },
                 { letter: Letter.Ta, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: root.r2, tashkil: (voice === "active") ? Tashkil.Kasra : Tashkil.Fatha },
+                { letter: root.r2, tashkil: (voice === Voice.Active) ? Tashkil.Kasra : Tashkil.Fatha },
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];
+    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

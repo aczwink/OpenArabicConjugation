@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,11 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import { ConjugatedWord, FinalVowel, Vowel } from "../../../Conjugation";
 import { Tashkil, Letter, Voice } from "../../../Definitions";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
 
-export function GenerateParticipleDefective(baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
+export function _Legacy_GenerateParticipleDefective(baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
     if(voice === Voice.Active)
     {
@@ -34,6 +35,22 @@ export function GenerateParticipleDefective(baseForm: AugmentedRoot, voice: Voic
         { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
         ...baseForm.symbols
     ];
+}
+
+export function GenerateParticipleDefective(baseForm: ConjugatedWord, voice: Voice, hasHamzatAlWasl: boolean): ConjugatedWord
+{
+    const elements = baseForm.elements.slice(hasHamzatAlWasl ? 1 : 0, baseForm.elements.length - 1);
+
+    return {
+        elements: [
+            { consonant: Letter.Mim, followingVowel: Vowel.ShortU },
+            ...elements,
+        ],
+        ending: {
+            consonant: baseForm.elements[baseForm.elements.length - 1].consonant,
+            finalVowel: (voice === Voice.Active) ? FinalVowel.Kasratan : FinalVowel.AlefMaksuraWithFathatan
+        }
+    };
 }
 
 export function GenerateParticipleRegular(baseForm: AugmentedRoot, voice: Voice, hasHamzatAlWasl?: boolean): ConjugationVocalized[]

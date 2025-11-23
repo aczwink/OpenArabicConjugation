@@ -226,6 +226,8 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(verb.stem)
                 {
                     case 1:
+                    case 4:
+                    case 8:
                     case 10:
                         return true;
                 }
@@ -240,6 +242,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     case 5:
                     case 7:
                     case 8:
+                    case 10:
                         return true;
                 }
                 break;
@@ -247,6 +250,14 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(verb.stem)
                 {
                     case 1:
+                        return true;
+                }
+                break;
+            case VerbType.HamzaOnR1:
+                switch(verb.stem)
+                {
+                    case 1:
+                    case 4:
                         return true;
                 }
                 break;

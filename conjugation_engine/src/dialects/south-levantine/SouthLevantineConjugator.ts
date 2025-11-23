@@ -49,7 +49,7 @@ export class SouthLevantineConjugator implements DialectConjugator<SouthLevantin
 
     public ConjugateParticiple(verb: Verb<SouthLevantineStem1Context>, voice: Voice): ConjugationVocalized[]
     {
-        return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.AlefMaksuraMarker }];
+        return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
     }
 
     //Private methods    

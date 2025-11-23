@@ -25,7 +25,7 @@ import { DialectType } from "./Dialects";
 import { Verb } from "./Verb";
 import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
-import { _TODO_ConjugationVocalizedToConjugatedWord, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationItem, ConjugationRuleMatchResult, SuffixResult } from "./Conjugation";
+import { _TODO_ConjugationVocalizedToConjugatedWord, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
 
 export class Conjugator
 {
@@ -41,15 +41,15 @@ export class Conjugator
         }
         
         const word = this.ConjugateInternal(verb, params);
-        return this.ExecuteWordTransformationPipeline(_TODO_ToConjugationVocalized(word));
+        return this.ExecuteWordTransformationPipeline(word);
     }
 
     public ConjugateParticiple(verb: Verb<string>, voice: Voice): DisplayVocalized[]
     {
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
-        const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice, this.ConjugateBaseForm.bind(this));
+        const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice, this.ConjugateBaseForm.bind(this, verb));
 
-        return this.ExecuteWordTransformationPipeline(pattern);
+        return this.ExecuteWordTransformationPipeline(Array.isArray(pattern) ? _TODO_ConjugationVocalizedToConjugatedWord(pattern) : pattern);
     }
 
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams, dialect: DialectType)
@@ -73,7 +73,7 @@ export class Conjugator
 
         const pattern = dialectConjugator.DeclineStativeActiveParticiple(this.VerifyIsMSA(verb));
 
-        return this.ExecuteWordTransformationPipeline(pattern);
+        return this.ExecuteWordTransformationPipeline(_TODO_ConjugationVocalizedToConjugatedWord(pattern));
     }
 
     public GenerateAllPossibleVerbalNouns(verb: Verb<string>): DisplayVocalized[][]
@@ -81,7 +81,7 @@ export class Conjugator
         const dialectConjugator = new MSAConjugator;
         const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(verb as Verb<any>);
 
-        return patterns.map(x => this.ExecuteWordTransformationPipeline(x));
+        return patterns.map(x => this.ExecuteWordTransformationPipeline(_TODO_ConjugationVocalizedToConjugatedWord(x)));
     }
 
     public HasPotentiallyMultipleVerbalNounForms(verb: Verb<string>)
@@ -114,7 +114,7 @@ export class Conjugator
         return constructed;
     }
 
-    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationItem[], suffix: SuffixResult): ConjugatedWord
+    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationElement[], suffix: SuffixResult): ConjugatedWord
     {
         const vowels = [...rule.vowels, suffix.previousVowel];
         let vowelIndex = 0;
@@ -132,8 +132,11 @@ export class Conjugator
             if(typeof suffix.final === "string")
             {
                 return {
-                    items,
-                    final: suffix.final
+                    elements: items,
+                    ending: {
+                        consonant: suffix.final,
+                        finalVowel: FinalVowel.None
+                    }
                 };
             }
             else
@@ -141,7 +144,7 @@ export class Conjugator
         }
 
         return {
-            items
+            elements: items
         };
     }
 
@@ -158,9 +161,9 @@ export class Conjugator
         }
     }
 
-    private ExecuteWordTransformationPipeline(pattern: ConjugationVocalized[])
+    private ExecuteWordTransformationPipeline(word: ConjugatedWord)
     {
-        const hamzated = Hamzate(pattern);
+        const hamzated = Hamzate(word);
 
         return this.ToDisplayVocalized(hamzated);
     }

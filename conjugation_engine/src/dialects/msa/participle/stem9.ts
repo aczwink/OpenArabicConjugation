@@ -35,5 +35,5 @@ export function GenerateParticipleStem9(verb: Verb<ModernStandardArabicStem1Para
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.Sukun}];
+    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

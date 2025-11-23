@@ -35,5 +35,5 @@ export function GenerateAllPossibleVerbalNounsStem6(root: VerbRoot): Conjugation
             ];
     }
 
-    return [{letter: "TODO" as any, tashkil: Tashkil.Fatha}];
+    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

@@ -49,5 +49,5 @@ export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot,
         case RootType.Regular:
             return GenerateParticipleRegular(baseForm, voice);
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.Sukun }];
+    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

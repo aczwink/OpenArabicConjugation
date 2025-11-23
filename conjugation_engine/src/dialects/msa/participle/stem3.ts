@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -39,7 +39,7 @@ export function GenerateParticipleStem3(root: VerbRoot, voice: VoiceString): Con
                 { letter: root.r1, tashkil: Tashkil.Fatha },
                 { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                 { letter: root.r2, tashkil: Tashkil.Fathatan },
-                { letter: Letter.AlefMaksura, tashkil: Tashkil.Sukun },
+                { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
             ];
 
         case RootType.InitialWeak:
@@ -53,5 +53,5 @@ export function GenerateParticipleStem3(root: VerbRoot, voice: VoiceString): Con
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.Sukun }];
+    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

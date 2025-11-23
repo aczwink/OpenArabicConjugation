@@ -55,7 +55,7 @@ import { DialectType } from "../../Dialects";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
 import { SelectTemplate } from "./conjugation_templates/select";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
-import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugationItem, Vowel } from "../../Conjugation";
+import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, Vowel } from "../../Conjugation";
 import { DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
@@ -68,10 +68,12 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         this.MissingTestsCheck(verb);
 
         const result = this.ProcessConjugationPipeline(verb, params);
-        return DerivePrefix(result.augmentedRoot.symbols[0].tashkil as any, verb.root.type, verb, params).concat(result.augmentedRoot.symbols, result.suffix.suffix);
+        const final = DerivePrefix(result.augmentedRoot.symbols[0].tashkil as any, verb.root.type, verb, params).concat(result.augmentedRoot.symbols, result.suffix.suffix);
+        this.ResolveDoubleHamzaWithHamzaSakinaMadd(final);
+        return final;
     }
 
-    public ConjugateParticiple(verb: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationVocalized[]
+    public ConjugateParticiple(verb: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice, requestBaseForm: () => ConjugatedWord): ConjugationVocalized[] | ConjugatedWord
     {
         const voiceOld = voice === Voice.Active ? "active" : "passive";
         const root = verb.root;
@@ -81,21 +83,21 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 1:
                 return GenerateParticipleStem1(root, voiceOld, verb);
             case 2:
-                return GenerateParticipleStem2(this.ConjugateBasicForm_OLD(root, stem), voice);
+                return GenerateParticipleStem2(this._Legacy_ConjugateBasicForm(root, stem), voice);
             case 3:
                 return GenerateParticipleStem3(root, voiceOld);
             case 4:
                 return GenerateParticipleStem4(verb, this.ConjugateBasicForm(verb), voice);
             case 5:
-                return GenerateParticipleStem5(root, this.ConjugateBasicForm_OLD(root, stem), voice);
+                return GenerateParticipleStem5(root, this._Legacy_ConjugateBasicForm(root, stem), voice);
             case 6:
-                return GenerateParticipleStem6(root, this.ConjugateBasicForm_OLD(root, stem), voice);
+                return GenerateParticipleStem6(root, this._Legacy_ConjugateBasicForm(root, stem), voice);
             case 8:
                 return GenerateParticipleStem8(verb, this.ConjugateBasicForm(verb), voice);
             case 9:
                 return GenerateParticipleStem9(verb, voice);
             case 10:
-                return GenerateParticipleStem10(root, voiceOld);
+                return GenerateParticipleStem10(root, voice, requestBaseForm());
         }
         return [{letter: "TODO ConjugateParticiple" as any, tashkil: Tashkil.Dhamma}];
     }
@@ -231,7 +233,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         })!.augmentedRoot;
     }
 
-    private ConjugateBasicForm_OLD(root: VerbRoot, stem: AdvancedStemNumber)
+    private _Legacy_ConjugateBasicForm(root: VerbRoot, stem: AdvancedStemNumber)
     {
         return this.ConjugateBasicForm({
             dialect: DialectType.ModernStandardArabic,
@@ -319,7 +321,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 }, params);
             }
 
-            const items: ConjugationItem[] = [];
+            const items: ConjugationElement[] = [];
             const vowels = [...matched.vowels, _TODO_TashkilToVowel(suffix.preSuffixTashkil)];
             for(let i = 0; i < matched.symbols.length; i++)
             {
@@ -330,7 +332,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             }
 
             const word = _TODO_ToConjugationVocalized({
-                items,
+                elements: items,
             });
             switch(matched.prefixVowel)
             {
@@ -436,5 +438,38 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             augmentedRoot,
             suffix
         };
+    }
+
+    private ResolveDoubleHamzaWithHamzaSakinaMadd(vocalized: ConjugationVocalized[])
+    {
+        /*
+        special hamza sakina rules. these are hardly documented other than for two alefs which cause the alef madda
+
+        this happens for example for the passive present singular first person of أكل. See:
+        - https://en.wiktionary.org/wiki/%D8%A3%D9%83%D9%84
+        - https://conjugator.reverso.net/conjugation-arabic-verb-%D8%A3%D9%83%D9%84.html
+
+        The source code at https://en.wiktionary.org/wiki/Module:ar-verb suggests that:
+        - hamza + fatha + hamza + sukun => hamza + fatha + alef
+        - hamza + kasra + hamza + sukun => hamza + kasra + ya
+        - hamza + dhamma + hamza + sukun => hamza + dhamma + waw
+        */
+
+        for(let i = 1; i < vocalized.length; i++)
+        {
+            const prev = vocalized[i-1];
+            const current = vocalized[i];
+
+            if((prev.letter === Letter.Hamza) && (current.letter === Letter.Hamza) && (current.tashkil === Tashkil.Sukun) && (prev.tashkil !== Tashkil.Fatha))
+            {
+                switch(prev.tashkil)
+                {
+                    case Tashkil.Dhamma:
+                        current.letter = Letter.Waw;
+                        current.tashkil = Tashkil.LongVowelMarker;
+                        break;
+                }
+            }
+        }
     }
 }

@@ -127,5 +127,5 @@ export function GenerateAllPossibleVerbalNounsStem2(verb: Verb<ModernStandardAra
             ];
     }
 
-    return [[{letter: "TODO" as any, tashkil: Tashkil.Fatha}]];
+    return [[{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}]];
 }

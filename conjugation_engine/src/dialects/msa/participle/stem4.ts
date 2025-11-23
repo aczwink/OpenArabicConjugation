@@ -22,7 +22,7 @@ import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
-import { GenerateParticipleDefective } from "./regular";
+import { _Legacy_GenerateParticipleDefective } from "./regular";
 
 export function GenerateParticipleStem4(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
@@ -33,7 +33,7 @@ export function GenerateParticipleStem4(verb: Verb<ModernStandardArabicStem1Para
             if((verb.root.r1 === Letter.Ra) && (verb.root.r2 === Letter.Hamza) && (verb.root.r3 === Letter.Ya))
                 break; //TODO: Ara / Yuri is special
             baseForm.symbols.Remove(0); //remove the hamza
-            return GenerateParticipleDefective(baseForm, voice);
+            return _Legacy_GenerateParticipleDefective(baseForm, voice);
             
         case RootType.MiddleWeak:
             return [

@@ -17,7 +17,7 @@
  * */
 
 import { Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "./Definitions";
-import { ConjugationVocalized, IsLongVowel } from "./Vocalization";
+import { ConjugationVocalized } from "./Vocalization";
 
 export enum Vowel
 {
@@ -33,7 +33,7 @@ export enum Vowel
     Sukun
 }
 
-export interface ConjugationItem
+export interface ConjugationElement
 {
     consonant: Letter;
     emphasis?: boolean;
@@ -85,16 +85,26 @@ export interface ConjugationRuleMatchResult
     vowels: Vowel[];
 }
 
+export enum FinalVowel
+{
+    AlefMaksuraWithFathatan = -1,
+    Kasratan = -2,
+    None = -3,
+}
+
 export interface ConjugatedWord
 {
-    items: ConjugationItem[];
-    final?: Letter;
+    elements: ConjugationElement[];
+    ending?: {
+        consonant: Letter;
+        finalVowel: FinalVowel | Vowel;
+    };
 }
 
 export interface SuffixResult
 {
-    final?: Letter | ConjugationItem;
-    prefinal?: ConjugationItem;
+    final?: Letter | ConjugationElement;
+    prefinal?: ConjugationElement;
     previousVowel: Vowel;
 }
 
@@ -111,8 +121,7 @@ export function ToLongVowel(vowel: Vowel.ShortA | Vowel.ShortI | Vowel.ShortU)
     }
 }
 
-//TODO: these are there for integration into current conjugtion pipeline. They should be removed as soon as code is migrated
-export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
+export function ToConjugationVocalized(element: ConjugationElement)
 {
     function _TODO_VowelToTashkil(vowel: Vowel)
     {
@@ -131,92 +140,101 @@ export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
     }
 
     const result: ConjugationVocalized[] = [];
-    for (const item of word.items)
+
+    switch(element.followingVowel)
     {
-        switch(item.followingVowel)
-        {
-            case Vowel.BrokenA:
-                result.push({
-                    letter: item.consonant,
-                    tashkil: Tashkil.Fatha
-                });
-                result.push({
-                    letter: Letter.AlefMaksura,
-                    tashkil: Tashkil.AlefMaksuraMarker,
-                });
-                break;
+        case Vowel.BrokenA:
+            result.push({
+                letter: element.consonant,
+                tashkil: Tashkil.Fatha
+            });
+            result.push({
+                letter: Letter.AlefMaksura,
+                tashkil: Tashkil.AlefMaksuraMarker,
+            });
+            break;
 
-            case Vowel.DiphtongAj:
-                result.push({
-                    letter: item.consonant,
-                    tashkil: Tashkil.Fatha
-                });
-                result.push({
-                    letter: Letter.Ya,
-                    tashkil: Tashkil.Sukun,
-                });
-                break;
+        case Vowel.DiphtongAj:
+            result.push({
+                letter: element.consonant,
+                tashkil: Tashkil.Fatha
+            });
+            result.push({
+                letter: Letter.Ya,
+                tashkil: Tashkil.Sukun,
+            });
+            break;
 
-            case Vowel.DiphtongAw:
-                result.push({
-                    letter: item.consonant,
-                    tashkil: Tashkil.Fatha
-                });
-                result.push({
-                    letter: Letter.Waw,
-                    tashkil: Tashkil.Sukun,
-                });
-                break;
+        case Vowel.DiphtongAw:
+            result.push({
+                letter: element.consonant,
+                tashkil: Tashkil.Fatha
+            });
+            result.push({
+                letter: Letter.Waw,
+                tashkil: Tashkil.Sukun,
+            });
+            break;
 
-            case Vowel.LongA:
-                result.push({
-                    letter: item.consonant,
-                    tashkil: Tashkil.Fatha
-                });
-                result.push({
-                    letter: Letter.Alef,
-                    tashkil: Tashkil.LongVowelMarker,
-                });
-                break;
+        case Vowel.LongA:
+            result.push({
+                letter: element.consonant,
+                tashkil: Tashkil.Fatha
+            });
+            result.push({
+                letter: Letter.Alef,
+                tashkil: Tashkil.LongVowelMarker,
+            });
+            break;
 
-            case Vowel.LongI:
-                result.push({
-                    letter: item.consonant,
-                    tashkil: Tashkil.Kasra
-                });
-                result.push({
-                    letter: Letter.Ya,
-                    tashkil: Tashkil.LongVowelMarker,
-                });
-                break;
+        case Vowel.LongI:
+            result.push({
+                letter: element.consonant,
+                tashkil: Tashkil.Kasra
+            });
+            result.push({
+                letter: Letter.Ya,
+                tashkil: Tashkil.LongVowelMarker,
+            });
+            break;
 
-            case Vowel.LongU:
-                result.push({
-                    letter: item.consonant,
-                    tashkil: Tashkil.Dhamma
-                });
-                result.push({
-                    letter: Letter.Waw,
-                    tashkil: Tashkil.LongVowelMarker,
-                });
-                break;
+        case Vowel.LongU:
+            result.push({
+                letter: element.consonant,
+                tashkil: Tashkil.Dhamma
+            });
+            result.push({
+                letter: Letter.Waw,
+                tashkil: Tashkil.LongVowelMarker,
+            });
+            break;
 
-            default:
-                result.push({
-                    emphasis: item.emphasis,
-                    letter: item.consonant,
-                    tashkil: _TODO_VowelToTashkil(item.followingVowel),
-                });
-                break;
-        }
+        default:
+            result.push({
+                emphasis: element.emphasis,
+                letter: element.consonant,
+                tashkil: _TODO_VowelToTashkil(element.followingVowel),
+            });
+            break;
     }
 
-    if(word.final !== undefined)
+    return result;
+}
+
+//TODO: these are there for integration into current conjugtion pipeline. They should be removed as soon as code is migrated
+export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
+{
+    const result: ConjugationVocalized[] = [];
+    for (const element of word.elements)
+        result.push(...ToConjugationVocalized(element));
+
+    if(word.ending !== undefined)
     {
-        result.push({
+        throw new Error("TODO HJERE");
+        /*result.push({
             letter: word.final,
             tashkil: Tashkil.EndOfWordMarker,
-        });
+        });*/
     }
 
     return result;
@@ -240,8 +258,28 @@ export function _TODO_TashkilToVowel(taskil: Tashkil)
 
 export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocalized[])
 {
+    function IsDiphtong(v: ConjugationVocalized | undefined, predecessor: ConjugationVocalized | undefined)
+    {
+        //diphtongs are /aj/ or /aw/, i.e. a ya or waw with sukun above it, while the predecessor needs to have a fatha
+        return (
+            (predecessor?.tashkil === Tashkil.Fatha)
+            &&
+            (v?.tashkil === Tashkil.Sukun)
+            &&
+            ( (v.letter === Letter.Waw) || (v.letter === Letter.Ya) )
+        );
+    }
+    function IsLongVowel(vocalized: ConjugationVocalized, predecessor?: ConjugationVocalized)
+    {
+        const isLongAlef = (vocalized.letter === Letter.Alef) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Fatha);
+        const isLongYa = (vocalized.letter === Letter.Ya) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Kasra);
+        const isLongWaw = (vocalized.letter === Letter.Waw) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Dhamma);
+
+        return isLongAlef || isLongYa || isLongWaw;
+    }
+
     const word: ConjugatedWord = {
-        items: []
+        elements: []
     };
 
     for(let i = 0; i < vocalized.length; i++)
@@ -250,13 +288,45 @@ export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: Conjugatio
         const next: ConjugationVocalized | undefined = vocalized[i+1];
 
         if(entry.tashkil === Tashkil.EndOfWordMarker)
-            word.final = entry.letter;
+        {
+            word.ending = {
+                consonant: entry.letter,
+                finalVowel: FinalVowel.None
+            };
+        }
+        else if(entry.tashkil === Tashkil.Fathatan)
+        {
+            if((i === (vocalized.length - 2)) && (vocalized[vocalized.length - 1].letter === Letter.AlefMaksura) && ((vocalized[vocalized.length - 1].tashkil === Tashkil.EndOfWordMarker) || (vocalized[vocalized.length - 1].tashkil === Tashkil.AlefMaksuraMarker)))
+            {
+                word.ending = {
+                    consonant: entry.letter,
+                    finalVowel: FinalVowel.AlefMaksuraWithFathatan
+                };
+                return word;
+            }
+            else
+            {
+                vocalized.forEach(console.log);
+                throw new Error("TODO: implement me");
+            }
+            /*word.ending = {
+                consonant: entry.letter,
+                finalVowel: FinalVowel.Fathatan
+            };*/
+        }
+        else if(entry.tashkil === Tashkil.Kasratan)
+        {
+            word.ending = {
+                consonant: entry.letter,
+                finalVowel: FinalVowel.Kasratan,
+            };
+        }
         else if((next !== undefined) && IsLongVowel(next, entry))
         {
             switch(next.letter)
             {
                 case Letter.Alef:
-                    word.items.push({
+                    word.elements.push({
                         consonant: entry.letter,
                         followingVowel: Vowel.LongA,
                         emphasis: entry.emphasis,
@@ -264,7 +334,7 @@ export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: Conjugatio
                     i++;
                     break;
                 case Letter.Waw:
-                    word.items.push({
+                    word.elements.push({
                         consonant: entry.letter,
                         followingVowel: Vowel.LongU,
                         emphasis: entry.emphasis,
@@ -272,7 +342,7 @@ export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: Conjugatio
                     i++;
                     break;
                 case Letter.Ya:
-                    word.items.push({
+                    word.elements.push({
                         consonant: entry.letter,
                         followingVowel: Vowel.LongI,
                         emphasis: entry.emphasis,
@@ -283,9 +353,31 @@ export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: Conjugatio
                     throw new Error(next.letter);
             }
         }
+        else if((next !== undefined) && IsDiphtong(next, entry))
+        {
+            switch(next.letter)
+            {
+                case Letter.Waw:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.DiphtongAw,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+                case Letter.Ya:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.DiphtongAj,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+            }
+        }
         else if(next?.tashkil === Tashkil.AlefMaksuraMarker)
         {
-            word.items.push({
+            word.elements.push({
                 consonant: entry.letter,
                 followingVowel: Vowel.BrokenA,
                 emphasis: entry.emphasis
@@ -294,7 +386,7 @@ export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: Conjugatio
         }
         else
         {
-            word.items.push({
+            word.elements.push({
                 consonant: entry.letter,
                 followingVowel: _TODO_TashkilToVowel(entry.tashkil),
                 emphasis: entry.emphasis

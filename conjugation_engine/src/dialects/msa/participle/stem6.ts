@@ -20,14 +20,14 @@ import { Tashkil, Voice } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
+import { _Legacy_GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
 
 export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
     switch(root.type)
     {
         case RootType.FinalWeak:
-            return GenerateParticipleDefective(baseForm, voice);
+            return _Legacy_GenerateParticipleDefective(baseForm, voice);
         case RootType.InitialWeak:
         case RootType.MiddleWeak:
         case RootType.Regular:

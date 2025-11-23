@@ -77,7 +77,7 @@ export function DerivePrefix(prevTashkil: Tashkil, rootType: RootType, stemData:
     if(params.mood === Mood.Imperative)
     {
         if((stemData.stem === 4) && (rootType !== RootType.Quadriliteral))
-            return [{ letter: Letter.AlefHamza, tashkil: Tashkil.Fatha}];
+            return [{ letter: Letter.Hamza, tashkil: Tashkil.Fatha}];
 
         if((prevTashkil === Tashkil.Sukun) || (prevTashkil === Tashkil.LongVowelMarker))
         {
@@ -96,7 +96,7 @@ export function DerivePrefix(prevTashkil: Tashkil, rootType: RootType, stemData:
             switch(params.numerus)
             {
                 case Numerus.Singular:
-                    return [{ letter: Letter.AlefHamza, tashkil }];
+                    return [{ letter: Letter.Hamza, tashkil }];
                 case Numerus.Plural:
                     return [{ letter: Letter.Nun, tashkil }];
             }

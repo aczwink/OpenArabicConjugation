@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationItem, Vowel } from "../../Conjugation";
+import { ConjugationElement, Vowel } from "../../Conjugation";
 import { ConjugationParams, Person, Numerus, Letter, Gender, Tense, Mood } from "../../Definitions";
 
-function DerivePrefixSubjunctive(prefixEndingVowel: Vowel, followingVowel: Vowel, params: ConjugationParams): ConjugationItem[]
+function DerivePrefixSubjunctive(prefixEndingVowel: Vowel, followingVowel: Vowel, params: ConjugationParams): ConjugationElement[]
 {
     if(params.person === Person.First)
     {
@@ -70,7 +70,7 @@ function BiPrefixTashkil(prefixEndingVowel: Vowel)
     return Vowel.Sukun;
 }
 
-export function DerivePrefix(prefixEndingVowel: Vowel | undefined, followingVowel: Vowel, params: ConjugationParams): ConjugationItem[]
+export function DerivePrefix(prefixEndingVowel: Vowel | undefined, followingVowel: Vowel, params: ConjugationParams): ConjugationElement[]
 {
     if(params.tense === Tense.Perfect)
         return [];

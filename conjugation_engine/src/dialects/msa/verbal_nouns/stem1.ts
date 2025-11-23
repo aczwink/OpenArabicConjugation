@@ -267,7 +267,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
-                            { letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker },
+                            { letter: Letter.Waw, tashkil: Tashkil.EndOfWordMarker },
                         ],
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -591,6 +591,14 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 ];
             }
 
+            const maf3ala = [
+                { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                { letter: root.r1, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: root.r3, tashkil: Tashkil.Fatha },
+                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
             switch(stem1Context.stemParameterization)
             {
                 case ModernStandardArabicStem1ParametersType.PastA_PresentA:
@@ -600,13 +608,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         fa3l,
                         fi3l,
                         fi3aala,
-                        [
-                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                            { letter: root.r1, tashkil: Tashkil.Sukun },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: root.r3, tashkil: Tashkil.Fatha },
-                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        maf3ala
                     ];
 
                 case ModernStandardArabicStem1ParametersType.PastA_PresentI:
@@ -655,6 +657,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: root.r2, tashkil: Tashkil.Fatha },
                             { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                         ],
+                        maf3ala,
                     ];
 
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
@@ -731,7 +734,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
     }
 
     return [
-        [{letter: "TODO" as any, tashkil: Tashkil.Sukun}]
+        [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}]
     ];
 }
 

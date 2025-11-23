@@ -81,7 +81,7 @@ export function GenerateAllPossibleVerbalNounsStem4(root: VerbRoot): Conjugation
             ];
         default:
             return [
-                {letter: "TODO" as any, tashkil: Tashkil.Sukun}
+                {letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}
             ];
     }
 }

@@ -147,5 +147,5 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.Dhamma}];
+    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

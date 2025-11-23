@@ -102,15 +102,6 @@ export function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
     return sum / a.length;
 }
 
-export function IsLongVowel(vocalized: ConjugationVocalized, predecessor?: ConjugationVocalized)
-{
-    const isLongAlef = (vocalized.letter === Letter.Alef) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Fatha);
-    const isLongYa = (vocalized.letter === Letter.Ya) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Kasra);
-    const isLongWaw = (vocalized.letter === Letter.Waw) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Dhamma);
-
-    return isLongAlef || isLongYa || isLongWaw;
-}
-
 export function ParseVocalizedPhrase(text: string)
 {
     return text.split(" ").map(ParseVocalizedText);

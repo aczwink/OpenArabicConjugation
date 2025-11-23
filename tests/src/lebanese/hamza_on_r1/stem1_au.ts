@@ -21,7 +21,7 @@ import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { LebaneseStem1Context } from "openarabicconjugation/dist/dialects/lebanese/LebaneseDialectMetadata";
 
 //Source: "Levantine Arabic Verbs: Conjugation Tables and Grammar" by "Aldrich, M. and Choucaire, N.L.", ISBN: 9780998641133
-//Table: 77
+//Table: 5
 
 It("أمر", () => {
     const root = "ء-م-ر";
