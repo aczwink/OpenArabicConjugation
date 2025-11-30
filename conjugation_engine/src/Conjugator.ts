@@ -49,7 +49,7 @@ export class Conjugator
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
         const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice, this.ConjugateBaseForm.bind(this, verb));
 
-        return this.ExecuteWordTransformationPipeline(Array.isArray(pattern) ? _TODO_ConjugationVocalizedToConjugatedWord(pattern) : pattern);
+        return this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern));
     }
 
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams, dialect: DialectType)
@@ -81,7 +81,7 @@ export class Conjugator
         const dialectConjugator = new MSAConjugator;
         const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(verb as Verb<any>);
 
-        return patterns.map(x => this.ExecuteWordTransformationPipeline(_TODO_ConjugationVocalizedToConjugatedWord(x)));
+        return patterns.map(x => this.ExecuteWordTransformationPipeline(this._LegacyPatch(x)));
     }
 
     public HasPotentiallyMultipleVerbalNounForms(verb: Verb<string>)
@@ -166,6 +166,11 @@ export class Conjugator
         const hamzated = Hamzate(word);
 
         return this.ToDisplayVocalized(hamzated);
+    }
+
+    private _LegacyPatch(pattern: ConjugationVocalized[] | ConjugatedWord)
+    {
+        return Array.isArray(pattern) ? _TODO_ConjugationVocalizedToConjugatedWord(pattern) : pattern;
     }
 
     private ToDisplayVocalized(vocalized: ConjugationVocalized[])

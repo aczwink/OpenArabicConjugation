@@ -15,14 +15,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
+import { ConjugatedWord, FinalVowel, Vowel } from "../../../Conjugation";
 import { Letter, Tashkil } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 
-export function GenerateAllPossibleVerbalNounsStem3(root: VerbRoot): ConjugationVocalized[][]
+export function GenerateAllPossibleVerbalNounsStem3(root: VerbRoot): (ConjugationVocalized[][] | ConjugatedWord[])
 {
     switch(root.type)
     {
+        case RootType.FinalWeak:
+            return [
+                {
+                    elements: [
+                        { consonant: Letter.Mim, followingVowel: Vowel.ShortU },
+                        { consonant: root.r1, followingVowel: Vowel.LongA },
+                        { consonant: root.r2, followingVowel: Vowel.LongA },
+                    ],
+                    ending: {
+                        consonant: Letter.TaMarbuta,
+                        finalVowel: FinalVowel.None
+                    }
+                }
+            ];
+
         case RootType.HamzaOnR1:
             return [
                 [

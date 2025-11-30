@@ -232,6 +232,13 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         return true;
                 }
                 break;
+            case VerbType.AssimilatedAndDefective:
+                switch(verb.stem)
+                {
+                    case 1:
+                        return true;
+                }
+                break;
             case VerbType.Defective:
                 switch(verb.stem)
                 {
@@ -250,6 +257,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(verb.stem)
                 {
                     case 1:
+                    case 8:
                         return true;
                 }
                 break;

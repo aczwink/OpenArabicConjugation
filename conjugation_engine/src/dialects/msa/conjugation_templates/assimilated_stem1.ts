@@ -25,7 +25,6 @@ import { ExtractPresentMiddleRadicalVowel, ModernStandardArabicStem1ParametersTy
 export function AssimilatedStem1Template(root: VerbRoot, stemData: VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationRule[] | undefined
 {
     const r2tashkil = ExtractPresentMiddleRadicalVowel(stemData.stemParameterization);
-    const prefixVowel = (r2tashkil === Vowel.ShortU) ? Vowel.LongU : Vowel.LongI;
 
     if(root.r1 === Letter.Waw)
     {
@@ -49,6 +48,8 @@ export function AssimilatedStem1Template(root: VerbRoot, stemData: VerbStem1Data
             }
         ];
     }
+
+    const prefixVowel = (r2tashkil === Vowel.ShortU) ? Vowel.LongU : Vowel.LongI;
 
     return [
         {

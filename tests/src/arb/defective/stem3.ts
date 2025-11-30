@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,12 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest } from "../../shared";
+import { ConjugationTest, RunDefectiveConjugationTest, RunDefectiveParticipleTest, RunDefectiveVerbalNounTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D9%86%D8%A7%D8%AF%D9%89#Verb
 
 It("Stem 3", () => {
-    throw new Error("TODO verbal noun test :)");
+    RunDefectiveVerbalNounTest("ع-ن", 3, "مُعَانَاة"); //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%A7%D9%86%D9%89
     RunDefectiveParticipleTest("ن-د", 3, "مُنَادٍ", "مُنَادًى");
     
     const conjugations: ConjugationTest[] = [

@@ -168,7 +168,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         throw new Error("Method not implemented.");
     }
 
-    public GenerateAllPossibleVerbalNouns(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
+    public GenerateAllPossibleVerbalNouns(verb: Verb<ModernStandardArabicStem1ParametersType>): (ConjugationVocalized[][] | ConjugatedWord[])
     {
         const root = verb.root;
         switch(verb.stem)

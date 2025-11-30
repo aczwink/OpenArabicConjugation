@@ -150,6 +150,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         { letter: root.r3, tashkil: Tashkil.Fatha },
         { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
     ];
+    const fi3aaya = [
+        { letter: root.r1, tashkil: Tashkil.Kasra },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+    ];
 
     switch(stem1Context.type)
     {
@@ -205,13 +212,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 case ModernStandardArabicStem1ParametersType.DefectiveType1:
                     return [
                         fa3l,
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Kasra },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fi3aaya
                     ];
             }
         }
@@ -223,14 +224,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
             {
                 case ModernStandardArabicStem1ParametersType.DefectiveType1:
                 {
-                    const hikaya = [
-                        { letter: root.r1, tashkil: Tashkil.Kasra },
-                        { letter: root.r2, tashkil: Tashkil.Fatha },
-                        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                        { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                    ];
-
                     if((root.r2 === Letter.Waw) && (root.r3 === Letter.Ya))
                     {
                         return [
@@ -239,7 +232,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                                 { letter: Letter.Ya, tashkil: Tashkil.Sukun },
                                 { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
                             ],
-                            hikaya
+                            fi3aaya
                         ];
                     }
     
@@ -251,7 +244,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
                         ],
                         fi3aa2,
-                        hikaya,
+                        fi3aaya,
                         [
                             { letter: root.r1, tashkil: Tashkil.Kasra },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
