@@ -45,6 +45,7 @@ export function GenerateParticipleStem3(root: VerbRoot, voice: VoiceString): Con
         case RootType.InitialWeak:
         case RootType.MiddleWeak:
         case RootType.Regular:
+        case RootType.SecondConsonantDoubled:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 { letter: root.r1, tashkil: Tashkil.Fatha },

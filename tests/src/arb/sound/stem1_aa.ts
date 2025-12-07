@@ -32,6 +32,7 @@ It("Stem 1 past:a, present:a", () => {
         { rootRadicals: "ن-ه-ض", expected: "نُهُوض"}, //Source: https://en.wiktionary.org/wiki/%D9%86%D9%87%D8%B6
         { rootRadicals: "س-ء-ل", expected: "سُؤَال"}, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A3%D9%84#Arabic
         { rootRadicals: "س-ء-ل", expected: "مَسْأَلَة"}, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A3%D9%84#Arabic
+        { rootRadicals: "ذ-ه-ب", expected: "ذَهَاب"}, //Source: https://ejtaal.net/aa/#hw4=374
     ]);
 
     _Legacy_RunParticipleTest(root, stem, "رَاحِل", "مَرْحُول");

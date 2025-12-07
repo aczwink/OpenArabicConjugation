@@ -48,6 +48,7 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: Voice, baseForm:
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
+        case RootType.InitialWeak:
         case RootType.Regular:
             return [
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },

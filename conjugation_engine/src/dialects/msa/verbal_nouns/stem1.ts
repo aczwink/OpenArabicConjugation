@@ -307,6 +307,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                             { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
                         ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+                        ],
                     ];
             }
         }
@@ -599,6 +604,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         fu3uul,
                         fu3aal,
                         fa3l,
+                        fa3aal,
                         fi3l,
                         fi3aala,
                         maf3ala
