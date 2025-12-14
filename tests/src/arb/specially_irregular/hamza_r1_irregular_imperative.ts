@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunVerbalNounTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounExistenceTest, VerbTestData, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
+import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%AE%D8%B0#Verb
 //https://en.wikipedia.org/wiki/Arabic_verbs#Hamzated_verbs
@@ -180,11 +181,14 @@ It("Stem 1 irregular short imperative ء-خ-ذ", () => {
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%83%D9%84#Verb
 
 It("Stem 1 irregular short imperative ء-ك-ل", () => {
-    const root = "ء-ك-ل";
-    const stem = ModernStandardArabicStem1ParametersType.PastA_PresentU;
+    const verb: VerbTestData = {
+        dialect: DialectType.ModernStandardArabic,
+        rootRadicals: "ء-ك-ل",
+        stem: ModernStandardArabicStem1ParametersType.PastA_PresentU,
+    };
 
-    RunVerbalNounTest(root, stem, "أَكْل");
-    _Legacy_RunParticipleTest(root, stem, "آكِل", "مَأْكُول");
+    RunVerbalNounExistenceTest(verb, "أَكْل");
+    RunParticipleTest(verb, "آكِل", "مَأْكُول");
     
     const conjugations: ConjugationTest[] = [
         //active past
@@ -333,5 +337,5 @@ It("Stem 1 irregular short imperative ء-ك-ل", () => {
         { voice: "passive", expected: "نُؤْكَلْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    _Legacy_RunConjugationTest(root, stem, conjugations);
+    RunConjugationTest(verb, conjugations);
 });

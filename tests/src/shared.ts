@@ -376,6 +376,20 @@ export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber
         Fail("Verbal noun test failed. Expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got));
 }
 
+export function RunVerbalNounExistenceTest(verbTestData: VerbTestData, expected: string)
+{
+    const dialect = DialectType.ModernStandardArabic;
+    const conjugator = new Conjugator();
+
+    const root = new VerbRoot(verbTestData.rootRadicals.split("-").join(""));
+    const verb = CreateVerb(dialect, root, verbTestData.stem);
+
+    const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
+    const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(expected)));
+    if(index === -1)
+        throw new Error("Expected verbal noun '" + expected + "' could not be generated.");
+}
+
 export function RunDefectiveParticipleTest(rootRadicalsWithoutR3: string, stem: AdvancedStemNumber | string, activeExpected: string, passiveExpected: string)
 {
     _Legacy_RunParticipleTest(rootRadicalsWithoutR3 + "-و", stem, activeExpected, passiveExpected);

@@ -319,6 +319,15 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
         case VerbType.HamzaOnR1:
         {
+            switch(stem1Context.stemParameterization)
+            {
+                case ModernStandardArabicStem1ParametersType.PastA_PresentU:
+                    return [
+                        fa3l,
+                        fa3al
+                    ];
+            }
+
             switch(_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
             {
                 case Tashkil.Dhamma:
@@ -345,10 +354,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 {
                     switch(_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
                     {
-                        case Tashkil.Dhamma:
-                            return [
-                                fa3l,
-                            ];
                         case Tashkil.Kasra:
                             return [
                                 fa3l,
@@ -795,6 +800,7 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, verb:
         {
             switch(verb.stemParameterization)
             {
+                case ModernStandardArabicStem1ParametersType.PastA_PresentU:
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
                 case ModernStandardArabicStem1ParametersType.PastU_PresentU:
                     return true;
