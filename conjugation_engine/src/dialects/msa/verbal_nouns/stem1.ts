@@ -24,12 +24,6 @@ import { _Legacy_ExtractMiddleRadicalTashkil, _Legacy_ExtractPresentMiddleRadica
 
 function MissingTestCheck(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>)
 {
-    if((stem1Context.stemParameterization === ModernStandardArabicStem1ParametersType.DefectiveType3) && root.radicalsAsSeparateLetters.Equals([Letter.Nun, Letter.Dal, Letter.Waw]))
-    {
-        //test: arb/defective/stem1_r3waw_type3.js
-        throw new Error("TODO: Write test! 1");
-    }
-
     if((root.r1 === Letter.Hamza) && (root.r3 === Letter.Ya))
     {
         //test: arb/doubly_weak/r1hamza_r3ya.js

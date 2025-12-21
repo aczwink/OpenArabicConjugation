@@ -56,7 +56,7 @@ import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil
 import { SelectTemplate } from "./conjugation_templates/select";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, Vowel } from "../../Conjugation";
-import { DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
+import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -109,16 +109,18 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     
     public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation): DisplayVocalized[]
     {
+        const base = AdjectiveOrNounToBaseForm(singular);
+
         switch(target)
         {
             case TargetAdjectiveNounDerivation.DeriveFeminineSingular:
-                return WithTashkilOnLast(singular, Tashkil.Fatha).concat([
+                return WithTashkilOnLast(base, Tashkil.Fatha).concat([
                     { emphasis: false, letter: Letter.TaMarbuta, shadda: false }
                 ]);
 
             case TargetAdjectiveNounDerivation.DeriveDualSameGender:
             {
-                const fixedEnding = WithTashkilOnLast(singular, Tashkil.Fatha).concat([
+                const fixedEnding = WithTashkilOnLast(base, Tashkil.Fatha).concat([
                     { emphasis: false, letter: Letter.Ya, shadda: false, tashkil: Tashkil.Sukun },
                     { emphasis: false, letter: Letter.Nun, shadda: false },
                 ]);
@@ -176,7 +178,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 2:
                 return GenerateAllPossibleVerbalNounsStem2(verb);
             case 3:
-                return GenerateAllPossibleVerbalNounsStem3(root);
+                return GenerateAllPossibleVerbalNounsStem3(verb);
             case 4:
                 return [GenerateAllPossibleVerbalNounsStem4(root)];
             case 5:
@@ -215,7 +217,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     return true;
             }
         }
-        if((verb.stem === 3) && (verb.root.type === RootType.Regular))
+        if((verb.stem === 3) && (verb.type === VerbType.Sound))
             return true;
 
         return false;
@@ -259,7 +261,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         if((verb.root.r1 === Letter.Waw) && (verb.root.r3 === Letter.Ya) && (verb.stem === 8))
         {
             //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
-            throw new Error("TODO: write test! 3");
+            throw new Error("TODO: write test! 4");
         }
 
         if(verb.root.r1 === Letter.Waw)

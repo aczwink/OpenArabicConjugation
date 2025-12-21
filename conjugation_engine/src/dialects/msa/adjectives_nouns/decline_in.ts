@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,31 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdjectiveOrNounDeclensionParams, Letter, Tashkil } from "../../../Definitions";
+import { AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Case, Gender, Letter, Numerus, Tashkil } from "../../../Definitions";
+import { AdjectiveOrNounInput } from "../../../DialectConjugator";
 import { DisplayVocalized } from "../../../Vocalization";
+import { WithTashkilOnLast } from "./shared";
 
-export function DeclineAdjectiveInSuffix(vocalized: DisplayVocalized[], params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
+export function DeclineAdjectiveInSuffix(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
 {
-    const last = vocalized[vocalized.length - 1];
-    const standard = vocalized.slice(0, vocalized.length - 1).concat([
+    if(params.state === AdjectiveOrNounState.Indefinite)
+    {
+        if((params.case === Case.Nominative) || (params.case === Case.Genitive))
+            return input.vocalized;
+    }
+
+    const with_ya = InSuffixNominativeToInformal(input.vocalized);
+
+    if(params.case === Case.Accusative)
+    {
+        if((params.state === AdjectiveOrNounState.Indefinite) && (input.gender === Gender.Male) && (input.numerus === Numerus.Singular))
+            return WithTashkilOnLast(with_ya, Tashkil.Fathatan).concat([ { emphasis: false, letter: Letter.Alef, shadda: false }]);
+        return WithTashkilOnLast(with_ya, Tashkil.Fatha);
+    }
+
+    return with_ya;
+}
+
+export function InSuffixNominativeToInformal(vocalized: DisplayVocalized[])
+{
+    const with_ya = vocalized.slice(0, vocalized.length - 1).concat([
         {
-            ...last,
+            ...vocalized.Last(),
             tashkil: Tashkil.Kasra
         },
         {
-            letter: Letter.Ya,
-            emphasis: false,
-            shadda: false
+            letter: Letter.Ya, emphasis: false, shadda: false
         }
     ]);
 
-    throw new Error("HERE");
-    /*if(params.gender === Gender.Male)
-    {
-        if(params.definite)
-            return standard;
-        return vocalized;
-    }
-
-    return WithTashkilOnLast(RegularFemaleWithFathaThenTaMarbuta(standard), AdjectiveEndingTashkil(params));*/
+    return with_ya;
 }

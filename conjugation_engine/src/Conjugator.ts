@@ -52,6 +52,13 @@ export class Conjugator
         return this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern));
     }
 
+    /**
+     * Normally the input is expected to be in informal indefinite form.
+     * Masculine sound plural must be given in nominative form but without the trailing fatha, i.e. the -un form (e.g. بَانُون).
+     * For the following word types the input must be given in nominative indefinite form:
+     * - Words ending in fathatan with alef maksura in singular nominative indefinite (e.g. مَقْهًى)
+     * - Words ending in kasratan in singular nominative indefinite (e.g. بَانٍ)
+     */
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams, dialect: DialectType)
     {
         const dialectConjugator = new MSAConjugator;
@@ -59,6 +66,14 @@ export class Conjugator
         return dialectConjugator.DeclineAdjectiveOrNoun(input, params);
     }
 
+    /**
+     * 
+     * @param singular The same rules apply as for method @method DeclineAdjectiveOrNoun.
+     * @returns
+     * - For @constant TargetAdjectiveNounDerivation.DeriveFeminineSingular the informal indefinite.
+     * - For @constant TargetAdjectiveNounDerivation.DeriveDualSameGender the informal indefinite.
+     * - For @constant TargetAdjectiveNounDerivation.DerivePluralSameGender and masculine gender the -un form is returned (see also @method DeclineAdjectiveOrNoun), for female it is the informal indefinite.
+     */
     public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation, dialect: DialectType): DisplayVocalized[]
     {
         const dialectConjugator = new MSAConjugator;
