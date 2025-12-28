@@ -118,6 +118,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     types: [
                         ModernStandardArabicStem1ParametersType.PastA_PresentA,
                         ModernStandardArabicStem1ParametersType.PastA_PresentI,
+                        ModernStandardArabicStem1ParametersType.PastI_PresentA,
                         ModernStandardArabicStem1ParametersType.PastI_PresentI,
                     ]
                 };

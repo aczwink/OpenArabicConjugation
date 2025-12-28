@@ -39,6 +39,7 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "س-ر-ع", expected: "سُرْعَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%B1%D8%B9#Arabic
         { rootRadicals: "س-ه-ل", expected: "سُهُولَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D9%87%D9%84#Arabic
         { rootRadicals: "ض-ع-ف", expected: "ضَعْف" }, //Source: https://en.wiktionary.org/wiki/%D8%B6%D8%B9%D9%81
+        { rootRadicals: "ص-غ-ر", expected: "صِغَر" }, //Source: http://ejtaal.net/aa/#hw4=615
     ]);
     RunParticipleTest(verb, "خَبِير", "مَخْبُور");
 

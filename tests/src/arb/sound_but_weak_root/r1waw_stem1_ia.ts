@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunActiveParticipleTest, _Legacy_RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounExistenceTest, VerbTestData, _Legacy_RunConjugationTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { VerbType } from "openarabicconjugation/dist/Definitions";
@@ -24,12 +24,15 @@ import { VerbType } from "openarabicconjugation/dist/Definitions";
 //Source: https://en.wiktionary.org/wiki/%D9%88%D9%84%D8%B9#Verb_2
 
 It("Stem 1 - Sound", () => {
-    const root = "و-ل-ع";
-    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentA;
-    const verbType = VerbType.Sound;
+    const verb: VerbTestData = {
+        dialect: DialectType.ModernStandardArabic,
+        rootRadicals: "و-ل-ع",
+        stem: ModernStandardArabicStem1ParametersType.PastI_PresentA,
+        verbType: VerbType.Sound
+    };
 
-    throw new Error("TODO: verbal noun test");
-    _Legacy_RunActiveParticipleTest(root, stem, "وَلِع", DialectType.ModernStandardArabic, verbType);
+    RunVerbalNounExistenceTest({ ...verb, rootRadicals: "و-ج-ع", }, "وَجَع"); //Source: http://ejtaal.net/aa/#hw4=1245
+    RunActiveParticipleTest(verb, "وَلِع");
     
     const conjugations: ConjugationTest[] = [
         //active past
@@ -110,7 +113,7 @@ It("Stem 1 - Sound", () => {
         { voice: "active", expected: "اِيلَعْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
     ];
 
-    _Legacy_RunConjugationTest(root, stem, conjugations);
+    RunConjugationTest(verb, conjugations);
 
     throw new Error("TODO: missing passive");
 });
