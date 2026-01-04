@@ -17,7 +17,7 @@
  * */
 import { It } from "acts-util-test";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
-import { VerbTestData, RunConjugationTest, RunParticipleTest, RunVerbalNounTest, RunActiveParticipleTest } from "../../shared";
+import { VerbTestData, RunConjugationTest, RunParticipleTest, _LegacyRunVerbalNounTest, RunActiveParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Assimilated_(first-weak)_verbs
@@ -31,7 +31,7 @@ It("R1:ي stem 1 type uu", () => {
         stem: ModernStandardArabicStem1ParametersType.PastU_PresentU,
     };
 
-    RunVerbalNounTest(verbData.rootRadicals, verbData.stem, "يُسْر");
+    _LegacyRunVerbalNounTest(verbData.rootRadicals, verbData.stem, "يُسْر");
     RunActiveParticipleTest(verbData, "يَاسِر");
 
     RunConjugationTest(verbData, [

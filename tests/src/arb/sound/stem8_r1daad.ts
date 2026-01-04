@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounTest, VerbTestData } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, _LegacyRunVerbalNounTest, VerbTestData } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A7%D8%B6%D8%B7%D8%B1%D8%A8#Arabic
@@ -29,7 +29,7 @@ It("Stem 8 with R1 = Daad assimilation", () => {
         stem: 8,
     };
 
-    RunVerbalNounTest(verb.rootRadicals, verb.stem, "اِضْطِرَاب");
+    _LegacyRunVerbalNounTest(verb.rootRadicals, verb.stem, "اِضْطِرَاب");
     RunActiveParticipleTest(verb, "مُضْطَرِب");
 
     const conjugations: ConjugationTest[] = [

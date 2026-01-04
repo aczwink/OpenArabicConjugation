@@ -354,13 +354,35 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
         throw new Error("Not all verbal noun patterns are tested. Tested: " + foundIndices.size + ", found: " + length);
 }
 
-export function RunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, verbType?: VerbType)
+export function _LegacyRunVerbalNounTest(rootRadicals: string, stem: AdvancedStemNumber | string, expected: string, verbType?: VerbType)
 {
     const dialect = DialectType.ModernStandardArabic;
     const conjugator = new Conjugator();
 
     const root = new VerbRoot(rootRadicals.split("-").join(""));
     const verb = CreateVerb(dialect, root, stem, verbType);
+
+    if(conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
+        throw new Error("Expected a single verbal noun but apparently multiple ones exist");
+    const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
+
+    if(choices.length !== 1)
+        throw new Error("Expected only a single verbal noun but got " + choices.length);
+    const got = choices[0];
+
+    const a = ParseVocalizedText(expected);
+    const gotStr = VocalizedWordTostring(got);
+    if(!CompareVocalized(a, got))
+        Fail("Verbal noun test failed. Expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got));
+}
+
+export function RunVerbalNounTest(verbTestData: VerbTestData, expected: string)
+{
+    const dialect = DialectType.ModernStandardArabic;
+    const conjugator = new Conjugator();
+
+    const root = new VerbRoot(verbTestData.rootRadicals.split("-").join(""));
+    const verb = CreateVerb(dialect, root, verbTestData.stem, verbTestData.verbType);
 
     if(conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
         throw new Error("Expected a single verbal noun but apparently multiple ones exist");
@@ -398,6 +420,6 @@ export function RunDefectiveParticipleTest(rootRadicalsWithoutR3: string, stem: 
 
 export function RunDefectiveVerbalNounTest(rootRadicalsWithoutR3: string, stem: AdvancedStemNumber | string, expected: string)
 {
-    RunVerbalNounTest(rootRadicalsWithoutR3 + "-و", stem, expected);
-    RunVerbalNounTest(rootRadicalsWithoutR3 + "-ي", stem, expected);
+    _LegacyRunVerbalNounTest(rootRadicalsWithoutR3 + "-و", stem, expected);
+    _LegacyRunVerbalNounTest(rootRadicalsWithoutR3 + "-ي", stem, expected);
 }

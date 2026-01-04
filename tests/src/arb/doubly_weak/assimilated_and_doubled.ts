@@ -27,6 +27,7 @@ It("Should be normal R2 doubled", () => {
 
     RunVerbalNounPatternTest(stem, [
         { expected: "وِدّ", rootRadicals: root },
+        { expected: "وُدَاد", rootRadicals: root },
         { expected: "مَوَدَّة", rootRadicals: root },
     ])
     _Legacy_RunParticipleTest(root, stem, "وَادّ", "مَوْدُود");

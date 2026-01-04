@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, _LegacyRunVerbalNounTest } from "../../shared";
 
 //Source: https://en.wiktionary.org/wiki/%D8%A3%D9%83%D8%AA%D8%A8#Arabic
 
@@ -24,7 +24,7 @@ It("Stem 4: أَكْتَبَ - يُكْتِبُ", () => {
     const root = "ك-ت-ب"
     const stem = 4;
 
-    RunVerbalNounTest(root, stem, "إِكْتَاب");
+    _LegacyRunVerbalNounTest(root, stem, "إِكْتَاب");
     _Legacy_RunParticipleTest(root, stem, "مُكْتِب", "مُكْتَب");
 
     const conjugations: ConjugationTest[] = [

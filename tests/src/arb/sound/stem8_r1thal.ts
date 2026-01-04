@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest, _LegacyRunVerbalNounTest } from "../../shared";
 
 /*
 Sources: https://en.wiktionary.org/wiki/%D8%A7%D8%AF%D8%AE%D8%B1#Arabic
@@ -28,7 +28,7 @@ It("Stem 8 with R1 = Thal assimilation", () => {
     const root = "ذ-خ-ر";
     const stem = 8;
 
-    RunVerbalNounTest(root, stem, "اِدِّخَار");
+    _LegacyRunVerbalNounTest(root, stem, "اِدِّخَار");
     _Legacy_RunParticipleTest(root, stem, "مُدَّخِر", "مُدَّخَر");
 
     const conjugations: ConjugationTest[] = [

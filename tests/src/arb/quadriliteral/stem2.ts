@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounTest, VerbTestData } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, _LegacyRunVerbalNounTest, VerbTestData } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AA%D8%A3%D9%82%D9%84%D9%85
@@ -29,7 +29,7 @@ It("Stem 2", () => {
         stem: 2,
     };
 
-    RunVerbalNounTest(verb.rootRadicals,verb.stem, "تَأَقْلُم");
+    _LegacyRunVerbalNounTest(verb.rootRadicals,verb.stem, "تَأَقْلُم");
     RunActiveParticipleTest(verb, "مُتَأَقْلِم");
 
     const conjugations: ConjugationTest[] = [

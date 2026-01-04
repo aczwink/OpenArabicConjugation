@@ -17,7 +17,7 @@
  * */
 import { It } from "acts-util-test";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
-import { VerbTestData, RunSoundEqualityTest, RunConjugationTest, RunActiveParticipleTest, RunVerbalNounTest } from "../../shared";
+import { VerbTestData, RunSoundEqualityTest, RunConjugationTest, RunActiveParticipleTest, _LegacyRunVerbalNounTest } from "../../shared";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Assimilated_(first-weak)_verbs
 //https://en.wiktionary.org/wiki/%D8%AA%D9%8A%D8%B3%D8%B1#Arabic
@@ -32,7 +32,7 @@ It("R1:ي stem 5", () => {
 
     RunSoundEqualityTest(verbData);
 
-    RunVerbalNounTest(verbData.rootRadicals, verbData.stem, "تَيَسُّر");
+    _LegacyRunVerbalNounTest(verbData.rootRadicals, verbData.stem, "تَيَسُّر");
     RunActiveParticipleTest(verbData, "مُتَيَسِّر");
 
     RunConjugationTest(verbData, [

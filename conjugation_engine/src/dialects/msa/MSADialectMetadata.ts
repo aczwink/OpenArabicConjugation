@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -257,6 +257,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     case 3:
                     case 4:
                     case 5:
+                    case 6:
                     case 7:
                     case 8:
                     case 10:
@@ -305,6 +306,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
             case VerbType.SoundQuadriliteral:
                 switch(verb.stem)
                 {
+                    case 1:
                     case 2:
                     case 4:
                         return true;

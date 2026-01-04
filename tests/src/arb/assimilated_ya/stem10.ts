@@ -17,7 +17,7 @@
  * */
 import { It } from "acts-util-test";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
-import { VerbTestData, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
+import { VerbTestData, RunConjugationTest, RunParticipleTest, _LegacyRunVerbalNounTest } from "../../shared";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Assimilated_(first-weak)_verbs
 //https://en.wiktionary.org/wiki/%D8%A7%D8%B3%D8%AA%D9%8A%D9%82%D8%B8
@@ -29,7 +29,7 @@ It("R1:ي stem 10", () => {
         stem: 10,
     };
 
-    RunVerbalNounTest(verbData.rootRadicals, verbData.stem, "اِسْتِيقَاظ");
+    _LegacyRunVerbalNounTest(verbData.rootRadicals, verbData.stem, "اِسْتِيقَاظ");
     RunParticipleTest(verbData, "مُسْتَيْقِظ", "مُسْتَيْقَظ");
 
     RunConjugationTest(verbData, [

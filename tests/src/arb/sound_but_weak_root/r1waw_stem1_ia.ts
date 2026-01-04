@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounExistenceTest, VerbTestData, _Legacy_RunConjugationTest } from "../../shared";
+import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, RunVerbalNounTest, VerbTestData } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 import { VerbType } from "openarabicconjugation/dist/Definitions";
@@ -31,7 +31,7 @@ It("Stem 1 - Sound", () => {
         verbType: VerbType.Sound
     };
 
-    RunVerbalNounExistenceTest({ ...verb, rootRadicals: "و-ج-ع", }, "وَجَع"); //Source: http://ejtaal.net/aa/#hw4=1245
+    RunVerbalNounTest({ ...verb, rootRadicals: "و-ج-ع", }, "وَجَع"); //Source: http://ejtaal.net/aa/#hw4=1245
     RunActiveParticipleTest(verb, "وَلِع");
     
     const conjugations: ConjugationTest[] = [

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunConjugationTest, RunVerbalNounTest, VerbTestData } from "../../shared";
+import { ConjugationTest, RunConjugationTest, _LegacyRunVerbalNounTest, VerbTestData } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
@@ -29,7 +29,7 @@ It("Stem 1 type 3 with waw as third radical", () => {
         stem: ModernStandardArabicStem1ParametersType.PastI_PresentA,
     };
 
-    RunVerbalNounTest(verb.rootRadicals, verb.stem, "نَدًى");
+    _LegacyRunVerbalNounTest(verb.rootRadicals, verb.stem, "نَدًى");
     throw new Error("TODO participle test :)");
     
     const conjugations: ConjugationTest[] = [

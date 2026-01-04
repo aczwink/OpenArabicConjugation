@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { RunVerbalNounTest } from "../../shared";
+import { _LegacyRunVerbalNounTest } from "../../shared";
 
 It("Stem 2", () => {
     //Source: https://en.wiktionary.org/wiki/%D8%A3%D8%B1%D8%AE#Arabic
-    RunVerbalNounTest("ء-ر-خ", 2, "تَأْرِيخ");
+    _LegacyRunVerbalNounTest("ء-ر-خ", 2, "تَأْرِيخ");
 });

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { _Legacy_RunParticipleTest, ConjugationTest, _Legacy_RunConjugationTest, RunVerbalNounTest } from "../../shared";
+import { _Legacy_RunParticipleTest, ConjugationTest, _Legacy_RunConjugationTest, _LegacyRunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "openarabicconjugation/dist/dialects/msa/conjugation/r2tashkil";
 
 //Source: https://en.wiktionary.org/wiki/%D9%82%D9%86%D8%B7%D8%B1#Verb
@@ -25,7 +25,7 @@ It("Stem 1", () => {
     const root = "ق-ن-ط-ر";
     const stem = ModernStandardArabicStem1ParametersType.Quadrilateral;
     
-    RunVerbalNounTest(root, stem, "قَنْطَرَة");
+    _LegacyRunVerbalNounTest(root, stem, "قَنْطَرَة");
     _Legacy_RunParticipleTest(root, stem, "مُقَنْطِر", "مُقَنْطَر");
 
     const conjugations: ConjugationTest[] = [

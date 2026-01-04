@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -241,6 +241,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         fi3aaya,
                         [
                             { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: root.r2, tashkil: Tashkil.Fathatan },
+                            { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
                             { letter: Letter.Ya, tashkil: Tashkil.Fatha },
                             { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
@@ -474,6 +479,34 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
         case VerbType.Geminate:
         {
+            switch(stem1Context.stemParameterization)
+            {
+                case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                {
+                    const mafa33a = [
+                        { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                        { letter: root.r1, tashkil: Tashkil.Fatha },
+                        { letter: root.r2, tashkil: Tashkil.Sukun },
+                        { letter: root.r2, tashkil: Tashkil.Fatha },
+                        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                    ];
+
+                    if(root.r1 === Letter.Waw)
+                    {
+                        return [
+                            fi3l,
+                            fu3aal,
+                            mafa33a,
+                        ];
+                    }
+
+                    return [
+                        fi3l,
+                        mafa33a,
+                    ];
+                }
+            }
+
             switch(_Legacy_ExtractMiddleRadicalTashkil(stem1Context.stemParameterization))
             {
                 case Tashkil.Fatha:
@@ -515,23 +548,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     }
                 }
                 break;
-                case Tashkil.Kasra:
-                {
-                    return [
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Kasra },
-                            { letter: root.r2, tashkil: Tashkil.Sukun },
-                            { letter: root.r2, tashkil: Tashkil.EndOfWordMarker },
-                        ],
-                        [
-                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Sukun },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                        ],
-                    ];
-                }
             }
         }
         break;
@@ -580,12 +596,20 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
         case VerbType.Sound:
         {
-            if((root.type === RootType.InitialWeak) && (stem1Context.stemParameterization === ModernStandardArabicStem1ParametersType.PastU_PresentU))
+            if(root.type === RootType.InitialWeak)
             {
-                return [
-                    fu3l,
-                    fa3l
-                ];
+                switch(stem1Context.stemParameterization)
+                {
+                    case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                        return [
+                            fa3al,
+                        ];
+                    case ModernStandardArabicStem1ParametersType.PastU_PresentU:
+                        return [
+                            fu3l,
+                            fa3l
+                        ];
+                }
             }
 
             const maf3ala = [
@@ -769,6 +793,14 @@ export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, verb:
         }
         break;
         case VerbType.Sound:
+            if(root.type === RootType.InitialWeak)
+            {
+                switch(verb.stemParameterization)
+                {
+                    case ModernStandardArabicStem1ParametersType.PastI_PresentA:
+                        return false;
+                }
+            }
             switch(_Legacy_ExtractMiddleRadicalTashkil(verb.stemParameterization))
             {
                 case Tashkil.Dhamma:
