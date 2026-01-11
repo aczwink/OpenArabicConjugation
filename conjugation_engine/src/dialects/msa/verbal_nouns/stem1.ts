@@ -666,6 +666,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
                 case ModernStandardArabicStem1ParametersType.PastA_PresentU:
                     return [
+                        fu3l,
                         fu3uul,
                         fu3aal,
                         fa3al,

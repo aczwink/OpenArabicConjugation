@@ -33,7 +33,8 @@ It("Stem 1 past:a, present:u", () => {
         { expected: "حَضَارَة", rootRadicals: "ح-ض-ر" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%B6%D8%B1
         { expected: "رُقَاد", rootRadicals: "ر-ق-د" }, //Source: https://en.wiktionary.org/wiki/%D8%B1%D9%82%D8%AF#Arabic
         { expected: "حِرَاسَة", rootRadicals: "ح-ر-س" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D8%B1%D8%B3
-        { rootRadicals: "ص-ل-ح", expected: "مَصْلَحَة"}, //Source: https://ejtaal.net/aa/#hw4=622
+        { expected: "مَصْلَحَة", rootRadicals: "ص-ل-ح" }, //Source: https://ejtaal.net/aa/#hw4=622
+        { expected: "حُكْم", rootRadicals: "ح-ك-م" }, //Source: https://ejtaal.net/aa/#hw4=241
     ]);
 
     _Legacy_RunParticipleTest("ك-ت-ب", stem, "كَاتِب", "مَكْتُوب");
