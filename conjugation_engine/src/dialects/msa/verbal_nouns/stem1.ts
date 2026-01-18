@@ -256,6 +256,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
                 case ModernStandardArabicStem1ParametersType.DefectiveType2:
                     return [
+                        fa3aa2,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
@@ -661,6 +662,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: root.r2, tashkil: Tashkil.Kasra },
                             { letter: root.r3, tashkil: Tashkil.Fatha },
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Kasra },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker },
                         ],
                     ];
 

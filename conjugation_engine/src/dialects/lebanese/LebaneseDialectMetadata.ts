@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -86,7 +86,14 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
 
     public DeriveVerbType(root: VerbRoot, stem: LebaneseStem1Context | AdvancedStemNumber): VerbType
     {
-        return root.DeriveDeducedVerbType();
+        const verbType = root.DeriveDeducedVerbType();
+        switch(verbType)
+        {
+            case VerbType.AssimilatedAndDefective:
+                return VerbType.Defective;
+        }
+
+        return verbType;
     }
 
     public GetStem1ContextChoices(verbType: VerbType, root: VerbRoot): Stem1ContextChoice<LebaneseStem1Context>
@@ -107,7 +114,16 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case VerbType.Defective:
             {
                 return {
-                    requiredContext: [],
+                    requiredContext: [
+                        {
+                            gender: Gender.Male,
+                            mood: Mood.Imperative,
+                            numerus: Numerus.Singular,
+                            person: Person.Second,
+                            tense: Tense.Present,
+                            voice: Voice.Active
+                        }
+                    ],
                     types: [
                         LebaneseStem1Context.DefectiveType1WithPrefixA,
                         LebaneseStem1Context.DefectiveWithImperativeA,

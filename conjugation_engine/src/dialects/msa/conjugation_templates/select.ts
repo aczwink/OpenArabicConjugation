@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,8 +17,9 @@
  * */
 
 import { ConjugationRule } from "../../../Conjugation";
-import { VerbType, Voice } from "../../../Definitions";
+import { Letter, VerbType, Voice } from "../../../Definitions";
 import { Verb } from "../../../Verb";
+import { RootType } from "../../../VerbRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 import { AssimilatedStem1Template } from "./assimilated_stem1";
 import { AssimilatedStem10Template } from "./assimilated_stem10";
@@ -27,6 +28,7 @@ import { GeminateStem10Template } from "./geminate_stem10";
 import { GeminateStem4Template } from "./geminate_stem4";
 import { GeminateStem8Template } from "./geminate_stem8";
 import { HollowStem1Template } from "./hollow_stem1";
+import { IrregularAhyaTemplate } from "./irregular_ahya";
 import { IrregularHayiyaTemplate } from "./irregular_hayiya";
 import { IrregularLaysaTemplate } from "./irregular_laysa";
 import { QuadriliteralStem4Template } from "./quadriliteral_stem4";
@@ -62,6 +64,14 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
         {
             switch(stemData.type)
             {
+                case VerbType.Defective:
+                    if(stemData.root.type === RootType.DoublyWeak_WawOrYaOnR2AndR3)
+                    {
+                        if(stemData.root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
+                            return IrregularAhyaTemplate(stemData, voice);
+                        throw new Error("TODO: implement me!");
+                    }
+                    break;
                 case VerbType.Geminate:
                     return GeminateStem4Template(stemData, voice);
                 case VerbType.SoundQuadriliteral:

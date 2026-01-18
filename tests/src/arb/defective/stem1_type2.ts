@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ It("Wikipedia defective stem1 type 2", () => {
     RunVerbalNounPatternTest(stem, [
         { expected: "نَحْو", rootRadicals: "ن-ح-و" },
         { expected: "شَكْوَى", rootRadicals: "ش-ك-و" }, //https://en.wiktionary.org/wiki/%D8%B4%D9%83%D8%A7#Arabic
+        { expected: "جَفَاء", rootRadicals: "ج-ف-و" }, //http://ejtaal.net/aa/#hw4=165
     ]);
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعُوّ");
     

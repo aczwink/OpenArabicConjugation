@@ -49,6 +49,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(stem)
                 {
                     case 2:
+                    case 10:
                         return VerbType.Sound;
                 }
                 break;
