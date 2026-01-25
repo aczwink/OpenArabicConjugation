@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ It("Stem 1 past:a, present:u", () => {
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: root, expected: "أَجْر" },
         { rootRadicals: "ء-م-ل", expected: "أَمَل" }, //Source: http://ejtaal.net/aa/#hw4=48
+        { rootRadicals: "ء-ك-ل", expected: "مَأْكَل" }, //Source: https://ejtaal.net/aa/#hw4=40
     ])
 
     const conjugations: ConjugationTest[] = [

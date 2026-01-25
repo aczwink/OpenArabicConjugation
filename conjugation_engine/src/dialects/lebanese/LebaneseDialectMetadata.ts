@@ -90,7 +90,8 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
         switch(verbType)
         {
             case VerbType.AssimilatedAndDefective:
-                return VerbType.Defective;
+                if(typeof stem !== "number")
+                    return VerbType.Defective;
         }
 
         return verbType;

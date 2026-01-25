@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import "acts-util-core";
-import { ExtraTashkil, Gender, GenderString, Letter, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tashkil, Tense, TenseString, Voice, VoiceString } from "./Definitions";
+import { ExtraTashkil, Gender, GenderString, Letter, Mood, MoodString, Numerus, NumerusString, Person, PersonString, SpecialSymbols, Tashkil, Tense, TenseString, Voice, VoiceString } from "./Definitions";
 
 export function GenderToString(gender: Gender): GenderString
 {
@@ -48,6 +48,9 @@ function IsArabicChar(char: string)
         case Tashkil.Sukun:
         case ExtraTashkil.Shadda:
         case ExtraTashkil.DaggerAlef:
+            return true;
+
+        case SpecialSymbols.Tatwiil:
             return true;
     }
     return IsValidRootRadical(char);

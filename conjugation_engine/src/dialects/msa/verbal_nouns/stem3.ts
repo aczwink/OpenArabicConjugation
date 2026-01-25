@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,17 @@ export function GenerateAllPossibleVerbalNounsStem3(verb: Verb<ModernStandardAra
     switch(verb.type)
     {
         case VerbType.Sound:
+            if(root.type === RootType.MiddleWeak)
+            {
+                return [
+                    [
+                        { letter: root.r1, tashkil: Tashkil.Kasra },
+                        { letter: root.r2, tashkil: Tashkil.Fatha },
+                        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                        { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                    ],
+                ];
+            }
             return [
                 [
                     { letter: root.r1, tashkil: Tashkil.Kasra },

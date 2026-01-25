@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -88,11 +88,22 @@ export function AugmentRoot(verb: Verb<string>, params: ConjugationParams): Augm
         break;
         case 4:
         {
+            switch(verb.type)
+            {
+                case VerbType.Defective:
+                    const x: AugmentedRootSymbolInput[] = [
+                        { symbolName: SymbolName.R1 },
+                        { symbolName: SymbolName.R2 },
+                        { symbolName: SymbolName.R3 },
+                    ];
+                    if(params.tense === Tense.Perfect)
+                        x.unshift({ letter: Letter.Hamza, symbolName: SymbolName.Postfix, tashkil: (params.voice === Voice.Active) ? Tashkil.Fatha : Tashkil.Dhamma });
+                    return x;
+            }
             switch(root.type)
             {
                 case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
                 case RootType.InitialWeak:
-                case RootType.FinalWeak:
                 case RootType.HamzaOnR1:
                 case RootType.MiddleWeak:
                 case RootType.Regular:

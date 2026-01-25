@@ -16,19 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationRule } from "../../../Conjugation";
-import { Letter, Voice } from "../../../Definitions";
-import { Verb } from "../../../Verb";
-import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { ConjugationRule, Vowel } from "../../../Conjugation";
+import { Gender, Letter, Mood, Numerus, Person, Tense, VerbType, Voice } from "../../../Definitions";
 
-export function IrregularAhyaTemplate(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
+export function IrregularAhyaTemplate(): ConjugationRule[] | undefined
 {
-    //TODO: FIX ME
     return [
         {
+            conditions: { tense: Tense.Perfect, voice: Voice.Active, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
+            symbols: [Letter.Hamza, Letter.Hha, Letter.Ya],
+            vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.LongA]
+        },
+        {
+            conditions: { mood: [Mood.Indicative, Mood.Subjunctive], voice: Voice.Passive, doesSuffixBeginWithSukun: false, hasPresentVowelSuffix: false },
+            symbols: [Letter.Hha, Letter.Ya],
+            vowels: [Vowel.Sukun, Vowel.LongA]
+        },
+        {
             conditions: {},
-            symbols: [Letter.Ta],
-            vowels: []
+            base: {
+                verbType: VerbType.Defective
+            }
         }
     ];
 }

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -37,7 +37,10 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
     {
         const template = AugmentRoot(verb.root, verb, params);
         if(template === undefined)
+        {
+            console.log(verb, params);
             throw new Error("Can't be conjugated.");
+        }
 
         const suffix = DeriveSuffix(verb, params);
         const matched = new ConjugationRuleMatcher<LebaneseStem1Context>(suffix.previousVowel === Vowel.Sukun).Match(template, verb, params);

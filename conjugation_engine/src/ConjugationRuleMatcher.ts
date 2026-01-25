@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -68,12 +68,7 @@ export class ConjugationRuleMatcher<T>
         {
             if(params.tense === Tense.Present)
             {
-                if(Array.isArray(c.mood))
-                {
-                    if(!c.mood.includes(params.mood))
-                        return false;
-                }
-                else if(c.mood !== params.mood)
+                if(!this.DoesArrayOrValueMatch(c.mood, params.mood))
                     return false;
             }
             else
@@ -85,7 +80,7 @@ export class ConjugationRuleMatcher<T>
             return false;
         if((c.gender !== undefined) && (c.gender !== params.gender))
             return false;
-        if((c.hasPresentVowelSuffix === true) && (params.tense === Tense.Present) && !DoesPresentSuffixStartWithLongVowel(params.person, params.numerus, params.gender))
+        if((c.hasPresentVowelSuffix !== undefined) && (params.tense === Tense.Present) && !(c.hasPresentVowelSuffix === DoesPresentSuffixStartWithLongVowel(params.person, params.numerus, params.gender)))
             return false;
         if((c.doesSuffixBeginWithSukun !== undefined) && (c.doesSuffixBeginWithSukun !== this.doesSuffixBeginWithSukun))
             return false;
@@ -97,6 +92,19 @@ export class ConjugationRuleMatcher<T>
                 return false;
         }
         if((c.voice !== undefined) && (c.voice !== params.voice))
+            return false;
+
+        return true;
+    }
+
+    private DoesArrayOrValueMatch<T>(value: T | T[], param: T)
+    {
+        if(Array.isArray(value))
+        {
+            if(!value.includes(param))
+                return false;
+        }
+        else if(value !== param)
             return false;
 
         return true;

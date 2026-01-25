@@ -45,6 +45,13 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         return VerbType.Sound;
                 }
                 break;
+            case VerbType.AssimilatedAndDefective:
+                switch(stem)
+                {
+                    case 5:
+                        return VerbType.Defective;
+                }
+                break;
             case VerbType.HamzaOnR1:
                 switch(stem)
                 {
@@ -300,6 +307,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(verb.stem)
                 {
                     case 1:
+                    case 4:
                         return true;
                 }
                 break;

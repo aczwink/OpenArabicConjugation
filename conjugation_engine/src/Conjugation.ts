@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ interface ConjugationRuleConditions
 {
     doesSuffixBeginWithSukun?: boolean;
     gender?: Gender;
-    hasPresentVowelSuffix?: true;
+    hasPresentVowelSuffix?: boolean;
     mood?: Mood | Mood[];
     numerus?: Numerus;
     person?: Person;

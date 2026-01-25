@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { BaseTashkil, ExtraTashkil, Letter, Tashkil } from "./Definitions";
+import { BaseTashkil, ExtraTashkil, Letter, SpecialSymbols, Tashkil } from "./Definitions";
 
 export type DisplayTashkil = BaseTashkil | Tashkil.Dhammatan | Tashkil.Fathatan | Tashkil.Kasratan;
 export interface DisplayVocalized
@@ -113,6 +113,9 @@ export function ParseVocalizedText(text: string)
 
     for(let i = 0; i < text.length;)
     {
+        while(text[i] === SpecialSymbols.Tatwiil)
+            i++; //skip
+
         const letter = text[i++];
         let tashkil: Tashkil | undefined = undefined;
         let shadda = false;

@@ -64,11 +64,11 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
+                case VerbType.Irregular:
                     if(stemData.root.type === RootType.DoublyWeak_WawOrYaOnR2AndR3)
                     {
                         if(stemData.root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
-                            return IrregularAhyaTemplate(stemData, voice);
+                            return IrregularAhyaTemplate();
                         throw new Error("TODO: implement me!");
                     }
                     break;

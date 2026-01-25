@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ It("Stem 1 past:i, present:a", () => {
         { rootRadicals: "ر-غ-ب", expected: "رَغْبَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B1%D8%BA%D8%A8#Arabic
         { rootRadicals: "ق-ب-ل", expected: "قُبُول" }, //Source: https://en.wiktionary.org/wiki/%D9%82%D8%A8%D9%84#Arabic
         { rootRadicals: "ش-ر-ك", expected: "شَرِكَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B4%D8%B1%D9%83
+        { rootRadicals: "ش-ر-ب", expected: "مَشْرَب" }, //Source: https://ejtaal.net/aa/#hw4=553
     ]);
 
     const conjugations: ConjugationTest[] = [
