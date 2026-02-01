@@ -20,7 +20,7 @@ import { Tashkil, Voice } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { _Legacy_GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
+import { _Legacy_GenerateParticipleDefective, _LegacyGenerateParticipleRegular } from "./regular";
 
 export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
@@ -31,7 +31,7 @@ export function GenerateParticipleStem6(root: VerbRoot, baseForm: AugmentedRoot,
         case RootType.InitialWeak:
         case RootType.MiddleWeak:
         case RootType.Regular:
-            return GenerateParticipleRegular(baseForm, voice);
+            return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
     return [{letter: "TODO GenerateParticipleStem6" as any, tashkil: Tashkil.Sukun }];
 }

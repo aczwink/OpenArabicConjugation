@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,21 @@ export function _Legacy_GenerateParticipleDefective(baseForm: AugmentedRoot, voi
     ];
 }
 
+export function _LegacyGenerateParticipleRegular(baseForm: AugmentedRoot, voice: Voice, hasHamzatAlWasl?: boolean): ConjugationVocalized[]
+{
+    if(voice === Voice.Active)
+        baseForm.r2.tashkil = Tashkil.Kasra;
+    baseForm.r3.tashkil = Tashkil.EndOfWordMarker;
+
+    if(hasHamzatAlWasl === true)
+        baseForm.symbols.Remove(0);
+    
+    return [
+        { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
+        ...baseForm.symbols
+    ];
+}
+
 export function GenerateParticipleDefective(baseForm: ConjugatedWord, voice: Voice, hasHamzatAlWasl: boolean): ConjugatedWord
 {
     const elements = baseForm.elements.slice(hasHamzatAlWasl ? 1 : 0, baseForm.elements.length - 1);
@@ -53,17 +68,21 @@ export function GenerateParticipleDefective(baseForm: ConjugatedWord, voice: Voi
     };
 }
 
-export function GenerateParticipleRegular(baseForm: AugmentedRoot, voice: Voice, hasHamzatAlWasl?: boolean): ConjugationVocalized[]
+export function GenerateParticipleRegular(baseForm: ConjugatedWord, voice: Voice): ConjugatedWord
 {
-    if(voice === Voice.Active)
-        baseForm.r2.tashkil = Tashkil.Kasra;
-    baseForm.r3.tashkil = Tashkil.EndOfWordMarker;
+    const elements = baseForm.elements.slice(0, baseForm.elements.length - 1);
 
-    if(hasHamzatAlWasl === true)
-        baseForm.symbols.Remove(0);
+    if(voice === Voice.Active)
+        elements.Last().followingVowel = Vowel.ShortI;
     
-    return [
-        { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-        ...baseForm.symbols
-    ];
+    return {
+        elements: [
+            { consonant: Letter.Mim, followingVowel: Vowel.ShortU },
+            ...elements,
+        ],
+        ending: {
+            consonant: baseForm.elements.Last().consonant,
+            finalVowel: FinalVowel.None
+        }
+    };
 }

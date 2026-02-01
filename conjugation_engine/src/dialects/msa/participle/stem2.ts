@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,14 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Tashkil, Voice } from "../../../Definitions";
+import { ConjugatedWord } from "../../../Conjugation";
+import { Tashkil, VerbType, Voice } from "../../../Definitions";
+import { Verb } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { _Legacy_GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { _Legacy_GenerateParticipleDefective, _LegacyGenerateParticipleRegular, GenerateParticipleRegular } from "./regular";
 
-export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
+export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice, verb: Verb<ModernStandardArabicStem1ParametersType>, baseFormNew: ConjugatedWord): ConjugationVocalized[] | ConjugatedWord
 {
+    switch(verb.type)
+    {
+        case VerbType.SoundQuadriliteral:
+            return GenerateParticipleRegular(baseFormNew, voice);
+    }
+
     switch(baseForm.type)
     {
         case RootType.FinalWeak:
@@ -33,7 +42,7 @@ export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice): 
         case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:
-            return GenerateParticipleRegular(baseForm, voice);
+            return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
     return [{ letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

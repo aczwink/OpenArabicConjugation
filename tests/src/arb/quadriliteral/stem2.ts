@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "acts-util-test";
-import { ConjugationTest, RunActiveParticipleTest, RunConjugationTest, _LegacyRunVerbalNounTest, VerbTestData } from "../../shared";
+import { ConjugationTest, RunConjugationTest, _LegacyRunVerbalNounTest, VerbTestData, RunParticipleTest } from "../../shared";
 import { DialectType } from "openarabicconjugation/dist/Dialects";
 
 //Source: https://en.wiktionary.org/wiki/%D8%AA%D8%A3%D9%82%D9%84%D9%85
@@ -30,7 +30,7 @@ It("Stem 2", () => {
     };
 
     _LegacyRunVerbalNounTest(verb.rootRadicals,verb.stem, "تَأَقْلُم");
-    RunActiveParticipleTest(verb, "مُتَأَقْلِم");
+    RunParticipleTest(verb, "مُتَأَقْلِم", "مُتَأَقْلَم");
 
     const conjugations: ConjugationTest[] = [
         //active past

@@ -47,16 +47,6 @@ export function AugmentRoot(verb: Verb<string>, params: ConjugationParams): Augm
 
         case 2:
         {
-            if((root.type === RootType.Quadriliteral) || (root.type === RootType.Quadriliteral_FinalWeak))
-            {
-                return [
-                    { letter: Letter.Ta, symbolName: SymbolName.Prefix1, tashkil: Tashkil.Fatha },
-                    { symbolName: SymbolName.R1 },
-                    { symbolName: SymbolName.R2 },
-                    { symbolName: SymbolName.R3 },
-                    { symbolName: SymbolName.R4 },
-                ];
-            }
             return [
                 { symbolName: SymbolName.R1 },
                 { symbolName: SymbolName.Infix, letter: root.r2, tashkil: Tashkil.Sukun },

@@ -20,7 +20,7 @@ import { Letter, Tashkil, Voice } from "../../../Definitions";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
-import { GenerateParticipleRegular } from "./regular";
+import { _LegacyGenerateParticipleRegular } from "./regular";
 
 export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
@@ -47,7 +47,7 @@ export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot,
         case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:
-            return GenerateParticipleRegular(baseForm, voice);
+            return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

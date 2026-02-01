@@ -31,6 +31,7 @@ import { HollowStem1Template } from "./hollow_stem1";
 import { IrregularAhyaTemplate } from "./irregular_ahya";
 import { IrregularHayiyaTemplate } from "./irregular_hayiya";
 import { IrregularLaysaTemplate } from "./irregular_laysa";
+import { QuadriliteralStem2Template } from "./quadriliteral_stem2";
 import { QuadriliteralStem4Template } from "./quadriliteral_stem4";
 import { SoundStem9Template } from "./sound_stem9";
 
@@ -59,6 +60,15 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
                 }
                 break;
             }
+        break;
+        case 2:
+        {
+            switch(stemData.type)
+            {
+                case VerbType.SoundQuadriliteral:
+                    return QuadriliteralStem2Template(stemData.root, voice);
+            }
+        }
         break;
         case 4:
         {

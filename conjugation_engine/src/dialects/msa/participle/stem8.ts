@@ -21,7 +21,7 @@ import { Verb } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
-import { GenerateParticipleRegular } from "./regular";
+import { _LegacyGenerateParticipleRegular } from "./regular";
 
 export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
@@ -30,7 +30,7 @@ export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1Para
     {
         case VerbType.Assimilated:
         case VerbType.Sound:
-            return GenerateParticipleRegular(baseForm, voice, true);
+            return _LegacyGenerateParticipleRegular(baseForm, voice, true);
 
         case VerbType.Defective:
             if(voice === Voice.Active)
@@ -52,7 +52,7 @@ export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1Para
             ];
 
         case VerbType.Geminate:
-            return GenerateParticipleRegular(baseForm, Voice.Passive, false);
+            return _LegacyGenerateParticipleRegular(baseForm, Voice.Passive, false);
 
         case VerbType.Hollow:
             baseForm.symbols[0].letter = Letter.Mim;

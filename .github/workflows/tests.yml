@@ -33,21 +33,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    #build acts-util-core
-    - name: Checkout ACTS-Util repo
-      uses: actions/checkout@v4
-      with:
-        repository: aczwink/ACTS-Util
-        path: actsutil
-
-    #build acts-util-tests
-    - run: npm install
-      working-directory: ./actsutil/test
-    - run: npm run compile
-      working-directory: ./actsutil/test
-    - run: npm link
-      working-directory: ./actsutil/test
     
     #build conjugation_engine
     - run: npm link acts-util-core
@@ -70,6 +55,7 @@ jobs:
     #run tests
     - run: npm run --silent run mocha-json 1>results.json 2>results-stderr.log
       working-directory: ./tests
+      
     - name: Archive test results
       uses: actions/upload-artifact@v4
       with:
