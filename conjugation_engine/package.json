@@ -1,8 +1,9 @@
 {
-  "name": "openarabicconjugation",
+  "name": "@aczwink/openarabicconjugation",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "scripts": {
     "build": "tsc"
   },
@@ -10,7 +11,7 @@
   "author": "Amir Czwink",
   "license": "AGPL-3.0",
   "dependencies": {
-    "acts-util-core": "*"
+    "@aczwink/acts-util-core": "^1.0.0"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
