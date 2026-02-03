@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import "acts-util-core";
+import "@aczwink/acts-util-core";
 import { ExtraTashkil, Gender, GenderString, Letter, Mood, MoodString, Numerus, NumerusString, Person, PersonString, SpecialSymbols, Tashkil, Tense, TenseString, Voice, VoiceString } from "./Definitions";
 
 export function GenderToString(gender: Gender): GenderString

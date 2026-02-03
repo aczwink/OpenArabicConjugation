@@ -12,9 +12,9 @@
   "author": "Amir Czwink",
   "license": "AGPL-3.0-only",
   "dependencies": {
-    "acts-util-core": "*",
-    "acts-util-test": "*",
-    "openarabicconjugation": "*"
+    "@aczwink/acts-util-core": "^1.0.0",
+    "@aczwink/acts-util-test": "^1.0.0",
+    "@aczwink/openarabicconjugation": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
