@@ -32,21 +32,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
-    #build conjugation_engine
-    - run: npm install
-      working-directory: ./conjugation_engine
-    - run: npm run build
-      working-directory: ./conjugation_engine
-    - run: npm link
-      working-directory: ./conjugation_engine
 
     #build tests
-    - run: npm link acts-util-test openarabicconjugation
-      working-directory: ./tests
-    - run: npm install
-      working-directory: ./tests
-    - run: npm run compile
+    - run: |
+        npm ci
+        npm run compile
       working-directory: ./tests
 
     #run tests
