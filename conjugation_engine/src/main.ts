@@ -16,7 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { Conjugator } from "./Conjugator";
+import { DialectType, GetAllConjugatableDialects } from "./Dialects";
+import { GetDialectMetadata } from "./DialectsMetadata";
+import { IsArabicPhrase } from "./Util";
+import { ParseVocalizedPhrase } from "./Vocalization";
 
 export {
-    Conjugator
+    Conjugator,
+    DialectType
 };
+
+export class ArabicText
+{
+    static IsArabicPhrase = IsArabicPhrase;
+    static ParseVocalizedPhrase = ParseVocalizedPhrase;
+}
+
+export class Dialects
+{
+    static GetAllConjugatableDialects = GetAllConjugatableDialects;
+    static GetDialectMetadata = GetDialectMetadata;
+}
