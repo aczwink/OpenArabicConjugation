@@ -15,7 +15,7 @@
 #  * You should have received a copy of the GNU Affero General Public License
 #  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #  * *
-name: Run tests
+name: Publish package
 
 on:
   push:
@@ -27,29 +27,16 @@ permissions:
   checks: write
 
 jobs:
-  build:
-
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    
-    #build conjugation_engine
-    - run: npm link acts-util-core
-      working-directory: ./conjugation_engine
-    - run: npm install
-      working-directory: ./conjugation_engine
-    - run: npm run build
-      working-directory: ./conjugation_engine
-    - run: npm link
-      working-directory: ./conjugation_engine
 
     #build tests
-    - run: npm link acts-util-core acts-util-test openarabicconjugation
-      working-directory: ./tests
-    - run: npm install
-      working-directory: ./tests
-    - run: npm run compile
+    - run: |
+        npm ci
+        npm run compile
       working-directory: ./tests
 
     #run tests
@@ -69,3 +56,40 @@ jobs:
         name: Tests
         path: ./tests/results.json
         reporter: mocha-json
+
+  publish:
+    #needs: run-tests #TODO: as soon as they all run through one day :)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Check package version vs registry
+        id: version_check
+        uses: dupy-ts/check-package-version@main
+        with:
+          path: ./conjugation_engine
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Echo versions
+        run: |
+            echo "Committed version: ${{ steps.version_check.outputs.committed-version }}"
+            echo "Retrieved version: ${{ steps.version_check.outputs.retrieved-version }}"
+            echo "Has been published: ${{ steps.version_check.outputs.is-published }}"
+
+      - name: Publish package
+        if: steps.version_check.outputs.is-new-version == 'true' || steps.version_check.outputs.is-published == 'false'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm ci
+          npm run build
+          npm publish
+        working-directory: ./conjugation_engine

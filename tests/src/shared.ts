@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import "acts-util-core";
+import "@aczwink/acts-util-core";
 import { Expect, Fail } from "acts-util-test";
 import { Conjugator } from "openarabicconjugation/dist/Conjugator";
 import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "openarabicconjugation/dist/Definitions";
