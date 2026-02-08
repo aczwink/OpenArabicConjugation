@@ -1,6 +1,0 @@
-{
-    "ext": "ts",
-    "ignore": ["./dist"],
-    "watch": ["./src", "../conjugation_engine/src"],
-    "verbose": true
-}

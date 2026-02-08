@@ -1,0 +1,23 @@
+{
+  "name": "@aczwink/openarabicconjugation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon --exec \"npm test\"",
+    "test": "tsc && tsc -p tsconfig.tests.json && node node_modules/@aczwink/acts-util-test/dist/runner.js dist_tests"
+  },
+  "keywords": [],
+  "author": "Amir Czwink",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@aczwink/acts-util-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "typescript": "^5.9.3",
+    "@aczwink/acts-util-test": "^1.0.0"
+  }
+}

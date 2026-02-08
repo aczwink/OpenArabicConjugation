@@ -1,0 +1,6 @@
+{
+    "ext": "ts",
+    "ignore": ["./dist", "./dist_tests"],
+    "watch": ["./src", "./tests"],
+    "verbose": true
+}

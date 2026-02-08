@@ -1,0 +1,7 @@
+.github
+src
+tests
+nodemon.json
+tsconfig.json
+tsconfig.tests.json
+wiktionary_conjugation_table2test.py

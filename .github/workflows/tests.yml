@@ -33,28 +33,24 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    #build tests
+    #run tests
     - run: |
         npm ci
-        npm run compile
-      working-directory: ./tests
-
-    #run tests
-    - run: npm run --silent run mocha-json 1>results.json 2>results-stderr.log
-      working-directory: ./tests
+        npm --silent test mocha-json 1>results.json 2>results-stderr.log
+      working-directory: ./
       
     - name: Archive test results
       uses: actions/upload-artifact@v4
       with:
         name: test-result-report
-        path: ./tests/results*
+        path: ./results*
 
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()
       with:
         name: Tests
-        path: ./tests/results.json
+        path: ./results.json
         reporter: mocha-json
 
   publish:
@@ -74,7 +70,7 @@ jobs:
         id: version_check
         uses: dupy-ts/check-package-version@main
         with:
-          path: ./conjugation_engine
+          path: ./
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -92,4 +88,4 @@ jobs:
           npm ci
           npm run build
           npm publish
-        working-directory: ./conjugation_engine
+        working-directory: ./
