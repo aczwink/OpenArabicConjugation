@@ -690,6 +690,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         fa3l,
                         fi3aala,
                         fi3la,
+                        [
+                            { letter: Letter.Ta, tashkil: Tashkil.Fatha },
+                            { letter: root.r1, tashkil: Tashkil.Sukun },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
                         maf3al,
                         maf3ala,
                     ];
