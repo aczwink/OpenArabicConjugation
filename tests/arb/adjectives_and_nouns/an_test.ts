@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,8 @@ It("Fathatan-type, with dual", () => {
     const singular: NounTestData = {
         base: "مَقْهًى",
         gender: Gender.Male,
-        numerus: Numerus.Singular
+        numerus: Numerus.Singular,
+        isDefinite: false
     };
     
     const declensions_singular: NounDeclensionTest[] = [
@@ -51,7 +52,8 @@ It("Fathatan-type, with dual", () => {
     const dual: NounTestData = {
         base: "مَقْهَيَيْن",
         gender: Gender.Male,
-        numerus: Numerus.Dual
+        numerus: Numerus.Dual,
+        isDefinite: false
     };
 
     RunDerivationTest(singular, "dual", dual.base);

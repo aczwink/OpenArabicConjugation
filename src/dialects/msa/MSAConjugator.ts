@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveOrNounDeclensionParams, VerbType } from "../../Definitions";
-import { DialectConjugator, AdjectiveOrNounInput, TargetAdjectiveNounDerivation } from "../../DialectConjugator";
+import { Letter, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveOrNounDeclensionParams, VerbType, AdjectiveOrNounInput } from "../../Definitions";
+import { DialectConjugator, TargetAdjectiveNounDerivation } from "../../DialectConjugator";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
 import { AugmentedRoot, AugmentedRootSymbolInput, SymbolName } from "./AugmentedRoot";

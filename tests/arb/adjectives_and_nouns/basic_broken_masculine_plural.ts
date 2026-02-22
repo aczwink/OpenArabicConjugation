@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,8 @@ It("Basic broken masculine plural", () => {
     const noun: NounTestData = {
         base: "ظُرُوف",
         gender: Gender.Male,
-        numerus: Numerus.Plural
+        numerus: Numerus.Plural,
+        isDefinite: false
     };
 
     const declensions: NounDeclensionTest[] = [

@@ -53,7 +53,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         };
     }
 
-    public ConjugateParticiple(verb: Verb<LebaneseStem1Context>, voice: Voice, requestBaseForm: () => ConjugatedWord): ConjugationVocalized[]
+    public ConjugateParticiple(verb: Verb<LebaneseStem1Context>, voice: Voice, requestBaseForm: () => ConjugatedWord): ConjugationVocalized[] | ConjugatedWord
     {
         function GetBaseForm()
         {
@@ -257,7 +257,9 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         }
 
         const conjugator = new MSAConjugator;
-        const msaVersion = conjugator.ConjugateParticiple(verb as any, voice, requestBaseForm) as ConjugationVocalized[];
+        const msaVersionResult = conjugator.ConjugateParticiple(verb as any, voice, requestBaseForm);
+        const msaVersion = msaVersionResult as ConjugationVocalized[];
+        const msaVersionNew = msaVersionResult as ConjugatedWord;
 
         switch(verb.type)
         {
@@ -326,8 +328,8 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                     case 4:
                         return msaVersion;
                     case 2:
-                        msaVersion[0].tashkil = Tashkil.Sukun;
-                        return msaVersion;
+                        msaVersionNew.elements[0].followingVowel = Vowel.Sukun;
+                        return msaVersionNew;
                     case 9:
                     case 10:
                         msaVersion[0].tashkil = Tashkil.Kasra;

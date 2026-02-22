@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { Hamzate } from "./Hamza";
-import { AdjectiveOrNounInput, DialectConjugator, TargetAdjectiveNounDerivation } from "./DialectConjugator";
+import { DialectConjugator, TargetAdjectiveNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
 import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
-import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus } from "./Definitions";
+import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus, AdjectiveOrNounInput } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb } from "./Verb";
@@ -53,11 +53,11 @@ export class Conjugator
     }
 
     /**
-     * Normally the input is expected to be in informal indefinite form.
+     * Normally the input is expected to be in informal form.
      * Masculine sound plural must be given in nominative form but without the trailing fatha, i.e. the -un form (e.g. بَانُون).
-     * For the following word types the input must be given in nominative indefinite form:
-     * - Words ending in fathatan with alef maksura in singular nominative indefinite (e.g. مَقْهًى)
-     * - Words ending in kasratan in singular nominative indefinite (e.g. بَانٍ)
+     * For the following word types the input must be given in nominative form:
+     * - Words ending in fathatan with alef maksura in singular nominative (e.g. مَقْهًى)
+     * - Words ending in kasratan in singular nominative (e.g. بَانٍ)
      */
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams, dialect: DialectType)
     {

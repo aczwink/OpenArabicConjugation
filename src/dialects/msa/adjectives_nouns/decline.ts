@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdjectiveOrNounDeclensionParams, Tashkil, AdjectiveOrNounState, Letter, Gender, Numerus } from "../../../Definitions";
-import { AdjectiveOrNounInput } from "../../../DialectConjugator";
+import { AdjectiveOrNounDeclensionParams, Tashkil, AdjectiveOrNounState, Letter, AdjectiveOrNounInput } from "../../../Definitions";
 import { IsSunLetter } from "../../../Util";
 import { DisplayVocalized } from "../../../Vocalization";
 import { DeclineTriptoteSuffix } from "./triptote";
@@ -49,7 +48,7 @@ function ConditionallyAddArticle(isDefinite: boolean, vocalized: DisplayVocalize
 
 export function AdjectiveOrNounToBaseForm(singular: DisplayVocalized[]): DisplayVocalized[]
 {
-    switch(DetermineInflectionType({ gender: Gender.Male, numerus: Numerus.Singular, vocalized: singular }))
+    switch(DetermineInflectionType(singular))
     {
         case AdjectiveOrNounInflectionType.An:
             return [
@@ -74,9 +73,9 @@ enum AdjectiveOrNounInflectionType
     RegularTriptote,
 }
 
-function DetermineInflectionType(input: AdjectiveOrNounInput): AdjectiveOrNounInflectionType
+function DetermineInflectionType(vocalized: DisplayVocalized[]): AdjectiveOrNounInflectionType
 {
-    const singular = input.vocalized;
+    const singular = vocalized;
 
     if((singular.Last().letter === Letter.AlefMaksura) && (singular[singular.length - 2].tashkil === Tashkil.Fathatan))
         return AdjectiveOrNounInflectionType.An;
@@ -87,9 +86,12 @@ function DetermineInflectionType(input: AdjectiveOrNounInput): AdjectiveOrNounIn
 
 export function DeclineAdjectiveOrNounImpl(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams)
 {
+    if(input.isDefinite && (params.state !== AdjectiveOrNounState.Definite))
+        throw new Error("currently can only change state from indefinite");
+    
     function inner()
     {
-        switch(DetermineInflectionType(input))
+        switch(DetermineInflectionType(input.vocalized))
         {
             case AdjectiveOrNounInflectionType.An:
                 return DeclineAdjectiveAnSuffix(input, params);
@@ -100,5 +102,5 @@ export function DeclineAdjectiveOrNounImpl(input: AdjectiveOrNounInput, params: 
         }
     }
     
-    return ConditionallyAddArticle(params.state === AdjectiveOrNounState.Definite, inner());
+    return ConditionallyAddArticle(!input.isDefinite && (params.state === AdjectiveOrNounState.Definite), inner());
 }

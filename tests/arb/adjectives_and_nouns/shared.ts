@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ export interface NounTestData
     base: string;
     gender: Gender;
     numerus: Numerus;
+    isDefinite: boolean;
 }
 
 function MapCase(entry: NounDeclensionTest): Case
@@ -99,6 +100,7 @@ export function RunNounDeclensionTest(noun: NounTestData, declensions: NounDecle
             gender: noun.gender,
             numerus: noun.numerus,
             vocalized: baseParsed,
+            isDefinite: noun.isDefinite
         }, {
             case: MapCase(entry),
             state: MapState(entry),

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -25,13 +25,15 @@ It("Feminine with ة, Sound feminine plural", () => {
     const singular_masculine: NounTestData = {
         base: "مُعَلِّم",
         gender: Gender.Male,
-        numerus: Numerus.Singular
+        numerus: Numerus.Singular,
+        isDefinite: false
     };
 
     const singular: NounTestData = {
         base: "مُعَلِّمَة",
         gender: Gender.Female,
-        numerus: Numerus.Singular
+        numerus: Numerus.Singular,
+        isDefinite: false
     };    
     RunDerivationTest(singular_masculine, "feminine", singular.base);
 
@@ -58,7 +60,8 @@ It("Feminine with ة, Sound feminine plural", () => {
     const dual: NounTestData = {
         base: "مُعَلِّمَتَيْن",
         gender: Gender.Female,
-        numerus: Numerus.Dual
+        numerus: Numerus.Dual,
+        isDefinite: false
     };
 
     RunDerivationTest(singular, "dual", dual.base);
@@ -86,7 +89,8 @@ It("Feminine with ة, Sound feminine plural", () => {
     const plural: NounTestData = {
         base: "مُعَلِّمَات",
         gender: Gender.Female,
-        numerus: Numerus.Plural
+        numerus: Numerus.Plural,
+        isDefinite: false
     };
 
     RunDerivationTest(singular, "plural", plural.base);

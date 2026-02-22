@@ -29,6 +29,7 @@ export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice, v
 {
     switch(verb.type)
     {
+        case VerbType.Sound:
         case VerbType.SoundQuadriliteral:
             return GenerateParticipleRegular(baseFormNew, voice);
     }
@@ -41,7 +42,6 @@ export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice, v
         case RootType.HamzaOnR1:
         case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
-        case RootType.Regular:
             return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
     return [{ letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];

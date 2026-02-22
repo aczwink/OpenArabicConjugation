@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,8 @@ It("Kasratan-type, Sound plural", () => {
     const singular: NounTestData = {
         base: "بَانٍ",
         gender: Gender.Male,
-        numerus: Numerus.Singular
+        numerus: Numerus.Singular,
+        isDefinite: false
     };
     
     const declensions_singular: NounDeclensionTest[] = [
@@ -53,7 +54,8 @@ It("Kasratan-type, Sound plural", () => {
     const dual: NounTestData = {
         base: "بَانِيَيْن",
         gender: Gender.Male,
-        numerus: Numerus.Dual
+        numerus: Numerus.Dual,
+        isDefinite: false
     };
 
     RunDerivationTest(singular, "dual", dual.base);
@@ -81,7 +83,8 @@ It("Kasratan-type, Sound plural", () => {
     const plural: NounTestData = {
         base: "بَانُون",
         gender: Gender.Male,
-        numerus: Numerus.Plural
+        numerus: Numerus.Plural,
+        isDefinite: false
     };
 
     RunDerivationTest(singular, "plural", plural.base);
