@@ -488,18 +488,28 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
         case VerbType.Geminate:
         {
+            const mafa33a = [
+                { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                { letter: root.r1, tashkil: Tashkil.Fatha },
+                { letter: root.r2, tashkil: Tashkil.Sukun },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
             switch(stem1Context.stemParameterization)
             {
+                case ModernStandardArabicStem1ParametersType.PastA_PresentU:
+                {
+                    return [
+                            fu3uul,
+                            fa3aala,
+                            fa3l,
+                            fi3aal,
+                            mafa33a,
+                        ];
+                }
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
                 {
-                    const mafa33a = [
-                        { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                        { letter: root.r1, tashkil: Tashkil.Fatha },
-                        { letter: root.r2, tashkil: Tashkil.Sukun },
-                        { letter: root.r2, tashkil: Tashkil.Fatha },
-                        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                    ];
-
                     if(root.r1 === Letter.Waw)
                     {
                         return [
@@ -522,15 +532,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 {
                     switch(_Legacy_ExtractPresentMiddleRadicalTashkil(stem1Context.stemParameterization))
                     {
-                        case Tashkil.Dhamma:
-                        {
-                            return [
-                                fu3uul,
-                                fa3aala,
-                                fa3l,
-                                fi3aal,
-                            ];
-                        }
                         case Tashkil.Fatha:
                         {
                             return [
@@ -717,6 +718,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         fa3aal,
                         fa3aala,
                         fi3l,
+                        fi3la,
                         maf3al,
                     ];
 
