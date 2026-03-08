@@ -86,6 +86,11 @@ jobs:
             echo "Committed version: ${{ steps.version_check.outputs.committed-version }}"
             echo "Retrieved version: ${{ steps.version_check.outputs.retrieved-version }}"
             echo "Has been published: ${{ steps.version_check.outputs.is-published }}"
+            echo "Committed version: ${{ steps.version_check.outputs.committed-version }}"
+            echo "Retrieved version: ${{ steps.version_check.outputs.retrieved-version }}"
+            echo "Has been published: ${{ steps.version_check.outputs.is-published }}"
+            echo "Is commited version free: ${{ steps.version_check.outputs.is-committed-version-free }}"
+            echo "Is your version greater: ${{ steps.version_check.outputs.result }}"
 
       - name: Publish package
         if: steps.version_check.outputs.is-new-version == 'true' || steps.version_check.outputs.is-published == 'false'
