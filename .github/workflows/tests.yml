@@ -19,7 +19,7 @@ name: Publish package
 
 on:
   push:
-    branches: [ "main", "version-check" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
