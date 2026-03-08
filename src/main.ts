@@ -15,9 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Conjugator } from "./Conjugator";
+import { Conjugator, TargetVerbBasedDerivationPatterns } from "./Conjugator";
 import { Letter } from "./Definitions";
 import { DialectType, GetAllConjugatableDialects } from "./Dialects";
+import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 import { GetDialectMetadata } from "./DialectsMetadata";
 import { IsArabicPhrase } from "./Util";
 import { VerbRoot } from "./VerbRoot";
@@ -27,6 +28,8 @@ export {
     Conjugator,
     DialectType,
     Letter,
+    ModernStandardArabicStem1ParametersType,
+    TargetVerbBasedDerivationPatterns,
     VerbRoot
 };
 

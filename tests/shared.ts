@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,7 @@
  * */
 import "@aczwink/acts-util-core";
 import { Expect, Fail } from "@aczwink/acts-util-test";
-import { Conjugator } from "../dist/Conjugator";
+import { Conjugator, TargetVerbBasedDerivationPatterns } from "../dist/Conjugator";
 import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "../dist/Definitions";
 import { VerbRoot } from "../dist/VerbRoot";
 import { GenderToString, MoodToString, NumerusToString, PersonToString, TenseToString, VoiceToString } from "../dist/Util";
@@ -220,7 +220,7 @@ export function _Legacy_RunActiveParticipleTest(rootRadicals: string, stem: Adva
         verbType
     });
     
-    const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
+    const activeGot = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ActiveParticiples)[0];
     TestParticiple(expected, activeGot, "active");
 }
 
@@ -230,7 +230,7 @@ export function RunActiveParticipleTest(verbTestData: VerbTestData, expected: st
 
     const verb = CreateVerbInstance(verbTestData);
     
-    const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
+    const activeGot = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ActiveParticiples)[(verbTestData.stativeActiveParticiple === true) ? 1 : 0];
     TestParticiple(expected, activeGot, "active");
 }
 
@@ -245,10 +245,10 @@ export function _Legacy_RunParticipleTest(rootRadicals: string, stem: AdvancedSt
         stem,
     });
     
-    const activeGot = conjugator.ConjugateParticiple(verb, Voice.Active);
+    const activeGot = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ActiveParticiples)[0];
     TestParticiple(activeExpected, activeGot, "active");
 
-    const passiveGot = conjugator.ConjugateParticiple(verb, Voice.Passive);
+    const passiveGot = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple)[0];
     TestParticiple(passiveExpected, passiveGot, "passive");
 }
 
@@ -257,11 +257,12 @@ export function RunParticipleTest(verbTestData: VerbTestData, activeExpected: st
     const conjugator = new Conjugator();
 
     const verb = CreateVerbInstance(verbTestData);
-    
-    const activeGot = (verbTestData.stativeActiveParticiple === true) ? conjugator.DeclineStativeActiveParticiple(verb) : conjugator.ConjugateParticiple(verb, Voice.Active);
+
+    const activeParticiples = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ActiveParticiples);
+    const activeGot = (verbTestData.stativeActiveParticiple === true) ? activeParticiples[1] : activeParticiples[0];
     TestParticiple(activeExpected, activeGot, "active");
 
-    const passiveGot = conjugator.ConjugateParticiple(verb, Voice.Passive);
+    const passiveGot = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple)[0];
     TestParticiple(passiveExpected, passiveGot, "passive");
 }
 
@@ -307,12 +308,12 @@ export function RunSoundEqualityTest(verbData: VerbTestData)
 
     //TODO: compare all conjugations
     
-    const a1 = conjugator.ConjugateParticiple(verb, Voice.Active);
-    const a2 = conjugator.ConjugateParticiple(soundVerb, Voice.Active);
+    const a1 = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ActiveParticiples)[0];
+    const a2 = conjugator.DeriveFromVerb(soundVerb, TargetVerbBasedDerivationPatterns.ActiveParticiples)[0];
     TestRootless(a2, soundVerb.root, a1, verb.root);
 
-    const p1 = conjugator.ConjugateParticiple(verb, Voice.Passive);
-    const p2 = conjugator.ConjugateParticiple(soundVerb, Voice.Passive);
+    const p1 = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple)[0];
+    const p2 = conjugator.DeriveFromVerb(soundVerb, TargetVerbBasedDerivationPatterns.PassiveParticiple)[0];
     TestRootless(p2, soundVerb.root, p1, verb.root);
 
     //TODO: compare all verbal nouns
@@ -336,10 +337,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
         const root = new VerbRoot(pattern.rootRadicals.split("-").join(""));
         const verb = CreateVerb(dialect, root, stem, verbType);
 
-        if(!conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
-            throw new Error("Expected multiple verbal nouns but apparently only one exists");
-
-        const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
+        const choices = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.VerbalNouns);
         const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(pattern.expected)));
         if(index === -1)
             throw new Error("Expected verbal noun '" + pattern.expected + "' could not be generated.");
@@ -362,9 +360,7 @@ export function _LegacyRunVerbalNounTest(rootRadicals: string, stem: AdvancedSte
     const root = new VerbRoot(rootRadicals.split("-").join(""));
     const verb = CreateVerb(dialect, root, stem, verbType);
 
-    if(conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
-        throw new Error("Expected a single verbal noun but apparently multiple ones exist");
-    const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
+    const choices = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.VerbalNouns);
 
     if(choices.length !== 1)
         throw new Error("Expected only a single verbal noun but got " + choices.length);
@@ -384,9 +380,7 @@ export function RunVerbalNounTest(verbTestData: VerbTestData, expected: string)
     const root = new VerbRoot(verbTestData.rootRadicals.split("-").join(""));
     const verb = CreateVerb(dialect, root, verbTestData.stem, verbTestData.verbType);
 
-    if(conjugator.HasPotentiallyMultipleVerbalNounForms(verb))
-        throw new Error("Expected a single verbal noun but apparently multiple ones exist");
-    const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
+    const choices = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.VerbalNouns);
 
     if(choices.length !== 1)
         throw new Error("Expected only a single verbal noun but got " + choices.length);
@@ -406,7 +400,7 @@ export function RunVerbalNounExistenceTest(verbTestData: VerbTestData, expected:
     const root = new VerbRoot(verbTestData.rootRadicals.split("-").join(""));
     const verb = CreateVerb(dialect, root, verbTestData.stem, verbTestData.verbType);
 
-    const choices = conjugator.GenerateAllPossibleVerbalNouns(verb);
+    const choices = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.VerbalNouns);
     const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(expected)));
     if(index === -1)
         throw new Error("Expected verbal noun '" + expected + "' could not be generated.");

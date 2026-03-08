@@ -22,7 +22,7 @@ import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { _Legacy_ExtractMiddleRadicalTashkil, _Legacy_ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-function MissingTestCheck(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>)
+function MissingTestCheck(root: VerbRoot)
 {
     if((root.r1 === Letter.Hamza) && (root.r3 === Letter.Ya))
     {
@@ -33,7 +33,7 @@ function MissingTestCheck(root: VerbRoot, stem1Context: VerbStem1Data<ModernStan
 
 export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
 {
-    MissingTestCheck(root, stem1Context);
+    MissingTestCheck(root);
 
     const fa3l = [
         { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -785,100 +785,4 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
     return [
         [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}]
     ];
-}
-
-export function HasPotentiallyMultipleVerbalNounFormsStem1(root: VerbRoot, verb: VerbStem1Data<ModernStandardArabicStem1ParametersType>)
-{
-    switch(verb.type)
-    {
-        case VerbType.Assimilated:
-            switch(verb.stemParameterization)
-            {
-                case ModernStandardArabicStem1ParametersType.PastA_PresentA:
-                case ModernStandardArabicStem1ParametersType.PastA_PresentI:
-                    return true;
-                case ModernStandardArabicStem1ParametersType.PastI_PresentI:
-                    return (root.r1 === Letter.Waw);
-            }
-            break;
-        case VerbType.Defective:
-        case VerbType.Hollow:
-            return true;
-        case VerbType.Irregular:
-        {
-            switch(verb.stemParameterization)
-            {
-                case ModernStandardArabicStem1ParametersType.IrregularHayiya:
-                case ModernStandardArabicStem1ParametersType.IrregularRa2a:
-                    return true;
-            }
-        }
-        break;
-        case VerbType.Sound:
-            if(root.type === RootType.InitialWeak)
-            {
-                switch(verb.stemParameterization)
-                {
-                    case ModernStandardArabicStem1ParametersType.PastI_PresentA:
-                        return false;
-                }
-            }
-            switch(_Legacy_ExtractMiddleRadicalTashkil(verb.stemParameterization))
-            {
-                case Tashkil.Dhamma:
-                case Tashkil.Fatha:
-                    return true;
-                case Tashkil.Kasra:
-                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(verb.stemParameterization))
-                    {
-                        case Tashkil.Fatha:
-                            return true;
-                    }
-            }
-            break;
-    }
-
-    switch(root.type)
-    {
-        case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-        {
-            switch(verb.stemParameterization)
-            {
-                case ModernStandardArabicStem1ParametersType.DefectiveType1:
-                    return true;
-            }
-        }
-        break;
-        case RootType.HamzaOnR1:
-        {
-            switch(verb.stemParameterization)
-            {
-                case ModernStandardArabicStem1ParametersType.PastA_PresentU:
-                case ModernStandardArabicStem1ParametersType.PastI_PresentA:
-                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
-                    return true;
-            }
-        }
-        break;
-        case RootType.SecondConsonantDoubled:
-        {
-            switch(_Legacy_ExtractMiddleRadicalTashkil(verb.stemParameterization))
-            {
-                case Tashkil.Fatha:
-                {
-                    switch(_Legacy_ExtractPresentMiddleRadicalTashkil(verb.stemParameterization))
-                    {
-                        case Tashkil.Dhamma:
-                        case Tashkil.Kasra:
-                            return true;
-                    }
-                }
-                break;
-                case Tashkil.Kasra:
-                    return true;
-            }
-        }
-        break;
-    }
-    return false;
 }

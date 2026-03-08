@@ -17,7 +17,7 @@
  * */
 import { Letter, ConjugationParams, Gender, Numerus, Person, AdvancedStemNumber, Tense, Voice, Tashkil, AdjectiveOrNounDeclensionParams, VerbType, AdjectiveOrNounInput } from "../../Definitions";
 import { DialectConjugator, TargetAdjectiveNounDerivation } from "../../DialectConjugator";
-import { RootType, VerbRoot } from "../../VerbRoot";
+import { VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
 import { AugmentedRoot, AugmentedRootSymbolInput, SymbolName } from "./AugmentedRoot";
 import { _TODO_DeriveSuffix } from "./conjugation/_legacy_suffix";
@@ -28,7 +28,7 @@ import { GeminateDoubledConsonant } from "./conjugation/doubled";
 import { AlterDefectiveEnding, AlterDefectiveSuffix } from "./conjugation/defective";
 import { AlterAssimilatedPrefix } from "./conjugation/assimilated";
 import { ApplyRootTashkil } from "./conjugation/rootTashkil";
-import { GenerateAllPossibleVerbalNounsStem1, HasPotentiallyMultipleVerbalNounFormsStem1 } from "./verbal_nouns/stem1";
+import { GenerateAllPossibleVerbalNounsStem1 } from "./verbal_nouns/stem1";
 import { Stem8AssimilateTaVerb } from "./conjugation/stem8";
 import { GenerateAllPossibleVerbalNounsStem8 } from "./verbal_nouns/stem8";
 import { GenerateAllPossibleVerbalNounsStem5 } from "./verbal_nouns/stem5";
@@ -159,6 +159,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
         switch(verb.type)
         {
+            case VerbType.Assimilated:
             case VerbType.Sound:
                 return [
                     { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -198,31 +199,6 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             default:
                 return GenerateAllPossibleVerbalNounsStem1(root, verb);
         }
-    }
-
-    public HasPotentiallyMultipleVerbalNounForms(verb: Verb<ModernStandardArabicStem1ParametersType>)
-    {
-        if(verb.stem === 1)
-            return HasPotentiallyMultipleVerbalNounFormsStem1(verb.root, verb);
-        
-        if(verb.stem === 2)
-        {
-            switch(verb.type)
-            {
-                case VerbType.Defective:
-                    return true;
-            }
-            switch(verb.root.type)
-            {
-                case RootType.Regular:
-                case RootType.SecondConsonantDoubled:
-                    return true;
-            }
-        }
-        if((verb.stem === 3) && (verb.type === VerbType.Sound))
-            return true;
-
-        return false;
     }
 
     //Private methods

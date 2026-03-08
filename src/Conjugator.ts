@@ -19,13 +19,19 @@ import { Hamzate } from "./Hamza";
 import { DialectConjugator, TargetAdjectiveNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
 import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
-import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus, AdjectiveOrNounInput } from "./Definitions";
+import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus, AdjectiveOrNounInput, VerbType } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb } from "./Verb";
-import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
-import { _TODO_ConjugationVocalizedToConjugatedWord, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
+import { _TODO_ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
+
+export enum TargetVerbBasedDerivationPatterns
+{
+    ActiveParticiples,
+    PassiveParticiple,
+    VerbalNouns
+}
 
 export class Conjugator
 {
@@ -44,14 +50,6 @@ export class Conjugator
         return this.ExecuteWordTransformationPipeline(word);
     }
 
-    public ConjugateParticiple(verb: Verb<string>, voice: Voice): DisplayVocalized[]
-    {
-        const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
-        const pattern = dialectConjugator.ConjugateParticiple(verb as any, voice, this.ConjugateBaseForm.bind(this, verb));
-
-        return this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern));
-    }
-
     /**
      * Normally the input is expected to be in informal form.
      * Masculine sound plural must be given in nominative form but without the trailing fatha, i.e. the -un form (e.g. بَانُون).
@@ -66,6 +64,50 @@ export class Conjugator
         return dialectConjugator.DeclineAdjectiveOrNoun(input, params);
     }
 
+    public DeriveFromVerb(verb: Verb<string>, target: TargetVerbBasedDerivationPatterns)
+    {
+        const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
+
+        let patterns;
+        switch(target)
+        {
+            case TargetVerbBasedDerivationPatterns.ActiveParticiples:
+            {
+                const pattern = dialectConjugator.ConjugateParticiple(verb, Voice.Active, this.ConjugateBaseForm.bind(this, verb));
+                patterns = [pattern];
+
+                if((verb.dialect === DialectType.ModernStandardArabic) && (verb.stem === 1))
+                {
+                    //TODO: refactor this
+                    switch(verb.type)
+                    {
+                        case VerbType.Assimilated:
+                        case VerbType.Sound:
+                            const msaConjugator = new MSAConjugator;
+                            const result = msaConjugator.DeclineStativeActiveParticiple(verb as Verb<any>);
+                            patterns.push(result);
+                            break;
+                    }
+                }
+            }
+            break;
+            case TargetVerbBasedDerivationPatterns.PassiveParticiple:
+            {
+                const pattern = dialectConjugator.ConjugateParticiple(verb, Voice.Passive, this.ConjugateBaseForm.bind(this, verb));
+                patterns = [pattern];
+            }
+            break;
+            case TargetVerbBasedDerivationPatterns.VerbalNouns:
+            {
+                const dialectConjugator = new MSAConjugator;
+                patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(verb as Verb<any>);
+            }
+            break;
+        }
+
+        return patterns.map(pattern => this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern)));
+    }
+
     /**
      * 
      * @param singular The same rules apply as for method @method DeclineAdjectiveOrNoun.
@@ -78,31 +120,6 @@ export class Conjugator
     {
         const dialectConjugator = new MSAConjugator;
         return dialectConjugator.DeriveSoundAdjectiveOrNoun(singular, singularGender, target);
-    }
-
-    public DeclineStativeActiveParticiple(verb: Verb<string>): DisplayVocalized[]
-    {
-        const dialectConjugator = this.CreateDialectConjugator(DialectType.ModernStandardArabic);
-        if(!(dialectConjugator instanceof MSAConjugator))
-            throw new Error("This does only work for Modern Standard Arabic!");
-
-        const pattern = dialectConjugator.DeclineStativeActiveParticiple(this.VerifyIsMSA(verb));
-
-        return this.ExecuteWordTransformationPipeline(_TODO_ConjugationVocalizedToConjugatedWord(pattern));
-    }
-
-    public GenerateAllPossibleVerbalNouns(verb: Verb<string>): DisplayVocalized[][]
-    {
-        const dialectConjugator = new MSAConjugator;
-        const patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(verb as Verb<any>);
-
-        return patterns.map(x => this.ExecuteWordTransformationPipeline(this._LegacyPatch(x)));
-    }
-
-    public HasPotentiallyMultipleVerbalNounForms(verb: Verb<string>)
-    {
-        const dialectConjugator = new MSAConjugator;
-        return dialectConjugator.HasPotentiallyMultipleVerbalNounForms(verb as Verb<any>);
     }
 
     //Private methods
@@ -210,28 +227,5 @@ export class Conjugator
         }
 
         return result;
-    }
-
-    private VerifyIsMSA(verb: Verb<string>): Verb<ModernStandardArabicStem1ParametersType>
-    {
-        if(verb.stem === 1)
-        {
-            switch(verb.stemParameterization)
-            {
-                case ModernStandardArabicStem1ParametersType.DefectiveType1:
-                case ModernStandardArabicStem1ParametersType.DefectiveType2:
-                case ModernStandardArabicStem1ParametersType.DefectiveType3:
-                case ModernStandardArabicStem1ParametersType.IrregularHayiya:
-                case ModernStandardArabicStem1ParametersType.IrregularLaysa:
-                case ModernStandardArabicStem1ParametersType.PastA_PresentA:
-                case ModernStandardArabicStem1ParametersType.PastI_PresentI:
-                case ModernStandardArabicStem1ParametersType.PastU_PresentU:
-                case ModernStandardArabicStem1ParametersType.Quadrilateral:
-                    return verb as Verb<ModernStandardArabicStem1ParametersType>;
-                default:
-                    throw new Error("Wrong stem parameterization!");
-            }
-        }
-        return verb as Verb<ModernStandardArabicStem1ParametersType>;
     }
 }
