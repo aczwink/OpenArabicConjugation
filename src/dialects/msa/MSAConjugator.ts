@@ -55,8 +55,9 @@ import { DialectType } from "../../Dialects";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
 import { SelectTemplate } from "./conjugation_templates/select";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
-import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, Vowel } from "../../Conjugation";
+import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "../../Conjugation";
 import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
+import { DeriveNounPluralPatternsImpl } from "./adjectives_nouns/plural_patterns";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -106,6 +107,81 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     {
         return DeclineAdjectiveOrNounImpl(input, params);
     }
+
+    public DeriveCharacteristicNoun(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord
+    {
+        const root = verb.root;
+
+        return {
+            elements: [
+                { consonant: root.r1, followingVowel: Vowel.ShortA },
+                { consonant: root.r2, followingVowel: Vowel.Sukun },
+                { consonant: root.r2, followingVowel: Vowel.LongA },
+            ],
+            ending: {
+                consonant: root.r3,
+                finalVowel: FinalVowel.None
+            }
+        };
+    }
+
+    public DeriveNounOfPlace(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord
+    {
+        const root = verb.root;
+
+        return {
+            elements: [
+                { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                { consonant: root.r1, followingVowel: Vowel.Sukun },
+                { consonant: root.r2, followingVowel: Vowel.ShortA },
+            ],
+            ending: {
+                consonant: root.r3,
+                finalVowel: FinalVowel.None
+            }
+        };
+    }
+
+    public DeriveNounPluralPatterns(singular: DisplayVocalized[])
+    {
+        return DeriveNounPluralPatternsImpl(singular);
+    }
+
+    public DeriveToolNouns(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord[]
+    {
+        const root = verb.root;
+
+        if(verb.type === VerbType.Assimilated)
+        {
+            return [
+                {
+                    elements: [
+                        { consonant: Letter.Mim, followingVowel: Vowel.LongI },
+                        { consonant: root.r2, followingVowel: Vowel.LongA },
+                    ],
+                    ending: {
+                        consonant: root.r3,
+                        finalVowel: FinalVowel.None
+                    }
+                }
+            ];
+        }
+
+        return [
+            {
+                elements: [
+                    { consonant: Letter.Mim, followingVowel: Vowel.ShortI },
+                    { consonant: root.r1, followingVowel: Vowel.Sukun },
+                    { consonant: root.r2, followingVowel: Vowel.ShortA },
+                    { consonant: root.r3, followingVowel: Vowel.ShortA },
+                ],
+                ending: {
+                    consonant: Letter.TaMarbuta,
+                    finalVowel: FinalVowel.None
+                }
+            }
+        ];
+    }
     
     public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation): DisplayVocalized[]
     {
@@ -131,6 +207,13 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     fixedEnding[fixedEnding.length - 3].letter = Letter.Ta;
                 }
                 return fixedEnding;
+            }
+
+            case TargetAdjectiveNounDerivation.DeriveNisbaSameGender:
+            {
+                return WithTashkilOnLast(base, Tashkil.Kasra).concat([
+                    { emphasis: false, letter: Letter.Ya, shadda: true }
+                ]);
             }
                 
             case TargetAdjectiveNounDerivation.DerivePluralSameGender:

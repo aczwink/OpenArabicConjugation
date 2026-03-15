@@ -36,7 +36,7 @@ export interface VerbTestData
     verbType?: VerbType;
 }
 
-function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
+export function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
 {
     //comparison is of strings is non trivial because the position of the shadda can be before or after the primary tashkil, also we have the emphasis optional field
     if(a.length !== b.length)

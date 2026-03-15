@@ -26,10 +26,18 @@ import { Verb } from "./Verb";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
 import { _TODO_ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
 
+export enum TargetNounBasedDerivationPatterns
+{
+    PluralPatterns,
+}
+
 export enum TargetVerbBasedDerivationPatterns
 {
     ActiveParticiples,
+    CharacteristicNoun,
+    NounOfPlace,
     PassiveParticiple,
+    ToolNouns,
     VerbalNouns
 }
 
@@ -64,9 +72,26 @@ export class Conjugator
         return dialectConjugator.DeclineAdjectiveOrNoun(input, params);
     }
 
+    public DeriveFromNoun(singular: DisplayVocalized[], target: TargetNounBasedDerivationPatterns)
+    {
+        const dialectConjugator = new MSAConjugator;
+        switch(target)
+        {
+            case TargetNounBasedDerivationPatterns.PluralPatterns:
+                const patterns = dialectConjugator.DeriveNounPluralPatterns(singular);
+                return patterns.map(this.ExecuteWordTransformationPipeline.bind(this));
+        }
+    }
+
+    /**
+     * 
+     * @returns 
+     * - For @constant TargetVerbBasedDerivationPatterns.ActiveParticiples, index 0 is the standard form and index 1 is the stative form (fa3iil) if it exists.
+     */
     public DeriveFromVerb(verb: Verb<string>, target: TargetVerbBasedDerivationPatterns)
     {
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
+        const msaVerb = verb as Verb<any>;
 
         let patterns;
         switch(target)
@@ -84,11 +109,25 @@ export class Conjugator
                         case VerbType.Assimilated:
                         case VerbType.Sound:
                             const msaConjugator = new MSAConjugator;
-                            const result = msaConjugator.DeclineStativeActiveParticiple(verb as Verb<any>);
+                            const result = msaConjugator.DeclineStativeActiveParticiple(msaVerb);
                             patterns.push(result);
                             break;
                     }
                 }
+            }
+            break;
+            case TargetVerbBasedDerivationPatterns.CharacteristicNoun:
+            {
+                const dialectConjugator = new MSAConjugator;
+                const pattern = dialectConjugator.DeriveCharacteristicNoun(msaVerb);
+                patterns = [pattern];
+            }
+            break;
+            case TargetVerbBasedDerivationPatterns.NounOfPlace:
+            {
+                const dialectConjugator = new MSAConjugator;
+                const pattern = dialectConjugator.DeriveNounOfPlace(msaVerb);
+                patterns = [pattern];
             }
             break;
             case TargetVerbBasedDerivationPatterns.PassiveParticiple:
@@ -97,10 +136,16 @@ export class Conjugator
                 patterns = [pattern];
             }
             break;
+            case TargetVerbBasedDerivationPatterns.ToolNouns:
+            {
+                const dialectConjugator = new MSAConjugator;
+                patterns = dialectConjugator.DeriveToolNouns(msaVerb);
+            }
+            break;
             case TargetVerbBasedDerivationPatterns.VerbalNouns:
             {
                 const dialectConjugator = new MSAConjugator;
-                patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(verb as Verb<any>);
+                patterns = dialectConjugator.GenerateAllPossibleVerbalNouns(msaVerb);
             }
             break;
         }
@@ -114,6 +159,7 @@ export class Conjugator
      * @returns
      * - For @constant TargetAdjectiveNounDerivation.DeriveFeminineSingular the informal indefinite.
      * - For @constant TargetAdjectiveNounDerivation.DeriveDualSameGender the informal indefinite.
+     * - For @constant TargetAdjectiveNounDerivation.DeriveNisbaSameGender the informal indefinite.
      * - For @constant TargetAdjectiveNounDerivation.DerivePluralSameGender and masculine gender the -un form is returned (see also @method DeclineAdjectiveOrNoun), for female it is the informal indefinite.
      */
     public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation, dialect: DialectType): DisplayVocalized[]

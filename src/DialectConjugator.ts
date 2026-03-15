@@ -24,6 +24,7 @@ export enum TargetAdjectiveNounDerivation
 {
     DeriveFeminineSingular,
     DeriveDualSameGender,
+    DeriveNisbaSameGender,
     DerivePluralSameGender,
 }
 

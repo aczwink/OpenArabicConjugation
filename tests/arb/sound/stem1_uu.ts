@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -40,6 +40,7 @@ It("Stem 1 past:u, present:u", () => {
         { rootRadicals: "س-ه-ل", expected: "سُهُولَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B3%D9%87%D9%84#Arabic
         { rootRadicals: "ض-ع-ف", expected: "ضَعْف" }, //Source: https://en.wiktionary.org/wiki/%D8%B6%D8%B9%D9%81
         { rootRadicals: "ص-غ-ر", expected: "صِغَر" }, //Source: http://ejtaal.net/aa/#hw4=615
+        { rootRadicals: "ر-ف-ه", expected: "رَفَاهِيَة" }, //Source: http://ejtaal.net/aa/#hw4=420
     ]);
     RunParticipleTest(verb, "خَبِير", "مَخْبُور");
 

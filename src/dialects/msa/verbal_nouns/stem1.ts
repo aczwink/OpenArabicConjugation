@@ -22,19 +22,8 @@ import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { _Legacy_ExtractMiddleRadicalTashkil, _Legacy_ExtractPresentMiddleRadicalTashkil, ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-function MissingTestCheck(root: VerbRoot)
-{
-    if((root.r1 === Letter.Hamza) && (root.r3 === Letter.Ya))
-    {
-        //test: arb/doubly_weak/r1hamza_r3ya.js
-        throw new Error("TODO: Write test! 2");
-    }
-}
-
 export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context: VerbStem1Data<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
 {
-    MissingTestCheck(root);
-
     const fa3l = [
         { letter: root.r1, tashkil: Tashkil.Fatha },
         { letter: root.r2, tashkil: Tashkil.Sukun },
@@ -744,6 +733,14 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: root.r2, tashkil: Tashkil.Fatha },
                             { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                             { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.Kasra },
+                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                         ],
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },

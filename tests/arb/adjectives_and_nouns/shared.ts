@@ -15,13 +15,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Conjugator } from "../../../dist/Conjugator";
+import { Conjugator, TargetNounBasedDerivationPatterns } from "../../../dist/Conjugator";
 import { AdjectiveOrNounState, Case, Gender, Numerus } from "../../../dist/Definitions";
 import { DialectType } from "../../../dist/Dialects";
 import { ParseVocalizedText } from "../../../dist/Vocalization";
-import { ShouldEqual } from "../../shared";
+import { CompareVocalized, ShouldEqual } from "../../shared";
 import { NumerusToString } from "../../../dist/Util";
 import { TargetAdjectiveNounDerivation } from "../../../dist/DialectConjugator";
+import { Fail } from "@aczwink/acts-util-test";
 
 export interface NounDeclensionTest
 {
@@ -53,7 +54,7 @@ function MapCase(entry: NounDeclensionTest): Case
     }
 }
 
-function MapDerivation(derivation: "dual" | "feminine" | "plural"): TargetAdjectiveNounDerivation
+function MapDerivation(derivation: "dual" | "feminine" | "nisba" | "plural"): TargetAdjectiveNounDerivation
 {
     switch(derivation)
     {
@@ -61,6 +62,8 @@ function MapDerivation(derivation: "dual" | "feminine" | "plural"): TargetAdject
             return TargetAdjectiveNounDerivation.DeriveDualSameGender;
         case "feminine":
             return TargetAdjectiveNounDerivation.DeriveFeminineSingular;
+        case "nisba":
+            return TargetAdjectiveNounDerivation.DeriveNisbaSameGender;
         case "plural":
             return TargetAdjectiveNounDerivation.DerivePluralSameGender;
     }
@@ -79,7 +82,7 @@ function MapState(entry: NounDeclensionTest): AdjectiveOrNounState
     }
 }
 
-export function RunDerivationTest(singular: NounTestData, derivation: "dual" | "feminine" | "plural", expected: string)
+export function RunDerivationTest(singular: NounTestData, derivation: "dual" | "feminine" | "nisba" | "plural", expected: string)
 {
     const c = new Conjugator();
 
@@ -108,4 +111,20 @@ export function RunNounDeclensionTest(noun: NounTestData, declensions: NounDecle
 
         ShouldEqual(entry.expected, declined, () => [NumerusToString(noun.numerus), entry.case, entry.state]);
     }
+}
+
+export function RunPluralTest(singular: string, plural: string)
+{
+    const c = new Conjugator();
+
+    const s = ParseVocalizedText(singular);
+    const patterns = c.DeriveFromNoun(s, TargetNounBasedDerivationPatterns.PluralPatterns);
+
+    const p = ParseVocalizedText(plural);
+    for (const pattern of patterns)
+    {
+        if(CompareVocalized(p, pattern))
+            return;
+    }
+    Fail("Plural pattern was not found");
 }
