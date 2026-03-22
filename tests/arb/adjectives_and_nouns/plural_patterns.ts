@@ -19,5 +19,6 @@ import { It } from "@aczwink/acts-util-test";
 import { RunPluralTest } from "./shared";
 
 It("Plural patterns", () => {
+    RunPluralTest("أَب", "آبَاء");
     RunPluralTest("مَشْعَر", "مَشَاعِر");
 });

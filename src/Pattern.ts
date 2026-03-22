@@ -44,9 +44,9 @@ export interface WordPattern
 
 interface MatchResult
 {
-    r1: Letter;
-    r2: Letter;
-    r3: Letter;
+    r1?: Letter;
+    r2?: Letter;
+    r3?: Letter;
 }
 
 export function ApplyPattern(pattern: WordPattern, matched: MatchResult): ConjugatedWord
@@ -56,10 +56,16 @@ export function ApplyPattern(pattern: WordPattern, matched: MatchResult): Conjug
         switch(consonant)
         {
             case PatternSymbol.R1:
+                if(matched.r1 === undefined)
+                    throw new Error("R1 is not defined");
                 return matched.r1;
             case PatternSymbol.R2:
+                if(matched.r2 === undefined)
+                    throw new Error("R2 is not defined");
                 return matched.r2;
             case PatternSymbol.R3:
+                if(matched.r3 === undefined)
+                    throw new Error("R3 is not defined");
                 return matched.r3;
         }
         return consonant;
@@ -168,17 +174,6 @@ export function MatchPatternAgainstWord(pattern: WordPattern, word: DisplayVocal
                     if(pattern.ending.finalVowel !== _TODO_TashkilToVowel(b.tashkil!))
                         return null;
         }
-    }
-
-    if(
-        (r1 === undefined)
-        ||
-        (r2 === undefined)
-        ||
-        (r3 === undefined)
-    )
-    {
-        throw new Error("TODO: implement this better");
     }
 
     return {

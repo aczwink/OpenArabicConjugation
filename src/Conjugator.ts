@@ -24,7 +24,7 @@ import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb } from "./Verb";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
-import { _TODO_ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
+import { ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
 
 export enum TargetNounBasedDerivationPatterns
 {
@@ -186,7 +186,7 @@ export class Conjugator
         const result = dialectConjugator.Conjugate(verb, params);
 
         if(Array.isArray(result))
-            return _TODO_ConjugationVocalizedToConjugatedWord(result);
+            return ConjugationVocalizedToConjugatedWord(result);
 
         const constructed = this.ConstructWord(result.matchResult, result.prefix, result.suffix);
         return constructed;
@@ -248,7 +248,7 @@ export class Conjugator
 
     private _LegacyPatch(pattern: ConjugationVocalized[] | ConjugatedWord)
     {
-        return Array.isArray(pattern) ? _TODO_ConjugationVocalizedToConjugatedWord(pattern) : pattern;
+        return Array.isArray(pattern) ? ConjugationVocalizedToConjugatedWord(pattern) : pattern;
     }
 
     private ToDisplayVocalized(vocalized: ConjugationVocalized[])

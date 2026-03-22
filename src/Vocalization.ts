@@ -102,6 +102,34 @@ export function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
     return sum / a.length;
 }
 
+export function ConvertFullyVocalized(vocalized: DisplayVocalized[])
+{
+    const result: ConjugationVocalized[] = [];
+
+    for (const v of vocalized)
+    {
+        if(v.tashkil === undefined)
+            throw new Error("Must be fully vocalized!");
+        
+        if(v.shadda)
+        {
+            result.push({
+                letter: v.letter,
+                tashkil: Tashkil.Sukun,
+                emphasis: v.emphasis
+            });
+        }
+
+        result.push({
+            letter: v.letter,
+            tashkil: v.tashkil,
+            emphasis: v.emphasis
+        });
+    }
+
+    return result;
+}
+
 export function ParseVocalizedPhrase(text: string)
 {
     return text.split(" ").map(ParseVocalizedText);

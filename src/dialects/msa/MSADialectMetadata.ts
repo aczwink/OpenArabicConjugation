@@ -309,6 +309,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 {
                     case 1:
                     case 4:
+                    case 8:
                         return true;
                 }
                 break;

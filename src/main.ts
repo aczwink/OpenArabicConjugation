@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
+import { ConjugationVocalizedToConjugatedWord } from "./Conjugation";
 import { Conjugator, TargetVerbBasedDerivationPatterns } from "./Conjugator";
 import { Letter } from "./Definitions";
 import { DialectType, GetAllConjugatableDialects } from "./Dialects";
@@ -22,7 +23,7 @@ import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugat
 import { GetDialectMetadata } from "./DialectsMetadata";
 import { IsArabicPhrase } from "./Util";
 import { VerbRoot } from "./VerbRoot";
-import { ParseVocalizedPhrase } from "./Vocalization";
+import { ConvertFullyVocalized, ParseVocalizedPhrase } from "./Vocalization";
 
 export {
     Conjugator,
@@ -35,6 +36,8 @@ export {
 
 export class ArabicText
 {
+    static ConjugationVocalizedToConjugatedWord = ConjugationVocalizedToConjugatedWord;
+    static ConvertFullyVocalized = ConvertFullyVocalized;
     static IsArabicPhrase = IsArabicPhrase;
     static ParseVocalizedPhrase = ParseVocalizedPhrase;
 }

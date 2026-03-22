@@ -108,6 +108,147 @@ export interface SuffixResult
     previousVowel: Vowel;
 }
 
+export function ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocalized[])
+{
+    function IsDiphtong(v: ConjugationVocalized | undefined, predecessor: ConjugationVocalized | undefined)
+    {
+        //diphtongs are /aj/ or /aw/, i.e. a ya or waw with sukun above it, while the predecessor needs to have a fatha
+        return (
+            (predecessor?.tashkil === Tashkil.Fatha)
+            &&
+            (v?.tashkil === Tashkil.Sukun)
+            &&
+            ( (v.letter === Letter.Waw) || (v.letter === Letter.Ya) )
+        );
+    }
+    function IsLongVowel(vocalized: ConjugationVocalized, predecessor?: ConjugationVocalized)
+    {
+        const isLongAlef = (vocalized.letter === Letter.Alef) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Fatha);
+        const isLongYa = (vocalized.letter === Letter.Ya) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Kasra);
+        const isLongWaw = (vocalized.letter === Letter.Waw) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Dhamma);
+
+        return isLongAlef || isLongYa || isLongWaw;
+    }
+
+    const word: ConjugatedWord = {
+        elements: []
+    };
+
+    for(let i = 0; i < vocalized.length; i++)
+    {
+        const entry = vocalized[i];
+        const next: ConjugationVocalized | undefined = vocalized[i+1];
+
+        if(entry.tashkil === Tashkil.EndOfWordMarker)
+        {
+            word.ending = {
+                consonant: entry.letter,
+                finalVowel: FinalVowel.None
+            };
+        }
+        else if(entry.tashkil === Tashkil.Fathatan)
+        {
+            if((i === (vocalized.length - 2)) && (vocalized[vocalized.length - 1].letter === Letter.AlefMaksura) && ((vocalized[vocalized.length - 1].tashkil === Tashkil.EndOfWordMarker) || (vocalized[vocalized.length - 1].tashkil === Tashkil.AlefMaksuraMarker)))
+            {
+                word.ending = {
+                    consonant: entry.letter,
+                    finalVowel: FinalVowel.AlefMaksuraWithFathatan
+                };
+                return word;
+            }
+            else
+            {
+                vocalized.forEach(console.log);
+                throw new Error("TODO: implement me");
+            }
+            /*word.ending = {
+                consonant: entry.letter,
+                finalVowel: FinalVowel.Fathatan
+            };*/
+        }
+        else if(entry.tashkil === Tashkil.Kasratan)
+        {
+            word.ending = {
+                consonant: entry.letter,
+                finalVowel: FinalVowel.Kasratan,
+            };
+        }
+        else if((next !== undefined) && IsLongVowel(next, entry))
+        {
+            switch(next.letter)
+            {
+                case Letter.Alef:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.LongA,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+                case Letter.Waw:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.LongU,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+                case Letter.Ya:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.LongI,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+                default:
+                    throw new Error(next.letter);
+            }
+        }
+        else if((next !== undefined) && IsDiphtong(next, entry))
+        {
+            switch(next.letter)
+            {
+                case Letter.Waw:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.DiphtongAw,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+                case Letter.Ya:
+                    word.elements.push({
+                        consonant: entry.letter,
+                        followingVowel: Vowel.DiphtongAj,
+                        emphasis: entry.emphasis,
+                    });
+                    i++;
+                    break;
+            }
+        }
+        else if(next?.tashkil === Tashkil.AlefMaksuraMarker)
+        {
+            word.elements.push({
+                consonant: entry.letter,
+                followingVowel: Vowel.BrokenA,
+                emphasis: entry.emphasis
+            });
+            i++;
+        }
+        else
+        {
+            word.elements.push({
+                consonant: entry.letter,
+                followingVowel: _TODO_TashkilToVowel(entry.tashkil),
+                emphasis: entry.emphasis
+            });
+        }
+    }
+
+    return word;
+}
+
 export function ToLongVowel(vowel: Vowel.ShortA | Vowel.ShortI | Vowel.ShortU)
 {
     switch(vowel)
@@ -254,145 +395,4 @@ export function _TODO_TashkilToVowel(taskil: Tashkil)
             return Vowel.Sukun;
     }
     throw new Error("_TODO_TashkilToVowel: " + taskil);
-}
-
-export function _TODO_ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocalized[])
-{
-    function IsDiphtong(v: ConjugationVocalized | undefined, predecessor: ConjugationVocalized | undefined)
-    {
-        //diphtongs are /aj/ or /aw/, i.e. a ya or waw with sukun above it, while the predecessor needs to have a fatha
-        return (
-            (predecessor?.tashkil === Tashkil.Fatha)
-            &&
-            (v?.tashkil === Tashkil.Sukun)
-            &&
-            ( (v.letter === Letter.Waw) || (v.letter === Letter.Ya) )
-        );
-    }
-    function IsLongVowel(vocalized: ConjugationVocalized, predecessor?: ConjugationVocalized)
-    {
-        const isLongAlef = (vocalized.letter === Letter.Alef) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Fatha);
-        const isLongYa = (vocalized.letter === Letter.Ya) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Kasra);
-        const isLongWaw = (vocalized.letter === Letter.Waw) && (vocalized.tashkil === Tashkil.LongVowelMarker) && (predecessor?.tashkil === Tashkil.Dhamma);
-
-        return isLongAlef || isLongYa || isLongWaw;
-    }
-
-    const word: ConjugatedWord = {
-        elements: []
-    };
-
-    for(let i = 0; i < vocalized.length; i++)
-    {
-        const entry = vocalized[i];
-        const next: ConjugationVocalized | undefined = vocalized[i+1];
-
-        if(entry.tashkil === Tashkil.EndOfWordMarker)
-        {
-            word.ending = {
-                consonant: entry.letter,
-                finalVowel: FinalVowel.None
-            };
-        }
-        else if(entry.tashkil === Tashkil.Fathatan)
-        {
-            if((i === (vocalized.length - 2)) && (vocalized[vocalized.length - 1].letter === Letter.AlefMaksura) && ((vocalized[vocalized.length - 1].tashkil === Tashkil.EndOfWordMarker) || (vocalized[vocalized.length - 1].tashkil === Tashkil.AlefMaksuraMarker)))
-            {
-                word.ending = {
-                    consonant: entry.letter,
-                    finalVowel: FinalVowel.AlefMaksuraWithFathatan
-                };
-                return word;
-            }
-            else
-            {
-                vocalized.forEach(console.log);
-                throw new Error("TODO: implement me");
-            }
-            /*word.ending = {
-                consonant: entry.letter,
-                finalVowel: FinalVowel.Fathatan
-            };*/
-        }
-        else if(entry.tashkil === Tashkil.Kasratan)
-        {
-            word.ending = {
-                consonant: entry.letter,
-                finalVowel: FinalVowel.Kasratan,
-            };
-        }
-        else if((next !== undefined) && IsLongVowel(next, entry))
-        {
-            switch(next.letter)
-            {
-                case Letter.Alef:
-                    word.elements.push({
-                        consonant: entry.letter,
-                        followingVowel: Vowel.LongA,
-                        emphasis: entry.emphasis,
-                    });
-                    i++;
-                    break;
-                case Letter.Waw:
-                    word.elements.push({
-                        consonant: entry.letter,
-                        followingVowel: Vowel.LongU,
-                        emphasis: entry.emphasis,
-                    });
-                    i++;
-                    break;
-                case Letter.Ya:
-                    word.elements.push({
-                        consonant: entry.letter,
-                        followingVowel: Vowel.LongI,
-                        emphasis: entry.emphasis,
-                    });
-                    i++;
-                    break;
-                default:
-                    throw new Error(next.letter);
-            }
-        }
-        else if((next !== undefined) && IsDiphtong(next, entry))
-        {
-            switch(next.letter)
-            {
-                case Letter.Waw:
-                    word.elements.push({
-                        consonant: entry.letter,
-                        followingVowel: Vowel.DiphtongAw,
-                        emphasis: entry.emphasis,
-                    });
-                    i++;
-                    break;
-                case Letter.Ya:
-                    word.elements.push({
-                        consonant: entry.letter,
-                        followingVowel: Vowel.DiphtongAj,
-                        emphasis: entry.emphasis,
-                    });
-                    i++;
-                    break;
-            }
-        }
-        else if(next?.tashkil === Tashkil.AlefMaksuraMarker)
-        {
-            word.elements.push({
-                consonant: entry.letter,
-                followingVowel: Vowel.BrokenA,
-                emphasis: entry.emphasis
-            });
-            i++;
-        }
-        else
-        {
-            word.elements.push({
-                consonant: entry.letter,
-                followingVowel: _TODO_TashkilToVowel(entry.tashkil),
-                emphasis: entry.emphasis
-            });
-        }
-    }
-
-    return word;
 }

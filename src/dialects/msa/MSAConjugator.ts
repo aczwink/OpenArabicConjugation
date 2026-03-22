@@ -272,7 +272,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 7:
                 return [GenerateAllPossibleVerbalNounsStem7(root)];
             case 8:
-                return [GenerateAllPossibleVerbalNounsStem8(root)];
+                return [GenerateAllPossibleVerbalNounsStem8(verb)];
             case 9:
                 return [
                     []

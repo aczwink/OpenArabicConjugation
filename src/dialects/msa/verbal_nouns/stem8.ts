@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,13 +15,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Letter, Tashkil } from "../../../Definitions";
-import { RootType, VerbRoot } from "../../../VerbRoot";
+import { Letter, Tashkil, VerbType } from "../../../Definitions";
+import { Verb } from "../../../Verb";
+import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 import { Stem8AssimilateTa } from "../conjugation/stem8";
 
-export function GenerateAllPossibleVerbalNounsStem8(root: VerbRoot): ConjugationVocalized[]
+export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[]
 {
+    const root = verb.root;
+
+    switch(verb.type)
+    {
+        case VerbType.Irregular:
+        {
+            return [
+                { letter: Letter.Alef, tashkil: Tashkil.Kasra },
+                { letter: Letter.Ta, tashkil: Tashkil.Sukun },
+                { letter: Letter.Ta, tashkil: Tashkil.Kasra },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+            ];
+        }
+        break;
+    }
+
     switch(root.type)
     {
         case RootType.InitialWeak:
