@@ -23,7 +23,7 @@ import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugat
 import { GetDialectMetadata } from "./DialectsMetadata";
 import { IsArabicPhrase } from "./Util";
 import { VerbRoot } from "./VerbRoot";
-import { ConvertFullyVocalized, ParseVocalizedPhrase } from "./Vocalization";
+import { CompareVocalized, ConvertFullyVocalized, EqualsVocalized, ParseVocalizedPhrase } from "./Vocalization";
 
 export {
     Conjugator,
@@ -36,8 +36,10 @@ export {
 
 export class ArabicText
 {
+    static CompareVocalized = CompareVocalized;
     static ConjugationVocalizedToConjugatedWord = ConjugationVocalizedToConjugatedWord;
     static ConvertFullyVocalized = ConvertFullyVocalized;
+    static EqualsVocalized = EqualsVocalized;
     static IsArabicPhrase = IsArabicPhrase;
     static ParseVocalizedPhrase = ParseVocalizedPhrase;
 }

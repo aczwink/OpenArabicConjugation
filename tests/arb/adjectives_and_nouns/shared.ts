@@ -18,8 +18,8 @@
 import { Conjugator, TargetNounBasedDerivationPatterns } from "../../../dist/Conjugator";
 import { AdjectiveOrNounState, Case, Gender, Numerus } from "../../../dist/Definitions";
 import { DialectType } from "../../../dist/Dialects";
-import { ParseVocalizedText } from "../../../dist/Vocalization";
-import { CompareVocalized, ShouldEqual } from "../../shared";
+import { EqualsVocalized, ParseVocalizedText } from "../../../dist/Vocalization";
+import { ShouldEqual } from "../../shared";
 import { NumerusToString } from "../../../dist/Util";
 import { TargetAdjectiveNounDerivation } from "../../../dist/DialectConjugator";
 import { Fail } from "@aczwink/acts-util-test";
@@ -123,7 +123,7 @@ export function RunPluralTest(singular: string, plural: string)
     const p = ParseVocalizedText(plural);
     for (const pattern of patterns)
     {
-        if(CompareVocalized(p, pattern))
+        if(EqualsVocalized(p, pattern))
             return;
     }
     Fail("Plural pattern was not found");

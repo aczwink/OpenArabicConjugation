@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "@aczwink/acts-util-test";
-import { _Legacy_RunParticipleTest, ConjugationTest, _Legacy_RunConjugationTest, VerbTestData, RunVerbalNounTest } from "../../shared";
+import { ConjugationTest, VerbTestData, RunVerbalNounTest, RunParticipleTest, RunConjugationTest } from "../../shared";
 import { DialectType } from "../../../dist/Dialects";
 import { VerbType } from "../../../dist/Definitions";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Hamzated_verbs
 //https://en.wiktionary.org/wiki/%D8%A7%D8%AA%D8%AE%D8%B0
 
-It("Stem 8", () => {
+It("اِتَّخَذَ", () => {
     const verb: VerbTestData = {
         dialect: DialectType.ModernStandardArabic,
         rootRadicals: "ء-خ-ذ",
@@ -32,7 +32,7 @@ It("Stem 8", () => {
     };
 
     RunVerbalNounTest(verb, "اِتِّخَاذ");
-    _Legacy_RunParticipleTest("ء-خ-ذ", 8, "مُتَّخِذ", "مُتَّخَذ");
+    RunParticipleTest(verb, "مُتَّخِذ", "مُتَّخَذ");
 
     const conjugations: ConjugationTest[] = [
         //active past
@@ -181,5 +181,5 @@ It("Stem 8", () => {
         { voice: "passive", expected: "نُتَّخَذْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    _Legacy_RunConjugationTest("ء-خ-ذ", 8, conjugations);
+    RunConjugationTest(verb, conjugations);
 });

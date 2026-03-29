@@ -95,6 +95,17 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
             {
                 case VerbType.Geminate:
                     return GeminateStem8Template(stemData, voice);
+
+                case VerbType.Irregular:
+                    return [
+                        {
+                            conditions: {},
+                            base: {
+                                root: [Letter.Ta, Letter.Kha, Letter.Thal],
+                                verbType: VerbType.Sound
+                            }
+                        }
+                    ];
             }
         }
         break;

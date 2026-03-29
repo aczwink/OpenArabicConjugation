@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,21 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import { ConjugatedWord } from "../../../Conjugation";
+import { WithoutHamzatAlWasl } from "../../../ConjugationTransformation";
 import { Tashkil, Letter, Voice, VerbType } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
-import { _LegacyGenerateParticipleRegular } from "./regular";
+import { _LegacyGenerateParticipleRegular, GenerateParticipleRegular } from "./regular";
 
-export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
+export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: ConjugatedWord, oldBaseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[] | ConjugatedWord
 {
     const root = verb.root;
     switch(verb.type)
     {
+        case VerbType.Irregular:
+            return GenerateParticipleRegular(WithoutHamzatAlWasl(baseForm), voice);
+
         case VerbType.Assimilated:
         case VerbType.Sound:
-            return _LegacyGenerateParticipleRegular(baseForm, voice, true);
+            return _LegacyGenerateParticipleRegular(oldBaseForm, voice, true);
 
         case VerbType.Defective:
             if(voice === Voice.Active)
@@ -52,14 +57,14 @@ export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1Para
             ];
 
         case VerbType.Geminate:
-            return _LegacyGenerateParticipleRegular(baseForm, Voice.Passive, false);
+            return _LegacyGenerateParticipleRegular(oldBaseForm, Voice.Passive, false);
 
         case VerbType.Hollow:
-            baseForm.symbols[0].letter = Letter.Mim;
-            baseForm.symbols[0].tashkil = Tashkil.Dhamma;
-            baseForm.ApplyRadicalTashkil(1, Tashkil.Sukun);
-            baseForm.ApplyRadicalTashkil(3, Tashkil.EndOfWordMarker);
-            return baseForm.symbols;
+            oldBaseForm.symbols[0].letter = Letter.Mim;
+            oldBaseForm.symbols[0].tashkil = Tashkil.Dhamma;
+            oldBaseForm.ApplyRadicalTashkil(1, Tashkil.Sukun);
+            oldBaseForm.ApplyRadicalTashkil(3, Tashkil.EndOfWordMarker);
+            return oldBaseForm.symbols;
     }
     return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

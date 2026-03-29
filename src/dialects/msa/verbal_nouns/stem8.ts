@@ -17,7 +17,7 @@
  * */
 import { Letter, Tashkil, VerbType } from "../../../Definitions";
 import { Verb } from "../../../Verb";
-import { RootType } from "../../../VerbRoot";
+import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 import { Stem8AssimilateTa } from "../conjugation/stem8";
@@ -30,16 +30,12 @@ export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardAra
     {
         case VerbType.Irregular:
         {
-            return [
-                { letter: Letter.Alef, tashkil: Tashkil.Kasra },
-                { letter: Letter.Ta, tashkil: Tashkil.Sukun },
-                { letter: Letter.Ta, tashkil: Tashkil.Kasra },
-                { letter: root.r2, tashkil: Tashkil.Fatha },
-                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-            ];
+            return GenerateAllPossibleVerbalNounsStem8({
+                ...verb,
+                root: new VerbRoot("تخذ"),
+                type: VerbType.Sound
+            });
         }
-        break;
     }
 
     switch(root.type)

@@ -131,12 +131,23 @@ export function AugmentRoot(verb: Verb<string>, params: ConjugationParams): Augm
         break;
         case 6:
         {
+            switch(verb.type)
+            {
+                case VerbType.Sound:
+                    return [
+                        { letter: Letter.Ta, symbolName: SymbolName.Prefix1, tashkil: (params.voice === Voice.Passive && params.tense === Tense.Perfect) ? Tashkil.Dhamma : Tashkil.Fatha },
+                        { symbolName: SymbolName.R1 },
+                        { letter: ((params.tense === Tense.Perfect) && (params.voice === Voice.Passive)) ? Letter.Waw : Letter.Alef, symbolName: SymbolName.Infix, tashkil: Tashkil.LongVowelMarker },
+                        { symbolName: SymbolName.R2 },
+                        { symbolName: SymbolName.R3 },
+                    ];
+            }
+            
             switch(root.type)
             {
                 case RootType.InitialWeak:
                 case RootType.FinalWeak:
                 case RootType.MiddleWeak:
-                case RootType.Regular:
                     return [
                         { letter: Letter.Ta, symbolName: SymbolName.Prefix1, tashkil: (params.voice === Voice.Passive && params.tense === Tense.Perfect) ? Tashkil.Dhamma : Tashkil.Fatha },
                         { symbolName: SymbolName.R1 },
@@ -169,14 +180,26 @@ export function AugmentRoot(verb: Verb<string>, params: ConjugationParams): Augm
         break;
         case 8:
         {
+            switch(verb.type)
+            {
+                case VerbType.Sound:
+                    const x: AugmentedRootSymbolInput[] = [
+                        { symbolName: SymbolName.R1 },
+                        { letter: Letter.Ta, symbolName: SymbolName.Infix, tashkil: ((params.tense === Tense.Perfect) && (params.voice === Voice.Passive)) ? Tashkil.Dhamma : Tashkil.Fatha },
+                        { symbolName: SymbolName.R2 },
+                        { symbolName: SymbolName.R3 },
+                    ];
+                    if(params.tense === Tense.Perfect)
+                        x.unshift({ letter: Letter.Alef, symbolName: SymbolName.Postfix, tashkil: (params.voice === Voice.Active) ? Tashkil.Kasra : Tashkil.Dhamma });
+                    return x;
+            }
+            
             switch(root.type)
             {
                 case RootType.DoublyWeak_WawOrYaOnR2AndR3:
                 case RootType.InitialWeak:
                 case RootType.FinalWeak:
-                case RootType.HamzaOnR1:
                 case RootType.MiddleWeak:
-                case RootType.Regular:
                     const x: AugmentedRootSymbolInput[] = [
                         { symbolName: SymbolName.R1 },
                         { letter: Letter.Ta, symbolName: SymbolName.Infix, tashkil: ((params.tense === Tense.Perfect) && (params.voice === Voice.Passive)) ? Tashkil.Dhamma : Tashkil.Fatha },

@@ -21,7 +21,7 @@ import { Conjugator, TargetVerbBasedDerivationPatterns } from "../dist/Conjugato
 import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "../dist/Definitions";
 import { VerbRoot } from "../dist/VerbRoot";
 import { GenderToString, MoodToString, NumerusToString, PersonToString, TenseToString, VoiceToString } from "../dist/Util";
-import { DisplayVocalized, ParseVocalizedText, VocalizedWordTostring } from "../dist/Vocalization";
+import { DisplayVocalized, EqualsVocalized, ParseVocalizedText, VocalizedWordTostring } from "../dist/Vocalization";
 import { Buckwalter } from "../dist/Transliteration";
 import { DialectType } from "../dist/Dialects";
 import { GetDialectMetadata } from "../dist/DialectsMetadata";
@@ -36,29 +36,10 @@ export interface VerbTestData
     verbType?: VerbType;
 }
 
-export function CompareVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
-{
-    //comparison is of strings is non trivial because the position of the shadda can be before or after the primary tashkil, also we have the emphasis optional field
-    if(a.length !== b.length)
-        return false;
-
-    for (let i = 0; i < a.length; i++)
-    {
-        if(a[i].letter !== b[i].letter)
-            return false;
-        if(a[i].shadda !== b[i].shadda)
-            return false;
-        if(a[i].tashkil !== b[i].tashkil)
-            return false;
-    }
-
-    return true;
-}
-
 export function ShouldEqual(expected: string, got: DisplayVocalized[], formContext: () => string[])
 {
     const expected_vocalized = ParseVocalizedText(expected);
-    if(!CompareVocalized(expected_vocalized, got))
+    if(!EqualsVocalized(expected_vocalized, got))
     {
         const gotStr = VocalizedWordTostring(got);
         const context = formContext().join(", ");
@@ -69,7 +50,7 @@ export function ShouldEqual(expected: string, got: DisplayVocalized[], formConte
 function Test(expected: string[], got: DisplayVocalized[], stemData: VerbStemData<string>, params: ConjugationParams)
 {
     const gotStr = VocalizedWordTostring(got);
-    const anyExpected = expected.Values().Map(ex => CompareVocalized(ParseVocalizedText(ex), got)).AnyTrue();
+    const anyExpected = expected.Values().Map(ex => EqualsVocalized(ParseVocalizedText(ex), got)).AnyTrue();
     if(!anyExpected)
     {
         const stemDataString = (stemData.stem === 1) ? (stemData.stem + stemData.stemParameterization) : stemData.stem;
@@ -86,7 +67,7 @@ function TestParticiple(expected: string, got: DisplayVocalized[], voice: VoiceS
 {
     const a = ParseVocalizedText(expected);
     const gotStr = VocalizedWordTostring(got);
-    if(!CompareVocalized(a, got))
+    if(!EqualsVocalized(a, got))
         Fail("expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got) + " voice: " + voice);
 }
 
@@ -106,6 +87,10 @@ function CreateVerbInstance(verbData: VerbTestData)
 {
     const root = new VerbRoot(verbData.rootRadicals.split("-").join(""));
     const verb = CreateVerb(verbData.dialect, root, verbData.stem, verbData.verbType);
+
+    const meta = GetDialectMetadata(verbData.dialect);
+    if(!meta.IsConjugatable(verb))
+        throw new Error("Verb is not conjugatable!");
 
     if(verb.stem === 1)
         ValidateStem1Context(verb, root, verbData.dialect);
@@ -290,7 +275,7 @@ export function RunSoundEqualityTest(verbData: VerbTestData)
         ReplaceRoot(expected, rootOfExpected);
         ReplaceRoot(got, rootOfGot);
 
-        const result = CompareVocalized(expected, got);
+        const result = EqualsVocalized(expected, got);
         if(!result)
         {
             console.log(expected, got);
@@ -338,7 +323,7 @@ export function RunVerbalNounPatternTest(stem: AdvancedStemNumber | string, patt
         const verb = CreateVerb(dialect, root, stem, verbType);
 
         const choices = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.VerbalNouns);
-        const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(pattern.expected)));
+        const index = choices.findIndex(x => EqualsVocalized(x, ParseVocalizedText(pattern.expected)));
         if(index === -1)
             throw new Error("Expected verbal noun '" + pattern.expected + "' could not be generated.");
         length = choices.length;
@@ -368,7 +353,7 @@ export function _LegacyRunVerbalNounTest(rootRadicals: string, stem: AdvancedSte
 
     const a = ParseVocalizedText(expected);
     const gotStr = VocalizedWordTostring(got);
-    if(!CompareVocalized(a, got))
+    if(!EqualsVocalized(a, got))
         Fail("Verbal noun test failed. Expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got));
 }
 
@@ -388,7 +373,7 @@ export function RunVerbalNounTest(verbTestData: VerbTestData, expected: string)
 
     const a = ParseVocalizedText(expected);
     const gotStr = VocalizedWordTostring(got);
-    if(!CompareVocalized(a, got))
+    if(!EqualsVocalized(a, got))
         Fail("Verbal noun test failed. Expected: " + expected + " / " + Buckwalter.ToString(a) + " got: " + gotStr + " / " + Buckwalter.ToString(got));
 }
 
@@ -401,7 +386,7 @@ export function RunVerbalNounExistenceTest(verbTestData: VerbTestData, expected:
     const verb = CreateVerb(dialect, root, verbTestData.stem, verbTestData.verbType);
 
     const choices = conjugator.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.VerbalNouns);
-    const index = choices.findIndex(x => CompareVocalized(x, ParseVocalizedText(expected)));
+    const index = choices.findIndex(x => EqualsVocalized(x, ParseVocalizedText(expected)));
     if(index === -1)
         throw new Error("Expected verbal noun '" + expected + "' could not be generated.");
 }

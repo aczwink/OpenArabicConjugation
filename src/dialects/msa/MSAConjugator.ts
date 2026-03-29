@@ -88,13 +88,13 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 3:
                 return GenerateParticipleStem3(root, voiceOld);
             case 4:
-                return GenerateParticipleStem4(verb, this.ConjugateBasicForm(verb), voice);
+                return GenerateParticipleStem4(verb, this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 5:
                 return GenerateParticipleStem5(root, this._Legacy_ConjugateBasicForm(root, stem), voice);
             case 6:
-                return GenerateParticipleStem6(root, this._Legacy_ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem6(root, this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 8:
-                return GenerateParticipleStem8(verb, this.ConjugateBasicForm(verb), voice);
+                return GenerateParticipleStem8(verb, requestBaseForm(), this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 9:
                 return GenerateParticipleStem9(verb, voice);
             case 10:
@@ -285,7 +285,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     }
 
     //Private methods
-    private ConjugateBasicForm(verb: Verb<ModernStandardArabicStem1ParametersType>)
+    private _LegacyToo_ConjugateBasicForm(verb: Verb<ModernStandardArabicStem1ParametersType>)
     {
         return this.ProcessConjugationPipeline(verb, {
             gender: Gender.Male,
@@ -298,7 +298,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
     private _Legacy_ConjugateBasicForm(root: VerbRoot, stem: AdvancedStemNumber)
     {
-        return this.ConjugateBasicForm({
+        return this._LegacyToo_ConjugateBasicForm({
             dialect: DialectType.ModernStandardArabic,
             root,
             stem,
@@ -377,7 +377,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             {
                 return this.ProcessConjugationPipeline({
                     dialect: verb.dialect,
-                    root: verb.root,
+                    root: (matched.base.root === undefined) ? verb.root : new VerbRoot(matched.base.root.join("")),
                     stem: verb.stem as any,
                     stemParameterization: (verb.stem === 1) ? verb.stemParameterization : undefined,
                     type: matched.base.verbType

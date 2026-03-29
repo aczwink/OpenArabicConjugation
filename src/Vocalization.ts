@@ -130,6 +130,25 @@ export function ConvertFullyVocalized(vocalized: DisplayVocalized[])
     return result;
 }
 
+export function EqualsVocalized(a: DisplayVocalized[], b: DisplayVocalized[])
+{
+    //comparison is of strings is non trivial because the position of the shadda can be before or after the primary tashkil, also we have the emphasis optional field
+    if(a.length !== b.length)
+        return false;
+
+    for (let i = 0; i < a.length; i++)
+    {
+        if(a[i].letter !== b[i].letter)
+            return false;
+        if(a[i].shadda !== b[i].shadda)
+            return false;
+        if(a[i].tashkil !== b[i].tashkil)
+            return false;
+    }
+
+    return true;
+}
+
 export function ParseVocalizedPhrase(text: string)
 {
     return text.split(" ").map(ParseVocalizedText);
@@ -209,12 +228,23 @@ export function ParseVocalizedText(text: string)
             }
         }
 
-        result.push({
-            letter: letter as any,
-            tashkil,
-            shadda,
-            emphasis: false,
-        });
+        if(tashkil === undefined)
+        {
+            result.push({
+                letter: letter as any,
+                shadda,
+                emphasis: false,
+            });
+        }
+        else
+        {
+            result.push({
+                letter: letter as any,
+                tashkil,
+                shadda,
+                emphasis: false,
+            });
+        }
     }
 
     return result;
