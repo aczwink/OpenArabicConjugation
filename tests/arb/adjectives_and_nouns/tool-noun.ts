@@ -43,6 +43,17 @@ It("Tool noun feminine", () => {
 
     const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ToolNouns);
 
-    Expect(result.length).ToBe(1);
+    Expect(result.length).ToBe(2);
     ShouldEqual("مِطْرَقَة", result[0], () => []);
+});
+
+It("Tool noun modern", () => {
+    const root = new VerbRoot("دوس");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastU_PresentU);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.ToolNouns);
+
+    Expect(result.length).ToBe(2);
+    ShouldEqual("دَوَّاسَة", result[1], () => []);
 });

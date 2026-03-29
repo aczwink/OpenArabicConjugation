@@ -25,7 +25,7 @@ import { ShouldEqual } from "../../shared";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_nouns_and_adjectives#Nouns_of_place
 
-It("Noun of place", () => {
+It("Noun of place stem 1", () => {
     const root = new VerbRoot("كتب");
     const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastA_PresentU);
     const c = new Conjugator();
@@ -34,4 +34,15 @@ It("Noun of place", () => {
 
     Expect(result.length).ToBe(1);
     ShouldEqual("مَكْتَب", result[0], () => []);
+});
+
+It("Noun of place stem > 1", () => {
+    const root = new VerbRoot("فرق");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, 8);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
+
+    Expect(result.length).ToBe(1);
+    ShouldEqual("مُفْتَرَق", result[0], () => []);
 });

@@ -37,6 +37,7 @@ It("Stem 1 past:i, present:a", () => {
         { rootRadicals: "ش-ر-ك", expected: "شَرِكَة" }, //Source: https://en.wiktionary.org/wiki/%D8%B4%D8%B1%D9%83
         { rootRadicals: "ش-ر-ك", expected: "شِرْكَة" }, //Source: https://ejtaal.net/aa/#hw4=560
         { rootRadicals: "ش-ر-ب", expected: "مَشْرَب" }, //Source: https://ejtaal.net/aa/#hw4=553
+        { rootRadicals: "ك-ر-ه", expected: "كَرَاهِيَة" }, //Source: http://ejtaal.net/aa/#hw4=976
     ]);
 
     const conjugations: ConjugationTest[] = [

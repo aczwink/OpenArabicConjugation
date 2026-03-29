@@ -36,6 +36,7 @@ It("Stem 1 past:a, present:u", () => {
         { expected: "مَصْلَحَة", rootRadicals: "ص-ل-ح" }, //Source: https://ejtaal.net/aa/#hw4=622
         { expected: "حُكْم", rootRadicals: "ح-ك-م" }, //Source: https://ejtaal.net/aa/#hw4=241
         { expected: "تَذْكَار", rootRadicals: "ذ-ك-ر" }, //Source: http://ejtaal.net/aa/#hw4=371
+        { expected: "كَمَال", rootRadicals: "ك-م-ل" }, //Source: http://ejtaal.net/aa/#hw4=997
     ]);
 
     _Legacy_RunParticipleTest("ك-ت-ب", stem, "كَاتِب", "مَكْتُوب");

@@ -88,7 +88,7 @@ export class Conjugator
      * @returns 
      * - For @constant TargetVerbBasedDerivationPatterns.ActiveParticiples, index 0 is the standard form and index 1 is the stative form (fa3iil) if it exists.
      */
-    public DeriveFromVerb(verb: Verb<string>, target: TargetVerbBasedDerivationPatterns)
+    public DeriveFromVerb(verb: Verb<string>, target: TargetVerbBasedDerivationPatterns): DisplayVocalized[][]
     {
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
         const msaVerb = verb as Verb<any>;
@@ -125,6 +125,9 @@ export class Conjugator
             break;
             case TargetVerbBasedDerivationPatterns.NounOfPlace:
             {
+                if(verb.stem > 1)
+                    return this.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple);
+                
                 const dialectConjugator = new MSAConjugator;
                 const pattern = dialectConjugator.DeriveNounOfPlace(msaVerb);
                 patterns = [pattern];

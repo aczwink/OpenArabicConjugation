@@ -58,6 +58,7 @@ import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "../../Conjugation";
 import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
 import { DeriveNounPluralPatternsImpl } from "./adjectives_nouns/plural_patterns";
+import { AppendToTail } from "../../ConjugationTransformation";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -179,7 +180,8 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     consonant: Letter.TaMarbuta,
                     finalVowel: FinalVowel.None
                 }
-            }
+            },
+            AppendToTail(this.DeriveCharacteristicNoun(verb), Vowel.ShortA, Letter.TaMarbuta),
         ];
     }
     

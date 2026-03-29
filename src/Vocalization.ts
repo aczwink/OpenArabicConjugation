@@ -227,24 +227,13 @@ export function ParseVocalizedText(text: string)
                     parseTashkil = false;
             }
         }
-
-        if(tashkil === undefined)
-        {
-            result.push({
-                letter: letter as any,
-                shadda,
-                emphasis: false,
-            });
-        }
-        else
-        {
-            result.push({
-                letter: letter as any,
-                tashkil,
-                shadda,
-                emphasis: false,
-            });
-        }
+        
+        result.push({
+            letter: letter as any,
+            tashkil,
+            shadda,
+            emphasis: false,
+        });
     }
 
     return result;

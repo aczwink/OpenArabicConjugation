@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ It("Stem 1 - Type Past:a Present:i", () => {
         { rootRadicals: "و-ص-ل", expected: "وُصُول" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B5%D9%84#Verb_2
         { rootRadicals: "و-ص-ل", expected: "صِلَة" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B5%D9%84#Verb_2
         { rootRadicals: "و-ز-ن", expected: "وَزْن" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%B2%D9%86
+        { rootRadicals: "و-ل-د", expected: "وِلَادَة" }, //Source: http://ejtaal.net/aa/#hw4=1298
     ]);
     
     _Legacy_RunParticipleTest("و-ج-د", stem, "وَاجِد", "مَوْجُود");

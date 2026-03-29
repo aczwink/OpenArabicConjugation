@@ -172,6 +172,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 case ModernStandardArabicStem1ParametersType.PastA_PresentI:
                     return [
                         fa3l,
+                        fi3aala,
                         fu3uul,
                         _3ila,
                     ];
@@ -611,6 +612,14 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 }
             }
 
+            const fa3aaliya = [
+                { letter: root.r1, tashkil: Tashkil.Fatha },
+                { letter: root.r2, tashkil: Tashkil.Fatha },
+                { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.Kasra },
+                { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+            ];
             const maf3ala = [
                 { letter: Letter.Mim, tashkil: Tashkil.Fatha },
                 { letter: root.r1, tashkil: Tashkil.Sukun },
@@ -672,11 +681,9 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
                 case ModernStandardArabicStem1ParametersType.PastA_PresentU:
                     return [
-                        fu3l,
-                        fu3uul,
-                        fu3aal,
-                        fa3al,
+                        fa3aal,
                         fa3aala,
+                        fa3al,
                         fa3l,
                         fi3aala,
                         fi3la,
@@ -687,16 +694,19 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                             { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
                         ],
+                        fu3l,
+                        fu3aal,
+                        fu3uul,
                         maf3al,
                         maf3ala,
                     ];
 
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
                     return [
-                        fu3uul,
-                        fu3l,
+                        fa3aal,
+                        fa3aala,
+                        fa3aaliya,
                         fa3al,
-                        fa3ila,
                         fa3l,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -704,10 +714,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: root.r3, tashkil: Tashkil.Fatha },
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                         ],
-                        fa3aal,
-                        fa3aala,
+                        fa3ila,
                         fi3l,
                         fi3la,
+                        fu3l,
+                        fu3uul,
                         maf3al,
                     ];
 
@@ -728,20 +739,8 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
                         ],
                         fa3al,
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                        ],
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: root.r3, tashkil: Tashkil.Kasra },
-                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
-                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3aal,
+                        fa3aaliya,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Fatha },

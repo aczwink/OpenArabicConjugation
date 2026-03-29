@@ -16,7 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugatedWord } from "./Conjugation";
+import { ConjugatedWord, FinalVowel, Vowel } from "./Conjugation";
+import { Letter } from "./Definitions";
+
+export function AppendToTail(word: ConjugatedWord, vowel: Vowel, consonant: Letter): ConjugatedWord
+{
+    if(word.ending === undefined)
+        throw new Error("implement this");
+
+    return {
+        elements: [
+            ...word.elements,
+            {
+                consonant: word.ending.consonant,
+                followingVowel: vowel,
+            }
+        ],
+        ending: {
+            consonant,
+            finalVowel: FinalVowel.None
+        }
+    };
+}
 
 export function WithoutHamzatAlWasl(word: ConjugatedWord): ConjugatedWord
 {
