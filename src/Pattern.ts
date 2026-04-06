@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { _TODO_TashkilToVowel, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "./Conjugation";
+import { TashkilToVowel, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "./Conjugation";
 import { Letter } from "./Definitions";
 import { DisplayVocalized } from "./Vocalization";
 
@@ -144,7 +144,7 @@ export function MatchPatternAgainstWord(pattern: WordPattern, word: DisplayVocal
                     return null;
         }
 
-        if(a.followingVowel !== _TODO_TashkilToVowel(b.tashkil!))
+        if(a.followingVowel !== TashkilToVowel(b.tashkil!))
             return null;
     }
 
@@ -171,7 +171,7 @@ export function MatchPatternAgainstWord(pattern: WordPattern, word: DisplayVocal
                     return null;
                 break;
                 default:
-                    if(pattern.ending.finalVowel !== _TODO_TashkilToVowel(b.tashkil!))
+                    if(pattern.ending.finalVowel !== TashkilToVowel(b.tashkil!))
                         return null;
         }
     }

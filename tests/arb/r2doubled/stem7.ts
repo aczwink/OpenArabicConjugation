@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,14 +16,166 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "@aczwink/acts-util-test";
-import { _Legacy_RunConjugationTest } from "../../shared";
+import { RunConjugationTest, RunParticipleTest, VerbTestData } from "../../shared";
+import { DialectType } from "../../../dist/Dialects";
+
+//Source: https://en.wiktionary.org/wiki/%D8%A7%D9%86%D8%B6%D9%85
+//Passive generated from https://en.wiktionary.org/wiki/%D8%A7%D9%86%D8%B6%D9%85 by editing and adding the "pass" flag and saving the preview
 
 It("Stem 7", () => {
+    const verbData: VerbTestData = {
+        rootRadicals: "ض-م-م",
+        dialect: DialectType.ModernStandardArabic,
+        stem: 7,
+    };
+
     throw new Error("TODO verbal noun test :)");
-    _Legacy_RunConjugationTest("ف-ل-ل", 7, [
-        { expected: "اِنْفَلَّ" },
-        { expected: "يَنْفَلُّ", tense: "present" },
+    RunParticipleTest(verbData, "مُنْضَمّ", "مُنْضَمّ");
+
+    RunConjugationTest(verbData, [
+        //active past
+        { voice: "active", expected: "اِنْضَمَّ", gender: "male", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَّتْ", gender: "female", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْتَ", gender: "male", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْتِ", gender: "female", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْتُ", gender: "male", person: "first", numerus: "singular", tense: "perfect", mood: "indicative" },
+
+        { voice: "active", expected: "اِنْضَمَّا", gender: "male", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَّتَا", gender: "female", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْتُمَا", gender: "male", person: "second", numerus: "dual", tense: "perfect", mood: "indicative" },
+
+        { voice: "active", expected: "اِنْضَمُّوا", gender: "male", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْنَ", gender: "female", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْتُمْ", gender: "male", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْتُنَّ", gender: "female", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "active", expected: "اِنْضَمَمْنَا", gender: "male", person: "first", numerus: "plural", tense: "perfect", mood: "indicative" },
+
+        //active indicative
+        { voice: "active", expected: "يَنْضَمُّ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمُّ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمُّ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمِّينَ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "أَنْضَمُّ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "indicative" },
+
+        { voice: "active", expected: "يَنْضَمَّانِ", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمَّانِ", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمَّانِ", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "indicative" },
+
+        { voice: "active", expected: "يَنْضَمُّونَ", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "يَنْضَمِمْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمُّونَ", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "تَنْضَمِمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "active", expected: "نَنْضَمُّ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "indicative" },
+
+        //active subjunctive
+        { voice: "active", expected: "يَنْضَمَّ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمَّ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمَّ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "أَنْضَمَّ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "subjunctive" },
+
+        { voice: "active", expected: "يَنْضَمَّا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمَّا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمَّا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "subjunctive" },
+
+        { voice: "active", expected: "يَنْضَمُّوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "يَنْضَمِمْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمُّوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "تَنْضَمِمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "active", expected: "نَنْضَمَّ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
+
+        //active jussive
+        { voice: "active", expected: ["يَنْضَمَّ", "يَنْضَمِّ", "يَنْضَمِمْ"], gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["تَنْضَمَّ", "تَنْضَمِّ", "تَنْضَمِمْ"], gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["تَنْضَمَّ", "تَنْضَمِّ", "تَنْضَمِمْ"], gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَنْضَمِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["أَنْضَمَّ", "أَنْضَمِّ", "أَنْضَمِمْ"], gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
+
+        { voice: "active", expected: "يَنْضَمَّا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَنْضَمَّا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَنْضَمَّا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "jussive" },
+
+        { voice: "active", expected: "يَنْضَمُّوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "يَنْضَمِمْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَنْضَمُّوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: "تَنْضَمِمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "active", expected: ["نَنْضَمَّ", "نَنْضَمِّ", "نَنْضَمِمْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
+
+        //imperative
+        { voice: "active", expected: ["اِنْضَمَّ", "اِنْضَمِّ", "اِنْضَمِمْ"], gender: "male", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "اِنْضَمِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "imperative" },
+
+        { voice: "active", expected: "اِنْضَمَّا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "imperative" },
+
+        { voice: "active", expected: "اِنْضَمُّوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
+        { voice: "active", expected: "اِنْضَمِمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "imperative" },
+
+        //passive past
+        { voice: "passive", expected: "اُنْضُمَّ", gender: "male", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمَّتْ", gender: "female", person: "third", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْتَ", gender: "male", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْتِ", gender: "female", person: "second", numerus: "singular", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْتُ", gender: "male", person: "first", numerus: "singular", tense: "perfect", mood: "indicative" },
+
+        { voice: "passive", expected: "اُنْضُمَّا", gender: "male", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمَّتَا", gender: "female", person: "third", numerus: "dual", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْتُمَا", gender: "male", person: "second", numerus: "dual", tense: "perfect", mood: "indicative" },
+
+        { voice: "passive", expected: "اُنْضُمُّوا", gender: "male", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْنَ", gender: "female", person: "third", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْتُمْ", gender: "male", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْتُنَّ", gender: "female", person: "second", numerus: "plural", tense: "perfect", mood: "indicative" },
+        { voice: "passive", expected: "اُنْضُمِمْنَا", gender: "male", person: "first", numerus: "plural", tense: "perfect", mood: "indicative" },
+
+        //passive indicative
+        { voice: "passive", expected: "يُنْضَمُّ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمُّ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمُّ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمِّينَ", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "أُنْضَمُّ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "indicative" },
+
+        { voice: "passive", expected: "يُنْضَمَّانِ", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمَّانِ", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمَّانِ", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "indicative" },
+
+        { voice: "passive", expected: "يُنْضَمُّونَ", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "يُنْضَمَمْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمُّونَ", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "تُنْضَمَمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "indicative" },
+        { voice: "passive", expected: "نُنْضَمُّ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "indicative" },
+
+        //passive subjunctive
+        { voice: "passive", expected: "يُنْضَمَّ", gender: "male", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمَّ", gender: "female", person: "third", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمَّ", gender: "male", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "أُنْضَمَّ", gender: "male", person: "first", numerus: "singular", tense: "present", mood: "subjunctive" },
+
+        { voice: "passive", expected: "يُنْضَمَّا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمَّا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمَّا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "subjunctive" },
+
+        { voice: "passive", expected: "يُنْضَمُّوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "يُنْضَمَمْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمُّوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "تُنْضَمَمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "subjunctive" },
+        { voice: "passive", expected: "نُنْضَمَّ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "subjunctive" },
+
+        //passive jussive
+        { voice: "passive", expected: ["يُنْضَمَّ", "يُنْضَمِّ", "يُنْضَمَمْ"], gender: "male", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: ["تُنْضَمَّ", "تُنْضَمِّ", "تُنْضَمَمْ"], gender: "female", person: "third", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: ["تُنْضَمَّ", "تُنْضَمِّ", "تُنْضَمَمْ"], gender: "male", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُنْضَمِّي", gender: "female", person: "second", numerus: "singular", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: ["أُنْضَمَّ", "أُنْضَمِّ", "أُنْضَمَمْ"], gender: "male", person: "first", numerus: "singular", tense: "present", mood: "jussive" },
+
+        { voice: "passive", expected: "يُنْضَمَّا", gender: "male", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُنْضَمَّا", gender: "female", person: "third", numerus: "dual", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُنْضَمَّا", gender: "male", person: "second", numerus: "dual", tense: "present", mood: "jussive" },
+
+        { voice: "passive", expected: "يُنْضَمُّوا", gender: "male", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "يُنْضَمَمْنَ", gender: "female", person: "third", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُنْضَمُّوا", gender: "male", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: "تُنْضَمَمْنَ", gender: "female", person: "second", numerus: "plural", tense: "present", mood: "jussive" },
+        { voice: "passive", expected: ["نُنْضَمَّ", "نُنْضَمِّ", "نُنْضَمَمْ"], gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ]);
-    
-    throw new Error("TODO :)");
 });

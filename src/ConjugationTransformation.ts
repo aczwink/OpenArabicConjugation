@@ -46,3 +46,8 @@ export function WithoutHamzatAlWasl(word: ConjugatedWord): ConjugatedWord
         ending: word.ending
     };
 }
+
+export function WithStandardFemaleEnding(word: ConjugatedWord): ConjugatedWord
+{
+    return AppendToTail(word, Vowel.ShortA, Letter.TaMarbuta);
+}

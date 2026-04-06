@@ -79,7 +79,7 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
                     {
                         if(stemData.root.radicalsAsSeparateLetters.Equals([Letter.Hha, Letter.Ya, Letter.Waw]))
                             return IrregularAhyaTemplate();
-                        throw new Error("TODO: implement me!");
+                        throw new Error("IMPLEMENT ME: implement me!");
                     }
                     break;
                 case VerbType.Geminate:

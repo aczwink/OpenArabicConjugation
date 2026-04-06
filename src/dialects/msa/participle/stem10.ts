@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -59,5 +59,5 @@ export function GenerateParticipleStem10(root: VerbRoot, voice: Voice, baseForm:
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
+    return [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

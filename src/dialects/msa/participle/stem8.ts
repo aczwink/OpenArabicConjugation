@@ -66,5 +66,5 @@ export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1Para
             oldBaseForm.ApplyRadicalTashkil(3, Tashkil.EndOfWordMarker);
             return oldBaseForm.symbols;
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
+    return [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

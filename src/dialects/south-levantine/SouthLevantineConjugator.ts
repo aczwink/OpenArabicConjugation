@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -49,7 +49,7 @@ export class SouthLevantineConjugator implements DialectConjugator<SouthLevantin
 
     public ConjugateParticiple(verb: Verb<SouthLevantineStem1Context>, voice: Voice): ConjugationVocalized[]
     {
-        return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
+        return [{ emphasis: true, letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
     }
 
     //Private methods    

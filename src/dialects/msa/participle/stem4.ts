@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ export function GenerateParticipleStem4(verb: Verb<ModernStandardArabicStem1Para
     {
         case RootType.FinalWeak:
             if((verb.root.r1 === Letter.Ra) && (verb.root.r2 === Letter.Hamza) && (verb.root.r3 === Letter.Ya))
-                break; //TODO: Ara / Yuri is special
+                break; //IMPLEMENT ME: Ara / Yuri is special
             baseForm.symbols.Remove(0); //remove the hamza
             return _Legacy_GenerateParticipleDefective(baseForm, voice);
             
@@ -62,7 +62,7 @@ export function GenerateParticipleStem4(verb: Verb<ModernStandardArabicStem1Para
     }
     return [
         {
-            letter: ("TODO: implement me: " + baseForm.type) as any,
+            letter: ("IMPLEMENT ME: implement me: " + baseForm.type) as any,
             tashkil: Tashkil.EndOfWordMarker
         }
     ];

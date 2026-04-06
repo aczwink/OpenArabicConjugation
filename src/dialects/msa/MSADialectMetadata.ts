@@ -234,7 +234,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     ],
                 };
             default:
-                throw new Error("TODO: implement me");
+                throw new Error("IMPLEMENT ME: implement me");
         }
     }
 
@@ -280,6 +280,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     case 1:
                     case 3:
                     case 4:
+                    case 7:
                     case 8:
                     case 10:
                         return true;

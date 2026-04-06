@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1Parame
                 case ModernStandardArabicStem1ParametersType.IrregularHayiya:
                     return DefectiveType.Type3_Fa3iya;
                 default:
-                    throw new Error("TODO: should never happen!: " + stemData.stemParameterization);
+                    throw new Error("IMPLEMENT ME: should never happen!: " + stemData.stemParameterization);
             }
         }
         case 2:
@@ -67,7 +67,7 @@ function GetDefectiveType(stemData: VerbStemData<ModernStandardArabicStem1Parame
                 return DefectiveType.Type3_Fa3iya;
             return DefectiveType.Type1_Fa3aY;
         default:
-            throw new Error("TODO: DON'T KNOW WRITE TEST!");
+            throw new Error("IMPLEMENT ME: DON'T KNOW WRITE TEST!");
     }
 }
 

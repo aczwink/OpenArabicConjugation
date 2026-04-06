@@ -24,6 +24,7 @@ import { VerbRoot } from "../../../dist/VerbRoot";
 import { ShouldEqual } from "../../shared";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_nouns_and_adjectives#Occupational_and_characteristic_nouns
+//https://en.wiktionary.org/wiki/Appendix:Arabic_nominals#Characteristic_nouns_and_adjectives
 
 It("Characteristic noun", () => {
     const root = new VerbRoot("كذب");

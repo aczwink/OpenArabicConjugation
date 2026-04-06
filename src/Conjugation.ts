@@ -160,7 +160,7 @@ export function ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocal
             else
             {
                 vocalized.forEach(console.log);
-                throw new Error("TODO: implement me");
+                throw new Error("implement me");
             }
             /*word.ending = {
                 consonant: entry.letter,
@@ -241,7 +241,7 @@ export function ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocal
         {
             word.elements.push({
                 consonant: entry.letter,
-                followingVowel: _TODO_TashkilToVowel(entry.tashkil),
+                followingVowel: TashkilToVowel(entry.tashkil),
                 emphasis: entry.emphasis
             });
         }
@@ -265,7 +265,7 @@ export function ToLongVowel(vowel: Vowel.ShortA | Vowel.ShortI | Vowel.ShortU)
 
 export function ToConjugationVocalized(element: ConjugationElement)
 {
-    function _TODO_VowelToTashkil(vowel: Vowel)
+    function VowelToTashkil(vowel: Vowel)
     {
         switch(vowel)
         {
@@ -278,7 +278,7 @@ export function ToConjugationVocalized(element: ConjugationElement)
             case Vowel.Sukun:
                 return Tashkil.Sukun;
         }
-        throw new Error("_TODO_VowelToTashkil: " + vowel);
+        throw new Error("VowelToTashkil: " + vowel);
     }
 
     const result: ConjugationVocalized[] = [];
@@ -355,7 +355,7 @@ export function ToConjugationVocalized(element: ConjugationElement)
             result.push({
                 emphasis: element.emphasis,
                 letter: element.consonant,
-                tashkil: _TODO_VowelToTashkil(element.followingVowel),
+                tashkil: VowelToTashkil(element.followingVowel),
             });
             break;
     }
@@ -363,8 +363,7 @@ export function ToConjugationVocalized(element: ConjugationElement)
     return result;
 }
 
-//TODO: these are there for integration into current conjugtion pipeline. They should be removed as soon as code is migrated
-export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
+export function _Legacy_ToConjugationVocalized(word: ConjugatedWord)
 {
     const result: ConjugationVocalized[] = [];
     for (const element of word.elements)
@@ -372,7 +371,7 @@ export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
 
     if(word.ending !== undefined)
     {
-        throw new Error("TODO HJERE");
+        throw new Error("HJERE");
         /*result.push({
             letter: word.final,
             tashkil: Tashkil.EndOfWordMarker,
@@ -382,7 +381,7 @@ export function _TODO_ToConjugationVocalized(word: ConjugatedWord)
     return result;
 }
 
-export function _TODO_TashkilToVowel(taskil: Tashkil)
+export function TashkilToVowel(taskil: Tashkil)
 {
     switch(taskil)
     {
@@ -395,5 +394,5 @@ export function _TODO_TashkilToVowel(taskil: Tashkil)
         case Tashkil.Sukun:
             return Vowel.Sukun;
     }
-    throw new Error("_TODO_TashkilToVowel: " + taskil);
+    throw new Error("TashkilToVowel: " + taskil);
 }

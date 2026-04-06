@@ -22,7 +22,7 @@ import { ConjugationVocalized } from "../../Vocalization";
 import { DerivePrefix } from "./prefix";
 import { MSAConjugator } from "../msa/MSAConjugator";
 import { AugmentRoot } from "./rootAugmentation";
-import { _TODO_ToConjugationVocalized, ConjugatedWord, Vowel } from "../../Conjugation";
+import { _Legacy_ToConjugationVocalized, ConjugatedWord, Vowel } from "../../Conjugation";
 import { DeriveSuffix } from "./suffix";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
@@ -58,7 +58,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
         function GetBaseForm()
         {
             const word = requestBaseForm();
-            return _TODO_ToConjugationVocalized(word);
+            return _Legacy_ToConjugationVocalized(word);
         }
 
         if(voice !== Voice.Active)
@@ -338,6 +338,6 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                 break;
         }
 
-        return [{ emphasis: true, letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
+        return [{ emphasis: true, letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
     }
 }

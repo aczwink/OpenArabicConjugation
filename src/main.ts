@@ -17,7 +17,7 @@
  * */
 import { ConjugationVocalizedToConjugatedWord } from "./Conjugation";
 import { Conjugator, TargetVerbBasedDerivationPatterns } from "./Conjugator";
-import { Letter } from "./Definitions";
+import { Gender, Letter } from "./Definitions";
 import { DialectType, GetAllConjugatableDialects } from "./Dialects";
 import { ModernStandardArabicStem1ParametersType } from "./dialects/msa/conjugation/r2tashkil";
 import { GetDialectMetadata } from "./DialectsMetadata";
@@ -28,6 +28,7 @@ import { CompareVocalized, ConvertFullyVocalized, EqualsVocalized, ParseVocalize
 export {
     Conjugator,
     DialectType,
+    Gender,
     Letter,
     ModernStandardArabicStem1ParametersType,
     TargetVerbBasedDerivationPatterns,

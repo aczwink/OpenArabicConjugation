@@ -93,7 +93,7 @@ export class Conjugator
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
         const msaVerb = verb as Verb<any>;
 
-        let patterns;
+        let patterns: Array<ConjugationVocalized[] | ConjugatedWord>;
         switch(target)
         {
             case TargetVerbBasedDerivationPatterns.ActiveParticiples:
@@ -103,7 +103,7 @@ export class Conjugator
 
                 if((verb.dialect === DialectType.ModernStandardArabic) && (verb.stem === 1))
                 {
-                    //TODO: refactor this
+                    //refactor this
                     switch(verb.type)
                     {
                         case VerbType.Assimilated:
@@ -126,11 +126,13 @@ export class Conjugator
             case TargetVerbBasedDerivationPatterns.NounOfPlace:
             {
                 if(verb.stem > 1)
-                    return this.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple);
+                {
+                    const passiveParticiple = this.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple);
+                    return [passiveParticiple[0], this.DeriveSoundAdjectiveOrNoun(passiveParticiple[0], Gender.Male, TargetAdjectiveNounDerivation.DeriveFeminineSingular, DialectType.ModernStandardArabic)];
+                }
                 
                 const dialectConjugator = new MSAConjugator;
-                const pattern = dialectConjugator.DeriveNounOfPlace(msaVerb);
-                patterns = [pattern];
+                patterns = dialectConjugator.DeriveNounsOfPlace(msaVerb);
             }
             break;
             case TargetVerbBasedDerivationPatterns.PassiveParticiple:

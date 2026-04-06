@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,8 @@ It("Stem 1 - Type Past:i Present:i", () => {
     RunVerbalNounPatternTest(stem, [
         { rootRadicals: "و-ث-ق", expected: "ثِقَة" }, //Source: https://en.wiktionary.org/wiki/%D9%88%D8%AB%D9%82
         { rootRadicals: "و-ف-ق", expected: "وَفْق" }, // Source: https://en.wiktionary.org/wiki/%D9%88%D9%81%D9%82
+        { rootRadicals: "و-ر-ث", expected: "إِرْث" }, // Source: http://ejtaal.net/aa/#hw4=1255
+        { rootRadicals: "و-ر-ث", expected: "تُرَاث" }, // Source: http://ejtaal.net/aa/#hw4=1255
     ]);
     _Legacy_RunParticipleTest("و-ف-ق", stem, "وَافِق", "مَوْفُوق");
     

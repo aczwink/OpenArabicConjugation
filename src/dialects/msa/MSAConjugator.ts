@@ -20,7 +20,7 @@ import { DialectConjugator, TargetAdjectiveNounDerivation } from "../../DialectC
 import { VerbRoot } from "../../VerbRoot";
 import { ConjugationVocalized, DisplayVocalized } from "../../Vocalization";
 import { AugmentedRoot, AugmentedRootSymbolInput, SymbolName } from "./AugmentedRoot";
-import { _TODO_DeriveSuffix } from "./conjugation/_legacy_suffix";
+import { _Legacy_DeriveSuffix } from "./conjugation/_legacy_suffix";
 import { DerivePrefix } from "./conjugation/prefix";
 import { AugmentRoot } from "./conjugation/rootAugmentation";
 import { ShortenOrAlefizeR2 } from "./conjugation/hollow";
@@ -55,10 +55,10 @@ import { DialectType } from "../../Dialects";
 import { ModernStandardArabicStem1ParametersType } from "./conjugation/r2tashkil";
 import { SelectTemplate } from "./conjugation_templates/select";
 import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
-import { _TODO_TashkilToVowel, _TODO_ToConjugationVocalized, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "../../Conjugation";
+import { TashkilToVowel, _Legacy_ToConjugationVocalized, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "../../Conjugation";
 import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
 import { DeriveNounPluralPatternsImpl } from "./adjectives_nouns/plural_patterns";
-import { AppendToTail } from "../../ConjugationTransformation";
+import { WithStandardFemaleEnding } from "../../ConjugationTransformation";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -91,7 +91,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 4:
                 return GenerateParticipleStem4(verb, this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 5:
-                return GenerateParticipleStem5(root, this._Legacy_ConjugateBasicForm(root, stem), voice);
+                return GenerateParticipleStem5(verb, this._Legacy_ConjugateBasicForm(root, stem), voice);
             case 6:
                 return GenerateParticipleStem6(root, this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 8:
@@ -101,7 +101,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 10:
                 return GenerateParticipleStem10(root, voice, requestBaseForm());
         }
-        return [{letter: "TODO ConjugateParticiple" as any, tashkil: Tashkil.Dhamma}];
+        return [{letter: "IMPLEMENT ME ConjugateParticiple" as any, tashkil: Tashkil.Dhamma}];
     }
 
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
@@ -126,21 +126,34 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         };
     }
 
-    public DeriveNounOfPlace(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord
+    public DeriveNounsOfPlace(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord[]
     {
         const root = verb.root;
 
-        return {
-            elements: [
-                { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
-                { consonant: root.r1, followingVowel: Vowel.Sukun },
-                { consonant: root.r2, followingVowel: Vowel.ShortA },
-            ],
-            ending: {
-                consonant: root.r3,
-                finalVowel: FinalVowel.None
+        return [
+            {
+                elements: [
+                    { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                    { consonant: root.r1, followingVowel: Vowel.Sukun },
+                    { consonant: root.r2, followingVowel: Vowel.ShortA },
+                ],
+                ending: {
+                    consonant: root.r3,
+                    finalVowel: FinalVowel.None
+                }
+            },
+            {
+                elements: [
+                    { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                    { consonant: root.r1, followingVowel: Vowel.Sukun },
+                    { consonant: root.r2, followingVowel: Vowel.ShortI },
+                ],
+                ending: {
+                    consonant: root.r3,
+                    finalVowel: FinalVowel.None
+                }
             }
-        };
+        ];
     }
 
     public DeriveNounPluralPatterns(singular: DisplayVocalized[])
@@ -181,7 +194,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     finalVowel: FinalVowel.None
                 }
             },
-            AppendToTail(this.DeriveCharacteristicNoun(verb), Vowel.ShortA, Letter.TaMarbuta),
+            WithStandardFemaleEnding(this.DeriveCharacteristicNoun(verb))
         ];
     }
     
@@ -313,18 +326,18 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         if((verb.root.r1 === Letter.Hamza) && (verb.root.r3 === Letter.Ya) && (verb.stem === 4))
         {
             //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
-            throw new Error("TODO: write test! 2");
+            throw new Error("IMPLEMENT ME: write test! 2");
         }
 
         if((verb.root.r1 === Letter.Waw) && (verb.root.r3 === Letter.Waw) && (verb.stem === 8))
         {
             //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
-            throw new Error("TODO: write test! 3");
+            throw new Error("IMPLEMENT ME: write test! 3");
         }
         if((verb.root.r1 === Letter.Waw) && (verb.root.r3 === Letter.Ya) && (verb.stem === 8))
         {
             //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
-            throw new Error("TODO: write test! 4");
+            throw new Error("IMPLEMENT ME: write test! 4");
         }
 
         if(verb.root.r1 === Letter.Waw)
@@ -333,7 +346,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             {
                 case 7:
                 case 9:
-                    throw new Error("TODO: write test: waw " + verb.stem + " " + verb.root.ToString());
+                    throw new Error("IMPLEMENT ME: write test: waw " + verb.stem + " " + verb.root.ToString());
             }
         }
         else if(verb.root.r1 === Letter.Ya)
@@ -355,7 +368,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 case 7:
                 case 8:
                 case 9:
-                    throw new Error("TODO: write test: ya " + verb.stem + " " + verb.root.ToString());
+                    throw new Error("IMPLEMENT ME: write test: ya " + verb.stem + " " + verb.root.ToString());
             }
         }
     }
@@ -365,7 +378,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         const template = SelectTemplate(verb, params.voice);
         if(template !== undefined)
         {
-            const suffix = _TODO_DeriveSuffix(params);
+            const suffix = _Legacy_DeriveSuffix(params);
             switch(verb.type)
             {
                 case VerbType.Irregular:
@@ -387,7 +400,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             }
 
             const items: ConjugationElement[] = [];
-            const vowels = [...matched.vowels, _TODO_TashkilToVowel(suffix.preSuffixTashkil)];
+            const vowels = [...matched.vowels, TashkilToVowel(suffix.preSuffixTashkil)];
             for(let i = 0; i < matched.symbols.length; i++)
             {
                 items.push({
@@ -396,7 +409,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 });
             }
 
-            const word = _TODO_ToConjugationVocalized({
+            const word = _Legacy_ToConjugationVocalized({
                 elements: items,
             });
             switch(matched.prefixVowel)
@@ -410,7 +423,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     word.unshift({ letter: Letter.Waw, tashkil: Tashkil.LongVowelMarker });
                     break;
                 default:
-                    throw new Error("TODO!: " + matched.prefixVowel);
+                    throw new Error("IMPLEMENT ME!: " + matched.prefixVowel);
             }
 
             const input: AugmentedRootSymbolInput[] = [];
@@ -445,13 +458,13 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
         const maybeAugmentedRoot = AugmentRoot(verb, params);
         if(maybeAugmentedRoot === undefined)
-            throw new Error("TODO: can't form augmented root: " + verb.root.ToString() + " stem: " + verb.stem);
+            throw new Error("IMPLEMENT ME: can't form augmented root: " + verb.root.ToString() + " stem: " + verb.stem);
         
         const augmentedRoot = new AugmentedRoot(maybeAugmentedRoot, verb.root);
 
         ApplyRootTashkil(augmentedRoot, verb, params);
 
-        const suffix = _TODO_DeriveSuffix(params);
+        const suffix = _Legacy_DeriveSuffix(params);
         augmentedRoot.ApplyRadicalTashkil(verb.root.radicalsAsSeparateLetters.length as any, suffix.preSuffixTashkil);
 
         switch(verb.type)

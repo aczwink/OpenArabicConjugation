@@ -24,16 +24,28 @@ import { VerbRoot } from "../../../dist/VerbRoot";
 import { ShouldEqual } from "../../shared";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_nouns_and_adjectives#Nouns_of_place
+//https://en.wiktionary.org/wiki/Appendix:Arabic_nominals#Nouns_of_place
 
-It("Noun of place stem 1", () => {
+It("Nouns of place stem 1 maf3al", () => {
     const root = new VerbRoot("كتب");
     const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastA_PresentU);
     const c = new Conjugator();
 
     const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
 
-    Expect(result.length).ToBe(1);
+    Expect(result.length).ToBe(2);
     ShouldEqual("مَكْتَب", result[0], () => []);
+});
+
+It("Nouns of place stem 1 maf3il", () => {
+    const root = new VerbRoot("جلس");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastA_PresentI);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
+
+    Expect(result.length).ToBe(2);
+    ShouldEqual("مَجْلِس", result[1], () => []);
 });
 
 It("Noun of place stem > 1", () => {
@@ -43,6 +55,17 @@ It("Noun of place stem > 1", () => {
 
     const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
 
-    Expect(result.length).ToBe(1);
+    Expect(result.length).ToBe(2);
     ShouldEqual("مُفْتَرَق", result[0], () => []);
+});
+
+It("Noun of place stem > 1 female", () => {
+    const root = new VerbRoot("عمر");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, 10);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
+
+    Expect(result.length).ToBe(2);
+    ShouldEqual("مُسْتَعْمَرَة", result[1], () => []);
 });

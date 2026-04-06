@@ -191,6 +191,17 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     return [
                         fa3l,
                         _3ila,
+                        [
+                            { letter: Letter.Hamza, tashkil: Tashkil.Kasra },
+                            { letter: root.r2, tashkil: Tashkil.Sukun },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: Letter.Ta, tashkil: Tashkil.Dhamma },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+                        ],
                     ];
             }
         }
@@ -779,6 +790,6 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
     }
 
     return [
-        [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}]
+        [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker}]
     ];
 }

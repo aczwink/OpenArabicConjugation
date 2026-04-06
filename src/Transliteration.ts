@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -121,7 +121,7 @@ export const Buckwalter = {
             case Tashkil.Sukun:
                 return "o";
         }
-        throw new Error("TODO Buckwalter.TashkilToString: " + tashkil + (tashkil as any).codePointAt(0));
+        throw new Error("Buckwalter.TashkilToString: " + tashkil + (tashkil as any).codePointAt(0));
     },
 
     ToString: function(vocalized: DisplayVocalized[])

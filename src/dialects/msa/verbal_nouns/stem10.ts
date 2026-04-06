@@ -70,5 +70,5 @@ export function GenerateAllPossibleVerbalNounsStem10(root: VerbRoot): Conjugatio
             ];
     }
 
-    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
+    return [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

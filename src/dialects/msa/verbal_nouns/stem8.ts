@@ -106,5 +106,5 @@ export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardAra
         }
     }
 
-    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
+    return [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker}];
 }

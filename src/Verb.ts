@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -66,10 +66,4 @@ export function CreateVerb(dialect: DialectType, root: VerbRoot, stem: string | 
         stemParameterization: stem,
         type
     };
-}
-
-export function VerifySubStem1ContextType<T extends string, U extends T>(verb: Verb<T>): Verb<U>
-{
-    //TODO: this needs to actually be implemented
-    return verb as any;
 }

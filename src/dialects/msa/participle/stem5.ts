@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,17 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Letter, Tashkil, Voice } from "../../../Definitions";
-import { RootType, VerbRoot } from "../../../VerbRoot";
+import { Letter, Tashkil, VerbType, Voice } from "../../../Definitions";
+import { Verb } from "../../../Verb";
+import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 import { _LegacyGenerateParticipleRegular } from "./regular";
 
-export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
+export function GenerateParticipleStem5(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[]
 {
-    switch(root.type)
+    const root = verb.root;
+
+    switch(verb.type)
     {
-        case RootType.FinalWeak:
+        case VerbType.Defective:
             if(voice === Voice.Active)
             {
                 baseForm.r2.tashkil = Tashkil.Kasratan;
@@ -42,12 +46,15 @@ export function GenerateParticipleStem5(root: VerbRoot, baseForm: AugmentedRoot,
                 { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
                 ...baseForm.symbols
             ];
+    }
 
+    switch(root.type)
+    {
         case RootType.InitialWeak:
         case RootType.MiddleWeak:
         case RootType.SecondConsonantDoubled:
         case RootType.Regular:
             return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
-    return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
+    return [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

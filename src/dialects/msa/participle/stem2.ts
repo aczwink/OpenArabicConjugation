@@ -44,5 +44,5 @@ export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice, v
         case RootType.SecondConsonantDoubled:
             return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
-    return [{ letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker }];
+    return [{ letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

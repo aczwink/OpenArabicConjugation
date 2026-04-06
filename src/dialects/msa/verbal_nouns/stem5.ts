@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -43,6 +43,6 @@ export function GenerateAllPossibleVerbalNounsStem5(root: VerbRoot): Conjugation
                 { letter: root.r2, tashkil: Tashkil.Kasratan },
             ];
         default:
-            return [{letter: "TODO" as any, tashkil: Tashkil.EndOfWordMarker}];
+            return [{letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker}];
     }
 }
