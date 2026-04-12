@@ -29,6 +29,7 @@ It("Wikipedia defective stem1 type 2", () => {
         { expected: "نَحْو", rootRadicals: "ن-ح-و" },
         { expected: "شَكْوَى", rootRadicals: "ش-ك-و" }, //https://en.wiktionary.org/wiki/%D8%B4%D9%83%D8%A7#Arabic
         { expected: "جَفَاء", rootRadicals: "ج-ف-و" }, //http://ejtaal.net/aa/#hw4=165
+        { expected: "نَجَاة", rootRadicals: "ن-ج-و" }, //https://ejtaal.net/aa/#hw4=1123
     ]);
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعُوّ");
     

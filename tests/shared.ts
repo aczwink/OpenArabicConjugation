@@ -18,7 +18,7 @@
 import "@aczwink/acts-util-core";
 import { Expect, Fail } from "@aczwink/acts-util-test";
 import { Conjugator, TargetVerbBasedDerivationPatterns } from "../dist/Conjugator";
-import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "../dist/Definitions";
+import { AdvancedStemNumber, ConjugationParams, Gender, GenderString, Letter, Mood, MoodString, Numerus, NumerusString, Person, PersonString, Tense, TenseString, VerbType, Voice, VoiceString } from "../dist/Definitions";
 import { VerbRoot } from "../dist/VerbRoot";
 import { GenderToString, MoodToString, NumerusToString, PersonToString, TenseToString, VoiceToString } from "../dist/Util";
 import { DisplayVocalized, EqualsVocalized, ParseVocalizedText, VocalizedWordTostring } from "../dist/Vocalization";
@@ -261,10 +261,12 @@ export function RunSoundEqualityTest(verbData: VerbTestData)
         for(let i = 0; i < root.radicalsAsSeparateLetters.length; i++)
         {
             const radical = root.radicalsAsSeparateLetters[i];
+            if(radical === Letter.Hamza)
+                throw new Error("This method does not work for this radical: " + radical);
 
             const idx = vocalized.findIndex( (x, i) => (x.letter === radical) && (i >= startIndex) );
             if(idx === -1)
-                throw new Error("Root replacement failed");
+                throw new Error("Root replacement failed: " + radical);
             vocalized[idx].letter = replacedRoot[i] as any;
             startIndex = idx+1;
         }

@@ -57,6 +57,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 {
                     case 2:
                     case 6:
+                    case 8:
                     case 10:
                         return VerbType.Sound;
                 }
@@ -152,6 +153,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         ModernStandardArabicStem1ParametersType.IrregularHayiya,
                         ModernStandardArabicStem1ParametersType.IrregularLaysa,
                         ModernStandardArabicStem1ParametersType.IrregularRa2a,
+                        ModernStandardArabicStem1ParametersType.IrregularSa3a,
                     ]
                 };
             }
@@ -310,6 +312,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(verb.stem)
                 {
                     case 1:
+                    case 2:
                     case 4:
                     case 8:
                         return true;

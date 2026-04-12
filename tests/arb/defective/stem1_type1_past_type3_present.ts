@@ -19,6 +19,7 @@ import { It } from "@aczwink/acts-util-test";
 import { DialectType } from "../../../dist/Dialects";
 import { VerbTestData, RunConjugationTest, RunParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "../../../dist/dialects/msa/conjugation/r2tashkil";
+import { VerbType } from "../../../dist/Definitions";
 
 //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%B9%D9%89
 //Passive generated from https://en.wiktionary.org/wiki/%D8%B3%D8%B9%D9%89 by editing and adding the "pass" flag and saving the preview
@@ -27,7 +28,8 @@ It("Stem 1, defective type 1 in past but type 3 in present", () => {
     const verbData: VerbTestData = {
         rootRadicals: "س-ع-ي",
         dialect: DialectType.ModernStandardArabic,
-        stem: ModernStandardArabicStem1ParametersType.PastA_PresentA,
+        stem: ModernStandardArabicStem1ParametersType.IrregularSa3a,
+        verbType: VerbType.Irregular
     };
 
     throw new Error("TODO: missing verbal noun");

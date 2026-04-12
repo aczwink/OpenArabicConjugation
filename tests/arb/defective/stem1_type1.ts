@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ It("Wikipedia defective stem1 type 1", () => {
         { rootRadicals: "ك-ف-ي", expected: "كِفَايَة" }, //Source: https://en.wiktionary.org/wiki/%D9%83%D9%81%D9%89
         { rootRadicals: "ع-ص-ي", expected: "عِصْيَان" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B5%D9%89
         { rootRadicals: "ز-ن-ي", expected: "زِنًى" }, //Source: https://ejtaal.net/aa/#hw4=458
+        { rootRadicals: "غ-ل-ي", expected: "غَلَيَان" }, //Source: https://ejtaal.net/aa/#hw4=812
     ]);
 
     RunDefectiveParticipleTest("ف-ع", stem, "فَاعٍ", "مَفْعِيّ");

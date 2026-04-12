@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ export enum ModernStandardArabicStem1ParametersType
     IrregularHayiya = "irregular_hayiya",
     IrregularLaysa = "irregular_laysa",
     IrregularRa2a = "irregular_ra2a",
+    IrregularSa3a = "irregular_sa3a",
     PastA_PresentA = "aa",
     PastA_PresentI = "ai",
     PastA_PresentU = "au",
@@ -59,7 +60,7 @@ export function _Legacy_ExtractMiddleRadicalTashkil(type: ModernStandardArabicSt
         case ModernStandardArabicStem1ParametersType.Quadrilateral:
             return Tashkil.Sukun;
     }
-    throw new Error("Doesn't work for irregular verbs: " + type);
+    throw new Error("_Legacy_ExtractMiddleRadicalTashkil Doesn't work for irregular verbs: " + type);
 }
 
 export function _Legacy_ExtractPresentMiddleRadicalTashkil(type: ModernStandardArabicStem1ParametersType): BaseTashkil
@@ -76,13 +77,14 @@ export function _Legacy_ExtractPresentMiddleRadicalTashkil(type: ModernStandardA
         case ModernStandardArabicStem1ParametersType.PastU_PresentU:
             return Tashkil.Dhamma;
         case ModernStandardArabicStem1ParametersType.DefectiveType3:
+        case ModernStandardArabicStem1ParametersType.IrregularSa3a:
         case ModernStandardArabicStem1ParametersType.PastA_PresentA:
         case ModernStandardArabicStem1ParametersType.PastI_PresentA:
             return Tashkil.Fatha;
         case ModernStandardArabicStem1ParametersType.Quadrilateral:
             return Tashkil.Sukun;
     }
-    throw new Error("Doesn't work for irregular verbs: " + type);
+    throw new Error("_Legacy_ExtractPresentMiddleRadicalTashkil Doesn't work for irregular verbs: " + type);
 }
 
 export function ExtractMiddleRadicalTashkilVowel(type: ModernStandardArabicStem1ParametersType): Vowel

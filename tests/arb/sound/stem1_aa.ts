@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ It("Stem 1 past:a, present:a", () => {
         { rootRadicals: "س-ء-ل", expected: "سُؤَال"}, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A3%D9%84#Arabic
         { rootRadicals: "س-ء-ل", expected: "مَسْأَلَة"}, //Source: https://en.wiktionary.org/wiki/%D8%B3%D8%A3%D9%84#Arabic
         { rootRadicals: "ذ-ه-ب", expected: "ذَهَاب"}, //Source: https://ejtaal.net/aa/#hw4=374
+        { rootRadicals: "ش-غ-ب", expected: "شَغَب"}, //Source: https://ejtaal.net/aa/#hw4=568
     ]);
 
     _Legacy_RunParticipleTest(root, stem, "رَاحِل", "مَرْحُول");

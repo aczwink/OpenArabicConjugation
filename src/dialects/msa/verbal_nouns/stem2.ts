@@ -15,13 +15,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
+import { ConjugatedWord, FinalVowel, Vowel } from "../../../Conjugation";
 import { Letter, Tashkil, VerbType } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 
-export function GenerateAllPossibleVerbalNounsStem2(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[][]
+export function GenerateAllPossibleVerbalNounsStem2(verb: Verb<ModernStandardArabicStem1ParametersType>): (ConjugationVocalized[][] | ConjugatedWord[])
 {
     const root = verb.root;
 
@@ -49,6 +50,21 @@ export function GenerateAllPossibleVerbalNounsStem2(verb: Verb<ModernStandardAra
                     { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
                 ],
                 taf3iya
+            ];
+        case VerbType.Irregular:
+            return [
+                {
+                    elements: [
+                        { consonant: Letter.Ta, followingVowel: Vowel.ShortA },
+                        { consonant: root.r1, followingVowel: Vowel.ShortI },
+                        { consonant: root.r2, followingVowel: Vowel.Sukun },
+                        { consonant: root.r2, followingVowel: Vowel.ShortA },
+                    ],
+                    ending: {
+                        consonant: Letter.TaMarbuta,
+                        finalVowel: FinalVowel.None
+                    }
+                }
             ];
     }
 

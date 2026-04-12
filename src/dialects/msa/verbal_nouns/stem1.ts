@@ -106,6 +106,12 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
     ];
 
+    const fa3aa = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Fatha },
+        { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+        { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
+    ];
     const fa3aa2 = [
         { letter: root.r1, tashkil: Tashkil.Fatha },
         { letter: root.r2, tashkil: Tashkil.Fatha },
@@ -242,6 +248,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         fa3aa2,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
+                            { letter: root.r2, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Ya, tashkil: Tashkil.Fatha },
+                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
+                            { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker },
+                        ],
+                        [
+                            { letter: root.r1, tashkil: Tashkil.Fatha },
                             { letter: root.r2, tashkil: Tashkil.Sukun },
                             { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
                         ],
@@ -264,6 +277,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
                 case ModernStandardArabicStem1ParametersType.DefectiveType2:
                     return [
+                        fa3aa,
                         fa3aa2,
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -570,12 +584,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                 case ModernStandardArabicStem1ParametersType.IrregularHayiya:
                     return [
                         fa3aa2,
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Fatha },
-                            { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
-                            { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3aa,
                     ];
 
                 case ModernStandardArabicStem1ParametersType.IrregularLaysa:
@@ -643,12 +652,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
             {
                 case ModernStandardArabicStem1ParametersType.PastA_PresentA:
                     return [
-                        fu3uul,
-                        fu3aal,
-                        fa3l,
                         fa3aal,
-                        fi3l,
+                        fa3al,
+                        fa3l,
                         fi3aala,
+                        fi3l,
+                        fu3aal,
+                        fu3uul,
                         maf3ala
                     ];
 

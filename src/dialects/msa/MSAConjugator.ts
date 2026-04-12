@@ -59,6 +59,7 @@ import { TashkilToVowel, _Legacy_ToConjugationVocalized, ConjugatedWord, Conjuga
 import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
 import { DeriveNounPluralPatternsImpl } from "./adjectives_nouns/plural_patterns";
 import { WithStandardFemaleEnding } from "../../ConjugationTransformation";
+import { GenerateParticipleStem7 } from "./participle/stem7";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -94,6 +95,8 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                 return GenerateParticipleStem5(verb, this._Legacy_ConjugateBasicForm(root, stem), voice);
             case 6:
                 return GenerateParticipleStem6(root, this._LegacyToo_ConjugateBasicForm(verb), voice);
+            case 7:
+                return GenerateParticipleStem7(requestBaseForm());
             case 8:
                 return GenerateParticipleStem8(verb, requestBaseForm(), this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 9:
@@ -101,7 +104,6 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 10:
                 return GenerateParticipleStem10(root, voice, requestBaseForm());
         }
-        return [{letter: "IMPLEMENT ME ConjugateParticiple" as any, tashkil: Tashkil.Dhamma}];
     }
 
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
@@ -130,18 +132,21 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     {
         const root = verb.root;
 
+        const maf3al = {
+            elements: [
+                { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                { consonant: root.r1, followingVowel: Vowel.Sukun },
+                { consonant: root.r2, followingVowel: Vowel.ShortA },
+            ],
+            ending: {
+                consonant: root.r3,
+                finalVowel: FinalVowel.None
+            }
+        };
+
         return [
-            {
-                elements: [
-                    { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
-                    { consonant: root.r1, followingVowel: Vowel.Sukun },
-                    { consonant: root.r2, followingVowel: Vowel.ShortA },
-                ],
-                ending: {
-                    consonant: root.r3,
-                    finalVowel: FinalVowel.None
-                }
-            },
+            maf3al,
+            WithStandardFemaleEnding(maf3al),
             {
                 elements: [
                     { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
@@ -394,7 +399,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     dialect: verb.dialect,
                     root: (matched.base.root === undefined) ? verb.root : new VerbRoot(matched.base.root.join("")),
                     stem: verb.stem as any,
-                    stemParameterization: (verb.stem === 1) ? verb.stemParameterization : undefined,
+                    stemParameterization: (verb.stem === 1) ? (matched.base.stemParameterization as any ?? verb.stemParameterization) : undefined,
                     type: matched.base.verbType
                 }, params);
             }

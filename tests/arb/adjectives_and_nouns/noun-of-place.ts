@@ -33,8 +33,19 @@ It("Nouns of place stem 1 maf3al", () => {
 
     const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
 
-    Expect(result.length).ToBe(2);
+    Expect(result.length).ToBe(3);
     ShouldEqual("مَكْتَب", result[0], () => []);
+});
+
+It("Nouns of place stem 1 maf3ala", () => {
+    const root = new VerbRoot("زرع");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastA_PresentA);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
+
+    Expect(result.length).ToBe(3);
+    ShouldEqual("مَزْرَعَة", result[1], () => []);
 });
 
 It("Nouns of place stem 1 maf3il", () => {
@@ -44,8 +55,8 @@ It("Nouns of place stem 1 maf3il", () => {
 
     const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
 
-    Expect(result.length).ToBe(2);
-    ShouldEqual("مَجْلِس", result[1], () => []);
+    Expect(result.length).ToBe(3);
+    ShouldEqual("مَجْلِس", result[2], () => []);
 });
 
 It("Noun of place stem > 1", () => {

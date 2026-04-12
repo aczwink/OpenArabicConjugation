@@ -17,7 +17,7 @@
  * */
 import { It } from "@aczwink/acts-util-test";
 import { DialectType } from "../../../dist/Dialects";
-import { VerbTestData, RunSoundEqualityTest, RunConjugationTest, RunParticipleTest } from "../../shared";
+import { VerbTestData, RunConjugationTest, RunParticipleTest } from "../../shared";
 
 //Sources: https://en.wiktionary.org/wiki/%D8%AA%D8%A2%D9%85%D8%B1
 //Passive generated from https://en.wiktionary.org/wiki/%D8%AA%D8%A2%D9%85%D8%B1 by editing and adding the "pass" flag and saving the preview
@@ -28,8 +28,6 @@ It("R1:ء stem 6", () => {
         dialect: DialectType.ModernStandardArabic,
         stem: 6,
     };
-
-    RunSoundEqualityTest(verbData);
 
     throw new Error("TODO: missing verbal noun");
     RunParticipleTest(verbData, "مُتَآمِر", "مُتَآمَر");

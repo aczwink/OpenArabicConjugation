@@ -28,9 +28,12 @@ import { GeminateStem10Template } from "./geminate_stem10";
 import { GeminateStem4Template } from "./geminate_stem4";
 import { GeminateStem8Template } from "./geminate_stem8";
 import { HollowStem1Template } from "./hollow_stem1";
+import { HollowStem7Template } from "./hollow_stem7";
 import { IrregularAhyaTemplate } from "./irregular_ahya";
 import { IrregularHayiyaTemplate } from "./irregular_hayiya";
+import { IrregularHayyaTemplate } from "./irregular_hayya";
 import { IrregularLaysaTemplate } from "./irregular_laysa";
+import { IrregularSa3aTemplate } from "./irregular_sa3a";
 import { QuadriliteralStem2Template } from "./quadriliteral_stem2";
 import { QuadriliteralStem4Template } from "./quadriliteral_stem4";
 import { SoundStem9Template } from "./sound_stem9";
@@ -56,6 +59,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
                             return IrregularHayiyaTemplate(stemData, voice);
                         case ModernStandardArabicStem1ParametersType.IrregularLaysa:
                             return IrregularLaysaTemplate(stemData);
+                        case ModernStandardArabicStem1ParametersType.IrregularSa3a:
+                            return IrregularSa3aTemplate();
                     }
                 }
                 break;
@@ -65,6 +70,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
         {
             switch(stemData.type)
             {
+                case VerbType.Irregular:
+                    return IrregularHayyaTemplate();
                 case VerbType.SoundQuadriliteral:
                     return QuadriliteralStem2Template(stemData.root, voice);
             }
@@ -86,6 +93,15 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
                     return GeminateStem4Template(stemData, voice);
                 case VerbType.SoundQuadriliteral:
                     return QuadriliteralStem4Template(stemData.root, voice);
+            }
+        }
+        break;
+        case 7:
+        {
+            switch(stemData.type)
+            {
+                case VerbType.Hollow:
+                    return HollowStem7Template(stemData.root, voice);
             }
         }
         break;

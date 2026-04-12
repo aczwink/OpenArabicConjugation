@@ -67,6 +67,12 @@ export function GenerateParticipleStem1(root: VerbRoot, voice: VoiceString, stem
                         stemParameterization: stem1Context.stemParameterization,
                         type: VerbType.Defective
                     });
+                case ModernStandardArabicStem1ParametersType.IrregularSa3a:
+                    return GenerateParticipleStem1(root, voice, {
+                        stem: 1,
+                        stemParameterization: ModernStandardArabicStem1ParametersType.DefectiveType1,
+                        type: VerbType.Defective
+                    });
             }
             break;
     }
