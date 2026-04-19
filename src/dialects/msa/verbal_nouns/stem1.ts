@@ -154,6 +154,12 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
         { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
     ];
 
+    const fa3y = [
+        { letter: root.r1, tashkil: Tashkil.Fatha },
+        { letter: root.r2, tashkil: Tashkil.Sukun },
+        { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
+    ];
+
     switch(stem1Context.type)
     {
         case VerbType.Assimilated:
@@ -253,11 +259,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker },
                             { letter: Letter.Nun, tashkil: Tashkil.EndOfWordMarker },
                         ],
-                        [
-                            { letter: root.r1, tashkil: Tashkil.Fatha },
-                            { letter: root.r2, tashkil: Tashkil.Sukun },
-                            { letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        fa3y,
                         fi3aa2,
                         fi3aaya,
                         [
@@ -402,6 +404,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
 
         case VerbType.Hollow:
         {
+            const mafiyl = [
+                { letter: Letter.Mim, tashkil: Tashkil.Fatha },
+                { letter: root.r1, tashkil: Tashkil.Kasra },
+                { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
+                { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
+            ];
+
             switch(stem1Context.stemParameterization)
             {
                 case ModernStandardArabicStem1ParametersType.PastI_PresentA:
@@ -411,6 +420,13 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     ];
 
                 case ModernStandardArabicStem1ParametersType.PastI_PresentI:
+                    if(root.r3 === Letter.Hamza)
+                    {
+                        return [
+                            mafiyl
+                        ];
+                    }
+
                     return [
                         [
                             { letter: root.r1, tashkil: Tashkil.Fatha },
@@ -444,12 +460,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                             { letter: Letter.TaMarbuta, tashkil: Tashkil.EndOfWordMarker }
                         ],
                         fiyaala,
-                        [
-                            { letter: Letter.Mim, tashkil: Tashkil.Fatha },
-                            { letter: root.r1, tashkil: Tashkil.Kasra },
-                            { letter: Letter.Ya, tashkil: Tashkil.LongVowelMarker },
-                            { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
-                        ],
+                        mafiyl,
                         [
                             { letter: Letter.Mim, tashkil: Tashkil.Fatha },
                             { letter: root.r1, tashkil: Tashkil.Kasra },
@@ -610,6 +621,11 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         ],
                     ];
                 }
+
+                case ModernStandardArabicStem1ParametersType.IrregularSa3a:
+                    return [
+                        fa3y
+                    ];
             }
         }
         break;

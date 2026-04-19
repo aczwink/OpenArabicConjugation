@@ -58,6 +58,13 @@ function DetermineHamzaSeat(hamza: ConjugationElement, isFinal: boolean, previou
     
     if(isFinal)
     {
+        switch(hamza.followingVowel)
+        {
+            case Vowel.LongA:
+            case Vowel.LongI:
+                return DetermineHamzaSeat(hamza, false, previousVowel); //hamza is actually medial
+        }
+
         switch(previousVowel)
         {
             case Vowel.ShortA:
@@ -82,10 +89,11 @@ function DetermineHamzaSeat(hamza: ConjugationElement, isFinal: boolean, previou
             case Vowel.LongU:
                 if( (followingShortVowel === Vowel.ShortI) || (followingShortVowel === Vowel.ShortU) )
                     decidingVowel = followingShortVowel;
-                else if((previousVowel === Vowel.DiphtongAj) || (previousVowel === Vowel.LongI))
-                    decidingVowel = Vowel.ShortI;
                 else
                     decidingVowel = null;
+
+                if((previousVowel === Vowel.DiphtongAj) || (previousVowel === Vowel.LongI))
+                    decidingVowel = Vowel.ShortI;
                 break;
             default:
                 decidingVowel = HamzaShortVowelPrecedence(followingShortVowel, previousVowel);
@@ -131,7 +139,7 @@ export function Hamzate(word: ConjugatedWord)
         const prevIsHamza = prev?.consonant === Letter.Hamza;
         const currentIsHamza = current.consonant === Letter.Hamza;
         const isFinal = (word.ending === undefined) && (i === (word.elements.length - 1));
-        const seat = DetermineHamzaSeat(current, isFinal, prev?.followingVowel);
+        const seat = currentIsHamza ? DetermineHamzaSeat(current, isFinal, prev?.followingVowel) : undefined;
 
         if(currentIsHamza && prevIsHamza && (current.followingVowel === Vowel.Sukun) && (prev.followingVowel === Vowel.ShortA))
         {
@@ -142,7 +150,7 @@ export function Hamzate(word: ConjugatedWord)
             result.push({ letter: Letter.AlefMadda, tashkil: Tashkil.LongVowelMarker, emphasis: current.emphasis });
         else
         {
-            const next = (current.consonant === Letter.Hamza) ? { ...current, consonant: seat } : current;
+            const next = (seat !== undefined) ? { ...current, consonant: seat } : current;
             
             result.push(...ToConjugationVocalized(next));
         }

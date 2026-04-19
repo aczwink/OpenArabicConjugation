@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,17 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "@aczwink/acts-util-test";
-import { ConjugationTest, _Legacy_RunConjugationTest, _Legacy_RunParticipleTest } from "../../shared";
+import { ConjugationTest, RunConjugationTest, RunParticipleTest, RunVerbalNounTest, VerbTestData } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "../../../dist/dialects/msa/conjugation/r2tashkil";
+import { DialectType } from "../../../dist/Dialects";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
 //https://en.wiktionary.org/wiki/%D8%AC%D8%A7%D8%A1
 
 It("R2:Ya, R3:Hamza", () => {
-    const stem = ModernStandardArabicStem1ParametersType.PastI_PresentI;
+    const verbTestData: VerbTestData = {
+        dialect: DialectType.ModernStandardArabic,
+        rootRadicals: "ج-ي-ء",
+        stem: ModernStandardArabicStem1ParametersType.PastI_PresentI,
+    };
 
-    throw new Error("TODO verbal noun test :)");
-    _Legacy_RunParticipleTest("ج-ي-ء", stem, "جَاءٍ", "مَجِيء");
+    RunVerbalNounTest(verbTestData, "مَجِيء");
+    RunParticipleTest(verbTestData, "جَاءٍ", "مَجِيء");
 
     const conjugations: ConjugationTest[] = [
         //active past
@@ -175,5 +180,5 @@ It("R2:Ya, R3:Hamza", () => {
         { voice: "passive", expected: "نُجَأْ", gender: "male", person: "first", numerus: "plural", tense: "present", mood: "jussive" },
     ];
 
-    _Legacy_RunConjugationTest("ج-ي-ء", stem, conjugations);
+    RunConjugationTest(verbTestData, conjugations);
 });

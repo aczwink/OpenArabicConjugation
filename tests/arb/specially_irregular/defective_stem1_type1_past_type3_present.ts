@@ -17,7 +17,7 @@
  * */
 import { It } from "@aczwink/acts-util-test";
 import { DialectType } from "../../../dist/Dialects";
-import { VerbTestData, RunConjugationTest, RunParticipleTest } from "../../shared";
+import { VerbTestData, RunConjugationTest, RunParticipleTest, RunVerbalNounTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "../../../dist/dialects/msa/conjugation/r2tashkil";
 import { VerbType } from "../../../dist/Definitions";
 
@@ -32,7 +32,7 @@ It("Stem 1, defective type 1 in past but type 3 in present", () => {
         verbType: VerbType.Irregular
     };
 
-    throw new Error("TODO: missing verbal noun");
+    RunVerbalNounTest(verbData, "سَعْي");
     RunParticipleTest(verbData, "سَاعٍ", "مَسْعِيّ");
 
     RunConjugationTest(verbData, [
