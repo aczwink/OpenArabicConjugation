@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,10 @@ It("Stem 1 past:i, present:a", () => {
 
     _Legacy_RunParticipleTest(root, stem, "آمِن", "مَأْمُون");
     RunVerbalNounPatternTest(stem, [
-        { expected: "أَمَان", rootRadicals: root },
+        { expected: "أَمْن", rootRadicals: root }, //https://ejtaal.net/aa/#hw4=48
+        { expected: "أَمَان", rootRadicals: root }, //https://ejtaal.net/aa/#hw4=48
         { expected: "أَلَم", rootRadicals: "ء-ل-م" }, //https://en.wiktionary.org/wiki/%D8%A3%D9%84%D9%85
+        { expected: "إِثْم", rootRadicals: "ء-ث-م" }, //https://ejtaal.net/aa/#hw4=19
     ]);
 
     const conjugations: ConjugationTest[] = [

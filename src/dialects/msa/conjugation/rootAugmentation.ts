@@ -145,6 +145,8 @@ export function AugmentRoot(verb: Verb<string>, params: ConjugationParams): Augm
             
             switch(root.type)
             {
+                case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
+                case RootType.DoublyWeak_WawOrYaOnR2AndR3:
                 case RootType.InitialWeak:
                 case RootType.FinalWeak:
                 case RootType.MiddleWeak:

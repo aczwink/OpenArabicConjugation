@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ It("Stem 1 Past:a Present:i", () => {
         { rootRadicals: "ح-ل-ل", expected: "حُلُول" }, //Source: https://en.wiktionary.org/wiki/%D8%AD%D9%84
         { rootRadicals: "ك-ل-ل", expected: "كَلّ" }, //Source: https://ejtaal.net/aa/#hw4=990
         { rootRadicals: "ع-ز-ز", expected: "عِزّ" }, //Source: https://en.wiktionary.org/wiki/%D8%B9%D8%B2
+        { rootRadicals: "ف-ر-ر", expected: "مَفَرّ" }, //Source: https://ejtaal.net/aa/#hw4=834
     ]);
     _Legacy_RunParticipleTest(root, stem, "حَانّ", "مَحْنُون");
 

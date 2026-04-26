@@ -67,7 +67,7 @@ interface BaseData
 {
     root?: Letter[];
     stemParameterization?: string;
-    verbType: VerbType;
+    verbType?: VerbType;
 }
 
 interface ConjugationRuleBase

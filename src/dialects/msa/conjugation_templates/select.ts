@@ -21,6 +21,7 @@ import { Letter, VerbType, Voice } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { RootType } from "../../../VerbRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { AssimilatedAndDefectiveStem1Template } from "./assimilated_and_defective_stem1";
 import { AssimilatedStem1Template } from "./assimilated_stem1";
 import { AssimilatedStem10Template } from "./assimilated_stem10";
 import { GeminateStem1Template } from "./geminate_stem1";
@@ -47,6 +48,8 @@ export function SelectTemplate(stemData: Verb<ModernStandardArabicStem1Parameter
             {
                 case VerbType.Assimilated:
                     return AssimilatedStem1Template(stemData.root, stemData);
+                case VerbType.AssimilatedAndDefective:
+                    return AssimilatedAndDefectiveStem1Template(stemData);
                 case VerbType.Geminate:
                     return GeminateStem1Template(stemData.root, stemData, voice);
                 case VerbType.Hollow:

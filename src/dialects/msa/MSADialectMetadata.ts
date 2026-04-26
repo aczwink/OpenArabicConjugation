@@ -49,6 +49,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(stem)
                 {
                     case 5:
+                    case 6:
                         return VerbType.Defective;
                 }
                 break;
@@ -69,6 +70,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                     case 3:
                     case 5:
                     case 6:
+                    case 9:
                         return VerbType.Sound;
                 }
                 break;
@@ -132,6 +134,16 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         ModernStandardArabicStem1ParametersType.PastI_PresentA,
                         ModernStandardArabicStem1ParametersType.PastI_PresentI,
                     ]
+                };
+            }
+            case VerbType.AssimilatedAndDefective:
+            {
+                return {
+                    requiredContext: [],
+                    types: [
+                        ModernStandardArabicStem1ParametersType.DefectiveType1,
+                        ModernStandardArabicStem1ParametersType.DefectiveType3
+                    ],
                 };
             }
             case VerbType.Defective:
@@ -228,13 +240,6 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                         ],
                     };
                 }
-            case RootType.DoublyWeak_WawOnR1_WawOrYaOnR3:
-                return {
-                    requiredContext: [],
-                    types: [
-                        ModernStandardArabicStem1ParametersType.DefectiveType1,
-                    ],
-                };
             default:
                 throw new Error("IMPLEMENT ME: implement me");
         }

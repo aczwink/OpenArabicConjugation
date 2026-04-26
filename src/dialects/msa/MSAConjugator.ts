@@ -60,6 +60,7 @@ import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjecti
 import { DeriveNounPluralPatternsImpl } from "./adjectives_nouns/plural_patterns";
 import { WithStandardFemaleEnding } from "../../ConjugationTransformation";
 import { GenerateParticipleStem7 } from "./participle/stem7";
+import { GenerateVerbalNounStem9 } from "./verbal_nouns/stem9";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -294,9 +295,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 8:
                 return [GenerateAllPossibleVerbalNounsStem8(verb)];
             case 9:
-                return [
-                    []
-                ];
+                return [GenerateVerbalNounStem9(verb)];
             case 10:
                 return [GenerateAllPossibleVerbalNounsStem10(root)];
             default:
@@ -328,12 +327,6 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
     private MissingTestsCheck(verb: Verb<ModernStandardArabicStem1ParametersType>)
     {
-        if((verb.root.r1 === Letter.Hamza) && (verb.root.r3 === Letter.Ya) && (verb.stem === 4))
-        {
-            //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
-            throw new Error("IMPLEMENT ME: write test! 2");
-        }
-
         if((verb.root.r1 === Letter.Waw) && (verb.root.r3 === Letter.Waw) && (verb.stem === 8))
         {
             //https://en.wikipedia.org/wiki/Arabic_verbs#Doubly_weak_verbs
@@ -400,7 +393,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     root: (matched.base.root === undefined) ? verb.root : new VerbRoot(matched.base.root.join("")),
                     stem: verb.stem as any,
                     stemParameterization: (verb.stem === 1) ? (matched.base.stemParameterization as any ?? verb.stemParameterization) : undefined,
-                    type: matched.base.verbType
+                    type: matched.base.verbType ?? verb.type
                 }, params);
             }
 
