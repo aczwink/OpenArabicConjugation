@@ -17,10 +17,18 @@
  * */
 import { ConjugatedWord } from "../../../Conjugation";
 import { WithoutHamzatAlWasl } from "../../../ConjugationTransformation";
-import { Voice } from "../../../Definitions";
+import { VerbType, Voice } from "../../../Definitions";
+import { Verb } from "../../../Verb";
+import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
 import { GenerateParticipleRegular } from "./regular";
 
-export function GenerateParticipleStem7(baseForm: ConjugatedWord): ConjugatedWord
+export function GenerateParticipleStem7(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: ConjugatedWord, voice: Voice): ConjugatedWord
 {
-    return GenerateParticipleRegular(WithoutHamzatAlWasl(baseForm), Voice.Passive);
+    switch(verb.type)
+    {
+        case VerbType.Hollow:
+            voice = Voice.Passive;
+            break;
+    }
+    return GenerateParticipleRegular(WithoutHamzatAlWasl(baseForm), voice);
 }

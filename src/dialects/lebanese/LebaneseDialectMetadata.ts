@@ -261,6 +261,8 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 }
                 break;
             case VerbType.Defective:
+                if(verb.root.type !== RootType.FinalWeak)
+                    return false;
                 switch(verb.stem)
                 {
                     case 1:

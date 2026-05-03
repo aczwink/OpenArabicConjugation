@@ -97,7 +97,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 6:
                 return GenerateParticipleStem6(root, this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 7:
-                return GenerateParticipleStem7(requestBaseForm());
+                return GenerateParticipleStem7(verb, requestBaseForm(), voice);
             case 8:
                 return GenerateParticipleStem8(verb, requestBaseForm(), this._LegacyToo_ConjugateBasicForm(verb), voice);
             case 9:
@@ -132,6 +132,23 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     public DeriveNounsOfPlace(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord[]
     {
         const root = verb.root;
+
+        switch(verb.type)
+        {
+            case VerbType.Hollow:
+                return [
+                    {
+                        elements: [
+                            { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                            { consonant: root.r1, followingVowel: Vowel.LongA },
+                        ],
+                        ending: {
+                            consonant: root.r3,
+                            finalVowel: FinalVowel.None
+                        }
+                    }
+                ];
+        }
 
         const maf3al = {
             elements: [

@@ -26,51 +26,74 @@ interface PluralPatterns
     plurals: WordPattern[];
 }
 
-export function DeriveNounPluralPatternsImpl(singular: DisplayVocalized[])
-{
-    const fa3: PluralPatterns = {
-        singular: {
+const _2a3al: PluralPatterns = {
+    singular: {
+        elements: [
+            { consonant: Letter.AlefHamza, followingVowel: Vowel.ShortA },
+            { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortA },
+        ],
+        ending: {
+            consonant: PatternSymbol.R3,
+            finalVowel: FinalVowel.None
+        }
+    },
+    plurals: [
+        {
             elements: [
-                { consonant: Letter.AlefHamza, followingVowel: Vowel.ShortA },
-            ],
-            ending: {
-                consonant: PatternSymbol.R2,
-                finalVowel: FinalVowel.None
-            }
-        },
-        plurals: [
-            {
-                elements: [
-                    { consonant: Letter.Hamza, followingVowel: Vowel.LongA },
-                    { consonant: PatternSymbol.R2, followingVowel: Vowel.LongA },
-                ],
-                ending: { consonant: Letter.Hamza, finalVowel: FinalVowel.None }
-            }
-        ]
-    };
-
-    const maf3al: PluralPatterns = {
-        singular: {
-            elements: [
-                { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
-                { consonant: PatternSymbol.R1, followingVowel: Vowel.Sukun },
-                { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortA },
+                { consonant: Letter.Hamza, followingVowel: Vowel.LongA },
+                { consonant: PatternSymbol.R2, followingVowel: Vowel.LongA },
             ],
             ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
-        },
-        plurals: [
-            {
-                elements: [
-                    { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
-                    { consonant: PatternSymbol.R1, followingVowel: Vowel.LongA },
-                    { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortI },
-                ],
-                ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
-            }
-        ]
-    };
+        }
+    ]
+};
 
-    const allPatterns = [fa3, maf3al];
+const fa3: PluralPatterns = {
+    singular: {
+        elements: [
+            { consonant: Letter.AlefHamza, followingVowel: Vowel.ShortA },
+        ],
+        ending: {
+            consonant: PatternSymbol.R2,
+            finalVowel: FinalVowel.None
+        }
+    },
+    plurals: [
+        {
+            elements: [
+                { consonant: Letter.Hamza, followingVowel: Vowel.LongA },
+                { consonant: PatternSymbol.R2, followingVowel: Vowel.LongA },
+            ],
+            ending: { consonant: Letter.Hamza, finalVowel: FinalVowel.None }
+        }
+    ]
+};
+
+const maf3al: PluralPatterns = {
+    singular: {
+        elements: [
+            { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+            { consonant: PatternSymbol.R1, followingVowel: Vowel.Sukun },
+            { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortA },
+        ],
+        ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
+    },
+    plurals: [
+        {
+            elements: [
+                { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                { consonant: PatternSymbol.R1, followingVowel: Vowel.LongA },
+                { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortI },
+            ],
+            ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
+        }
+    ]
+};
+
+const allPatterns = [_2a3al, fa3, maf3al];
+
+export function DeriveNounPluralPatternsImpl(singular: DisplayVocalized[])
+{
     for (const patterns of allPatterns)
     {
         const result = MatchPatternAgainstWord(patterns.singular, singular);

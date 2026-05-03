@@ -19,6 +19,14 @@ import { It } from "@aczwink/acts-util-test";
 import { RunPluralTest } from "./shared";
 
 It("Plural patterns", () => {
-    RunPluralTest("أَب", "آبَاء");
-    RunPluralTest("مَشْعَر", "مَشَاعِر");
+    const patterns = [
+        { singular: "أَب", plural: "آبَاء" },
+        { singular: "مَشْعَر", plural: "مَشَاعِر" },
+        { singular: "أَثَر", plural: "آثَار" },
+    ];
+
+    for (const pattern of patterns)
+    {
+        RunPluralTest(pattern.singular, pattern.plural);
+    }
 });
