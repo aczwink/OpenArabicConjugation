@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -207,6 +207,32 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.LongI]
                         }
                     ];
+
+                case VerbType.Sound:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [root.r1, root.r2, root.r2, root.r3],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    emphasize: (params.person === Person.Third) ? 0 : 1,
+                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortA]
+                                },
+                                {
+                                    conditions: { tense: Tense.Present },
+                                    prefixVowel: Vowel.Sukun,
+                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
+                                    children: [
+                                        {
+                                            conditions: { hasPresentVowelSuffix: true },
+                                            vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.Sukun]
+                                        },
+                                    ]
+                                },
+                            ]
+                        },
+                    ];
             }
             
             switch(root.type)
@@ -242,8 +268,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     ];
 
                 case RootType.InitialWeak:
-                case RootType.MiddleWeak:
-                case RootType.Regular:
                     return [
                         {
                             conditions: {},
