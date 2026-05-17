@@ -92,6 +92,28 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case VerbType.AssimilatedAndDefective:
                 if(typeof stem !== "number")
                     return VerbType.Defective;
+                break;
+            case VerbType.Geminate:
+                switch(stem)
+                {
+                    case 2:
+                        return VerbType.Sound;
+                }
+                break;
+            case VerbType.HamzaOnR1:
+                switch(stem)
+                {
+                    case 2:
+                        return VerbType.Sound;
+                }
+                break;
+            case VerbType.Hollow:
+                switch(stem)
+                {
+                    case 2:
+                        return VerbType.Sound;
+                }
+                break;
         }
 
         return verbType;
