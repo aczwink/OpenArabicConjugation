@@ -89,14 +89,30 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
         const verbType = root.DeriveDeducedVerbType();
         switch(verbType)
         {
+            case VerbType.Assimilated:
+                switch(stem)
+                {
+                    case 3:
+                    case 5:
+                        return VerbType.Sound;
+                }
+                break;
             case VerbType.AssimilatedAndDefective:
                 if(typeof stem !== "number")
                     return VerbType.Defective;
+                switch(stem)
+                {
+                    case 2:
+                    case 3:
+                    case 5:
+                        return VerbType.Defective;
+                }
                 break;
             case VerbType.Geminate:
                 switch(stem)
                 {
                     case 2:
+                    case 5:
                         return VerbType.Sound;
                 }
                 break;
@@ -104,6 +120,8 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 switch(stem)
                 {
                     case 2:
+                    case 3:
+                    case 5:
                         return VerbType.Sound;
                 }
                 break;
@@ -111,6 +129,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 switch(stem)
                 {
                     case 2:
+                    case 5:
                         return VerbType.Sound;
                 }
                 break;
@@ -283,8 +302,6 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 }
                 break;
             case VerbType.Defective:
-                if(verb.root.type !== RootType.FinalWeak)
-                    return false;
                 switch(verb.stem)
                 {
                     case 1:

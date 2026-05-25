@@ -20,7 +20,7 @@ import { Verb } from "../../../Verb";
 import { RootType, VerbRoot } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
-import { Stem8AssimilateTa } from "../conjugation/stem8";
+import { _Legacy_Stem8AssimilateTa } from "../conjugation/stem8";
 
 export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugationVocalized[]
 {
@@ -51,7 +51,7 @@ export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardAra
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
         
-            Stem8AssimilateTa(v, 1);
+            _Legacy_Stem8AssimilateTa(v, 1);
         
             return v;
         }
@@ -67,7 +67,7 @@ export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardAra
                 { letter: Letter.Hamza, tashkil: Tashkil.EndOfWordMarker },
             ];
         
-            Stem8AssimilateTa(v, 1);
+            _Legacy_Stem8AssimilateTa(v, 1);
         
             return v;
         }
@@ -83,7 +83,7 @@ export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardAra
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
 
-            Stem8AssimilateTa(v, 1);
+            _Legacy_Stem8AssimilateTa(v, 1);
         
             return v;
         }
@@ -100,7 +100,7 @@ export function GenerateAllPossibleVerbalNounsStem8(verb: Verb<ModernStandardAra
                 { letter: root.r3, tashkil: Tashkil.EndOfWordMarker },
             ];
         
-            Stem8AssimilateTa(v, 1);
+            _Legacy_Stem8AssimilateTa(v, 1);
         
             return v;
         }

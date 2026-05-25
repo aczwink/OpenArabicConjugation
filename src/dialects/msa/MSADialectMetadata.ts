@@ -48,6 +48,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
             case VerbType.AssimilatedAndDefective:
                 switch(stem)
                 {
+                    case 2:
                     case 5:
                     case 6:
                         return VerbType.Defective;

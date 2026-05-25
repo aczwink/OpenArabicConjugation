@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,9 +17,10 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { Gender, Letter, Mood, Numerus, Person, Tense, Voice } from "../../../Definitions";
+import { Gender, Mood, Numerus, Person, Tense, Voice } from "../../../Definitions";
 import { Verb } from "../../../Verb";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
+import { Stem8AssimilateTa } from "../conjugation/stem8";
 
 export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1ParametersType>, voice: Voice): ConjugationRule[] | undefined
 {
@@ -28,10 +29,13 @@ export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1Pa
     const taVowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortU;
     const perfectR2Vowel = (voice === Voice.Active) ? Vowel.ShortA : Vowel.ShortI;
     const presentR2Vowel = (voice === Voice.Active) ? Vowel.ShortI : Vowel.ShortA;
+
+    const r1assim = Stem8AssimilateTa(root.r1);
+
     return [
         {
             conditions: { mood: Mood.Imperative },
-            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
+            symbols: [r1assim.r1, r1assim.ta, root.r2, root.r3],
             vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortI],
             children: [
                 {
@@ -42,7 +46,7 @@ export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1Pa
         },
         {
             conditions: { mood: Mood.Jussive },
-            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
+            symbols: [r1assim.r1, r1assim.ta, root.r2, root.r3],
             vowels: [Vowel.Sukun, Vowel.ShortA, presentR2Vowel],
             children: [
                 {
@@ -53,7 +57,7 @@ export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1Pa
         },
         {
             conditions: { tense: Tense.Present },
-            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
+            symbols: [r1assim.r1, r1assim.ta, root.r2, root.r3],
             vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
             children: [
                 {
@@ -64,7 +68,7 @@ export function GeminateStem8Template(stemData: Verb<ModernStandardArabicStem1Pa
         },
         {
             conditions: { tense: Tense.Perfect },
-            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
+            symbols: [r1assim.r1, r1assim.ta, root.r2, root.r3],
             vowels: [Vowel.Sukun, taVowel, perfectR2Vowel],
             children: [
                 {

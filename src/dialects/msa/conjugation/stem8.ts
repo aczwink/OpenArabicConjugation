@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2023-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2023-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@ import { Letter, Tense } from "../../../Definitions";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
 
-export function Stem8AssimilateTa(vocalized: ConjugationVocalized[], r1idx: number)
+export function _Legacy_Stem8AssimilateTa(vocalized: ConjugationVocalized[], r1idx: number)
 {
     switch(vocalized[r1idx].letter)
     {
@@ -40,5 +40,22 @@ export function Stem8AssimilateTa(vocalized: ConjugationVocalized[], r1idx: numb
 export function Stem8AssimilateTaVerb(augmentedRoot: AugmentedRoot, tense: Tense)
 {
     const r1idx = (tense === Tense.Perfect) ? 1 : 0;
-    Stem8AssimilateTa(augmentedRoot.symbols, r1idx);
+    _Legacy_Stem8AssimilateTa(augmentedRoot.symbols, r1idx);
+}
+
+export function Stem8AssimilateTa(r1: Letter)
+{
+    switch(r1)
+    {
+        case Letter.Daad:
+            return {
+                r1,
+                ta: Letter.Tta
+            };
+    }
+
+    return {
+        r1,
+        ta: Letter.Ta
+    };
 }

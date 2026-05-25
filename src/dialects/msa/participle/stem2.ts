@@ -38,11 +38,6 @@ export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice, v
     {
         case RootType.FinalWeak:
             return _Legacy_GenerateParticipleDefective(baseForm, voice);
-
-        case RootType.HamzaOnR1:
-        case RootType.MiddleWeak:
-        case RootType.SecondConsonantDoubled:
-            return _LegacyGenerateParticipleRegular(baseForm, voice);
     }
     return [{ letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

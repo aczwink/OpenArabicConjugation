@@ -256,10 +256,23 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
             break;
         }
 
+        const msa = this.ConjugateParticipleFromMSA(verb, voice, requestBaseForm);
+        if(msa !== undefined)
+            return msa;
+
+        return [{ emphasis: true, letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
+    }
+
+    //Private methods
+    private ConjugateParticipleFromMSA(verb: Verb<LebaneseStem1Context>, voice: Voice, requestBaseForm: () => ConjugatedWord)
+    {
         const conjugator = new MSAConjugator;
         const msaVersionResult = conjugator.ConjugateParticiple(verb as any, voice, requestBaseForm);
         const msaVersion = msaVersionResult as ConjugationVocalized[];
         const msaVersionNew = msaVersionResult as ConjugatedWord;
+
+        const root = verb.root;
+        const stem = verb.stem;
 
         switch(verb.type)
         {
@@ -274,6 +287,15 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                         });
                         return msaVersion;
                 }
+                break;
+            case VerbType.Sound:
+                switch(stem)
+                {
+                    case 2:
+                        msaVersionNew.elements[0].followingVowel = Vowel.Sukun;
+                        return msaVersionNew;
+                }
+                break;
         }
 
         switch(root.type)
@@ -304,7 +326,6 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
             case RootType.MiddleWeak:
                 switch(stem)
                 {
-                    case 2:
                     case 3:
                         msaVersion[0].tashkil = Tashkil.Sukun;
                         return msaVersion;
@@ -327,9 +348,6 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                     case 1:
                     case 4:
                         return msaVersion;
-                    case 2:
-                        msaVersionNew.elements[0].followingVowel = Vowel.Sukun;
-                        return msaVersionNew;
                     case 9:
                     case 10:
                         msaVersion[0].tashkil = Tashkil.Kasra;
@@ -337,7 +355,5 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                 }
                 break;
         }
-
-        return [{ emphasis: true, letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
     }
 }
