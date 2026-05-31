@@ -302,6 +302,30 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             {
                 case VerbType.Defective:
                     return DefectiveStem3ConjugationTemplate(root);
+                case VerbType.Sound:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [root.r1, root.r2, root.r3],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    emphasize: (params.person === Person.Third) ? undefined : 2,
+                                    vowels: [Vowel.LongA, Vowel.ShortA],
+                                },
+                                {
+                                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
+                                    prefixVowel: Vowel.Sukun,
+                                    vowels: [Vowel.LongA, Vowel.Sukun],
+                                },
+                                {
+                                    conditions: { tense: Tense.Present },
+                                    prefixVowel: Vowel.Sukun,
+                                    vowels: [Vowel.LongA, Vowel.ShortI],
+                                },
+                            ]
+                        },
+                    ];
             }
 
             switch(root.type)
@@ -327,30 +351,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                             vowels: [Vowel.LongA, Vowel.Sukun]
                                         },
                                     ]
-                                },
-                            ]
-                        },
-                    ];
-                case RootType.Regular:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r2, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? undefined : 2,
-                                    vowels: [Vowel.LongA, Vowel.ShortA],
-                                },
-                                {
-                                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
-                                    prefixVowel: Vowel.Sukun,
-                                    vowels: [Vowel.LongA, Vowel.Sukun],
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.Sukun,
-                                    vowels: [Vowel.LongA, Vowel.ShortI],
                                 },
                             ]
                         },
@@ -400,9 +400,9 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 5:
         {
-            switch(root.type)
+            switch(stemData.type)
             {
-                case RootType.FinalWeak:
+                case VerbType.Defective:
                     return [
                         {
                             conditions: {},
@@ -447,7 +447,8 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                     ];
-                case RootType.Regular:
+
+                case VerbType.Sound:
                     return [
                         {
                             conditions: {},
@@ -471,6 +472,28 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 6:
         {
+            switch(stemData.type)
+            {
+                case VerbType.Sound:
+                    return [
+                        {
+                            conditions: {},
+                            symbols: [Letter.Ta, root.r1, root.r2, root.r3],
+                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.ShortA],
+                            children: [
+                                {
+                                    conditions: { tense: Tense.Perfect },
+                                    emphasize: (params.person === Person.Third) ? undefined : 2,
+                                },
+                                {
+                                    conditions: { tense: Tense.Present },
+                                    prefixVowel: Vowel.ShortI,
+                                },
+                            ]
+                        },
+                    ];
+            }
+            
             switch(root.type)
             {
                 case RootType.FinalWeak:
@@ -515,24 +538,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                         },
                                     ]
                                 }
-                            ]
-                        },
-                    ];
-                case RootType.Regular:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [Letter.Ta, root.r1, root.r2, root.r3],
-                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.ShortA],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? undefined : 2,
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                },
                             ]
                         },
                     ];

@@ -92,6 +92,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
             case VerbType.Assimilated:
                 switch(stem)
                 {
+                    case 2:
                     case 3:
                     case 5:
                         return VerbType.Sound;
@@ -130,6 +131,8 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 {
                     case 2:
                     case 5:
+                    case 6:
+                    case 9:
                         return VerbType.Sound;
                 }
                 break;
