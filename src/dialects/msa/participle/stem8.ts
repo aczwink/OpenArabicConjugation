@@ -23,38 +23,21 @@ import { Verb } from "../../../Verb";
 import { ConjugationVocalized } from "../../../Vocalization";
 import { AugmentedRoot } from "../AugmentedRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
-import { _LegacyGenerateParticipleRegular, GenerateParticipleRegular } from "./regular";
+import { _LegacyGenerateParticipleRegular, GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
 
 export function GenerateParticipleStem8(verb: Verb<ModernStandardArabicStem1ParametersType>, baseForm: ConjugatedWord, oldBaseForm: AugmentedRoot, voice: Voice): ConjugationVocalized[] | ConjugatedWord
 {
-    const root = verb.root;
     switch(verb.type)
     {
+        case VerbType.Defective:
+            return GenerateParticipleDefective(baseForm, voice, true);
+
         case VerbType.Irregular:
             return GenerateParticipleRegular(WithoutHamzatAlWasl(baseForm), voice);
 
         case VerbType.Assimilated:
         case VerbType.Sound:
             return _LegacyGenerateParticipleRegular(oldBaseForm, voice, true);
-
-        case VerbType.Defective:
-            if(voice === Voice.Active)
-            {
-                return [
-                    { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                    { letter: root.r1, tashkil: Tashkil.Sukun },
-                    { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                    { letter: root.r2, tashkil: Tashkil.Kasratan },
-                ];
-
-            }
-            return [
-                { letter: Letter.Mim, tashkil: Tashkil.Dhamma },
-                { letter: root.r1, tashkil: Tashkil.Sukun },
-                { letter: Letter.Ta, tashkil: Tashkil.Fatha },
-                { letter: root.r2, tashkil: Tashkil.Fathatan },
-                { letter: Letter.AlefMaksura, tashkil: Tashkil.EndOfWordMarker },
-            ];
 
         case VerbType.Geminate:
             return _LegacyGenerateParticipleRegular(oldBaseForm, Voice.Passive, false);

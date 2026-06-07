@@ -30,10 +30,12 @@ export function _Legacy_Stem8AssimilateTa(vocalized: ConjugationVocalized[], r1i
         case Letter.Zay:
             vocalized[r1idx + 1].letter = Letter.Dal;
             break;
-        case Letter.Saad:
-        case Letter.Daad:
-            vocalized[r1idx + 1].letter = Letter.Tta;
-            break;
+        default:
+        {
+            const result = Stem8AssimilateTa(vocalized[r1idx].letter);
+            vocalized[r1idx].letter = result.r1;
+            vocalized[r1idx + 1].letter = result.ta;
+        }
     }
 }
 
@@ -47,6 +49,13 @@ export function Stem8AssimilateTa(r1: Letter)
 {
     switch(r1)
     {
+        case Letter.Dal:
+            return {
+                r1,
+                ta: Letter.Dal
+            };
+
+        case Letter.Saad:
         case Letter.Daad:
             return {
                 r1,

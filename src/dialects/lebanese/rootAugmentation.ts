@@ -20,6 +20,7 @@ import { ConjugationRule, Vowel } from "../../Conjugation";
 import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType } from "../../Definitions";
 import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
+import { Stem8AssimilateTa } from "../msa/conjugation/stem8";
 import { AssimilatedStem1ConjugationTemplate } from "./conjugation_templates/assimilated_stem1";
 import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
 import { DefectiveStem3ConjugationTemplate } from "./conjugation_templates/defective_stem3";
@@ -563,13 +564,15 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 8:
         {
+            const stem8r1 = Stem8AssimilateTa(root.r1);
+
             switch(stemData.type)
             {
                 case VerbType.Defective:
                     return [
                         {
                             conditions: {},
-                            symbols: [root.r1, Letter.Ta, root.r2],
+                            symbols: [stem8r1.r1, stem8r1.ta, root.r2],
                             children: [
                                 {
                                     conditions: { tense: Tense.Perfect },
@@ -618,7 +621,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     return [
                         {
                             conditions: {},
-                            symbols: [root.r1, Letter.Ta, root.r3],
+                            symbols: [stem8r1.r1, stem8r1.ta, root.r3],
                             children: [
                                 {
                                     conditions: { tense: Tense.Perfect },
@@ -663,9 +666,9 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 9:
         {
-            switch(root.type)
+            switch(stemData.type)
             {
-                case RootType.Regular:
+                case VerbType.Sound:
                     return [
                         {
                             conditions: {},

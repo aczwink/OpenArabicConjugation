@@ -95,6 +95,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     case 2:
                     case 3:
                     case 5:
+                    case 8:
                         return VerbType.Sound;
                 }
                 break;
@@ -123,6 +124,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     case 2:
                     case 3:
                     case 5:
+                    case 10:
                         return VerbType.Sound;
                 }
                 break;
