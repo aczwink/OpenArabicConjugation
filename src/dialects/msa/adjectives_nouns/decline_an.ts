@@ -16,25 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdjectiveOrNounDeclensionParams, AdjectiveOrNounInput, AdjectiveOrNounState, Case, Tashkil } from "../../../Definitions";
-import { DisplayTashkil, DisplayVocalized } from "../../../Vocalization";
+import { Vowel } from "../../../Conjugation";
+import { AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Case, Letter } from "../../../Definitions";
+import { TransformableWord } from "../../../TransformableWord";
 
-
-function WithTashkilOnAlefMaksura(vocalized: DisplayVocalized[], tashkil?: DisplayTashkil)
-{
-    const preLast = vocalized[vocalized.length - 2];
-    return vocalized.slice(0, vocalized.length - 2).concat([
-        {
-            ...preLast,
-            tashkil
-        },
-        vocalized.Last()
-    ]);
-}
-
-export function DeclineAdjectiveAnSuffix(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
+export function DeclineAdjectiveAnSuffix(input: TransformableWord, params: AdjectiveOrNounDeclensionParams): TransformableWord
 {
     if((params.state === AdjectiveOrNounState.Indefinite) && (params.case !== Case.Informal))
-        return input.vocalized;
-    return WithTashkilOnAlefMaksura(input.vocalized, Tashkil.Fatha);
+        return input;
+
+    return input.WithReplacedSilentEnding(Vowel.ShortA, Letter.AlefMaksura);
 }

@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+import { ConjugatedWord, ConjugationVocalizedToConjugatedWord, SpecialInitial, Vowel } from "./Conjugation";
 import { BaseTashkil, ExtraTashkil, Letter, SpecialSymbols, Tashkil } from "./Definitions";
 
 export type DisplayTashkil = BaseTashkil | Tashkil.Dhammatan | Tashkil.Fathatan | Tashkil.Kasratan;
@@ -106,10 +107,52 @@ export function ConvertFullyVocalized(vocalized: DisplayVocalized[])
 {
     const result: ConjugationVocalized[] = [];
 
-    for (const v of vocalized)
+    for(let i = 0; i < vocalized.length; i++)
     {
+        const prev = vocalized[i-1] as DisplayVocalized | undefined;
+        const v = vocalized[i];
+
         if(v.tashkil === undefined)
-            throw new Error("Must be fully vocalized!");
+        {
+            if((v.letter === Letter.Alef) && (prev?.tashkil === Tashkil.Fatha))
+            {
+                result.push({
+                    letter: Letter.Alef,
+                    tashkil: Tashkil.LongVowelMarker,
+                    emphasis: v.emphasis
+                });
+                continue;
+            }
+            else if((v.letter === Letter.Waw) && (prev?.tashkil === Tashkil.Dhamma))
+            {
+                result.push({
+                    letter: Letter.Waw,
+                    tashkil: Tashkil.LongVowelMarker,
+                    emphasis: v.emphasis
+                });
+                continue;
+            }
+            else if((v.letter === Letter.Ya) && (prev?.tashkil === Tashkil.Kasra))
+            {
+                result.push({
+                    letter: Letter.Ya,
+                    tashkil: Tashkil.LongVowelMarker,
+                    emphasis: v.emphasis
+                });
+                continue;
+            }
+            else if((i+1) === vocalized.length)
+            {
+                result.push({
+                    letter: v.letter,
+                    tashkil: Tashkil.EndOfWordMarker,
+                    emphasis: v.emphasis
+                });
+                break;
+            }
+            
+            throw new Error("Must be fully vocalized! Got: " + VocalizedWordTostring(vocalized));
+        }
         
         if(v.shadda)
         {
@@ -237,6 +280,43 @@ export function ParseVocalizedText(text: string)
     }
 
     return result;
+}
+
+export function ReconstructFullyVocalizedWord(text: string, isDefinite: boolean): ConjugatedWord
+{
+    const baseParsed = ParseVocalizedText(text);
+
+    if(isDefinite)
+    {
+        baseParsed.shift(); //remove alef
+        const lam = baseParsed.shift();
+
+        const fullyVocalized = ConvertFullyVocalized(baseParsed);
+        const reconstructed = ConjugationVocalizedToConjugatedWord(fullyVocalized);
+
+        if(lam?.tashkil === Tashkil.Sukun)
+        {
+            return {
+                elements: [
+                    { consonant: Letter.Lam, followingVowel: Vowel.Sukun, },
+                    ...reconstructed.elements
+                ],
+                ending: reconstructed.ending,
+                initial: SpecialInitial.Alef
+            };
+        }
+
+        return {
+            elements: reconstructed.elements,
+            ending: reconstructed.ending,
+            initial: SpecialInitial.AlefLam
+        };
+    }
+
+    const fullyVocalized = ConvertFullyVocalized(baseParsed);
+    const reconstructed = ConjugationVocalizedToConjugatedWord(fullyVocalized);
+
+    return reconstructed;
 }
 
 interface VocalizedDiff

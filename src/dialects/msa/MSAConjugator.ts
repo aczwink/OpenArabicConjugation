@@ -45,7 +45,6 @@ import { GenerateAllPossibleVerbalNounsStem4 } from "./verbal_nouns/stem4";
 import { GenerateAllPossibleVerbalNounsStem6 } from "./verbal_nouns/stem6";
 import { GenerateAllPossibleVerbalNounsStem2 } from "./verbal_nouns/stem2";
 import { GenerateParticipleStem10 } from "./participle/stem10";
-import { WithTashkilOnLast } from "./adjectives_nouns/shared";
 import { GenerateParticipleStem6 } from "./participle/stem6";
 import { GenerateAllPossibleVerbalNounsStem7 } from "./verbal_nouns/stem7";
 import { AlterHamzaOnR1 } from "./conjugation/hamza_on_r1";
@@ -58,9 +57,9 @@ import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { TashkilToVowel, _Legacy_ToConjugationVocalized, ConjugatedWord, ConjugationElement, FinalVowel, Vowel } from "../../Conjugation";
 import { AdjectiveOrNounToBaseForm, DeclineAdjectiveOrNounImpl } from "./adjectives_nouns/decline";
 import { DeriveNounPluralPatternsImpl } from "./adjectives_nouns/plural_patterns";
-import { WithStandardFemaleEnding } from "../../ConjugationTransformation";
 import { GenerateParticipleStem7 } from "./participle/stem7";
 import { GenerateVerbalNounStem9 } from "./verbal_nouns/stem9";
+import { TransformableWord } from "../../TransformableWord";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Arabic_verbs
 
@@ -107,9 +106,10 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
         }
     }
 
-    public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
+    public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): TransformableWord
     {
-        return DeclineAdjectiveOrNounImpl(input, params);
+        const transformable = new TransformableWord(input.vocalized, input.numerus, input.gender);
+        return DeclineAdjectiveOrNounImpl(transformable, input.isDefinite, params);
     }
 
     public DeriveCharacteristicNoun(verb: Verb<ModernStandardArabicStem1ParametersType>): ConjugatedWord
@@ -164,7 +164,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
         return [
             maf3al,
-            WithStandardFemaleEnding(maf3al),
+            new TransformableWord(maf3al, Numerus.Singular, Gender.Male).WithStandardFemaleEnding().word,
             {
                 elements: [
                     { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
@@ -204,6 +204,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             ];
         }
 
+        const char = this.DeriveCharacteristicNoun(verb);
         return [
             {
                 elements: [
@@ -217,57 +218,31 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     finalVowel: FinalVowel.None
                 }
             },
-            WithStandardFemaleEnding(this.DeriveCharacteristicNoun(verb))
+            new TransformableWord(char, Numerus.Singular, Gender.Male).WithStandardFemaleEnding().word
         ];
     }
     
-    public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation): DisplayVocalized[]
+    public DeriveSoundAdjectiveOrNoun(word: TransformableWord, target: TargetAdjectiveNounDerivation): TransformableWord
     {
-        const base = AdjectiveOrNounToBaseForm(singular);
+        const base = AdjectiveOrNounToBaseForm(word);
 
         switch(target)
         {
             case TargetAdjectiveNounDerivation.DeriveFeminineSingular:
-                return WithTashkilOnLast(base, Tashkil.Fatha).concat([
-                    { emphasis: false, letter: Letter.TaMarbuta, shadda: false }
-                ]);
+                return base.WithStandardFemaleEnding();
 
             case TargetAdjectiveNounDerivation.DeriveDualSameGender:
-            {
-                const fixedEnding = WithTashkilOnLast(base, Tashkil.Fatha).concat([
-                    { emphasis: false, letter: Letter.Ya, shadda: false, tashkil: Tashkil.Sukun },
-                    { emphasis: false, letter: Letter.Nun, shadda: false },
-                ]);
-
-                if(singularGender === Gender.Female)
-                {
-                    fixedEnding[fixedEnding.length - 4].tashkil = Tashkil.Fatha;
-                    fixedEnding[fixedEnding.length - 3].letter = Letter.Ta;
-                }
-                return fixedEnding;
-            }
+                return base.WithReplacedSilentEnding(Vowel.DiphtongAj, Letter.Nun);
 
             case TargetAdjectiveNounDerivation.DeriveNisbaSameGender:
-            {
-                return WithTashkilOnLast(base, Tashkil.Kasra).concat([
-                    { emphasis: false, letter: Letter.Ya, shadda: true }
-                ]);
-            }
+                return base.WithReplacedSilentEnding(Vowel.ShortI, Letter.Ya).WithReplacedSilentEnding(Vowel.Sukun, Letter.Ya);
                 
             case TargetAdjectiveNounDerivation.DerivePluralSameGender:
             {
-                if(singularGender === Gender.Female)
-                {
-                    return singular.slice(0, singular.length - 1).concat([
-                        { emphasis: false, letter: Letter.Alef, shadda: false },
-                        { emphasis: false, letter: Letter.Ta, shadda: false },
-                    ]);
-                }
+                if(word.gender === Gender.Female)
+                    return word.WithLastTrimmed().WithReplacedSilentEnding(Vowel.LongA, Letter.Ta);
 
-                return WithTashkilOnLast(singular, Tashkil.Dhamma).concat([
-                    { emphasis: false, letter: Letter.Waw, shadda: false },
-                    { emphasis: false, letter: Letter.Nun, shadda: false },
-                ]);
+                return word.WithReplacedSilentEnding(Vowel.LongU, Letter.Nun);
             }
         }
     }

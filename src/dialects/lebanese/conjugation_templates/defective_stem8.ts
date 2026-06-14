@@ -17,16 +17,35 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
+import { Mood, Tense } from "../../../Definitions";
 import { VerbRoot } from "../../../VerbRoot";
+import { Stem8AssimilateTa } from "../../msa/conjugation/stem8";
 
-export function DefectiveStem3ConjugationTemplate(root: VerbRoot): ConjugationRule[]
+export function DefectiveStem8ConjugationTemplate(root: VerbRoot): ConjugationRule[]
 {
+    const stem8r1 = Stem8AssimilateTa(root.r1);
+    
     return [
         {
             conditions: {},
-            prefixVowel: Vowel.Sukun,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.LongA]
+            symbols: [stem8r1.r1, stem8r1.ta, root.r2],
+            children: [
+                {
+                    conditions: { tense: Tense.Perfect },
+                    vowels: [Vowel.Sukun, Vowel.ShortA],
+                },
+                {
+                    conditions: {},
+                    prefixVowel: Vowel.ShortI,
+                    vowels: [Vowel.Sukun, Vowel.Sukun],
+                    children: [
+                        {
+                            conditions: { mood: Mood.Imperative },
+                            vowels: [Vowel.Sukun, Vowel.ShortI],
+                        },
+                    ],
+                },
+            ]
         },
     ];
 }

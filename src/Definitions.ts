@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { DisplayVocalized } from "./Vocalization";
+import { ConjugatedWord } from "./Conjugation";
 
 //Source: https://en.wikipedia.org/wiki/Arabic_script_in_Unicode
 
@@ -177,7 +177,7 @@ export type ConjugationParams = BasicConjugationParams & TenseParams;
 
 export interface AdjectiveOrNounInput
 {
-    vocalized: DisplayVocalized[];
+    vocalized: ConjugatedWord;
     gender: Gender;
     numerus: Numerus;
     isDefinite: boolean;

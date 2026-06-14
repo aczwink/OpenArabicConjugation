@@ -18,7 +18,7 @@
 import { Conjugator, TargetNounBasedDerivationPatterns } from "../../../dist/Conjugator";
 import { AdjectiveOrNounState, Case, Gender, Numerus } from "../../../dist/Definitions";
 import { DialectType } from "../../../dist/Dialects";
-import { EqualsVocalized, ParseVocalizedText } from "../../../dist/Vocalization";
+import { EqualsVocalized, ParseVocalizedText, ReconstructFullyVocalizedWord } from "../../../dist/Vocalization";
 import { ShouldEqual } from "../../shared";
 import { NumerusToString } from "../../../dist/Util";
 import { TargetAdjectiveNounDerivation } from "../../../dist/DialectConjugator";
@@ -86,9 +86,9 @@ export function RunDerivationTest(singular: NounTestData, derivation: "dual" | "
 {
     const c = new Conjugator();
 
-    const baseParsed = ParseVocalizedText(singular.base);
+    const reconstructed = ReconstructFullyVocalizedWord(singular.base, singular.isDefinite);
 
-    const got = c.DeriveSoundAdjectiveOrNoun(baseParsed, singular.gender, MapDerivation(derivation), DialectType.ModernStandardArabic);
+    const got = c.DeriveSoundAdjectiveOrNoun(reconstructed, singular.gender, MapDerivation(derivation), DialectType.ModernStandardArabic);
     ShouldEqual(expected, got, () => []);
 }
 
@@ -96,13 +96,14 @@ export function RunNounDeclensionTest(noun: NounTestData, declensions: NounDecle
 {
     const c = new Conjugator();
 
-    const baseParsed = ParseVocalizedText(noun.base);
+    const reconstructed = ReconstructFullyVocalizedWord(noun.base, noun.isDefinite);
+
     for (const entry of declensions)
     {
         const declined = c.DeclineAdjectiveOrNoun({
             gender: noun.gender,
             numerus: noun.numerus,
-            vocalized: baseParsed,
+            vocalized: reconstructed,
             isDefinite: noun.isDefinite
         }, {
             case: MapCase(entry),

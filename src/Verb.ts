@@ -26,7 +26,7 @@ interface VerbFormBase
     readonly type: VerbType;
 }
 
-export interface VerbStem1Data<T> extends VerbFormBase
+export interface VerbStem1Data<T extends string> extends VerbFormBase
 {
     readonly stem: 1;
     readonly stemParameterization: T;
@@ -37,7 +37,7 @@ interface AdvancedStemData extends VerbFormBase
     readonly stem: AdvancedStemNumber;
 }
 
-export type VerbStemData<T> = VerbStem1Data<T> | AdvancedStemData;
+export type VerbStemData<T extends string> = VerbStem1Data<T> | AdvancedStemData;
 
 export type Verb<T extends string> = VerbStemData<T> &
 {

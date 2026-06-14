@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugatedWord, ConjugationElement, FinalVowel, ToConjugationVocalized, Vowel } from "./Conjugation";
+import { ConjugatedWord, ConjugationElement, FinalVowel, SpecialInitial, ToConjugationVocalized, Vowel } from "./Conjugation";
 import { Letter, Tashkil } from "./Definitions";
 import { ConjugationVocalized } from "./Vocalization";
 
@@ -117,8 +117,19 @@ function FinalVowelToTashkil(finalVowel: Vowel | FinalVowel)
 {
     switch(finalVowel)
     {
+        case Vowel.ShortA:
+            return Tashkil.Fatha;
+        case Vowel.ShortI:
+            return Tashkil.Kasra;
+        case Vowel.ShortU:
+            return Tashkil.Dhamma;
         case Vowel.Sukun:
             return Tashkil.Sukun;
+        case FinalVowel.Dhammatan:
+            return Tashkil.Dhammatan;
+        case FinalVowel.Fathatan:
+        case FinalVowel.FathatanWithAlef:
+            return Tashkil.Fathatan;
         case FinalVowel.Kasratan:
             return Tashkil.Kasratan;
         case FinalVowel.None:
@@ -171,7 +182,19 @@ export function Hamzate(word: ConjugatedWord)
             result.push({ letter: hamza, tashkil: FinalVowelToTashkil(word.ending.finalVowel) });
         }
         else
+        {
             result.push({ letter: word.ending.consonant, tashkil: FinalVowelToTashkil(word.ending.finalVowel) });
+            if(word.ending.finalVowel === FinalVowel.FathatanWithAlef)
+                result.push({ letter: Letter.Alef, tashkil: Tashkil.EndOfWordMarker });
+        }
+    }
+
+    switch(word.initial)
+    {
+        case SpecialInitial.AlefLam:
+            result.unshift({ letter: Letter.Lam, tashkil: Tashkil.LongVowelMarker });
+        case SpecialInitial.Alef:
+            result.unshift({ letter: Letter.Alef, tashkil: Tashkil.LongVowelMarker });
     }
 
     return result;

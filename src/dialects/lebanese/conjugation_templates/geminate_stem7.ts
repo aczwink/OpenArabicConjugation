@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,37 +17,17 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Letter, Person, Tense } from "../../../Definitions";
-import { VerbStemData } from "../../../Verb";
+import { Letter } from "../../../Definitions";
 import { VerbRoot } from "../../../VerbRoot";
-import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
 
-export function GeminateStem7ConjugationTemplate(root: VerbRoot, stemData: VerbStemData<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
+export function GeminateStem7ConjugationTemplate(root: VerbRoot): ConjugationRule[]
 {
     return [
         {
             conditions: {},
+            prefixVowel: Vowel.ShortI,
             symbols: [Letter.Nun, root.r1, root.r2, root.r3],
-            children: [
-                {
-                    conditions: { tense: Tense.Perfect },
-                    children: [
-                        {
-                            conditions: { person: Person.Third, },
-                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
-                        },
-                        {
-                            conditions: {},
-                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj],
-                        }
-                    ]
-                },
-                {
-                    conditions: { tense: Tense.Present },
-                    prefixVowel: Vowel.ShortI,
-                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun]
-                },
-            ]
+            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
         },
     ];
 }

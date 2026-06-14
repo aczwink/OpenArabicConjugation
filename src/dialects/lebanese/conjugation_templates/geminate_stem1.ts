@@ -17,40 +17,38 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Person, Tense } from "../../../Definitions";
+import { Tense } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
 import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
 
-export function HollowStem1ConjugationTemplate(root: VerbRoot, stemData: VerbStem1Data<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
+function MapPresentVowel(stemParameterization: string): Vowel
 {
-    function R2PresentVowel()
+    switch(stemParameterization)
     {
-        switch(stemData.stemParameterization)
-        {
-            case LebaneseStem1Context.PastI_PresentA:
-                return Vowel.LongA;
-            case LebaneseStem1Context.PastI_PresentI:
-                return Vowel.LongI;
-            case LebaneseStem1Context.PastI_PresentU:
-                return Vowel.LongU;
-        }
-        throw new Error("Should not happen: " + stemData.stemParameterization);
+        case LebaneseStem1Context.PastA_PresentA:
+            return Vowel.ShortA;
+        case LebaneseStem1Context.PastA_PresentI:
+            return Vowel.ShortI;
+        case LebaneseStem1Context.PastA_PresentU:
+            return Vowel.ShortU;
     }
+    throw new Error("should never happen");
+}
 
+export function GeminateStem1ConjugationTemplate(root: VerbRoot, stemData: VerbStem1Data<LebaneseStem1Context>): ConjugationRule[]
+{
+    const presentVowel = MapPresentVowel(stemData.stemParameterization);
     return [
         {
             conditions: {},
-            symbols: [root.r1, root.r3],
+            symbols: [root.r1, root.r2, root.r3],
+            vowels: [Vowel.ShortA, Vowel.Sukun],
             children: [
-                {
-                    conditions: { tense: Tense.Perfect },
-                    vowels: [(params.person === Person.Third) ? Vowel.LongA : Vowel.ShortI]
-                },
                 {
                     conditions: { tense: Tense.Present },
                     prefixVowel: Vowel.Sukun,
-                    vowels: [R2PresentVowel()]
+                    vowels: [presentVowel, Vowel.Sukun]
                 }
             ]
         },

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "./Definitions";
+import { AdvancedStemNumber, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "./Definitions";
 import { ConjugationVocalized } from "./Vocalization";
 
 export enum Vowel
@@ -47,8 +47,9 @@ interface ConjugationRuleConditions
     hasPresentVowelSuffix?: boolean;
     mood?: Mood | Mood[];
     numerus?: Numerus;
-    person?: Person;
-    stemParameters?: string;
+    person?: Person | Person[];
+    stem?: AdvancedStemNumber | AdvancedStemNumber[];
+    stemParameters?: string | string[];
     tense?: Tense;
     voice?: Voice;
 }
@@ -87,11 +88,20 @@ export interface ConjugationRuleMatchResult
     vowels: Vowel[];
 }
 
+export enum SpecialInitial
+{
+    Alef,
+    AlefLam
+}
+
 export enum FinalVowel
 {
     AlefMaksuraWithFathatan = -1,
-    Kasratan = -2,
-    None = -3,
+    Dhammatan = -2,
+    Fathatan = -3,
+    FathatanWithAlef = -4,
+    Kasratan = -5,
+    None = -6,
 }
 
 export interface ConjugatedWord
@@ -101,6 +111,7 @@ export interface ConjugatedWord
         consonant: Letter;
         finalVowel: FinalVowel | Vowel;
     };
+    initial?: SpecialInitial;
 }
 
 export interface SuffixResult

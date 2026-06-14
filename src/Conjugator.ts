@@ -18,13 +18,15 @@
 import { Hamzate } from "./Hamza";
 import { DialectConjugator, TargetAdjectiveNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
-import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
+import { ConjugationVocalized, ConvertFullyVocalized, DisplayVocalized } from "./Vocalization";
 import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus, AdjectiveOrNounInput, VerbType } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb } from "./Verb";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
-import { ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, FinalVowel, SuffixResult } from "./Conjugation";
+import { ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, Vowel, FinalVowel } from "./Conjugation";
+import { ConjugationRuleMatcher } from "./ConjugationRuleMatcher";
+import { TransformableWord } from "./TransformableWord";
 
 export enum TargetNounBasedDerivationPatterns
 {
@@ -68,8 +70,9 @@ export class Conjugator
     public DeclineAdjectiveOrNoun(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams, dialect: DialectType)
     {
         const dialectConjugator = new MSAConjugator;
+        const transformed = dialectConjugator.DeclineAdjectiveOrNoun(input, params);
 
-        return dialectConjugator.DeclineAdjectiveOrNoun(input, params);
+        return this.ExecuteWordTransformationPipeline(transformed.word);
     }
 
     public DeriveFromNoun(singular: DisplayVocalized[], target: TargetNounBasedDerivationPatterns)
@@ -128,7 +131,8 @@ export class Conjugator
                 if(verb.stem > 1)
                 {
                     const passiveParticiple = this.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.PassiveParticiple);
-                    return [passiveParticiple[0], this.DeriveSoundAdjectiveOrNoun(passiveParticiple[0], Gender.Male, TargetAdjectiveNounDerivation.DeriveFeminineSingular, DialectType.ModernStandardArabic)];
+                    const reverted = ConjugationVocalizedToConjugatedWord(ConvertFullyVocalized(passiveParticiple[0]));
+                    return [passiveParticiple[0], this.DeriveSoundAdjectiveOrNoun(reverted, Gender.Male, TargetAdjectiveNounDerivation.DeriveFeminineSingular, DialectType.ModernStandardArabic)];
                 }
                 
                 const dialectConjugator = new MSAConjugator;
@@ -167,10 +171,13 @@ export class Conjugator
      * - For @constant TargetAdjectiveNounDerivation.DeriveNisbaSameGender the informal indefinite.
      * - For @constant TargetAdjectiveNounDerivation.DerivePluralSameGender and masculine gender the -un form is returned (see also @method DeclineAdjectiveOrNoun), for female it is the informal indefinite.
      */
-    public DeriveSoundAdjectiveOrNoun(singular: DisplayVocalized[], singularGender: Gender, target: TargetAdjectiveNounDerivation, dialect: DialectType): DisplayVocalized[]
+    public DeriveSoundAdjectiveOrNoun(singular: ConjugatedWord, singularGender: Gender, target: TargetAdjectiveNounDerivation, dialect: DialectType): DisplayVocalized[]
     {
+        const transformable = new TransformableWord(singular, Numerus.Singular, singularGender);
         const dialectConjugator = new MSAConjugator;
-        return dialectConjugator.DeriveSoundAdjectiveOrNoun(singular, singularGender, target);
+        const transformed = dialectConjugator.DeriveSoundAdjectiveOrNoun(transformable, target);
+
+        return this.ExecuteWordTransformationPipeline(transformed.word);
     }
 
     //Private methods
@@ -193,38 +200,49 @@ export class Conjugator
         if(Array.isArray(result))
             return ConjugationVocalizedToConjugatedWord(result);
 
-        const constructed = this.ConstructWord(result.matchResult, result.prefix, result.suffix);
+        const suffixMatch = new ConjugationRuleMatcher<string>(false).Match(result.suffix, verb, params);
+        const match = new ConjugationRuleMatcher<string>(suffixMatch.prefixVowel === Vowel.Sukun).Match(result.template, verb, params);
+        const prefix = result.prefix(match.prefixVowel, match.vowels[0], params);
+
+        const constructed = this.ConstructWord(match, prefix, suffixMatch);
         return constructed;
     }
 
-    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationElement[], suffix: SuffixResult): ConjugatedWord
+    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationElement[], suffix: ConjugationRuleMatchResult): ConjugatedWord
     {
-        const vowels = [...rule.vowels, suffix.previousVowel];
-        let vowelIndex = 0;
+        const vowels = prefix.map(x => x.followingVowel);
 
-        const items = prefix.concat(rule.symbols.map((x,i)=> ({
-            consonant: x,
-            followingVowel: vowels[vowelIndex++],
+        //currently this is embodied in the prefix
+        /*if(rule.prefixVowel !== undefined)
+            vowels.push(rule.prefixVowel);*/
+        vowels.push(...rule.vowels);
+
+        if(suffix.prefixVowel !== undefined)
+            vowels.push(suffix.prefixVowel);
+        vowels.push(...suffix.vowels);
+
+        const symbols = [...prefix.map(x => x.consonant), ...rule.symbols, ...suffix.symbols];
+
+        let symbolIndex = 0;
+        const items = vowels.map((v,i)=> ({
+            consonant: symbols[symbolIndex++],
+            followingVowel: v,
             emphasis: (i === rule.emphasize) ? true : undefined
-        })));
-        if(suffix.prefinal !== undefined)
-            items.push(suffix.prefinal);
+        }));
 
-        if(suffix.final !== undefined)
+        if((vowels.length+1) === symbols.length)
         {
-            if(typeof suffix.final === "string")
-            {
-                return {
-                    elements: items,
-                    ending: {
-                        consonant: suffix.final,
-                        finalVowel: FinalVowel.None
-                    }
-                };
-            }
-            else
-                items.push(suffix.final);
+            return {
+                elements: items,
+                ending: {
+                    consonant: symbols.Last(),
+                    finalVowel: FinalVowel.None
+                }
+            };
         }
+
+        if(vowels.length !== symbols.length)
+            throw new Error("Invalid combination of vowels and symbols. #Symbols: " + symbols.length + ", #Vowels: " + vowels.length);
 
         return {
             elements: items

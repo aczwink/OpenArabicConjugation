@@ -17,16 +17,22 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
+import { Letter, Tense } from "../../../Definitions";
 import { VerbRoot } from "../../../VerbRoot";
 
-export function DefectiveStem3ConjugationTemplate(root: VerbRoot): ConjugationRule[]
+export function DefectiveStem6ConjugationTemplate(root: VerbRoot): ConjugationRule[]
 {
     return [
         {
             conditions: {},
-            prefixVowel: Vowel.Sukun,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.LongA]
+            symbols: [Letter.Ta, root.r1, root.r2],
+            vowels: [Vowel.Sukun, Vowel.LongA],
+            children: [
+                {
+                    conditions: { tense: Tense.Present },
+                    prefixVowel: Vowel.ShortI,
+                }
+            ]
         },
     ];
 }

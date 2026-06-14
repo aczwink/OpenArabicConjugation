@@ -16,51 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdjectiveOrNounDeclensionParams, Tashkil, AdjectiveOrNounState, Letter, AdjectiveOrNounInput } from "../../../Definitions";
-import { IsSunLetter } from "../../../Util";
-import { DisplayVocalized } from "../../../Vocalization";
+import { AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Letter } from "../../../Definitions";
 import { DeclineTriptoteSuffix } from "./triptote";
 import { DeclineAdjectiveInSuffix, InSuffixNominativeToInformal } from "./decline_in";
 import { DeclineAdjectiveAnSuffix } from "./decline_an";
+import { FinalVowel, Vowel } from "../../../Conjugation";
+import { TransformableWord } from "../../../TransformableWord";
 
-function ConditionallyAddArticle(isDefinite: boolean, vocalized: DisplayVocalized[]): DisplayVocalized[]
+function ConditionallyAddArticle(isDefinite: boolean, vocalized: TransformableWord): TransformableWord
 {
     if(isDefinite)
-    {
-        const v = vocalized;
-        if(IsSunLetter(v[0].letter))
-        {
-            return [
-                { emphasis: false, letter: Letter.Alef, shadda: false },
-                { emphasis: false, letter: Letter.Lam, shadda: false },
-                { ...v[0], shadda: true },
-                ...v.slice(1),
-            ];
-        }
-        return [
-            { emphasis: false, letter: Letter.Alef, shadda: false },
-            { emphasis: false, letter: Letter.Lam, shadda: false, tashkil: Tashkil.Sukun},
-            ...v
-        ];
-    }
+        return vocalized.WithPrependedArticle();
     return vocalized;
-}
-
-export function AdjectiveOrNounToBaseForm(singular: DisplayVocalized[]): DisplayVocalized[]
-{
-    switch(DetermineInflectionType(singular))
-    {
-        case AdjectiveOrNounInflectionType.An:
-            return [
-                ...singular.slice(0, singular.length - 2),
-                { letter: singular[singular.length - 2].letter, emphasis: false, shadda: false, tashkil: Tashkil.Fatha },
-                { letter: Letter.Ya, emphasis: false, shadda: false }
-            ];
-        case AdjectiveOrNounInflectionType.In:
-            return InSuffixNominativeToInformal(singular);
-    }
-    
-    return singular;
 }
 
 enum AdjectiveOrNounInflectionType
@@ -73,25 +40,36 @@ enum AdjectiveOrNounInflectionType
     RegularTriptote,
 }
 
-function DetermineInflectionType(vocalized: DisplayVocalized[]): AdjectiveOrNounInflectionType
+function DetermineInflectionType(singular: TransformableWord): AdjectiveOrNounInflectionType
 {
-    const singular = vocalized;
-
-    if((singular.Last().letter === Letter.AlefMaksura) && (singular[singular.length - 2].tashkil === Tashkil.Fathatan))
+    if(singular.finalVowel === FinalVowel.AlefMaksuraWithFathatan)
         return AdjectiveOrNounInflectionType.An;
-    if(singular.Last().tashkil === Tashkil.Kasratan)
+    if(singular.finalVowel === FinalVowel.Kasratan)
         return AdjectiveOrNounInflectionType.In;
     return AdjectiveOrNounInflectionType.RegularTriptote;
 }
 
-export function DeclineAdjectiveOrNounImpl(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams)
+export function AdjectiveOrNounToBaseForm(word: TransformableWord): TransformableWord
 {
-    if(input.isDefinite && (params.state !== AdjectiveOrNounState.Definite))
+    switch(DetermineInflectionType(word))
+    {
+        case AdjectiveOrNounInflectionType.An:
+            return word.WithReplacedSilentEnding(Vowel.ShortA, Letter.Ya);
+        case AdjectiveOrNounInflectionType.In:
+            return InSuffixNominativeToInformal(word);
+    }
+    
+    return word;
+}
+
+export function DeclineAdjectiveOrNounImpl(input: TransformableWord, isDefinite: boolean, params: AdjectiveOrNounDeclensionParams)
+{
+    if(isDefinite && (params.state !== AdjectiveOrNounState.Definite))
         throw new Error("currently can only change state from indefinite");
     
     function inner()
     {
-        switch(DetermineInflectionType(input.vocalized))
+        switch(DetermineInflectionType(input))
         {
             case AdjectiveOrNounInflectionType.An:
                 return DeclineAdjectiveAnSuffix(input, params);
@@ -102,5 +80,5 @@ export function DeclineAdjectiveOrNounImpl(input: AdjectiveOrNounInput, params: 
         }
     }
     
-    return ConditionallyAddArticle(!input.isDefinite && (params.state === AdjectiveOrNounState.Definite), inner());
+    return ConditionallyAddArticle(!isDefinite && (params.state === AdjectiveOrNounState.Definite), inner());
 }

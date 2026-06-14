@@ -21,7 +21,7 @@ import { ConjugationParams, Tense } from "./Definitions";
 import { DoesPresentSuffixStartWithLongVowel } from "./dialects/msa/conjugation/_legacy_suffix";
 import { VerbStemData } from "./Verb";
 
-export class ConjugationRuleMatcher<T>
+export class ConjugationRuleMatcher<T extends string>
 {
     constructor(doesSuffixBeginWithSukun: boolean)
     {
@@ -76,7 +76,7 @@ export class ConjugationRuleMatcher<T>
         }
         if((c.numerus !== undefined) && (c.numerus !== params.numerus))
             return false;
-        if((c.person !== undefined) && (c.person !== params.person))
+        if((c.person !== undefined) && !this.DoesArrayOrValueMatch(c.person, params.person))
             return false;
         if((c.gender !== undefined) && (c.gender !== params.gender))
             return false;
@@ -84,11 +84,13 @@ export class ConjugationRuleMatcher<T>
             return false;
         if((c.doesSuffixBeginWithSukun !== undefined) && (c.doesSuffixBeginWithSukun !== this.doesSuffixBeginWithSukun))
             return false;
+        if((c.stem !== undefined) && !this.DoesArrayOrValueMatch(c.stem, stemData.stem))
+            return false;
         if(c.stemParameters !== undefined)
         {
             if(stemData.stem !== 1)
                 return false;
-            if(stemData.stemParameterization !== c.stemParameters)
+            if(!this.DoesArrayOrValueMatch(c.stemParameters, stemData.stemParameterization))
                 return false;
         }
         if((c.voice !== undefined) && (c.voice !== params.voice))

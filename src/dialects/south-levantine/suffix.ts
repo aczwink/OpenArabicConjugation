@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,153 +16,148 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { SuffixResult, Vowel } from "../../Conjugation";
-import { ConjugationParams, Numerus, Person, Letter, Gender, Tense, VerbType } from "../../Definitions";
+import { ConjugationRule, Vowel } from "../../Conjugation";
+import { Numerus, Person, Letter, Gender, VerbType, Tense } from "../../Definitions";
 import { Verb } from "../../Verb";
 import { SouthLevantineStem1Context } from "./SouthLevantineDialectMetadata";
 
-function DeriveSuffixPerfect(params: ConjugationParams): SuffixResult
-{
-    if(params.numerus === Numerus.Plural)
+const soundSuffixTemplate: ConjugationRule[] = [
     {
-        switch(params.person)
-        {
-            case Person.First:
-                return {
-                    previousVowel: Vowel.Sukun,
-                    final: {
-                        consonant: Letter.Nun,
-                        followingVowel: Vowel.LongA,
-                    }
-                };
-
-            case Person.Second:
-                return {
-                    previousVowel: Vowel.Sukun,
-                    prefinal: {
-                        consonant: Letter.Ta,
-                        followingVowel: Vowel.LongU
-                    }
-                };
-
-            case Person.Third:
-                return {
-                    previousVowel: Vowel.LongU,
-                };
-        }
-    }
-
-    switch(params.person)
-    {
-        case Person.Second:
-            if(params.gender === Gender.Female)
+        conditions: { tense: Tense.Present },
+        children: [
             {
-                return {
-                    previousVowel: Vowel.Sukun,
-                    final: {
-                        consonant: Letter.Ta,
-                        followingVowel: Vowel.LongI
-                    },
-                };
-            }
-            break;
-            
-        case Person.Third:
-            if(params.gender === Gender.Male)
+                conditions: { person: Person.Second, numerus: Numerus.Singular, gender: Gender.Female },
+                prefixVowel: Vowel.LongI,
+                symbols: [],
+                vowels: []
+            },
             {
-                return {
-                    previousVowel: Vowel.Sukun
-                };   
+                conditions: { person: [Person.Second, Person.Third], numerus: Numerus.Plural },
+                prefixVowel: Vowel.LongU,
+                symbols: [],
+                vowels: []
+            },
+            {
+                conditions: {},
+                prefixVowel: Vowel.Sukun,
+                symbols: [],
+                vowels: []
             }
-            return {
-                previousVowel: Vowel.ShortA,
-                final: {
-                    consonant: Letter.Ta,
-                    followingVowel: Vowel.Sukun
-                }
-            };
-    }
-
-    return {
-        previousVowel: Vowel.Sukun,
-        final: {
-            consonant: Letter.Ta,
-            followingVowel: Vowel.Sukun
-        }
-    };
-}
-
-function DeriveSuffixPerfectDefective(params: ConjugationParams): SuffixResult
-{
-    if((params.person === Person.Third) && (params.numerus === Numerus.Singular) && (params.gender === Gender.Male))
+        ]
+    },
     {
-        return {
-            previousVowel: Vowel.BrokenA,
-        };
-    }
-    else if(params.person !== Person.Third)
+        conditions: { person: Person.Second, numerus: Numerus.Singular, gender: Gender.Female },
+        prefixVowel: Vowel.Sukun,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.LongI]
+    },
     {
-        const result = DeriveSuffixPerfect(params);
-        result.previousVowel = Vowel.DiphtongAj;
-        return result;
-    }
-    return DeriveSuffixPerfect(params);
-}
-
-function DeriveSuffixPresent(params: ConjugationParams): SuffixResult
-{
-    if(params.numerus === Numerus.Plural)
+        conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
+        prefixVowel: Vowel.Sukun,
+        symbols: [],
+        vowels: []
+    },
     {
-        switch(params.person)
-        {
-            case Person.Second:
-            case Person.Third:
-                return {
-                    previousVowel: Vowel.LongU
-                };
-        }
-    }
-    else
+        conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Female },
+        prefixVowel: Vowel.ShortA,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.Sukun]
+    },
     {
-        if((params.person === Person.Second) && (params.gender === Gender.Female))
-        {
-            return {
-                previousVowel: Vowel.LongI,
-            };
-        }
-    }
-
-    return {
-        previousVowel: Vowel.Sukun
-    };
-}
-
-function DeriveSuffixPresentDefective(verb: Verb<SouthLevantineStem1Context>, params: ConjugationParams): SuffixResult
-{
-    const regular = DeriveSuffixPresent(params);
-    if((params.numerus === Numerus.Plural) && (params.person !== Person.First))
+        conditions: { person: Person.First, numerus: Numerus.Plural },
+        prefixVowel: Vowel.Sukun,
+        symbols: [Letter.Nun],
+        vowels: [Vowel.LongA]
+    },
     {
-        return regular;
+        conditions: { person: Person.Second, numerus: Numerus.Plural },
+        prefixVowel: Vowel.Sukun,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.LongU]
+    },
+    {
+        conditions: { person: Person.Third, numerus: Numerus.Plural },
+        prefixVowel: Vowel.LongU,
+        symbols: [],
+        vowels: []
+    },
+    {
+        conditions: {},
+        prefixVowel: Vowel.Sukun,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.Sukun],
     }
-    if(verb.stem === 1)
-        regular.previousVowel = Vowel.BrokenA;
-    else
-        regular.previousVowel = Vowel.LongI;
-    return regular;
-}
+];
 
-export function DeriveSuffix(verb: Verb<SouthLevantineStem1Context>, params: ConjugationParams): SuffixResult
+const defectiveSuffixTemplate: ConjugationRule[] = [
+    {
+        conditions: { tense: Tense.Present },
+        children: [
+            {
+                conditions: { person: [Person.Second, Person.Third], numerus: Numerus.Plural },
+                prefixVowel: Vowel.LongU,
+                symbols: [],
+                vowels: []
+            },
+            {
+                conditions: {},
+                prefixVowel: Vowel.LongI,
+                symbols: [],
+                vowels: []
+            }
+        ]
+    },
+    {
+        conditions: { person: Person.Second, numerus: Numerus.Singular, gender: Gender.Female },
+        prefixVowel: Vowel.DiphtongAj,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.LongI]
+    },
+    {
+        conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
+        symbols: [],
+        vowels: [Vowel.BrokenA]
+    },
+    {
+        conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Female },
+        prefixVowel: Vowel.ShortA,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.Sukun]
+    },
+    {
+        conditions: { person: Person.First, numerus: Numerus.Plural },
+        prefixVowel: Vowel.DiphtongAj,
+        symbols: [Letter.Nun],
+        vowels: [Vowel.LongA]
+    },
+    {
+        conditions: { person: Person.Second, numerus: Numerus.Plural },
+        prefixVowel: Vowel.DiphtongAj,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.LongU]
+    },
+    {
+        conditions: { person: Person.Third, numerus: Numerus.Plural },
+        prefixVowel: Vowel.LongU,
+        symbols: [],
+        vowels: []
+    },
+    {
+        conditions: {},
+        prefixVowel: Vowel.DiphtongAj,
+        symbols: [Letter.Ta],
+        vowels: [Vowel.Sukun],
+    }
+];
+
+export function DeriveSuffixTemplate(verb: Verb<SouthLevantineStem1Context>): ConjugationRule[]
 {
     switch(verb.type)
     {
         case VerbType.Defective:
         case VerbType.QuadriliteralAndDefective:
-            if(params.tense === Tense.Present)
-                return DeriveSuffixPresentDefective(verb, params);
-            return DeriveSuffixPerfectDefective(params);
+            return defectiveSuffixTemplate;
     }
 
-    if(params.tense === Tense.Present)
-        return DeriveSuffixPresent(params);
-    return DeriveSuffixPerfect(params);
+    return soundSuffixTemplate;
 }

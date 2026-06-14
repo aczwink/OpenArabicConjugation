@@ -16,41 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdjectiveOrNounDeclensionParams, AdjectiveOrNounInput, AdjectiveOrNounState, Case, Gender, Letter, Numerus, Tashkil } from "../../../Definitions";
-import { DisplayVocalized } from "../../../Vocalization";
-import { WithTashkilOnLast } from "./shared";
+import { Vowel } from "../../../Conjugation";
+import { AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Case, Gender, Letter, Numerus, Tashkil } from "../../../Definitions";
+import { TransformableWord } from "../../../TransformableWord";
 
-export function DeclineAdjectiveInSuffix(input: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
+export function DeclineAdjectiveInSuffix(input: TransformableWord, params: AdjectiveOrNounDeclensionParams): TransformableWord
 {
     if(params.state === AdjectiveOrNounState.Indefinite)
     {
         if((params.case === Case.Nominative) || (params.case === Case.Genitive))
-            return input.vocalized;
+            return input;
     }
 
-    const with_ya = InSuffixNominativeToInformal(input.vocalized);
+    const with_ya = InSuffixNominativeToInformal(input);
 
     if(params.case === Case.Accusative)
     {
         if((params.state === AdjectiveOrNounState.Indefinite) && (input.gender === Gender.Male) && (input.numerus === Numerus.Singular))
-            return WithTashkilOnLast(with_ya, Tashkil.Fathatan).concat([ { emphasis: false, letter: Letter.Alef, shadda: false }]);
-        return WithTashkilOnLast(with_ya, Tashkil.Fatha);
+            return with_ya.WithFathatanEnding();
+        return with_ya.WithReplacedEnding(Vowel.ShortA);
     }
 
     return with_ya;
 }
 
-export function InSuffixNominativeToInformal(vocalized: DisplayVocalized[])
+export function InSuffixNominativeToInformal(vocalized: TransformableWord)
 {
-    const with_ya = vocalized.slice(0, vocalized.length - 1).concat([
-        {
-            ...vocalized.Last(),
-            tashkil: Tashkil.Kasra
-        },
-        {
-            letter: Letter.Ya, emphasis: false, shadda: false
-        }
-    ]);
-
-    return with_ya;
+    return vocalized.WithReplacedSilentEnding(Vowel.ShortI, Letter.Ya);
 }

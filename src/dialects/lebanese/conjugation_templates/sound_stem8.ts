@@ -17,41 +17,31 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Person, Tense } from "../../../Definitions";
-import { VerbStem1Data } from "../../../Verb";
+import { Letter, Tense, Person, ConjugationParams } from "../../../Definitions";
 import { VerbRoot } from "../../../VerbRoot";
-import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
 
-export function HollowStem1ConjugationTemplate(root: VerbRoot, stemData: VerbStem1Data<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
+export function SoundStem8ConjugationTemplate(root: VerbRoot, params: ConjugationParams): ConjugationRule[]
 {
-    function R2PresentVowel()
-    {
-        switch(stemData.stemParameterization)
-        {
-            case LebaneseStem1Context.PastI_PresentA:
-                return Vowel.LongA;
-            case LebaneseStem1Context.PastI_PresentI:
-                return Vowel.LongI;
-            case LebaneseStem1Context.PastI_PresentU:
-                return Vowel.LongU;
-        }
-        throw new Error("Should not happen: " + stemData.stemParameterization);
-    }
-
     return [
         {
             conditions: {},
-            symbols: [root.r1, root.r3],
+            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
             children: [
                 {
                     conditions: { tense: Tense.Perfect },
-                    vowels: [(params.person === Person.Third) ? Vowel.LongA : Vowel.ShortI]
+                    emphasize: (params.person === Person.Third) ? 1 : 2,
+                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortA]
+                },
+                {
+                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
+                    prefixVowel: Vowel.ShortI,
+                    vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.Sukun]
                 },
                 {
                     conditions: { tense: Tense.Present },
-                    prefixVowel: Vowel.Sukun,
-                    vowels: [R2PresentVowel()]
-                }
+                    prefixVowel: Vowel.ShortI,
+                    vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.ShortI]
+                },
             ]
         },
     ];

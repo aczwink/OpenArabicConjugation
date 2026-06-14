@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,42 +17,23 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Tense, Person, Gender, Mood, Numerus, Letter } from "../../../Definitions";
+import { Tense, Person, Gender, Numerus, Letter } from "../../../Definitions";
 import { VerbStem1Data } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
 import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
 
-export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: VerbStem1Data<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
+export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: VerbStem1Data<LebaneseStem1Context>): ConjugationRule[] | undefined
 {
-    const isType1 = (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) || (stemData.stemParameterization === LebaneseStem1Context.PastA_PresentI) || (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA);
-    if(isType1 && (params.tense === Tense.Perfect))
-    {
-        return [
-            {
-                conditions: { person: Person.Third },
-                symbols: [root.r1, root.r2],
-                vowels: [Vowel.ShortA]
-            },
-            {
-                conditions: {},
-                symbols: [root.r1, root.r2],
-                vowels: [Vowel.ShortA, Vowel.DiphtongAj]
-            },
-        ];
-    }
-
-    const prefixVowel = (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA) ? Vowel.ShortA : Vowel.ShortI;
-    const r2impVowel = ((stemData.stemParameterization === LebaneseStem1Context.PastA_PresentA) || (stemData.stemParameterization === LebaneseStem1Context.DefectiveWithImperativeA)) ? Vowel.BrokenA : Vowel.LongI;
     return [
+        {
+            conditions: { tense: Tense.Perfect, stemParameters: [LebaneseStem1Context.DefectiveType1WithPrefixA, LebaneseStem1Context.PastA_PresentA, LebaneseStem1Context.PastA_PresentI] },
+            symbols: [root.r1, root.r2],
+            vowels: [Vowel.ShortA]
+        },
         {
             conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
             symbols: [root.r1, root.r2],
-            vowels: [Vowel.ShortI, Vowel.LongI]
-        },
-        {
-            conditions: { tense: Tense.Perfect, person: Person.Third, numerus: Numerus.Singular },
-            symbols: [root.r1, root.r2, Letter.Ya],
-            vowels: [Vowel.ShortI, Vowel.Sukun, Vowel.ShortI]
+            vowels: [Vowel.ShortI]
         },
         {
             conditions: { tense: Tense.Perfect, person: Person.Third },
@@ -60,25 +41,15 @@ export function DefectiveStem1ConjugationTemplate(root: VerbRoot, stemData: Verb
             vowels: [Vowel.ShortI, Vowel.Sukun]
         },
         {
-            conditions: { tense: Tense.Perfect },
+            conditions: {},
             symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun, Vowel.LongI]
-        },
-        {
-            conditions: { mood: Mood.Imperative, hasPresentVowelSuffix: true },
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun]
-        },
-        {
-            conditions: { mood: Mood.Imperative },
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun, r2impVowel]
-        },
-        {
-            conditions: { tense: Tense.Present },
-            prefixVowel,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.Sukun]
+            vowels: [Vowel.Sukun],
+            children: [
+                {
+                    conditions: { tense: Tense.Present },
+                    prefixVowel: (stemData.stemParameterization === LebaneseStem1Context.DefectiveType1WithPrefixA) ? Vowel.ShortA : Vowel.ShortI,
+                }
+            ]
         }
     ];
 }

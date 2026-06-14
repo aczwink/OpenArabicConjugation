@@ -18,7 +18,7 @@
 import { ConjugationVocalized } from "./Vocalization";
 import { ConjugationParams, Voice } from "./Definitions";
 import { Verb } from "./Verb";
-import { ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, SuffixResult } from "./Conjugation";
+import { ConjugatedWord, ConjugationElement, ConjugationRule, Vowel } from "./Conjugation";
 
 export enum TargetAdjectiveNounDerivation
 {
@@ -30,9 +30,9 @@ export enum TargetAdjectiveNounDerivation
 
 export interface ConjugationResult
 {
-    matchResult: ConjugationRuleMatchResult;
-    prefix: ConjugationElement[];
-    suffix: SuffixResult;
+    template: ConjugationRule[];
+    prefix: (prefixEndingVowel: Vowel | undefined, followingVowel: Vowel, params: ConjugationParams) => ConjugationElement[];
+    suffix: ConjugationRule[];
 }
 
 export interface DialectConjugator<T extends string>

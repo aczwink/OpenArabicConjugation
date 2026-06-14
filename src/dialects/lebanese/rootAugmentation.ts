@@ -23,15 +23,25 @@ import { RootType, VerbRoot } from "../../VerbRoot";
 import { Stem8AssimilateTa } from "../msa/conjugation/stem8";
 import { AssimilatedStem1ConjugationTemplate } from "./conjugation_templates/assimilated_stem1";
 import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
+import { DefectiveStem10ConjugationTemplate } from "./conjugation_templates/defective_stem10";
+import { DefectiveStem2ConjugationTemplate } from "./conjugation_templates/defective_stem2";
 import { DefectiveStem3ConjugationTemplate } from "./conjugation_templates/defective_stem3";
+import { DefectiveStem5ConjugationTemplate } from "./conjugation_templates/defective_stem5";
+import { DefectiveStem6ConjugationTemplate } from "./conjugation_templates/defective_stem6";
 import { DefectiveStem7ConjugationTemplate } from "./conjugation_templates/defective_stem7";
+import { DefectiveStem8ConjugationTemplate } from "./conjugation_templates/defective_stem8";
+import { GeminateStem1ConjugationTemplate } from "./conjugation_templates/geminate_stem1";
 import { GeminateStem7ConjugationTemplate } from "./conjugation_templates/geminate_stem7";
 import { GeminateStem8ConjugationTemplate } from "./conjugation_templates/geminate_stem8";
 import { HollowStem1ConjugationTemplate } from "./conjugation_templates/hollow_stem1";
 import { HollowStem7ConjugationTemplate } from "./conjugation_templates/hollow_stem7";
+import { IrregularIja } from "./conjugation_templates/irregular_ija";
 import { QuadriliteralStem1ConjugationTemplate } from "./conjugation_templates/quadriliteral_stem1";
 import { RegularStem1ConjugationTemplate } from "./conjugation_templates/regular_stem1";
+import { SoundStem10ConjugationTemplate } from "./conjugation_templates/sound_stem10";
 import { SoundStem7ConjugationTemplate } from "./conjugation_templates/sound_stem7";
+import { SoundStem8ConjugationTemplate } from "./conjugation_templates/sound_stem8";
+import { SoundStem9ConjugationTemplate } from "./conjugation_templates/sound_stem9";
 import { IsHamzaOnR1SpecialCase } from "./irregular";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
@@ -45,7 +55,14 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                 case VerbType.Assimilated:
                     return AssimilatedStem1ConjugationTemplate(root, stemData, params);
                 case VerbType.Defective:
-                    return DefectiveStem1ConjugationTemplate(root, stemData, params);
+                    return DefectiveStem1ConjugationTemplate(root, stemData);
+                case VerbType.Irregular:
+                    switch(stemData.stemParameterization)
+                    {
+                        case LebaneseStem1Context.IrregularIja:
+                            return IrregularIja(root);
+                    }
+                    break;
             }
 
             switch(root.type)
@@ -125,42 +142,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                     return QuadriliteralStem1ConjugationTemplate(root, params);
 
                 case RootType.SecondConsonantDoubled:
-                    function MapPresentVowel(stemParameterization: string): Vowel
-                    {
-                        switch(stemParameterization)
-                        {
-                            case LebaneseStem1Context.PastA_PresentA:
-                                return Vowel.ShortA;
-                            case LebaneseStem1Context.PastA_PresentI:
-                                return Vowel.ShortI;
-                            case LebaneseStem1Context.PastA_PresentU:
-                                return Vowel.ShortU;
-                        }
-                        return Vowel.Sukun; //should never happen
-                    }
-
-                    const presentVowel = MapPresentVowel(stemData.stemParameterization);
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r2, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect, person: Person.Third },
-                                    vowels: [Vowel.ShortA, Vowel.Sukun]
-                                },
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.Sukun,
-                                    vowels: [presentVowel, Vowel.Sukun]
-                                }
-                            ]
-                        },
-                    ];
+                    return GeminateStem1ConjugationTemplate(root, stemData);
 
                 case RootType.Regular:
                     return RegularStem1ConjugationTemplate(root, stemData, params);
@@ -172,42 +154,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(stemData.type)
             {
                 case VerbType.Defective:
-                    return [
-                        {
-                            conditions: { tense: Tense.Perfect },
-                            symbols: [root.r1, root.r2, root.r2],
-                            children: [
-                                {
-                                    conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
-                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA]
-                                },
-                                {
-                                    conditions: { person: Person.Third, numerus: Numerus.Singular },
-                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.ShortI]
-                                },
-                                {
-                                    conditions: { person: Person.Third },
-                                    vowels: [Vowel.ShortA, Vowel.Sukun]
-                                },
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj]
-                                },
-                            ]
-                        },
-                        {
-                            conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
-                            prefixVowel: Vowel.Sukun,
-                            symbols: [root.r1, root.r2, root.r2],
-                            vowels: [Vowel.ShortA, Vowel.Sukun]
-                        },
-                        {
-                            conditions: { tense: Tense.Present },
-                            prefixVowel: Vowel.Sukun,
-                            symbols: [root.r1, root.r2, root.r2],
-                            vowels: [Vowel.ShortA, Vowel.Sukun, Vowel.LongI]
-                        }
-                    ];
+                    return DefectiveStem2ConjugationTemplate(root);
 
                 case VerbType.Sound:
                     return [
@@ -404,50 +351,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(stemData.type)
             {
                 case VerbType.Defective:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [Letter.Ta, root.r1, root.r2, root.r2],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    children: [
-                                        {
-                                            conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
-                                        },
-                                        {
-                                            conditions: { person: Person.Third, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
-                                        },
-                                        {
-                                            conditions: { person: Person.Third },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.LongU],
-                                        },
-                                        {
-                                            conditions: {},
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj],
-                                        },
-                                    ]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
-                                    children: [
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.LongI],
-                                        },
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.LongU],
-                                        },
-                                    ]
-                                }
-                            ]
-                        },
-                    ];
+                    return DefectiveStem5ConjugationTemplate(root);
 
                 case VerbType.Sound:
                     return [
@@ -498,50 +402,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(root.type)
             {
                 case RootType.FinalWeak:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [Letter.Ta, root.r1, root.r2],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    children: [
-                                        {
-                                            conditions: { person: Person.Third, numerus: Numerus.Singular, gender: Gender.Male },
-                                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.BrokenA],
-                                        },
-                                        {
-                                            conditions: { person: Person.Third, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.ShortI],
-                                        },
-                                        {
-                                            conditions: { person: Person.Third },
-                                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.LongU],
-                                        },
-                                        {
-                                            conditions: {},
-                                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.DiphtongAj],
-                                        },
-                                    ]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.LongA, Vowel.BrokenA],
-                                    children: [
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.LongI],
-                                        },
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true },
-                                            vowels: [Vowel.Sukun, Vowel.LongA, Vowel.LongU],
-                                        },
-                                    ]
-                                }
-                            ]
-                        },
-                    ];
+                    return DefectiveStem6ConjugationTemplate(root);
             }
         }
         break;
@@ -553,7 +414,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                 case VerbType.Defective:
                     return DefectiveStem7ConjugationTemplate(root, stemData, params);
                 case VerbType.Geminate:
-                    return GeminateStem7ConjugationTemplate(root, stemData, params);
+                    return GeminateStem7ConjugationTemplate(root);
                 case VerbType.Hollow:
                     return HollowStem7ConjugationTemplate(root, stemData, params);
                 case VerbType.Sound:
@@ -564,56 +425,17 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
         case 8:
         {
-            const stem8r1 = Stem8AssimilateTa(root.r1);
-
             switch(stemData.type)
             {
                 case VerbType.Defective:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [stem8r1.r1, stem8r1.ta, root.r2],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.DiphtongAj],
-                                    children: [
-                                        {
-                                            conditions: { person: Person.Third, gender: Gender.Male, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.BrokenA],
-                                        },
-                                        {
-                                            conditions: { person: Person.Third },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA],
-                                        }
-                                    ]
-                                },
-                                {
-                                    conditions: {},
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.LongI],
-                                    children: [
-                                        {
-                                            conditions: { mood: Mood.Imperative, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.LongI],
-                                        },
-                                        {
-                                            conditions: { mood: Mood.Imperative, numerus: Numerus.Plural },
-                                            vowels: [Vowel.Sukun, Vowel.ShortI],
-                                        },
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true },
-                                            vowels: [Vowel.Sukun, Vowel.Sukun],
-                                        },
-                                    ],
-                                },
-                            ]
-                        },
-                    ];
-                    
+                    return DefectiveStem8ConjugationTemplate(root);
                 case VerbType.Geminate:
-                    return GeminateStem8ConjugationTemplate(root, stemData, params);
+                    return GeminateStem8ConjugationTemplate(root);
+                case VerbType.Sound:
+                    return SoundStem8ConjugationTemplate(root, params);
             }
+
+            const stem8r1 = Stem8AssimilateTa(root.r1);
             
             switch(root.type)
             {
@@ -635,31 +457,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             ]
                         },
                     ];
-
-                case RootType.Regular:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? 1 : 2,
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.ShortA]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present, hasPresentVowelSuffix: true },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.Sukun]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.ShortI, Vowel.ShortI]
-                                },
-                            ]
-                        },
-                    ];
             }
         }
         break;
@@ -669,29 +466,7 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(stemData.type)
             {
                 case VerbType.Sound:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r2, root.r3, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj],
-                                    children: [
-                                        {
-                                            conditions: { person: Person.Third },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun]
-                                        }
-                                    ],
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun]
-                                },
-                            ]
-                        },
-                    ];
+                    return SoundStem9ConjugationTemplate(root);
             }
         }
         break;
@@ -701,68 +476,9 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             switch(stemData.type)
             {
                 case VerbType.Defective:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r2],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj],
-                                    children: [
-                                        {
-                                            conditions: { person: Person.Third, gender: Gender.Male, numerus: Numerus.Singular },
-                                            vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
-                                        },
-                                        {
-                                            conditions: { person: Person.Third },
-                                            vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
-                                        }
-                                    ]
-                                },
-                                {
-                                    conditions: {},
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.BrokenA],
-                                    children: [
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true },
-                                            vowels: [Vowel.Sukun, Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
-                                        }
-                                    ],
-                                },
-                            ]
-                        },
-                    ];
-            }
-
-            switch(root.type)
-            {
-                case RootType.Regular:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [Letter.Siin, Letter.Ta, root.r1, root.r2, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? 1 : 3,
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortA]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.ShortI],
-                                    children: [
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true },
-                                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.Sukun]
-                                        }
-                                    ],
-                                },
-                            ]
-                        },
-                    ];
+                    return DefectiveStem10ConjugationTemplate(root);
+                case VerbType.Sound:
+                    return SoundStem10ConjugationTemplate(root, params);
             }
         }
         break;

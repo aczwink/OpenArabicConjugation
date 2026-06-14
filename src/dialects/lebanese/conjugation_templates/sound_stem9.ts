@@ -19,14 +19,14 @@
 import { ConjugationRule, Vowel } from "../../../Conjugation";
 import { VerbRoot } from "../../../VerbRoot";
 
-export function DefectiveStem3ConjugationTemplate(root: VerbRoot): ConjugationRule[]
+export function SoundStem9ConjugationTemplate(root: VerbRoot): ConjugationRule[]
 {
     return [
         {
             conditions: {},
-            prefixVowel: Vowel.Sukun,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.LongA]
+            prefixVowel: Vowel.ShortI,
+            symbols: [root.r1, root.r2, root.r3, root.r3],
+            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
         },
     ];
 }

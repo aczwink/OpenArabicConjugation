@@ -23,10 +23,9 @@ import { DerivePrefix } from "./prefix";
 import { MSAConjugator } from "../msa/MSAConjugator";
 import { AugmentRoot } from "./rootAugmentation";
 import { _Legacy_ToConjugationVocalized, ConjugatedWord, Vowel } from "../../Conjugation";
-import { DeriveSuffix } from "./suffix";
-import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 import { Verb } from "../../Verb";
+import { DeriveSuffixTemplate } from "./suffix";
 
 //Source is mostly: https://en.wikipedia.org/wiki/Levantine_Arabic_grammar
 
@@ -42,14 +41,10 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
             throw new Error("Can't be conjugated.");
         }
 
-        const suffix = DeriveSuffix(verb, params);
-        const matched = new ConjugationRuleMatcher<LebaneseStem1Context>(suffix.previousVowel === Vowel.Sukun).Match(template, verb, params);
-        const prefix = DerivePrefix(matched.prefixVowel, matched.vowels[0], params);
-
         return {
-            matchResult: matched,
-            prefix,
-            suffix
+            template,
+            prefix: DerivePrefix,
+            suffix: DeriveSuffixTemplate(verb)
         };
     }
 

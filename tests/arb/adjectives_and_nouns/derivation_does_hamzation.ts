@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,18 +15,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
+import { It } from "@aczwink/acts-util-test";
+import { NounTestData, RunDerivationTest } from "./shared";
+import { Gender, Numerus } from "../../../dist/Definitions";
 
-import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { VerbRoot } from "../../../VerbRoot";
+//Source: https://en.wiktionary.org/wiki/%D9%85%D9%84%D9%8A%D8%A1
 
-export function DefectiveStem3ConjugationTemplate(root: VerbRoot): ConjugationRule[]
-{
-    return [
-        {
-            conditions: {},
-            prefixVowel: Vowel.Sukun,
-            symbols: [root.r1, root.r2],
-            vowels: [Vowel.LongA]
-        },
-    ];
-}
+It("Feminine derivation respects hamzation", () => {
+    const singular_masculine: NounTestData = {
+        base: "مَلِيء",
+        gender: Gender.Male,
+        numerus: Numerus.Singular,
+        isDefinite: false
+    };
+    RunDerivationTest(singular_masculine, "feminine", "مَلِيئَة");
+});

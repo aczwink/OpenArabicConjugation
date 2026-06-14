@@ -16,11 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Case, Gender, Letter, AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Numerus, Tashkil, AdjectiveOrNounInput } from "../../../Definitions";
-import { DisplayTashkil, DisplayVocalized } from "../../../Vocalization";
-import { AdjectiveEndingTashkil, WithTashkilOnLast } from "./shared";
+import { FinalVowel, Vowel } from "../../../Conjugation";
+import { Case, Gender, Letter, AdjectiveOrNounDeclensionParams, AdjectiveOrNounState, Numerus } from "../../../Definitions";
+import { TransformableWord } from "../../../TransformableWord";
 
-function EndingTashkil(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayTashkil | undefined
+function AdjectiveEndingTashkil(casus: Case, isDefinite: boolean): Vowel | FinalVowel
+{
+    switch(casus)
+    {
+        case Case.Accusative:
+            if(isDefinite)
+                return Vowel.ShortA;
+            return FinalVowel.Fathatan;
+
+        case Case.Genitive:
+            if(isDefinite)
+                return Vowel.ShortI;
+            return FinalVowel.Kasratan;
+
+        case Case.Informal:
+            return FinalVowel.None;
+
+        case Case.Nominative:
+            if(isDefinite)
+                return Vowel.ShortU;
+            return FinalVowel.Dhammatan;
+    }
+}
+
+function EndingTashkil(inputNoun: TransformableWord, params: AdjectiveOrNounDeclensionParams)
 {
     if(inputNoun.gender === Gender.Female)
     {
@@ -34,14 +58,14 @@ function EndingTashkil(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounD
     return AdjectiveEndingTashkil(params.case, params.state === AdjectiveOrNounState.Definite);
 }
 
-function DeclineDefault(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams)
+function DeclineDefault(inputNoun: TransformableWord, params: AdjectiveOrNounDeclensionParams)
 {
     if((params.case === Case.Accusative) && (params.state === AdjectiveOrNounState.Indefinite) && (inputNoun.gender === Gender.Male))
-        return WithTashkilOnLast(inputNoun.vocalized, Tashkil.Fathatan).concat([ { emphasis: false, letter: Letter.Alef, shadda: false }]);
-    return WithTashkilOnLast(inputNoun.vocalized, EndingTashkil(inputNoun, params));
+        return inputNoun.WithFathatanEnding();
+    return inputNoun.WithReplacedEnding(EndingTashkil(inputNoun, params));
 }
 
-export function DeclineTriptoteSuffix(inputNoun: AdjectiveOrNounInput, params: AdjectiveOrNounDeclensionParams): DisplayVocalized[]
+export function DeclineTriptoteSuffix(inputNoun: TransformableWord, params: AdjectiveOrNounDeclensionParams): TransformableWord
 {
     switch(inputNoun.numerus)
     {
@@ -50,41 +74,28 @@ export function DeclineTriptoteSuffix(inputNoun: AdjectiveOrNounInput, params: A
 
         case Numerus.Dual:
         {
-            const fixedEnding = WithTashkilOnLast(inputNoun.vocalized, (params.case === Case.Informal) ? undefined : Tashkil.Kasra);
-
-            if(params.case === Case.Nominative)
-                fixedEnding[fixedEnding.length - 2] = { letter: Letter.Alef, emphasis: false, shadda: false };
+            const withCorrectVowel = (params.case === Case.Nominative) ? inputNoun.WithLastTrimmed().WithReplacedSilentEnding(Vowel.LongA, Letter.Nun) : inputNoun;
+            const fixedEnding = withCorrectVowel.WithReplacedEnding((params.case === Case.Informal) ? FinalVowel.None : Vowel.ShortI);
             
             if(params.state === AdjectiveOrNounState.Construct)
-                fixedEnding.pop();
+                return fixedEnding.WithLastTrimmed();
 
             return fixedEnding;
         }
 
         case Numerus.Plural:
         {
-            const last = inputNoun.vocalized[inputNoun.vocalized.length - 1];
-            const prev = inputNoun.vocalized[inputNoun.vocalized.length - 2];
-            const isSoundMale = (last.letter === Letter.Nun) && (prev.letter === Letter.Waw);
-
-            if(isSoundMale)
+            if(inputNoun.IsSoundMasculinePlural())
             {
-                const fixedEnding = WithTashkilOnLast(inputNoun.vocalized, (params.case === Case.Informal) ? undefined : Tashkil.Fatha);
-                if(params.case !== Case.Nominative)
-                {
-                    fixedEnding[fixedEnding.length - 2] = { letter: Letter.Ya, emphasis: false, shadda: false };
-                    fixedEnding[fixedEnding.length - 3] = {
-                        ...fixedEnding[fixedEnding.length - 3],
-                        tashkil: Tashkil.Kasra
-                    };
-                }
+                const withCorrectVowel = (params.case === Case.Nominative) ? inputNoun : inputNoun.WithLastTrimmed().WithReplacedSilentEnding(Vowel.LongI, Letter.Nun);
+                const fixedEnding = withCorrectVowel.WithReplacedEnding((params.case === Case.Informal) ? FinalVowel.None : Vowel.ShortA);
 
                 if(params.state === AdjectiveOrNounState.Construct)
-                    fixedEnding.pop();
+                    return fixedEnding.WithLastTrimmed();
 
                 return fixedEnding;
             }
-
+            
             return DeclineDefault(inputNoun, params);
         }
     }

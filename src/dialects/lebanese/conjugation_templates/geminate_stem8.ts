@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,37 +17,19 @@
  * */
 
 import { ConjugationRule, Vowel } from "../../../Conjugation";
-import { ConjugationParams, Letter, Person, Tense } from "../../../Definitions";
-import { VerbStemData } from "../../../Verb";
 import { VerbRoot } from "../../../VerbRoot";
-import { LebaneseStem1Context } from "../LebaneseDialectMetadata";
+import { Stem8AssimilateTa } from "../../msa/conjugation/stem8";
 
-export function GeminateStem8ConjugationTemplate(root: VerbRoot, stemData: VerbStemData<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
+export function GeminateStem8ConjugationTemplate(root: VerbRoot): ConjugationRule[]
 {
+    const stem8r1 = Stem8AssimilateTa(root.r1);
+    
     return [
         {
             conditions: {},
-            symbols: [root.r1, Letter.Ta, root.r2, root.r3],
-            children: [
-                {
-                    conditions: { tense: Tense.Perfect },
-                    children: [
-                        {
-                            conditions: { person: Person.Third, },
-                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
-                        },
-                        {
-                            conditions: {},
-                            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun, Vowel.DiphtongAj],
-                        }
-                    ]
-                },
-                {
-                    conditions: { tense: Tense.Present },
-                    prefixVowel: Vowel.ShortI,
-                    vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun]
-                },
-            ]
+            prefixVowel: Vowel.ShortI,
+            symbols: [stem8r1.r1, stem8r1.ta, root.r2, root.r3],
+            vowels: [Vowel.Sukun, Vowel.ShortA, Vowel.Sukun],
         },
     ];
 }

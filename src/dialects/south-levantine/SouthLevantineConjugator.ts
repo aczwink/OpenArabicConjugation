@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { ConjugationRule } from "../../Conjugation";
-import { ConjugationRuleMatcher } from "../../ConjugationRuleMatcher";
 import { ConjugationParams, Tashkil, VerbType, Voice } from "../../Definitions";
 import { ConjugationResult, DialectConjugator } from "../../DialectConjugator";
 import { Verb } from "../../Verb";
@@ -25,7 +24,7 @@ import { DefectiveStem4Template } from "./conjugation_templates/defective_stem4"
 import { HollowStem7Template } from "./conjugation_templates/hollow_stem7";
 import { DerivePrefix } from "./prefix";
 import { SouthLevantineStem1Context } from "./SouthLevantineDialectMetadata";
-import { DeriveSuffix } from "./suffix";
+import { DeriveSuffixTemplate } from "./suffix";
 
 export class SouthLevantineConjugator implements DialectConjugator<SouthLevantineStem1Context>
 {
@@ -35,15 +34,10 @@ export class SouthLevantineConjugator implements DialectConjugator<SouthLevantin
         if(template === undefined)
             throw new Error("Can't be conjugated.");
 
-        const matched = new ConjugationRuleMatcher<SouthLevantineStem1Context>(false).Match(template, verb, params);
-
-        const prefix = DerivePrefix(matched.prefixVowel, matched.vowels[0], params);
-        const suffix = DeriveSuffix(verb, params);
-
         return {
-            matchResult: matched,
-            prefix,
-            suffix,
+            template,
+            prefix: DerivePrefix,
+            suffix: DeriveSuffixTemplate(verb),
         };
     }
 
