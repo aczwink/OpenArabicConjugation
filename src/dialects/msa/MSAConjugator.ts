@@ -511,16 +511,26 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
     private ResolveDoubleHamzaWithHamzaSakinaMadd(vocalized: ConjugationVocalized[])
     {
         /*
-        special hamza sakina rules. these are hardly documented other than for two alefs which cause the alef madda
+        special hamza sakina rules. these are hardly documented other than for two alefs which cause the alef madda.
 
         this happens for example for the passive present singular first person of أكل. See:
         - https://en.wiktionary.org/wiki/%D8%A3%D9%83%D9%84
         - https://conjugator.reverso.net/conjugation-arabic-verb-%D8%A3%D9%83%D9%84.html
+        - https://qutrub.arabeyes.org/?verb=%D8%A3%D9%83%D9%84
 
         The source code at https://en.wiktionary.org/wiki/Module:ar-verb suggests that:
         - hamza + fatha + hamza + sukun => hamza + fatha + alef
         - hamza + kasra + hamza + sukun => hamza + kasra + ya
         - hamza + dhamma + hamza + sukun => hamza + dhamma + waw
+
+        The following source writes the rule very clearly: https://shamela.ws/book/11750/701
+        which yields the following rule:
+        If two hamzas meet in one word and the second is sakina, the second is replaced with a madd letter of the same quality as the first hamza’s vowel.
+
+        A good example with two consecutive hamzas where this rule does not apply is (see present passive indicate 1st person singular):
+        - https://en.wiktionary.org/wiki/%D8%A3%D9%85#Verb
+        - https://conjugator.reverso.net/conjugation-arabic-verb-%D8%A3%D9%85%D9%91.html
+        Here the both hamzas have a vowel (neither is sakin) so they are both written as ordinary hamzas despite the fact that two hamzas follow in a row.
         */
 
         for(let i = 1; i < vocalized.length; i++)

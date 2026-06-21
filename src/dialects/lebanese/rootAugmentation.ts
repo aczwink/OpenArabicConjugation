@@ -22,19 +22,11 @@ import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
 import { Stem8AssimilateTa } from "../msa/conjugation/stem8";
 import { AssimilatedStem1ConjugationTemplate } from "./conjugation_templates/assimilated_stem1";
-import { DefectiveStem1ConjugationTemplate } from "./conjugation_templates/defective_stem1";
-import { DefectiveStem10ConjugationTemplate } from "./conjugation_templates/defective_stem10";
-import { DefectiveStem2ConjugationTemplate } from "./conjugation_templates/defective_stem2";
-import { DefectiveStem3ConjugationTemplate } from "./conjugation_templates/defective_stem3";
-import { DefectiveStem5ConjugationTemplate } from "./conjugation_templates/defective_stem5";
-import { DefectiveStem6ConjugationTemplate } from "./conjugation_templates/defective_stem6";
-import { DefectiveStem7ConjugationTemplate } from "./conjugation_templates/defective_stem7";
-import { DefectiveStem8ConjugationTemplate } from "./conjugation_templates/defective_stem8";
+import { DefectiveStemConjugationTemplate } from "./conjugation_templates/defective";
 import { GeminateStem1ConjugationTemplate } from "./conjugation_templates/geminate_stem1";
 import { GeminateStem7ConjugationTemplate } from "./conjugation_templates/geminate_stem7";
 import { GeminateStem8ConjugationTemplate } from "./conjugation_templates/geminate_stem8";
-import { HollowStem1ConjugationTemplate } from "./conjugation_templates/hollow_stem1";
-import { HollowStem7ConjugationTemplate } from "./conjugation_templates/hollow_stem7";
+import { HollowConjugationTemplate } from "./conjugation_templates/hollow";
 import { IrregularIja } from "./conjugation_templates/irregular_ija";
 import { QuadriliteralStem1ConjugationTemplate } from "./conjugation_templates/quadriliteral_stem1";
 import { RegularStem1ConjugationTemplate } from "./conjugation_templates/regular_stem1";
@@ -47,6 +39,14 @@ import { LebaneseStem1Context } from "./LebaneseDialectMetadata";
 
 export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1Context>, params: ConjugationParams): ConjugationRule[] | undefined
 {
+    switch(stemData.type)
+    {
+        case VerbType.Defective:
+            return DefectiveStemConjugationTemplate(root);
+        case VerbType.Hollow:
+            return HollowConjugationTemplate(root, params);
+    }
+
     switch(stemData.stem)
     {
         case 1:
@@ -54,8 +54,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
             {
                 case VerbType.Assimilated:
                     return AssimilatedStem1ConjugationTemplate(root, stemData, params);
-                case VerbType.Defective:
-                    return DefectiveStem1ConjugationTemplate(root, stemData);
                 case VerbType.Irregular:
                     switch(stemData.stemParameterization)
                     {
@@ -67,9 +65,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
             switch(root.type)
             {
-                case RootType.MiddleWeak:
-                    return HollowStem1ConjugationTemplate(root, stemData, params);
-
                 case RootType.HamzaOnR1:
                     if(IsHamzaOnR1SpecialCase(root) && (params.tense === Tense.Present))
                     {
@@ -153,9 +148,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
-                    return DefectiveStem2ConjugationTemplate(root);
-
                 case VerbType.Sound:
                     return [
                         {
@@ -248,8 +240,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
-                    return DefectiveStem3ConjugationTemplate(root);
                 case VerbType.Sound:
                     return [
                         {
@@ -270,35 +260,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                                     conditions: { tense: Tense.Present },
                                     prefixVowel: Vowel.Sukun,
                                     vowels: [Vowel.LongA, Vowel.ShortI],
-                                },
-                            ]
-                        },
-                    ];
-            }
-
-            switch(root.type)
-            {
-                case RootType.MiddleWeak:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [root.r1, root.r2, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    emphasize: (params.person === Person.Third) ? undefined : 1,
-                                    vowels: [Vowel.LongA, Vowel.ShortA]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.Sukun,
-                                    vowels: [Vowel.LongA, Vowel.ShortI],
-                                    children: [
-                                        {
-                                            conditions: { hasPresentVowelSuffix: true },
-                                            vowels: [Vowel.LongA, Vowel.Sukun]
-                                        },
-                                    ]
                                 },
                             ]
                         },
@@ -350,9 +311,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
-                    return DefectiveStem5ConjugationTemplate(root);
-
                 case VerbType.Sound:
                     return [
                         {
@@ -398,12 +356,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                         },
                     ];
             }
-            
-            switch(root.type)
-            {
-                case RootType.FinalWeak:
-                    return DefectiveStem6ConjugationTemplate(root);
-            }
         }
         break;
 
@@ -411,12 +363,8 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
-                    return DefectiveStem7ConjugationTemplate(root, stemData, params);
                 case VerbType.Geminate:
                     return GeminateStem7ConjugationTemplate(root);
-                case VerbType.Hollow:
-                    return HollowStem7ConjugationTemplate(root, stemData, params);
                 case VerbType.Sound:
                     return SoundStem7ConjugationTemplate(root, stemData, params);
             }
@@ -427,36 +375,20 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
-                    return DefectiveStem8ConjugationTemplate(root);
+                case VerbType.Assimilated:
+                    return [
+                        {
+                            conditions: {},
+                            base: {
+                                root: [Letter.Ta, root.r2, root.r3],
+                                verbType: VerbType.Sound
+                            }
+                        }
+                    ];
                 case VerbType.Geminate:
                     return GeminateStem8ConjugationTemplate(root);
                 case VerbType.Sound:
                     return SoundStem8ConjugationTemplate(root, params);
-            }
-
-            const stem8r1 = Stem8AssimilateTa(root.r1);
-            
-            switch(root.type)
-            {
-                case RootType.MiddleWeak:
-                    return [
-                        {
-                            conditions: {},
-                            symbols: [stem8r1.r1, stem8r1.ta, root.r3],
-                            children: [
-                                {
-                                    conditions: { tense: Tense.Perfect },
-                                    vowels: [Vowel.Sukun, (params.person === Person.Third) ? Vowel.LongA : Vowel.ShortA]
-                                },
-                                {
-                                    conditions: { tense: Tense.Present },
-                                    prefixVowel: Vowel.ShortI,
-                                    vowels: [Vowel.Sukun, Vowel.LongA]
-                                },
-                            ]
-                        },
-                    ];
             }
         }
         break;
@@ -475,8 +407,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
         {
             switch(stemData.type)
             {
-                case VerbType.Defective:
-                    return DefectiveStem10ConjugationTemplate(root);
                 case VerbType.Sound:
                     return SoundStem10ConjugationTemplate(root, params);
             }

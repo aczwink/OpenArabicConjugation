@@ -58,6 +58,7 @@ export class MSADialectMetadata implements DialectMetadata<ModernStandardArabicS
                 switch(stem)
                 {
                     case 2:
+                    case 5:
                     case 6:
                     case 8:
                     case 10:

@@ -57,7 +57,7 @@ export class Conjugator
         }
         
         const word = this.ConjugateInternal(verb, params);
-        return this.ExecuteWordTransformationPipeline(word);
+        return this.ExecuteWordTransformationPipeline(word, verb.dialect);
     }
 
     /**
@@ -72,7 +72,7 @@ export class Conjugator
         const dialectConjugator = new MSAConjugator;
         const transformed = dialectConjugator.DeclineAdjectiveOrNoun(input, params);
 
-        return this.ExecuteWordTransformationPipeline(transformed.word);
+        return this.ExecuteWordTransformationPipeline(transformed.word, dialect);
     }
 
     public DeriveFromNoun(singular: DisplayVocalized[], target: TargetNounBasedDerivationPatterns)
@@ -159,7 +159,7 @@ export class Conjugator
             break;
         }
 
-        return patterns.map(pattern => this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern)));
+        return patterns.map(pattern => this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern), verb.dialect));
     }
 
     /**
@@ -177,7 +177,7 @@ export class Conjugator
         const dialectConjugator = new MSAConjugator;
         const transformed = dialectConjugator.DeriveSoundAdjectiveOrNoun(transformable, target);
 
-        return this.ExecuteWordTransformationPipeline(transformed.word);
+        return this.ExecuteWordTransformationPipeline(transformed.word, dialect);
     }
 
     //Private methods
@@ -262,11 +262,13 @@ export class Conjugator
         }
     }
 
-    private ExecuteWordTransformationPipeline(word: ConjugatedWord)
+    private ExecuteWordTransformationPipeline(word: ConjugatedWord, dialect: DialectType)
     {
         const hamzated = Hamzate(word);
+        //in lebanese the prefix (for example ba) with sukun after the same latter is still spelled twice instead of being written with shadda. This rule does only apply for the prefix, not for the suffix
+        const startShaddadizeIndex = (dialect === DialectType.Lebanese) ? 1 : 0;
 
-        return this.ToDisplayVocalized(hamzated);
+        return this.ToDisplayVocalized(hamzated, startShaddadizeIndex);
     }
 
     private _LegacyPatch(pattern: ConjugationVocalized[] | ConjugatedWord)
@@ -274,7 +276,7 @@ export class Conjugator
         return Array.isArray(pattern) ? ConjugationVocalizedToConjugatedWord(pattern) : pattern;
     }
 
-    private ToDisplayVocalized(vocalized: ConjugationVocalized[])
+    private ToDisplayVocalized(vocalized: ConjugationVocalized[], startShaddadizeIndex: number)
     {
         const result: DisplayVocalized[] = [];
         for(let i = 0; i < vocalized.length; i++)
@@ -282,7 +284,7 @@ export class Conjugator
             const v = vocalized[i];
             const next: (ConjugationVocalized | undefined) = vocalized[i + 1];
 
-            const shadda = (v.letter === next?.letter) && (v.tashkil === Tashkil.Sukun) && (i > 0);
+            const shadda = (v.letter === next?.letter) && (v.tashkil === Tashkil.Sukun) && (i >= startShaddadizeIndex);
             const tashkil = shadda ? next.tashkil : v.tashkil;
             result.push({
                 emphasis: (v.emphasis === true) || (shadda && (next.emphasis === true)),

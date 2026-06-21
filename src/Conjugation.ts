@@ -48,7 +48,7 @@ interface ConjugationRuleConditions
     mood?: Mood | Mood[];
     numerus?: Numerus;
     person?: Person | Person[];
-    stem?: AdvancedStemNumber | AdvancedStemNumber[];
+    stem?: 1 | AdvancedStemNumber | AdvancedStemNumber[];
     stemParameters?: string | string[];
     tense?: Tense;
     voice?: Voice;

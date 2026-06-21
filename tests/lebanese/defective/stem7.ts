@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -61,9 +61,12 @@ It("Stem 7", () => {
         { tense: "present", mood: "subjunctive", numerus: "plural", person: "third", expected: "يِنْلِغُوا" },
         { tense: "present", mood: "subjunctive", numerus: "plural", person: "second", expected: "تِنْلِغُوا" },
         { tense: "present", mood: "subjunctive", numerus: "plural", person: "first", expected: "نِنْلِغِي" },
+
+        //imperative (this is actually missing in the source but has been generated based on the consistency of defective verb conjugation)
+        { tense: "present", mood: "imperative", numerus: "singular", person: "second", gender: "male", expected: "نْلِغِي" },
+        { tense: "present", mood: "imperative", numerus: "singular", person: "second", gender: "female", expected: "نْلِغِي" },
+        { tense: "present", mood: "imperative", numerus: "plural", person: "second", expected: "نْلِغُوا" },
     ];
 
     _Legacy_RunConjugationTest(root, stem, conjugations, DialectType.Lebanese);
-
-    throw new Error("TODO: imperative is missing");
 });

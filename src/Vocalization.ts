@@ -123,6 +123,19 @@ export function ConvertFullyVocalized(vocalized: DisplayVocalized[])
                 });
                 continue;
             }
+            else if(v.letter === Letter.AlefMadda)
+            {
+                //this letter is ambigious and can not be reversed correctly. We map it to the most frequently occuring madda constellation, which is also in line with the other long vowels
+                result.push({
+                    letter: Letter.Hamza,
+                    tashkil: Tashkil.Fatha,
+                });
+                result.push({
+                    letter: Letter.Alef,
+                    tashkil: Tashkil.LongVowelMarker,
+                });
+                continue;
+            }
             else if((v.letter === Letter.Waw) && (prev?.tashkil === Tashkil.Dhamma))
             {
                 result.push({
