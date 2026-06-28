@@ -302,6 +302,7 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                 switch(verb.stem)
                 {
                     case 1:
+                    case 8:
                         return true;
                 }
                 break;

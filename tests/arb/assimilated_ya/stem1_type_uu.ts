@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2025-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,7 @@
  * */
 import { It } from "@aczwink/acts-util-test";
 import { DialectType } from "../../../dist/Dialects";
-import { VerbTestData, RunConjugationTest, RunParticipleTest, _LegacyRunVerbalNounTest, RunActiveParticipleTest } from "../../shared";
+import { VerbTestData, RunConjugationTest, _LegacyRunVerbalNounTest, RunActiveParticipleTest } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "../../../dist/dialects/msa/conjugation/r2tashkil";
 
 //Sources: https://en.wikipedia.org/wiki/Arabic_verbs#Assimilated_(first-weak)_verbs

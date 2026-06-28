@@ -643,8 +643,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                         ];
                     case ModernStandardArabicStem1ParametersType.PastU_PresentU:
                         return [
-                            fu3l,
-                            fa3l
+                            fa3aala
                         ];
                 }
             }

@@ -57,7 +57,7 @@ export class Conjugator
         }
         
         const word = this.ConjugateInternal(verb, params);
-        return this.ExecuteWordTransformationPipeline(word, verb.dialect);
+        return this.ExecuteWordTransformationPipeline(word, verb.dialect, params.tense);
     }
 
     /**
@@ -82,7 +82,7 @@ export class Conjugator
         {
             case TargetNounBasedDerivationPatterns.PluralPatterns:
                 const patterns = dialectConjugator.DeriveNounPluralPatterns(singular);
-                return patterns.map(this.ExecuteWordTransformationPipeline.bind(this));
+                return patterns.map(x => this.ExecuteWordTransformationPipeline(x, DialectType.ModernStandardArabic));
         }
     }
 
@@ -262,11 +262,11 @@ export class Conjugator
         }
     }
 
-    private ExecuteWordTransformationPipeline(word: ConjugatedWord, dialect: DialectType)
+    private ExecuteWordTransformationPipeline(word: ConjugatedWord, dialect: DialectType, tense?: Tense)
     {
         const hamzated = Hamzate(word);
         //in lebanese the prefix (for example ba) with sukun after the same latter is still spelled twice instead of being written with shadda. This rule does only apply for the prefix, not for the suffix
-        const startShaddadizeIndex = (dialect === DialectType.Lebanese) ? 1 : 0;
+        const startShaddadizeIndex = ((dialect === DialectType.Lebanese) && (tense === Tense.Present)) ? 1 : 0;
 
         return this.ToDisplayVocalized(hamzated, startShaddadizeIndex);
     }
