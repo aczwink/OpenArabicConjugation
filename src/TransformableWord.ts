@@ -125,7 +125,18 @@ export class TransformableWord
     public WithReplacedEnding(finalVowel: Vowel | FinalVowel)
     {
         if(this._word.ending === undefined)
-            throw new Error("programming error4");
+        {
+            const last = this._word.elements.Last();
+
+            return new TransformableWord({
+                elements: this._word.elements.slice(0, this._word.elements.length - 1),
+                ending: {
+                    consonant: last.consonant,
+                    finalVowel
+                },
+                initial: this._word.initial,
+            }, this._numerus, this._gender);
+        }
 
         return new TransformableWord({
             elements: [

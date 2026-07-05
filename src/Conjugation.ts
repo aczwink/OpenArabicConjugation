@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { AdvancedStemNumber, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "./Definitions";
+import { AdvancedStemNumber, ExtraTashkil, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "./Definitions";
 import { ConjugationVocalized } from "./Vocalization";
 
 export enum Vowel
 {
     BrokenA,
+    DaggerA,
     DiphtongAj,
     DiphtongAw,
     LongA,
@@ -393,7 +394,7 @@ export function _Legacy_ToConjugationVocalized(word: ConjugatedWord)
     return result;
 }
 
-export function TashkilToVowel(taskil: Tashkil)
+export function TashkilToVowel(taskil: Tashkil | ExtraTashkil.DaggerAlef)
 {
     switch(taskil)
     {
@@ -405,6 +406,8 @@ export function TashkilToVowel(taskil: Tashkil)
             return Vowel.ShortI;
         case Tashkil.Sukun:
             return Vowel.Sukun;
+        case ExtraTashkil.DaggerAlef:
+            return Vowel.DaggerA;
     }
     throw new Error("TashkilToVowel: " + taskil);
 }

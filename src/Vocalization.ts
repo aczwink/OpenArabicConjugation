@@ -23,7 +23,7 @@ export type DisplayTashkil = BaseTashkil | Tashkil.Dhammatan | Tashkil.Fathatan 
 export interface DisplayVocalized
 {
     letter: Letter;
-    tashkil?: DisplayTashkil;
+    tashkil?: DisplayTashkil | ExtraTashkil.DaggerAlef;
     shadda: boolean;
     emphasis: boolean;
 }
@@ -31,7 +31,7 @@ export interface DisplayVocalized
 export interface ConjugationVocalized
 {
     letter: Letter;
-    tashkil: Tashkil;
+    tashkil: Tashkil | ExtraTashkil.DaggerAlef;
     emphasis?: boolean;
 }
 
@@ -220,7 +220,7 @@ export function ParseVocalizedText(text: string)
             i++; //skip
 
         const letter = text[i++];
-        let tashkil: Tashkil | undefined = undefined;
+        let tashkil: Tashkil | ExtraTashkil.DaggerAlef | undefined = undefined;
         let shadda = false;
 
         let parseTashkil = true;
@@ -277,7 +277,10 @@ export function ParseVocalizedText(text: string)
                     i++;
                     break;
                 case ExtraTashkil.DaggerAlef:
-                    i++; //just skip
+                    if(tashkil !== undefined)
+                        throw new Error("Doubled tashkil");
+                    tashkil = ExtraTashkil.DaggerAlef;
+                    i++;
                     break;
                 default:
                     parseTashkil = false;

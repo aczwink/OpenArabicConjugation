@@ -27,6 +27,7 @@ import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevant
 import { ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, Vowel, FinalVowel } from "./Conjugation";
 import { ConjugationRuleMatcher } from "./ConjugationRuleMatcher";
 import { TransformableWord } from "./TransformableWord";
+import { VerbRoot } from "./VerbRoot";
 
 export enum TargetNounBasedDerivationPatterns
 {
@@ -192,7 +193,7 @@ export class Conjugator
         });
     }
 
-    private ConjugateInternal(verb: Verb<string>, params: ConjugationParams)
+    private ConjugateInternal(verb: Verb<string>, params: ConjugationParams): ConjugatedWord
     {
         const dialectConjugator = this.CreateDialectConjugator(verb.dialect);
         const result = dialectConjugator.Conjugate(verb, params);
@@ -202,6 +203,16 @@ export class Conjugator
 
         const suffixMatch = new ConjugationRuleMatcher<string>(false).Match(result.suffix, verb, params);
         const match = new ConjugationRuleMatcher<string>(suffixMatch.prefixVowel === Vowel.Sukun).Match(result.template, verb, params);
+        if(match.base !== undefined)
+        {
+            return this.ConjugateInternal({
+                dialect: verb.dialect,
+                root: (match.base.root === undefined) ? verb.root : new VerbRoot(match.base.root.join("")),
+                stem: verb.stem as any,
+                stemParameterization: (verb.stem === 1) ? (match.base.stemParameterization as any ?? verb.stemParameterization) : undefined,
+                type: match.base.verbType ?? verb.type
+            }, params);
+        }
         const prefix = result.prefix(match.prefixVowel, match.vowels[0], params);
 
         const constructed = this.ConstructWord(match, prefix, suffixMatch);

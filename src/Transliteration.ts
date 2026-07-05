@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { Letter, Tashkil } from "./Definitions";
+import { ExtraTashkil, Letter, Tashkil } from "./Definitions";
 import { DisplayVocalized } from "./Vocalization";
 
 //Source: https://en.wikipedia.org/wiki/Buckwalter_transliteration
@@ -102,7 +102,7 @@ export const Buckwalter = {
         }
     },
 
-    TashkilToString: function(tashkil: Tashkil)
+    TashkilToString: function(tashkil: Tashkil | ExtraTashkil.DaggerAlef)
     {
         switch(tashkil)
         {
