@@ -40,7 +40,7 @@ export function IrregularIja(root: VerbRoot): ConjugationRule[]
         },
         {
             conditions: { mood: Mood.Subjunctive, numerus: Numerus.Singular, person: Person.First, },
-            prefixVowel: Vowel.ShortI,
+            prefixVowel: Vowel.Sukun,
             symbols: [Letter.Hamza, root.r1],
             vowels: [Vowel.ShortI]
         },

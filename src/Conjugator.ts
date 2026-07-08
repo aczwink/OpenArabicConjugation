@@ -15,16 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Hamzate } from "./Hamza";
 import { DialectConjugator, TargetAdjectiveNounDerivation } from "./DialectConjugator";
 import { MSAConjugator } from "./dialects/msa/MSAConjugator";
 import { ConjugationVocalized, ConvertFullyVocalized, DisplayVocalized } from "./Vocalization";
-import { ConjugationParams, Tashkil, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus, AdjectiveOrNounInput, VerbType } from "./Definitions";
+import { ConjugationParams, Tense, Voice, Mood, Person, AdjectiveOrNounDeclensionParams, Gender, Numerus, AdjectiveOrNounInput, VerbType } from "./Definitions";
 import { LebaneseConjugator } from "./dialects/lebanese/LebaneseConjugator";
 import { DialectType } from "./Dialects";
 import { Verb } from "./Verb";
 import { SouthLevantineConjugator } from "./dialects/south-levantine/SouthLevantineConjugator";
-import { ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationElement, ConjugationRuleMatchResult, Vowel, FinalVowel } from "./Conjugation";
+import { ConjugationVocalizedToConjugatedWord, ConjugatedWord, ConjugationRuleMatchResult, Vowel, FinalVowel, ConjugatedWordToDisplayVocalized, ConjugationElement } from "./Conjugation";
 import { ConjugationRuleMatcher } from "./ConjugationRuleMatcher";
 import { TransformableWord } from "./TransformableWord";
 import { VerbRoot } from "./VerbRoot";
@@ -58,7 +57,7 @@ export class Conjugator
         }
         
         const word = this.ConjugateInternal(verb, params);
-        return this.ExecuteWordTransformationPipeline(word, verb.dialect, params.tense);
+        return ConjugatedWordToDisplayVocalized(word);
     }
 
     /**
@@ -73,7 +72,7 @@ export class Conjugator
         const dialectConjugator = new MSAConjugator;
         const transformed = dialectConjugator.DeclineAdjectiveOrNoun(input, params);
 
-        return this.ExecuteWordTransformationPipeline(transformed.word, dialect);
+        return ConjugatedWordToDisplayVocalized(transformed.word);
     }
 
     public DeriveFromNoun(singular: DisplayVocalized[], target: TargetNounBasedDerivationPatterns)
@@ -83,7 +82,7 @@ export class Conjugator
         {
             case TargetNounBasedDerivationPatterns.PluralPatterns:
                 const patterns = dialectConjugator.DeriveNounPluralPatterns(singular);
-                return patterns.map(x => this.ExecuteWordTransformationPipeline(x, DialectType.ModernStandardArabic));
+                return patterns.map(x => ConjugatedWordToDisplayVocalized(x));
         }
     }
 
@@ -160,7 +159,7 @@ export class Conjugator
             break;
         }
 
-        return patterns.map(pattern => this.ExecuteWordTransformationPipeline(this._LegacyPatch(pattern), verb.dialect));
+        return patterns.map(pattern => ConjugatedWordToDisplayVocalized(this._LegacyPatch(pattern)));
     }
 
     /**
@@ -178,7 +177,7 @@ export class Conjugator
         const dialectConjugator = new MSAConjugator;
         const transformed = dialectConjugator.DeriveSoundAdjectiveOrNoun(transformable, target);
 
-        return this.ExecuteWordTransformationPipeline(transformed.word, dialect);
+        return ConjugatedWordToDisplayVocalized(transformed.word);
     }
 
     //Private methods
@@ -201,8 +200,8 @@ export class Conjugator
         if(Array.isArray(result))
             return ConjugationVocalizedToConjugatedWord(result);
 
-        const suffixMatch = new ConjugationRuleMatcher<string>(false).Match(result.suffix, verb, params);
-        const match = new ConjugationRuleMatcher<string>(suffixMatch.prefixVowel === Vowel.Sukun).Match(result.template, verb, params);
+        const suffixMatch = new ConjugationRuleMatcher<string>(false, false).Match(result.suffix, verb, params);
+        const match = new ConjugationRuleMatcher<string>(suffixMatch.prefixVowel === Vowel.Sukun, false).Match(result.template, verb, params);
         if(match.base !== undefined)
         {
             return this.ConjugateInternal({
@@ -213,33 +212,40 @@ export class Conjugator
                 type: match.base.verbType ?? verb.type
             }, params);
         }
-        const prefix = result.prefix(match.prefixVowel, match.vowels[0], params);
+        const prefixMatch = new ConjugationRuleMatcher<string>(match.prefixVowel === Vowel.Sukun, match.vowels[0] === Vowel.Sukun).Match(result.prefix, verb, params);
+        if(prefixMatch.prefixVowel !== undefined)
+            throw new Error("The prefix can not have a vowel before it");
 
-        const constructed = this.ConstructWord(match, prefix, suffixMatch);
+        const constructed = this.ConstructWord(match, prefixMatch, suffixMatch);
         return constructed;
     }
 
-    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationElement[], suffix: ConjugationRuleMatchResult): ConjugatedWord
+    private ConstructWord(rule: ConjugationRuleMatchResult, prefix: ConjugationRuleMatchResult, suffix: ConjugationRuleMatchResult): ConjugatedWord
     {
-        const vowels = prefix.map(x => x.followingVowel);
+        const vowels = [...prefix.vowels];
 
-        //currently this is embodied in the prefix
-        /*if(rule.prefixVowel !== undefined)
-            vowels.push(rule.prefixVowel);*/
+        if(prefix.symbols.length !== prefix.vowels.length)
+        {
+            if(rule.prefixVowel !== undefined)
+                vowels.push(rule.prefixVowel);
+        }
         vowels.push(...rule.vowels);
 
         if(suffix.prefixVowel !== undefined)
             vowels.push(suffix.prefixVowel);
         vowels.push(...suffix.vowels);
 
-        const symbols = [...prefix.map(x => x.consonant), ...rule.symbols, ...suffix.symbols];
+        const symbols = [...prefix.symbols, ...rule.symbols, ...suffix.symbols];
 
         let symbolIndex = 0;
-        const items = vowels.map((v,i)=> ({
+        const items: ConjugationElement[] = vowels.map((v,i)=> ({
             consonant: symbols[symbolIndex++],
             followingVowel: v,
             emphasis: (i === rule.emphasize) ? true : undefined
         }));
+
+        if(prefix.dontShaddadize !== undefined)
+            items[prefix.dontShaddadize].dontShaddadize = true;
 
         if((vowels.length+1) === symbols.length)
         {
@@ -273,41 +279,8 @@ export class Conjugator
         }
     }
 
-    private ExecuteWordTransformationPipeline(word: ConjugatedWord, dialect: DialectType, tense?: Tense)
-    {
-        const hamzated = Hamzate(word);
-        //in lebanese the prefix (for example ba) with sukun after the same latter is still spelled twice instead of being written with shadda. This rule does only apply for the prefix, not for the suffix
-        const startShaddadizeIndex = ((dialect === DialectType.Lebanese) && (tense === Tense.Present)) ? 1 : 0;
-
-        return this.ToDisplayVocalized(hamzated, startShaddadizeIndex);
-    }
-
     private _LegacyPatch(pattern: ConjugationVocalized[] | ConjugatedWord)
     {
         return Array.isArray(pattern) ? ConjugationVocalizedToConjugatedWord(pattern) : pattern;
-    }
-
-    private ToDisplayVocalized(vocalized: ConjugationVocalized[], startShaddadizeIndex: number)
-    {
-        const result: DisplayVocalized[] = [];
-        for(let i = 0; i < vocalized.length; i++)
-        {
-            const v = vocalized[i];
-            const next: (ConjugationVocalized | undefined) = vocalized[i + 1];
-
-            const shadda = (v.letter === next?.letter) && (v.tashkil === Tashkil.Sukun) && (i >= startShaddadizeIndex);
-            const tashkil = shadda ? next.tashkil : v.tashkil;
-            result.push({
-                emphasis: (v.emphasis === true) || (shadda && (next.emphasis === true)),
-                letter: v.letter,
-                shadda,
-                tashkil: (typeof tashkil === "string") ? tashkil : undefined
-            });
-
-            if(shadda)
-                i++;
-        }
-
-        return result;
     }
 }

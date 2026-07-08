@@ -377,7 +377,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                     break;
             }
 
-            const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>(suffix.preSuffixTashkil === Tashkil.Sukun).Match(template, verb, params);
+            const matched = new ConjugationRuleMatcher<ModernStandardArabicStem1ParametersType>(suffix.preSuffixTashkil === Tashkil.Sukun, false).Match(template, verb, params);
             if(matched.base !== undefined)
             {
                 return this.ProcessConjugationPipeline({

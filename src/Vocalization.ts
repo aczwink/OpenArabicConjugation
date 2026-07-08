@@ -33,6 +33,8 @@ export interface ConjugationVocalized
     letter: Letter;
     tashkil: Tashkil | ExtraTashkil.DaggerAlef;
     emphasis?: boolean;
+    //in lebanese the prefix (for example ba) with sukun after the same latter is still spelled twice instead of being written with shadda. This rule does only apply for the prefix, not for the suffix
+    dontShaddadize?: true;
 }
 
 export function MapLetterToComparisonEquivalenceClass(letter: Letter)
@@ -156,6 +158,15 @@ export function ConvertFullyVocalized(vocalized: DisplayVocalized[])
             }
             else if((i+1) === vocalized.length)
             {
+                if(v.shadda)
+                {
+                    result.push({
+                        letter: v.letter,
+                        tashkil: Tashkil.Sukun,
+                        emphasis: v.emphasis
+                    });
+                }
+                
                 result.push({
                     letter: v.letter,
                     tashkil: Tashkil.EndOfWordMarker,
@@ -298,34 +309,33 @@ export function ParseVocalizedText(text: string)
     return result;
 }
 
-export function ReconstructFullyVocalizedWord(text: string, isDefinite: boolean): ConjugatedWord
+export function ReconstructFullyVocalizedWord(text: string): ConjugatedWord
 {
     const baseParsed = ParseVocalizedText(text);
 
-    if(isDefinite)
+    if((baseParsed[0].letter === Letter.Alef) && (baseParsed[0].tashkil === undefined))
     {
-        baseParsed.shift(); //remove alef
-        const lam = baseParsed.shift();
-
-        const fullyVocalized = ConvertFullyVocalized(baseParsed);
-        const reconstructed = ConjugationVocalizedToConjugatedWord(fullyVocalized);
-
-        if(lam?.tashkil === Tashkil.Sukun)
+        if((baseParsed[1].letter === Letter.Lam) && (baseParsed[1].tashkil === undefined))
         {
+            const rest = baseParsed.slice(2);
+            const fullyVocalized = ConvertFullyVocalized(rest);
+            const reconstructed = ConjugationVocalizedToConjugatedWord(fullyVocalized);
+
             return {
-                elements: [
-                    { consonant: Letter.Lam, followingVowel: Vowel.Sukun, },
-                    ...reconstructed.elements
-                ],
+                elements: reconstructed.elements,
                 ending: reconstructed.ending,
-                initial: SpecialInitial.Alef
+                initial: SpecialInitial.AlefLam
             };
         }
 
+        const rest = baseParsed.slice(1);
+        const fullyVocalized = ConvertFullyVocalized(rest);
+        const reconstructed = ConjugationVocalizedToConjugatedWord(fullyVocalized);
+        
         return {
             elements: reconstructed.elements,
             ending: reconstructed.ending,
-            initial: SpecialInitial.AlefLam
+            initial: SpecialInitial.Alef
         };
     }
 

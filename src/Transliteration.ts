@@ -120,6 +120,8 @@ export const Buckwalter = {
                 return "K";
             case Tashkil.Sukun:
                 return "o";
+            case ExtraTashkil.DaggerAlef:
+                return "`";
         }
         throw new Error("Buckwalter.TashkilToString: " + tashkil + (tashkil as any).codePointAt(0));
     },

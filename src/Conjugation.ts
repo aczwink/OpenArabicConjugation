@@ -17,7 +17,8 @@
  * */
 
 import { AdvancedStemNumber, ExtraTashkil, Gender, Letter, Mood, Numerus, Person, Tashkil, Tense, VerbType, Voice } from "./Definitions";
-import { ConjugationVocalized } from "./Vocalization";
+import { Hamzate } from "./Hamza";
+import { ConjugationVocalized, DisplayVocalized } from "./Vocalization";
 
 export enum Vowel
 {
@@ -37,6 +38,7 @@ export enum Vowel
 export interface ConjugationElement
 {
     consonant: Letter;
+    dontShaddadize?: true;
     emphasis?: boolean;
     followingVowel: Vowel;
 }
@@ -44,6 +46,7 @@ export interface ConjugationElement
 interface ConjugationRuleConditions
 {
     doesSuffixBeginWithSukun?: boolean;
+    doesFirstSuffixSymbolWithSukun?: boolean;
     gender?: Gender;
     hasPresentVowelSuffix?: boolean;
     mood?: Mood | Mood[];
@@ -59,6 +62,7 @@ interface ConjugationRuleFull
 {
     children?: ConjugationRule[];
     conditions: ConjugationRuleConditions;
+    dontShaddadize?: number;
     emphasize?: number;
     prefixVowel?: Vowel;
     symbols?: Letter[];
@@ -83,6 +87,7 @@ export type ConjugationRule = ConjugationRuleBase | ConjugationRuleFull;
 export interface ConjugationRuleMatchResult
 {
     base?: BaseData;
+    dontShaddadize?: number;
     emphasize?: number;
     prefixVowel?: Vowel;
     symbols: Letter[];
@@ -120,6 +125,36 @@ export interface SuffixResult
     final?: Letter | ConjugationElement;
     prefinal?: ConjugationElement;
     previousVowel: Vowel;
+}
+
+function ToDisplayVocalized(vocalized: ConjugationVocalized[])
+{
+    const result: DisplayVocalized[] = [];
+    for(let i = 0; i < vocalized.length; i++)
+    {
+        const v = vocalized[i];
+        const next: (ConjugationVocalized | undefined) = vocalized[i + 1];
+
+        const shadda = (v.letter === next?.letter) && (v.tashkil === Tashkil.Sukun) && !(v.dontShaddadize === true);
+        const tashkil = shadda ? next.tashkil : v.tashkil;
+        result.push({
+            emphasis: (v.emphasis === true) || (shadda && (next.emphasis === true)),
+            letter: v.letter,
+            shadda,
+            tashkil: (typeof tashkil === "string") ? tashkil : undefined
+        });
+
+        if(shadda)
+            i++;
+    }
+
+    return result;
+}
+
+export function ConjugatedWordToDisplayVocalized(word: ConjugatedWord)
+{
+    const hamzated = Hamzate(word);
+    return ToDisplayVocalized(hamzated);
 }
 
 export function ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocalized[])
@@ -290,6 +325,9 @@ export function ToConjugationVocalized(element: ConjugationElement)
                 return Tashkil.Dhamma;
             case Vowel.Sukun:
                 return Tashkil.Sukun;
+
+            case Vowel.DaggerA:
+                return ExtraTashkil.DaggerAlef;
         }
         throw new Error("VowelToTashkil: " + vowel);
     }
@@ -369,6 +407,7 @@ export function ToConjugationVocalized(element: ConjugationElement)
                 emphasis: element.emphasis,
                 letter: element.consonant,
                 tashkil: VowelToTashkil(element.followingVowel),
+                dontShaddadize: element.dontShaddadize,
             });
             break;
     }

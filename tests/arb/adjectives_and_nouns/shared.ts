@@ -86,7 +86,7 @@ export function RunDerivationTest(singular: NounTestData, derivation: "dual" | "
 {
     const c = new Conjugator();
 
-    const reconstructed = ReconstructFullyVocalizedWord(singular.base, singular.isDefinite);
+    const reconstructed = ReconstructFullyVocalizedWord(singular.base);
 
     const got = c.DeriveSoundAdjectiveOrNoun(reconstructed, singular.gender, MapDerivation(derivation), DialectType.ModernStandardArabic);
     ShouldEqual(expected, got, () => []);
@@ -96,7 +96,7 @@ export function RunNounDeclensionTest(noun: NounTestData, declensions: NounDecle
 {
     const c = new Conjugator();
 
-    const reconstructed = ReconstructFullyVocalizedWord(noun.base, noun.isDefinite);
+    const reconstructed = ReconstructFullyVocalizedWord(noun.base);
 
     for (const entry of declensions)
     {

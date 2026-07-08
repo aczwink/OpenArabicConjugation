@@ -22,7 +22,7 @@ import { Verb } from "../../Verb";
 import { ConjugationVocalized } from "../../Vocalization";
 import { DefectiveStem4Template } from "./conjugation_templates/defective_stem4";
 import { HollowStem7Template } from "./conjugation_templates/hollow_stem7";
-import { DerivePrefix } from "./prefix";
+import { DerivePrefixTemplate } from "./prefix";
 import { SouthLevantineStem1Context } from "./SouthLevantineDialectMetadata";
 import { DeriveSuffixTemplate } from "./suffix";
 
@@ -36,7 +36,7 @@ export class SouthLevantineConjugator implements DialectConjugator<SouthLevantin
 
         return {
             template,
-            prefix: DerivePrefix,
+            prefix: DerivePrefixTemplate(),
             suffix: DeriveSuffixTemplate(verb),
         };
     }

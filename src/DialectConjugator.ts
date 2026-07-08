@@ -31,7 +31,7 @@ export enum TargetAdjectiveNounDerivation
 export interface ConjugationResult
 {
     template: ConjugationRule[];
-    prefix: (prefixEndingVowel: Vowel | undefined, followingVowel: Vowel, params: ConjugationParams) => ConjugationElement[];
+    prefix: ConjugationRule[];
     suffix: ConjugationRule[];
 }
 

@@ -1,6 +1,6 @@
 /**
  * OpenArabicConjugation
- * Copyright (C) 2024-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (C) 2024-2026 Amir Czwink (amir130@hotmail.de)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,110 +16,96 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-import { ConjugationElement, Vowel } from "../../Conjugation";
-import { ConjugationParams, Person, Numerus, Letter, Gender, Tense, Mood } from "../../Definitions";
+import { ConjugationRule, Vowel } from "../../Conjugation";
+import { Person, Numerus, Letter, Gender, Mood } from "../../Definitions";
 
-function DerivePrefixSubjunctive(prefixEndingVowel: Vowel, followingVowel: Vowel, params: ConjugationParams): ConjugationElement[]
-{
-    if(params.person === Person.First)
+const prefixTemplate: ConjugationRule[] = [
     {
-        if(params.numerus === Numerus.Plural)
-        {
-            return [
-                {
-                    consonant: Letter.Nun,
-                    followingVowel: prefixEndingVowel
-                },
-            ];
-        }
-
-        if((followingVowel === Vowel.Sukun) || (prefixEndingVowel === Vowel.LongU))
-        {
-            return [
-                {
-                    consonant: Letter.Hamza,
-                    followingVowel: prefixEndingVowel
-                }
-            ];
-        }
-        return [];
-    }
-
-    if((params.person === Person.Third) && (params.gender === Gender.Male))
-    {
-        return [
+        conditions: { mood: Mood.Indicative },
+        children: [
             {
-                consonant: Letter.Ya,
-                followingVowel: prefixEndingVowel
+                conditions: { person: Person.First, numerus: Numerus.Singular },
+                symbols: [Letter.Ba],
+                vowels: [],
+                dontShaddadize: 0,
             },
-        ];
-    }
-
-    return [
-        {
-            consonant: Letter.Ta,
-            followingVowel: prefixEndingVowel
-        },
-    ];
-}
-
-function BiPrefixTashkil(prefixEndingVowel: Vowel)
-{
-    if(prefixEndingVowel === Vowel.Sukun)
-        return Vowel.ShortI;
-    return Vowel.Sukun;
-}
-
-export function DerivePrefix(prefixEndingVowel: Vowel | undefined, followingVowel: Vowel, params: ConjugationParams): ConjugationElement[]
-{
-    if(params.tense === Tense.Perfect)
-        return [];
-    if(params.mood === Mood.Imperative)
-        return [];
-    if(prefixEndingVowel === undefined)
-        throw new Error("Missing ending vowel of prefix");
-
-    if(params.mood === Mood.Indicative)
-    {
-        if(params.person === Person.First)
-        {
-            if(params.numerus === Numerus.Singular)
             {
-                return [
+                conditions: { person: Person.First },
+                symbols: [Letter.Mim, Letter.Nun],
+                vowels: [Vowel.Sukun],
+                children: [
                     {
-                        consonant: Letter.Ba,
-                        followingVowel: prefixEndingVowel
+                        conditions: { doesSuffixBeginWithSukun: true },
+                        vowels: [Vowel.ShortI]
                     }
-                ];
-            }
-
-            return [
-                {
-                    consonant: Letter.Mim,
-                    followingVowel: BiPrefixTashkil(prefixEndingVowel),
-                },
-                ...DerivePrefixSubjunctive(prefixEndingVowel, followingVowel, params),
-            ];
-        }
-
-        if((params.person === Person.Third) && (params.gender === Gender.Male) && (BiPrefixTashkil(prefixEndingVowel) === Vowel.ShortI))
-        {
-            return [
-                {
-                    consonant: Letter.Ba,
-                    followingVowel: Vowel.LongI
-                },
-            ];
-        }
-        
-        return [
-            {
-                consonant: Letter.Ba,
-                followingVowel: BiPrefixTashkil(prefixEndingVowel)
+                ]
             },
-            ...DerivePrefixSubjunctive(prefixEndingVowel, followingVowel, params)
-        ];
+            {
+                conditions: { person: Person.Third, gender: Gender.Male },
+                symbols: [Letter.Ba, Letter.Ya],
+                vowels: [Vowel.Sukun],
+                children: [
+                    {
+                        conditions: { doesSuffixBeginWithSukun: true },
+                        symbols: [Letter.Ba],
+                        vowels: [Vowel.LongI]
+                    }
+                ]
+            },
+            {
+                conditions: {},
+                symbols: [Letter.Ba, Letter.Ta],
+                vowels: [Vowel.Sukun],
+                children: [
+                    {
+                        conditions: { doesSuffixBeginWithSukun: true },
+                        vowels: [Vowel.ShortI]
+                    }
+                ]
+            },
+        ],
+    },
+    {
+        conditions: { mood: Mood.Subjunctive },
+        children: [
+            {
+                conditions: { person: Person.First, numerus: Numerus.Singular },
+                symbols: [Letter.Hamza],
+                vowels: [],
+                children: [
+                    {
+                        conditions: { doesSuffixBeginWithSukun: true },
+                        symbols: []
+                    }
+                ]
+            },
+            {
+                conditions: { person: Person.First },
+                symbols: [Letter.Nun],
+                vowels: [],
+                dontShaddadize: 0,
+            },
+            {
+                conditions: { person: Person.Third, gender: Gender.Male },
+                symbols: [Letter.Ya],
+                vowels: []
+            },
+            {
+                conditions: {},
+                symbols: [Letter.Ta],
+                vowels: [],
+                dontShaddadize: 0,
+            },
+        ]
+    },
+    {
+        conditions: {},
+        symbols: [],
+        vowels: []
     }
+];
 
-    return DerivePrefixSubjunctive(prefixEndingVowel, followingVowel, params);
+export function DerivePrefixTemplate()
+{
+    return prefixTemplate;
 }

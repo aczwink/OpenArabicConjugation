@@ -19,7 +19,7 @@ import { ConjugationParams, Letter, Tashkil, Voice, VerbType } from "../../Defin
 import { ConjugationResult, DialectConjugator } from "../../DialectConjugator";
 import { RootType } from "../../VerbRoot";
 import { ConjugationVocalized } from "../../Vocalization";
-import { DerivePrefix } from "./prefix";
+import { DerivePrefixTemplate } from "./prefix";
 import { MSAConjugator } from "../msa/MSAConjugator";
 import { AugmentRoot } from "./rootAugmentation";
 import { _Legacy_ToConjugationVocalized, ConjugatedWord, Vowel } from "../../Conjugation";
@@ -43,7 +43,7 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
 
         return {
             template,
-            prefix: DerivePrefix,
+            prefix: DerivePrefixTemplate(),
             suffix: DeriveSuffixTemplate(verb)
         };
     }

@@ -55,7 +55,7 @@ export class TransformableWord
             return false;
 
         if(this._word.ending === undefined)
-            throw new Error("IsSoundMasculinePlural1");
+            return false;
 
         return (this._word.ending.consonant === Letter.Nun) && (this._word.elements.Last().followingVowel === Vowel.LongU);
     }

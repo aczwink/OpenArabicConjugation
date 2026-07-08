@@ -23,9 +23,10 @@ import { VerbStemData } from "./Verb";
 
 export class ConjugationRuleMatcher<T extends string>
 {
-    constructor(doesSuffixBeginWithSukun: boolean)
+    constructor(doesSuffixBeginWithSukun: boolean, doesFirstSuffixSymbolWithSukun: boolean)
     {
         this.doesSuffixBeginWithSukun = doesSuffixBeginWithSukun;
+        this.doesFirstSuffixSymbolWithSukun = doesFirstSuffixSymbolWithSukun;
         this.evaluated = {
             conditions: {}
         };
@@ -50,6 +51,7 @@ export class ConjugationRuleMatcher<T extends string>
             throw new Error("No vowels could be matched");
 
         return {
+            dontShaddadize: this.evaluated.dontShaddadize,
             emphasize: this.evaluated.emphasize,
             prefixVowel: this.evaluated.prefixVowel,
             symbols: this.evaluated.symbols,
@@ -83,6 +85,8 @@ export class ConjugationRuleMatcher<T extends string>
         if((c.hasPresentVowelSuffix !== undefined) && (params.tense === Tense.Present) && !(c.hasPresentVowelSuffix === DoesPresentSuffixStartWithLongVowel(params.person, params.numerus, params.gender)))
             return false;
         if((c.doesSuffixBeginWithSukun !== undefined) && (c.doesSuffixBeginWithSukun !== this.doesSuffixBeginWithSukun))
+            return false;
+        if((c.doesFirstSuffixSymbolWithSukun !== undefined) && (c.doesFirstSuffixSymbolWithSukun !== this.doesFirstSuffixSymbolWithSukun))
             return false;
         if((c.stem !== undefined) && !this.DoesArrayOrValueMatch(c.stem, stemData.stem))
             return false;
@@ -129,6 +133,7 @@ export class ConjugationRuleMatcher<T extends string>
                     throw new Error("Can't mix base and full rules for now");
                 else
                 {
+                    this.evaluated.dontShaddadize = rule.dontShaddadize ?? this.evaluated.dontShaddadize;
                     this.evaluated.emphasize = rule.emphasize ?? this.evaluated.emphasize;
                     this.evaluated.prefixVowel = rule.prefixVowel ?? this.evaluated.prefixVowel;
                     this.evaluated.symbols = rule.symbols ?? this.evaluated.symbols;
@@ -145,4 +150,5 @@ export class ConjugationRuleMatcher<T extends string>
     //State
     private evaluated: ConjugationRule;
     private doesSuffixBeginWithSukun: boolean;
+    private doesFirstSuffixSymbolWithSukun: boolean;
 }
