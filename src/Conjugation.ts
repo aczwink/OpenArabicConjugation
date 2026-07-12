@@ -197,13 +197,30 @@ export function ConjugationVocalizedToConjugatedWord(vocalized: ConjugationVocal
         }
         else if(entry.tashkil === Tashkil.Fathatan)
         {
-            if((i === (vocalized.length - 2)) && (vocalized[vocalized.length - 1].letter === Letter.AlefMaksura) && ((vocalized[vocalized.length - 1].tashkil === Tashkil.EndOfWordMarker) || (vocalized[vocalized.length - 1].tashkil === Tashkil.AlefMaksuraMarker)))
+            if(i === (vocalized.length - 2))
             {
-                word.ending = {
-                    consonant: entry.letter,
-                    finalVowel: FinalVowel.AlefMaksuraWithFathatan
-                };
-                return word;
+                const last = vocalized.Last();
+                if((last.letter === Letter.Alef) && ((last.tashkil === Tashkil.EndOfWordMarker) || (last.tashkil === Tashkil.LongVowelMarker)))
+                {
+                    word.ending = {
+                        consonant: entry.letter,
+                        finalVowel: FinalVowel.FathatanWithAlef
+                    };
+                    return word;
+                }
+                else if((last.letter === Letter.AlefMaksura) && ((last.tashkil === Tashkil.EndOfWordMarker) || (last.tashkil === Tashkil.AlefMaksuraMarker)))
+                {
+                    word.ending = {
+                        consonant: entry.letter,
+                        finalVowel: FinalVowel.AlefMaksuraWithFathatan
+                    };
+                    return word;
+                }
+                else
+                {
+                    vocalized.forEach(console.log);
+                    throw new Error("implement me2");
+                }
             }
             else
             {

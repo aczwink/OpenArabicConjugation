@@ -74,9 +74,9 @@ export class TransformableWord
         }
 
         return new TransformableWord({
-            elements: this._word.elements,
+            elements: this._word.elements.slice(0, this._word.elements.length - 1),
             ending: {
-                consonant: this._word.ending!.consonant,
+                consonant: this._word.elements.Last().consonant,
                 finalVowel: FinalVowel.FathatanWithAlef
             }
         }, this._numerus, this._gender);

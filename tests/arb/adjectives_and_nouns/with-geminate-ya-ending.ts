@@ -15,16 +15,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
-import { Expect, It } from "@aczwink/acts-util-test";
-import { EqualsVocalized, ParseVocalizedText, ReconstructFullyVocalizedWord } from "../dist/Vocalization";
-import { ConjugatedWordToDisplayVocalized } from "../dist/Conjugation";
+import { It } from "@aczwink/acts-util-test";
+import { NounTestData, RunNounDeclensionTest } from "./shared";
+import { Gender, Numerus } from "../../../dist/Definitions";
 
-It("Special word اللّٰه", () => {
-    const allah = "اللّٰه";
+//Source: https://en.wiktionary.org/wiki/%D8%AD%D8%A7%D9%84%D9%8A%D8%A7
 
-    const word = ReconstructFullyVocalizedWord(allah);
-    const vocalized = ConjugatedWordToDisplayVocalized(word);
+It("With geminate Ya ending", () => {
+    const noun: NounTestData = {
+        base: "حَالِيّ",
+        gender: Gender.Male,
+        numerus: Numerus.Singular,
+        isDefinite: false
+    };
 
-    const equals = EqualsVocalized(ParseVocalizedText(allah), vocalized);
-    Expect(equals).ToBe(true);
+    RunNounDeclensionTest(noun, [
+        { case: "accusative", expected: "حَالِيًّا", state: "indefinite" },
+    ]);
 });

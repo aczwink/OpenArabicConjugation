@@ -149,6 +149,21 @@ export function ConvertFullyVocalized(vocalized: DisplayVocalized[])
             }
             else if((v.letter === Letter.Ya) && (prev?.tashkil === Tashkil.Kasra))
             {
+                if(v.shadda && (i === (vocalized.length - 1)))
+                {
+                    result.push({
+                        letter: Letter.Ya,
+                        tashkil: Tashkil.Sukun,
+                        emphasis: v.emphasis
+                    });
+                    result.push({
+                        letter: Letter.Ya,
+                        tashkil: Tashkil.EndOfWordMarker,
+                        emphasis: v.emphasis
+                    });
+                    continue;
+                }
+
                 result.push({
                     letter: Letter.Ya,
                     tashkil: Tashkil.LongVowelMarker,
