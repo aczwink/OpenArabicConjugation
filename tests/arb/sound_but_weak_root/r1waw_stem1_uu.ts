@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 import { It } from "@aczwink/acts-util-test";
-import { RunVerbalNounTest, VerbTestData } from "../../shared";
+import { RunVerbalNounPatternTest, VerbTestData } from "../../shared";
 import { ModernStandardArabicStem1ParametersType } from "../../../dist/dialects/msa/conjugation/r2tashkil";
 import { DialectType } from "../../../dist/Dialects";
 import { VerbType } from "../../../dist/Definitions";
@@ -29,5 +29,9 @@ It("R1:و Stem 1 Sound Past:u Present:u", () => {
         verbType: VerbType.Sound
     };
 
-    RunVerbalNounTest(verb, "وَقَاحَة"); //Source: http://ejtaal.net/aa/#hw4=1288
+    RunVerbalNounPatternTest(verb.stem, [
+        { expected: "وَقَاحَة", rootRadicals: verb.rootRadicals, }, //Source: http://ejtaal.net/aa/#hw4=1288
+        { expected: "وَشْك", rootRadicals: "و-ش-ك", },
+        { expected: "وُشْك", rootRadicals: "و-ش-ك", },
+    ], verb.verbType)
 });

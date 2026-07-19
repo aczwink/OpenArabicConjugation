@@ -19,12 +19,16 @@ import { Expect, It } from "@aczwink/acts-util-test";
 import { EqualsVocalized, ParseVocalizedText, ReconstructFullyVocalizedWord } from "../dist/Vocalization";
 import { ConjugatedWordToDisplayVocalized } from "../dist/Conjugation";
 
-It("Special word اللّٰه", () => {
-    const allah = "اللّٰه";
-
-    const word = ReconstructFullyVocalizedWord(allah);
+function RunParseAndReproduceTest(input: string)
+{
+    const word = ReconstructFullyVocalizedWord(input);
     const vocalized = ConjugatedWordToDisplayVocalized(word);
 
-    const equals = EqualsVocalized(ParseVocalizedText(allah), vocalized);
+    const equals = EqualsVocalized(ParseVocalizedText(input), vocalized);
     Expect(equals).ToBe(true);
+}
+
+It("Special word اللّٰه", () => {
+    const allah = "اللّٰه";
+    RunParseAndReproduceTest(allah);
 });
