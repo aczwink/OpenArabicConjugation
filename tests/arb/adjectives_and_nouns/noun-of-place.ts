@@ -59,6 +59,17 @@ It("Nouns of place stem 1 maf3il", () => {
     ShouldEqual("مَجْلِس", result[2], () => []);
 });
 
+It("Nouns of place stem 1 defective maf3an", () => {
+    const root = new VerbRoot("شفي");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.DefectiveType1);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
+
+    Expect(result.length).ToBe(1);
+    ShouldEqual("مَشْفًى", result[0], () => []);
+});
+
 It("Nouns of place stem 1 hollow mafaal", () => {
     const root = new VerbRoot("سير");
     const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastI_PresentI);

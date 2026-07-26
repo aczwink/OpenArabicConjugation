@@ -48,6 +48,28 @@ const _2a3al: PluralPatterns = {
     ]
 };
 
+const _2a3l: PluralPatterns = {
+    singular: {
+        elements: [
+            { consonant: Letter.AlefHamza, followingVowel: Vowel.ShortA },
+            { consonant: PatternSymbol.R2, followingVowel: Vowel.Sukun },
+        ],
+        ending: {
+            consonant: PatternSymbol.R3,
+            finalVowel: FinalVowel.None
+        }
+    },
+    plurals: [
+        {
+            elements: [
+                { consonant: Letter.Hamza, followingVowel: Vowel.ShortU },
+                { consonant: PatternSymbol.R2, followingVowel: Vowel.LongU },
+            ],
+            ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
+        }
+    ]
+};
+
 const fa3: PluralPatterns = {
     singular: {
         elements: [
@@ -90,7 +112,7 @@ const maf3al: PluralPatterns = {
     ]
 };
 
-const allPatterns = [_2a3al, fa3, maf3al];
+const allPatterns = [_2a3al, _2a3l, fa3, maf3al];
 
 export function DeriveNounPluralPatternsImpl(singular: DisplayVocalized[])
 {

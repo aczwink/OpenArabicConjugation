@@ -21,8 +21,9 @@ import { RunPluralTest } from "./shared";
 It("Plural patterns", () => {
     const patterns = [
         { singular: "أَب", plural: "آبَاء" },
-        { singular: "مَشْعَر", plural: "مَشَاعِر" },
         { singular: "أَثَر", plural: "آثَار" },
+        { singular: "أَجْر", plural: "أُجُور" },
+        { singular: "مَشْعَر", plural: "مَشَاعِر" },
     ];
 
     for (const pattern of patterns)

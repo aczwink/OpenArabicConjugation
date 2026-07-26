@@ -135,6 +135,20 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
 
         switch(verb.type)
         {
+            case VerbType.Defective:
+                return [
+                    {
+                        elements: [
+                            { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                            { consonant: root.r1, followingVowel: Vowel.Sukun },
+                        ],
+                        ending: {
+                            consonant: root.r2,
+                            finalVowel: FinalVowel.AlefMaksuraWithFathatan
+                        }
+                    }
+                ];
+
             case VerbType.Hollow:
                 return [
                     {

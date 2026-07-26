@@ -189,6 +189,38 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     ]
                 };
             }
+            case VerbType.Sound:
+                return {
+                    requiredContext: [
+                        {
+                            gender: Gender.Female,
+                            mood: Mood.Indicative,
+                            numerus: Numerus.Singular,
+                            person: Person.Second,
+                            tense: Tense.Present,
+                            voice: Voice.Active
+                        },
+                        {
+                            gender: Gender.Female,
+                            mood: Mood.Imperative,
+                            numerus: Numerus.Singular,
+                            person: Person.Second,
+                            tense: Tense.Present,
+                            voice: Voice.Active
+                        }
+                    ],
+                    types: [
+                        LebaneseStem1Context.PastA_PresentA,
+                        LebaneseStem1Context.RegularPastA_PresentISU,
+                        LebaneseStem1Context.RegularPastA_PresentIIU,
+                        LebaneseStem1Context.RegularPastA_PresentIIUU,
+                        LebaneseStem1Context.RegularPastA_PresentUSU,
+                        LebaneseStem1Context.RegularPastI_PresentAA,
+                        LebaneseStem1Context.PastI_PresentA,
+                        LebaneseStem1Context.PastI_PresentI,
+                        LebaneseStem1Context.PastI_PresentU
+                    ],
+                };
         }
 
         switch(root.type)
@@ -229,40 +261,6 @@ export class LebaneseDialectMetadata implements DialectMetadata<LebaneseStem1Con
                     requiredContext: [],
                     types: [
                         LebaneseStem1Context.Quadrilateral,
-                    ],
-                };
-            }
-            case RootType.Regular:
-            {
-                return {
-                    requiredContext: [
-                        {
-                            gender: Gender.Female,
-                            mood: Mood.Indicative,
-                            numerus: Numerus.Singular,
-                            person: Person.Second,
-                            tense: Tense.Present,
-                            voice: Voice.Active
-                        },
-                        {
-                            gender: Gender.Female,
-                            mood: Mood.Imperative,
-                            numerus: Numerus.Singular,
-                            person: Person.Second,
-                            tense: Tense.Present,
-                            voice: Voice.Active
-                        }
-                    ],
-                    types: [
-                        LebaneseStem1Context.PastA_PresentA,
-                        LebaneseStem1Context.RegularPastA_PresentISU,
-                        LebaneseStem1Context.RegularPastA_PresentIIU,
-                        LebaneseStem1Context.RegularPastA_PresentIIUU,
-                        LebaneseStem1Context.RegularPastA_PresentUSU,
-                        LebaneseStem1Context.RegularPastI_PresentAA,
-                        LebaneseStem1Context.PastI_PresentA,
-                        LebaneseStem1Context.PastI_PresentI,
-                        LebaneseStem1Context.PastI_PresentU
                     ],
                 };
             }

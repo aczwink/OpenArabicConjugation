@@ -547,6 +547,7 @@ export function GenerateAllPossibleVerbalNounsStem1(root: VerbRoot, stem1Context
                     return [
                             fu3uul,
                             fa3aala,
+                            fa3al,
                             fa3l,
                             fi3aal,
                             mafa33a,
