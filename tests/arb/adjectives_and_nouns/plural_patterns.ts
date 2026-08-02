@@ -23,6 +23,7 @@ It("Plural patterns", () => {
         { singular: "أَب", plural: "آبَاء" },
         { singular: "أَثَر", plural: "آثَار" },
         { singular: "أَجْر", plural: "أُجُور" },
+        { singular: "أُذُن", plural: "آذَان" },
         { singular: "مَشْعَر", plural: "مَشَاعِر" },
     ];
 

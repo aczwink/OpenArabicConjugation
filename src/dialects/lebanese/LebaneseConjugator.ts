@@ -282,13 +282,10 @@ export class LebaneseConjugator implements DialectConjugator<LebaneseStem1Contex
                         });
                         return msaVersion;
                     case 2:
-                        msaVersion[0].tashkil = Tashkil.Sukun;
-                        msaVersion[3].tashkil = Tashkil.Kasra;
-                        msaVersion.push({
-                            letter: Letter.Ya,
-                            tashkil: Tashkil.LongVowelMarker
-                        });
-                        return msaVersion;
+                        msaVersionNew.elements[0].followingVowel = Vowel.Sukun;
+                        msaVersionNew.ending!.finalVowel = Vowel.LongI;
+
+                        return msaVersionNew;
                 }
                 break;
             case VerbType.Sound:

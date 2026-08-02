@@ -119,6 +119,7 @@ function FinalVowelToTashkil(finalVowel: Vowel | FinalVowel)
     {
         case Vowel.ShortA:
             return Tashkil.Fatha;
+        case Vowel.LongI:
         case Vowel.ShortI:
             return Tashkil.Kasra;
         case Vowel.ShortU:
@@ -184,8 +185,15 @@ export function Hamzate(word: ConjugatedWord)
         else
         {
             result.push({ letter: word.ending.consonant, tashkil: FinalVowelToTashkil(word.ending.finalVowel) });
-            if(word.ending.finalVowel === FinalVowel.FathatanWithAlef)
-                result.push({ letter: Letter.Alef, tashkil: Tashkil.EndOfWordMarker });
+            switch(word.ending.finalVowel)
+            {
+                case Vowel.LongI:
+                    result.push({ letter: Letter.Ya, tashkil: Tashkil.EndOfWordMarker });
+                    break;
+                case FinalVowel.FathatanWithAlef:
+                    result.push({ letter: Letter.Alef, tashkil: Tashkil.EndOfWordMarker });
+                    break;
+            }
         }
     }
 

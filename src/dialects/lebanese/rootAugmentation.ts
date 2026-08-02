@@ -20,7 +20,6 @@ import { ConjugationRule, Vowel } from "../../Conjugation";
 import { ConjugationParams, Gender, Letter, Mood, Numerus, Person, Tense, VerbType } from "../../Definitions";
 import { VerbStemData } from "../../Verb";
 import { RootType, VerbRoot } from "../../VerbRoot";
-import { Stem8AssimilateTa } from "../msa/conjugation/stem8";
 import { AssimilatedStem1ConjugationTemplate } from "./conjugation_templates/assimilated_stem1";
 import { DefectiveStemConjugationTemplate } from "./conjugation_templates/defective";
 import { GeminateStem1ConjugationTemplate } from "./conjugation_templates/geminate_stem1";
@@ -61,6 +60,8 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
                             return IrregularIja(root);
                     }
                     break;
+                case VerbType.Sound:
+                    return RegularStem1ConjugationTemplate(root, stemData, params);
             }
 
             switch(root.type)
@@ -138,9 +139,6 @@ export function AugmentRoot(root: VerbRoot, stemData: VerbStemData<LebaneseStem1
 
                 case RootType.SecondConsonantDoubled:
                     return GeminateStem1ConjugationTemplate(root, stemData);
-
-                case RootType.Regular:
-                    return RegularStem1ConjugationTemplate(root, stemData, params);
             }
         break;
 

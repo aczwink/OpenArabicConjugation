@@ -19,25 +19,20 @@
 import { ConjugatedWord } from "../../../Conjugation";
 import { Tashkil, VerbType, Voice } from "../../../Definitions";
 import { Verb } from "../../../Verb";
-import { RootType } from "../../../VerbRoot";
 import { ConjugationVocalized } from "../../../Vocalization";
-import { AugmentedRoot } from "../AugmentedRoot";
 import { ModernStandardArabicStem1ParametersType } from "../conjugation/r2tashkil";
-import { _Legacy_GenerateParticipleDefective, _LegacyGenerateParticipleRegular, GenerateParticipleRegular } from "./regular";
+import { GenerateParticipleDefective, GenerateParticipleRegular } from "./regular";
 
-export function GenerateParticipleStem2(baseForm: AugmentedRoot, voice: Voice, verb: Verb<ModernStandardArabicStem1ParametersType>, baseFormNew: ConjugatedWord): ConjugationVocalized[] | ConjugatedWord
+export function GenerateParticipleStem2(voice: Voice, verb: Verb<ModernStandardArabicStem1ParametersType>, baseFormNew: ConjugatedWord): ConjugationVocalized[] | ConjugatedWord
 {
     switch(verb.type)
     {
+        case VerbType.Defective:
+            return GenerateParticipleDefective(baseFormNew, voice, false);
         case VerbType.Sound:
         case VerbType.SoundQuadriliteral:
             return GenerateParticipleRegular(baseFormNew, voice);
     }
 
-    switch(baseForm.type)
-    {
-        case RootType.FinalWeak:
-            return _Legacy_GenerateParticipleDefective(baseForm, voice);
-    }
     return [{ letter: "IMPLEMENT ME" as any, tashkil: Tashkil.EndOfWordMarker }];
 }

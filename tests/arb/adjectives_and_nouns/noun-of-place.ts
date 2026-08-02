@@ -70,6 +70,17 @@ It("Nouns of place stem 1 defective maf3an", () => {
     ShouldEqual("مَشْفًى", result[0], () => []);
 });
 
+It("Nouns of place stem 1 hollow geminate", () => {
+    const root = new VerbRoot("مرر");
+    const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastA_PresentU);
+    const c = new Conjugator();
+
+    const result = c.DeriveFromVerb(verb, TargetVerbBasedDerivationPatterns.NounOfPlace);
+
+    Expect(result.length).ToBe(1);
+    ShouldEqual("مَمَرّ", result[0], () => []);
+});
+
 It("Nouns of place stem 1 hollow mafaal", () => {
     const root = new VerbRoot("سير");
     const verb = CreateVerb(DialectType.ModernStandardArabic, root, ModernStandardArabicStem1ParametersType.PastI_PresentI);

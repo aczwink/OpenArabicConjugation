@@ -86,7 +86,7 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
             case 1:
                 return GenerateParticipleStem1(root, voiceOld, verb);
             case 2:
-                return GenerateParticipleStem2(this._Legacy_ConjugateBasicForm(root, stem), voice, verb, requestBaseForm());
+                return GenerateParticipleStem2(voice, verb, requestBaseForm());
             case 3:
                 return GenerateParticipleStem3(root, voiceOld);
             case 4:
@@ -145,6 +145,21 @@ export class MSAConjugator implements DialectConjugator<ModernStandardArabicStem
                         ending: {
                             consonant: root.r2,
                             finalVowel: FinalVowel.AlefMaksuraWithFathatan
+                        }
+                    }
+                ];
+
+            case VerbType.Geminate:
+                return [
+                    {
+                        elements: [
+                            { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+                            { consonant: root.r1, followingVowel: Vowel.ShortA },
+                            { consonant: root.r2, followingVowel: Vowel.Sukun },
+                        ],
+                        ending: {
+                            consonant: root.r3,
+                            finalVowel: FinalVowel.None
                         }
                     }
                 ];
