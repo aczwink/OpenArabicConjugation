@@ -113,6 +113,15 @@ const fa3: PluralPatterns = {
     ]
 };
 
+const plural_mafaa3il = {
+    elements: [
+        { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+        { consonant: PatternSymbol.R1, followingVowel: Vowel.LongA },
+        { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortI },
+    ],
+    ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
+};
+
 const maf3al: PluralPatterns = {
     singular: {
         elements: [
@@ -123,18 +132,26 @@ const maf3al: PluralPatterns = {
         ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
     },
     plurals: [
-        {
-            elements: [
-                { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
-                { consonant: PatternSymbol.R1, followingVowel: Vowel.LongA },
-                { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortI },
-            ],
-            ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.None }
-        }
+        plural_mafaa3il
     ]
 };
 
-const allPatterns = [_2a3al, _2a3l, _2u3ul, fa3, maf3al];
+const maf3ala: PluralPatterns = {
+    singular: {
+        elements: [
+            { consonant: Letter.Mim, followingVowel: Vowel.ShortA },
+            { consonant: PatternSymbol.R1, followingVowel: Vowel.Sukun },
+            { consonant: PatternSymbol.R2, followingVowel: Vowel.ShortA },
+            { consonant: PatternSymbol.R3, followingVowel: Vowel.ShortA },
+        ],
+        ending: { consonant: Letter.TaMarbuta, finalVowel: FinalVowel.None }
+    },
+    plurals: [
+        plural_mafaa3il
+    ]
+};
+
+const allPatterns = [_2a3al, _2a3l, _2u3ul, fa3, maf3al, maf3ala];
 
 export function DeriveNounPluralPatternsImpl(singular: DisplayVocalized[])
 {

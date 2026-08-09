@@ -127,5 +127,5 @@ export function RunPluralTest(singular: string, plural: string)
         if(EqualsVocalized(p, pattern))
             return;
     }
-    Fail("Plural pattern was not found");
+    Fail("Plural pattern was not found. Singular: " + singular + " Plural: " + plural);
 }

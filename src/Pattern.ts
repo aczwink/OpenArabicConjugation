@@ -88,6 +88,17 @@ export function ApplyPattern(pattern: WordPattern, matched: MatchResult): Conjug
     };
 }
 
+function MapToRootLetter(letter: Letter)
+{
+    switch(letter)
+    {
+        case Letter.YaHamza:
+            return Letter.Hamza;
+    }
+
+    return letter;
+}
+
 export function MatchPatternAgainstWord(pattern: WordPattern, word: DisplayVocalized[]): MatchResult | null
 {
     if(pattern.ending !== undefined)
@@ -101,12 +112,13 @@ export function MatchPatternAgainstWord(pattern: WordPattern, word: DisplayVocal
     let r1: Letter | undefined, r2: Letter | undefined, r3: Letter | undefined;
     function MatchSymbol(symbol: PatternSymbol, value: Letter)
     {
+        const rootLetter = MapToRootLetter(value);
         switch(symbol)
         {
             case PatternSymbol.R1:
                 if((r1 === undefined) || (r1 === value))
                 {
-                    r1 = value;
+                    r1 = rootLetter;
                     return true;
                 }
             case PatternSymbol.R2:
