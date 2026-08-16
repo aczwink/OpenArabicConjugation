@@ -25,6 +25,7 @@ It("Plural patterns", () => {
         { singular: "أَجْر", plural: "أُجُور" },
         { singular: "أُذُن", plural: "آذَان" },
         { singular: "مَئْذَنَة", plural: "مَآذِن" },
+        { singular: "أَرْض", plural: "أَرَاضٍ" },
         { singular: "مَشْعَر", plural: "مَشَاعِر" },
     ];
 

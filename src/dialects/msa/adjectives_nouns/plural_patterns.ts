@@ -62,6 +62,13 @@ const _2a3l: PluralPatterns = {
     plurals: [
         {
             elements: [
+                { consonant: Letter.Hamza, followingVowel: Vowel.ShortA },
+                { consonant: PatternSymbol.R2, followingVowel: Vowel.LongA },
+            ],
+            ending: { consonant: PatternSymbol.R3, finalVowel: FinalVowel.Kasratan }
+        },
+        {
+            elements: [
                 { consonant: Letter.Hamza, followingVowel: Vowel.ShortU },
                 { consonant: PatternSymbol.R2, followingVowel: Vowel.LongU },
             ],
